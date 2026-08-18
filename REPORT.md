@@ -104,6 +104,27 @@ interrupter/skip rule or an explicit no-repeat step, plausibly keyed per
 page. Note this is a **cipher** property, not a plaintext one: the solved
 pages' plaintext doublet rate is ~2.3%, not 0.66%.
 
+The suppression runs over the continuous rune stream, not per word: the leak
+doublets sit equally within words (0.63%) and across • boundaries (0.80%), so
+the separators are cosmetic and don't reset the rule.
+
+Two output-stage mechanisms reproduce the whole fingerprint (`no_repeat_model.py`):
+**re-roll** (a free pad that re-picks a key value whenever it would emit a
+doublet — keystream stays position-locked) and **key-skip** (a fixed
+keystream whose pointer advances an extra step to dodge a doublet). They are
+statistically identical but the key-skip variant **desynchronises the
+keystream by ~3%** — every avoided doublet consumes a hidden, invisible key
+value. That desync is, mechanistically, why crib-dragging and every
+periodicity/fixed-position test — this project's attacks included — return
+noise. The 0.66% residual matches a small transcription-dittography leak
+(a rune-uniform, boundary-independent doublet, as observed).
+
+A beam search that resyncs a key-skip stream (`attack_keyskip.py`, self-tested
+to 98% recovery on a genuine prime-key-skip text) was run against all 13
+segments for both the prime and totient keystreams, both directions, all 29
+offsets: **negative everywhere** (best word-score 0.08 vs ≥0.3 for English).
+So the keystream, if key-skip, is not a prime-family sequence.
+
 ## 5. Where to go next
 
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,

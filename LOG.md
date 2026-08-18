@@ -138,3 +138,47 @@ Next: (1) test skip/interrupter models — a rule that inserts or re-keys to
 avoid repeats; (2) hunt the exact leak mechanism behind the residual 0.66%;
 (3) revisit crib-dragging under a "differences" model, since the meaningful
 plaintext structure may live in `c[i]−c[i-1]` space.
+
+## 2026-08-18 — Session 4: modeling the no-repeat mechanism
+
+**Boundary test (where do the 86 leak doublets sit?).** Classified every
+adjacent-equal pair as within-word vs across a • boundary: 0.63% within-word,
+0.80% across-word (random 3.45% both). Equal suppression on both sides → the
+no-repeat rule runs over the **continuous rune stream**; the • separators are
+cosmetic and don't reset it. Kills the "boundary-reset" explanation for the
+leak.
+
+**`no_repeat_model.py` — mechanism class.** Only constructions that enforce
+no-repeat at the cipher's *output* stage keep IoC flat while killing
+doublets. Two of them reproduce the full fingerprint (c-IoC 1.00, doublet
+~0.7% with a dittography leak, d-IoC ~1.02):
+- **RE-ROLL**: free pad; if `c[i]==c[i-1]`, pick another key value. Keystream
+  stays position-locked → a known keystream is still testable.
+- **KEY-SKIP**: fixed keystream K (primes/totients/text); advance the pointer
+  an extra step to dodge a doublet. This **desynchronises** K — ~3% extra
+  hidden key consumption over the text. That desync alone defeats
+  crib-dragging and every periodicity test, which is exactly what we see.
+
+Residual 0.66% modeled as dittography (hand-copy symbol-repeat) — reproduces
+a rune-uniform, boundary-independent leak of the right size.
+
+**`attack_keyskip.py` — decisive test of prime-family key-skip.** A beam
+search over {0,1,2 skips}/position, scored by the solved-pages bigram model,
+resyncs a key-skip stream. Self-test: encrypt English with prime key-skip →
+beam recovers **98%**. So the attack works when the hypothesis holds.
+
+Run on all 13 unsolved segments (prime & totient, both signs, all 29 start
+offsets, beam 250, head 180): **negative everywhere.** Best bigram −3.57
+(random baseline −3.37; English ≥ −2.4), best word-score 0.08 (English
+≥ 0.3). Archived in `results/keyskip_2026-08-18.txt`.
+
+**Verdict.** The mechanism is output-stage no-repeat enforcement, and its
+keystream is **not** a prime-family stream under key-skip. The desync finding
+is the important structural takeaway: it explains, mechanistically, why a
+decade of position-locked attacks (this project's included) return noise.
+
+Next: (1) run the beam attack with a running-key hypothesis (English-text
+keystreams) instead of prime families; (2) work crib-dragging in
+first-difference space; (3) the re-roll variant leaves the keystream
+position-locked — if the pad is actually a hash/PRNG with a seed, that's a
+separate search.

@@ -1,0 +1,32 @@
+selftest first: selftest: prime key-skip round-trip, beam recovered 98% of 120 runes
+
+random-baseline bigram logprob ~-3.37; English ~ -2.4 or higher
+
+17.jpg-19.jpg - 0.jpg-2.jpg                  best totient- start  5: bigram -3.62 words 0.03
+    ONGFIWELE THNAMY MYSU EATHN BMI PHOEYTHEOBUEDY ONBBW EDPIA WNL BIA NTHCEO UOT WITHXTHM YESATHJIAANFO FC IN ICJ
+20.jpg - 3.jpg-5.jpg                         best prime- start 19: bigram -3.60 words 0.00
+    WAE LEOMABFCEMOOE AWE NUSP IARBEOEIAP EANTHEOTNGE DPATCOY CAEIE NMNGIMD OEUATYEOGARTHEN W JIAEAOWEEPR WP EWEOO
+20.jpg - 3.jpg-5.jpg                         best prime- start 28: bigram -3.63 words 0.00
+    LYL YTHE NGXOE NM FO FTHWHC FAEWWWX JTHM WBEMAIA EOYJXNJUMEME SUOME NGEAOE ASEO USPNG JYOEPEO US MFRORNG BEODT
+23.jpg, 24.jpg - 6.jpg-7.jpg                 best prime- start 10: bigram -3.64 words 0.00
+    OEHTHO U CAGR EAL IWENSEAY OOANTHNG OSB FON BL XEOPWI IANHW NGTGIITUA RTHEOFULLE EHTOM ANG BAENBOUEO ITSU CTHA
+25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.jpg, 30.j best totient- start  7: bigram -3.65 words 0.03
+    AEBSE DOGBHPUN SAAE RP REW JNECUONON DGIT ECX AEYPD YJ DU OTIAUNGI ASA OFWIATEW INJ HIJM UMF FJMYHNOEG AGNGD O
+32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg, 37.j best prime+ start 23: bigram -3.61 words 0.08
+    OEJGAE AED XLTHNGS XWOEM SATWP LFILRN DFIARR ETGEOAM THIAOE OEFW AEWHOHEOFDG OEOEHWESTH UGO AGCYO UMELOESGY OF
+40.jpg, 41.jpg, 42.jpg, 43.jpg - 23.jpg-26.j best prime+ start 19: bigram -3.62 words 0.00
+    XI EABHAHOE UIW DTHNRU CEREEOEOYT THCH SEAC OFAITREA FBBAH GSNGNGY GJULILR MRATOF IAAUE CSEN EOBETH AINEOHA ND
+44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.jpg, 49.j best prime+ start 16: bigram -3.63 words 0.02
+    LTG RUALIAECCOOUG EONNM NGYEAFOSE WD MMNG EOSJ ON O NGSI LIDY SESEREAS CR AEEOEDHUNGNGIA OEMEAE IT OOY IINL IA
+50.jpg - 33.jpg                              best prime- start 23: bigram -3.57 words 0.04
+    NGTH FENBIAAEOEX EE DRFFFMLIAT OOUJUW THLI BEB EPUAEJ IADT THA SOHWIEH AFI IATNG FBDJNGT WBGHH NBIAFTOHOE DTH 
+50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.jpg, 55.j best totient+ start  9: bigram -3.66 words 0.00
+    LOM NGPOETEO AEAENEOBAE IAESMHJG OEHAF BOEM OEOAEEA SD IAEO AMF GL ONGAEJ JEO L IAEAUANBMXR UOEUTLIMG ARAEOE H
+56.jpg - 39.jpg                              best totient- start  9: bigram -3.67 words 0.00
+    EARH THIIAR ACHOEOETH AGURH TLCI FAO MONIM OEERCNC U RIAWUNTW DUO UNGA MSTHOEAD CNF LNG TRTIS EEALCWIAFDXN CGR
+57.jpg - 40.jpg                              best totient- start  2: bigram -3.68 words 0.00
+    AEON XMCON DTHUNX EOYAG THUR MUOTI IAEAAR OEO PEAJEWJNGJXFAG AIEA IST THA IAPHH NGNGAEAOIG WEAPAJG NFU ORAIA Y
+71.jpg - 54.jpg                              best totient+ start 17: bigram -3.64 words 0.03
+    Y IARHEYSMO PPCBJNGSEO MFO NDTHPTHY OF OOMTHO AEEP PR DTE MEOOTH AHIGONO FFF DYOY HTHCLEAPTUNO BRARMGRH GAET A
+
+best word-score across all segments: 0.08 (32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg, ) — English decode would be >0.3
