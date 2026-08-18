@@ -1,0 +1,65 @@
+legal placements examined: 422
+
+=== structural hits (0) ===
+
+=== top English-looking keystreams (bigram logprob; random baseline -3.37) ===
+   -2.76  'THE MASTER' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 35
+          key reads: XOMEPTIAIA
+   -2.88  'EMERGENCE' at 50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.j @word 280
+          key reads: MYOREBDTW
+   -2.94  'THE INSTAR' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 381
+          key reads: LTHCSSHER
+   -2.97  'EMERGENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 178
+          key reads: OWAEJERANT
+   -2.99  'ADHERENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 199
+          key reads: EALLOAESEFD
+   -3.07  'PRESERVATION' at 20.jpg - 3.jpg-5.jpg @word 9
+          key reads: THIXOEEMEDOYL
+   -3.10  'EMERGENCE' at 57.jpg - 40.jpg @word 303
+          key reads: WNGSLAMAYS
+   -3.11  'ADHERENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 178
+          key reads: YOGYLRANT
+   -3.17  'THE MASTER' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 381
+          key reads: LTHAEFSHAR
+   -3.26  'SOME WISDOM' at 57.jpg - 40.jpg @word 134
+          key reads: YPEOLYTHIFME
+   -3.29  'EMERGENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 216
+          key reads: IHIGANOTC
+   -3.32  'EMERGENCE' at 20.jpg - 3.jpg-5.jpg @word 64
+          key reads: OEAERSOSNEOY
+   -3.32  'EMERGENCE' at 57.jpg - 40.jpg @word 131
+          key reads: JSPSCEAMTH
+   -3.32  'INTELLIGENCE' at 23.jpg, 24.jpg - 6.jpg-7.jpg @word 72
+          key reads: FAETHIAATHONBGU
+   -3.33  'EMERGENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 283
+          key reads: MULJIANTSW
+   -3.35  'THE MASTER' at 57.jpg - 40.jpg @word 550
+          key reads: OEHOBNGAAM
+   -3.36  'THE MASTER' at 32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.j @word 410
+          key reads: NBSHTTHPW
+   -3.37  'ADHERENCE' at 50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.j @word 218
+          key reads: XNDTIALIIAF
+   -3.38  'SOME WISDOM' at 57.jpg - 40.jpg @word 543
+          key reads: UDGOEJIAXUAT
+   -3.39  'THE STUDENT' at 50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.j @word 38
+          key reads: HENETHOEDEOM
+   -3.40  'PRESERVATION' at 57.jpg - 40.jpg @word 466
+          key reads: SWDALWTHABFC
+   -3.42  'ADHERENCE' at 25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.j @word 335
+          key reads: IAANOEFOENCA
+   -3.42  'THE STUDENT' at 20.jpg - 3.jpg-5.jpg @word 15
+          key reads: YOXFTHICAEAE
+   -3.45  'THE MASTER' at 57.jpg - 40.jpg @word 208
+          key reads: ULEALUUED
+   -3.45  'ADHERENCE' at 57.jpg - 40.jpg @word 502
+          key reads: NGUOTIAEOWTHP
+   -3.45  'THE STUDENT' at 44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.j @word 157
+          key reads: UHHEDACLE
+   -3.45  'INTELLIGENCE' at 23.jpg, 24.jpg - 6.jpg-7.jpg @word 42
+          key reads: BTSEBOETHEBROI
+   -3.45  'PRESERVATION' at 44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.j @word 232
+          key reads: PILUWIXWHNI
+   -3.46  'PRESERVATION' at 20.jpg - 3.jpg-5.jpg @word 1
+          key reads: EAROMPEOATFTEA
+   -3.46  'THE STUDENT' at 57.jpg - 40.jpg @word 513
+          key reads: YSITWIAEASL

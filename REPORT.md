@@ -60,6 +60,16 @@ sizes explain.
   plaintext-autokey always "improves" chi² spuriously because the decrypt
   feedback loop skews the output distribution regardless of content; word
   scores stay at zero, which is the honest verdict.
+- **Crib-dragging** (`crib_drag.py`): 32 Cicada-vocabulary cribs dragged
+  word-aligned over every unsolved segment, exploiting the preserved word
+  boundaries and the literal-ᚠ rule as filters (422 legal placements). The
+  implied keystream at each placement was tested for constant/AP/short
+  period/prime-family structure and for English-ness (running-key
+  hypothesis). Zero structural hits; best "English" keystream is
+  indistinguishable from the best of 422 random draws. The tool self-tests
+  by recovering the DIVINITY rotation on page 03 and the φ(prime) stream on
+  page 56 from cribs alone, so the negative is genuine. Details in
+  [LOG.md](LOG.md).
 
 ## 4. Interpretation and where to go next
 
