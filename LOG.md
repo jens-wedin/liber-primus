@@ -262,3 +262,48 @@ Net: the LM is reusable infrastructure; the key-skip negative is now solid;
 and the running-key avenue is closed unless we supply specific key texts.
 That makes candidate-key-text cribbing (open thread #1) the clear next step.
 Dependency: `wordfreq` (requirements.txt); cache gitignored.
+
+## 2026-08-18 — Session 7: candidate-key cribbing (running-key closed out)
+
+Reconciliation up front: the doublet signature already rejects a *plain*
+running key (it would show 3.45% doublets, not 0.66%). So a running key is
+only viable *combined with* the no-repeat enforcement. `attack_keycrib.py`
+runs two well-powered (trigram) tests, and a false-positive control.
+
+**Part A — self-referential running keys via key-skip.** Fed the key-skip
+beam decoder candidate key streams from Cicada's own corpus: the solved-pages
+plaintext, and every other unsolved segment's runes (a page keyed by its own
+runes is the degenerate p=c−c=all-F and is excluded — a first pass had an
+identity-check bug because `Segment.indices` is a fresh-list property; fixed
+to compare by section id). All 13 segments: best score −4.79, far from
+English (−3.38). Self-referential running keys ruled out.
+(`results/keycrib_A_2026-08-18.txt`)
+
+**Part B — key-word crib.** Slid 500 common English words (len 6–10) as
+candidate KEY fragments over every segment, decoded p = c − k, kept
+placements where the plaintext fragment cleared the 10th-percentile
+English-window trigram threshold AND contained a dictionary word. 6.43M
+placements → 8,178 "hits" (0.127%). But they are mundane modern key words
+('ONLINE', 'MARKET', 'DOCTOR') over 6–7-rune fragments that start with a
+common word then dissolve ("YOUELL", "THEIRMAY") — classic running-key crib
+noise.
+
+**The control makes it rigorous.** Ran the identical crib on a uniform-random
+ciphertext of the same total length: **8,203 hits / 6.47M = 0.127%**, versus
+the real text's **8,178 / 6.43M = 0.127%** — identical to three decimals. The
+real "hits" occur at exactly the chance false-positive rate. **Zero signal.**
+(`results/keycrib_B_2026-08-18.txt`)
+
+**Running-key is now closed out**, every way testable without the actual key
+text: plain running-key rejected by the doublet signature (S4);
+self-referential key-skip negative (A); key-word crib at pure chance rate
+(B); free-decoder joint-English intrinsically underpowered (S6). A break now
+requires either the *specific* external key text Cicada used, or the page
+images (interrupter positions the transcription may flatten).
+
+Remaining open threads: (1) the re-roll no-repeat variant as a seeded
+PRNG/hash pad (a fundamentally different search — needs the seed/algorithm,
+not a language attack); (2) obtaining specific candidate key texts (KJV,
+Crowley, Blake, Mabinogion) — blocked here by the proxy, feasible with the
+right allow-listed source; (3) image-level re-transcription. All three need
+inputs outside this sandbox; the language-only avenues are exhausted.

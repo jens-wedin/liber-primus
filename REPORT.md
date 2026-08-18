@@ -157,6 +157,25 @@ it is strong: English-vs-random separation rises from ~0.9 (old bigram) to
   input, including random. A running key here cannot be broken without a
   specific candidate key text to crib.
 
+**Candidate-key cribbing (`attack_keycrib.py`) — running-key closed out.**
+Since the doublet signature already rejects a *plain* running key, a running
+key is only viable combined with the no-repeat enforcement. Two trigram-
+powered tests plus a control:
+- *Self-referential keys via key-skip*: feeding the beam decoder Cicada's own
+  solved plaintext and every other segment's runes as the key stream —
+  negative on all 13 (best −4.79 vs English −3.38).
+- *Key-word crib*: sliding 500 common English words as candidate key
+  fragments over every segment (6.4M placements), keeping English+dictionary
+  plaintext fragments — 8,178 pass (0.127%). A **false-positive control** on a
+  same-size random ciphertext passes 8,203 (0.127%): *identical to three
+  decimals*, so the hits are pure chance, not signal.
+
+So the running-key hypothesis is exhausted in every form testable without the
+actual external key text. A break now needs either the specific key text
+Cicada used, the re-roll variant treated as a seeded PRNG/hash pad (a
+non-linguistic search for the seed/algorithm), or the page images
+(interrupter positions the transcription may flatten).
+
 ## 5. Where to go next
 
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,
