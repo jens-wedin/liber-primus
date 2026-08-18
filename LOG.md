@@ -182,3 +182,43 @@ keystreams) instead of prime families; (2) work crib-dragging in
 first-difference space; (3) the re-roll variant leaves the keystream
 position-locked — if the pad is actually a hash/PRNG with a seed, that's a
 separate search.
+
+## 2026-08-18 — Session 5: running-key attack (and why it's inconclusive)
+
+Ran the running-key hypothesis without guessing a key text: a running key
+means `c = p + k` with BOTH p and k English, so `attack_runningkey.py`
+beam-searches the decomposition maximizing English bigrams in p AND in k at
+once. No key text needed — it tests every English key simultaneously.
+
+**Built-in calibration is the whole point, and it failed the test for
+power.** Same decoder on known inputs (head 120, beam 800):
+- uniform-random text → joint-bigram **−4.39**
+- genuine running-key ciphertext → joint-bigram **−4.26**, and it recovered
+  only **19%** of the known plaintext.
+
+Genuine-vs-random separation is just **0.13** → the test is **underpowered**.
+Confirmed the failure mode directly: decoding a *pure uniform-random* stream
+yields `...YOUDYOURANCRETODYOU...` — visibly full of YOU/YOUR/THE/AND — and
+its substring-dictionary score (0.25) is *higher* than the genuine
+running-key's (0.17). The bigram-greedy decoder manufactures English-looking
+fragments from noise.
+
+**So the real segments scoring −4.30 to −4.44 (some nominally "above
+threshold", teasing fragments like "END YTHNGPR", "NOT YOU") are NOT
+evidence of a running key.** They sit exactly where random noise sits under
+this decoder. Word-scores stay ~0.04 (English ≥ 0.3).
+
+**Honest verdict: inconclusive.** This method can neither confirm nor exclude
+a running key at Liber-Primus segment lengths — a known limitation of
+running-key cryptanalysis (needs a candidate key text to crib, trigram+
+models over full pages, or a known-plaintext anchor). Recording this as a
+guard rail: the decoded fragments are a decoder artifact, not a lead. Script
+prints its own UNDERPOWERED warning so nobody (including a future me) mistakes
+the fragments for signal. Archived in `results/runningkey_2026-08-18.txt`.
+
+Genuinely open, in priority order: (1) obtain/enumerate specific candidate
+key texts (Cicada's own decrypted passages, canonical public-domain works)
+and crib the KEY side; (2) trigram/4-gram models to raise the power of both
+this and the key-skip decoders; (3) test the re-roll (position-locked pad)
+variant as a seeded PRNG/hash stream; (4) cross-check the page images for
+interrupter positions the transcription flattens.

@@ -125,6 +125,21 @@ segments for both the prime and totient keystreams, both directions, all 29
 offsets: **negative everywhere** (best word-score 0.08 vs ≥0.3 for English).
 So the keystream, if key-skip, is not a prime-family sequence.
 
+The remaining natural candidate — a **running key** drawn from an English
+text — was tested key-text-free (`attack_runningkey.py`): a running key means
+`c = p + k` with both p and k English, so a beam search can seek the
+decomposition that makes both look like English at once. This came back
+**inconclusive, by its own calibration**. On known inputs the decoder
+separated a genuine running-key ciphertext (joint-bigram −4.26) from
+uniform-random text (−4.39) by only 0.13, and a pure random stream decodes to
+teasing fragments (`...YOU DYOUR AN...`) scoring as "English" as anything —
+so it has no power to confirm or exclude running key at these segment lengths.
+The real segments score right in that ambiguous band. This is a known limit
+of running-key cryptanalysis: breaking it needs a specific candidate key text
+to crib, higher-order (trigram+) models over full-length pages, or a
+known-plaintext anchor — recorded so the teasing fragments are not mistaken
+for a lead.
+
 ## 5. Where to go next
 
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,
