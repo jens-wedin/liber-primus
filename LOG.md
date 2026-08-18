@@ -222,3 +222,43 @@ and crib the KEY side; (2) trigram/4-gram models to raise the power of both
 this and the key-skip decoders; (3) test the re-roll (position-locked pad)
 variant as a seeded PRNG/hash stream; (4) cross-check the page images for
 interrupter positions the transcription flattens.
+
+## 2026-08-18 — Session 6: trigram upgrade
+
+The bigram model came from ~1,875 runes of LP plaintext — hopeless for
+trigrams (29^3 ≈ 24k cells). Network to Project Gutenberg is blocked by the
+proxy (403), but PyPI is allowed, so built `language_model.py` from the
+`wordfreq` 50k-word English list: each word transliterated to runes, n-grams
+counted *weighted by word frequency*, scored with Stupid Backoff, cached to
+`model_cache/`.
+
+**The model is strong.** English-vs-uniform-random separation (mean
+window score): bigram 2.56, trigram 3.13, 4-gram 3.77 (the old LP-only
+bigram managed ~0.9). So on a *fixed* sequence the model discriminates
+English from noise cleanly.
+
+**Re-ran the two beam attacks with it:**
+
+- **Key-skip** (`attack_keyskip.py --order 3`): self-test still recovers 96%
+  of a genuine prime-key-skip text, and the model refs are now far apart
+  (English −3.38, random −6.17). All 13 real segments score −4.8 to −5.0
+  with word-scores ≤ 0.11 — nowhere near English. Prime/totient key-skip is
+  now **robustly** ruled out, backed by a proper LM.
+  (`results/keyskip_trigram_2026-08-18.txt`)
+
+- **Running-key** (`attack_runningkey.py --order 3`): **still underpowered.**
+  Genuine running-key ciphertext −4.59 vs uniform-random −4.56 (separation
+  −0.03), true plaintext only 12% recovered. This is the important result:
+  the model is demonstrably strong on fixed sequences, so the failure is
+  **intrinsic to running-key**, not a model-power problem. When the decoder
+  is free to choose the plaintext (key follows), it finds a both-English
+  decomposition for *any* input — including random — so the true one never
+  stands out at these lengths. Conclusion upgraded from session 5's "maybe
+  trigrams fix it" to: **trigrams do not fix it; a running key cannot be
+  broken here without a candidate key text to crib the KEY side.**
+  (`results/runningkey_trigram_2026-08-18.txt`)
+
+Net: the LM is reusable infrastructure; the key-skip negative is now solid;
+and the running-key avenue is closed unless we supply specific key texts.
+That makes candidate-key-text cribbing (open thread #1) the clear next step.
+Dependency: `wordfreq` (requirements.txt); cache gitignored.

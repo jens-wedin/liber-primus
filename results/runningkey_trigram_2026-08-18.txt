@@ -1,0 +1,37 @@
+CALIBRATION (order-3 model, beam 800, head 120):
+  uniform-random text : -4.56
+  genuine running key : -4.59  (recovered 12% of plaintext)
+  separation -0.03 -> test is UNDERPOWERED
+  !! still underpowered; treat below as inconclusive.
+
+REAL unsolved segments:
+  17.jpg-19.jpg - 0.jpg-2.jpg                score -4.62 words 0.00
+      AWAYBOOL IGHTE RABI TTE REP ACEPAYEDUCL ECORC EREN TEC OUT TEDI STA XECABL ICIALATCHOUN IM PL EXP EC
+  20.jpg - 3.jpg-5.jpg                       score -4.54 words 0.00
+      ST ABOURSIUICIA USA GETS HOLOULD ENTRUID EFORYOU NIANA TIANSTR ADESTOLOOMOR E PROURESSU CH RIMP AIN 
+  20.jpg - 3.jpg-5.jpg                       score -4.57 words 0.00
+      ERE NGAG AIT IAN AM PUBSI MUSUCT IUA LLESCR IGHTEMPLENT ILICE PUB MIT ACEN TIUES EC OOLLOGY PGRATIA 
+  23.jpg, 24.jpg - 6.jpg-7.jpg               score -4.51 words 0.00
+      COMP U BJER RO UERIUER USUMBE CIAU SSNG AG ROMPA RDEN CLUDIENS INSIANATIA NSECT UA LWASECT IANSE RSO
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.jpg, 30 score -4.64 words 0.04
+      ISIAN STIMPADU DIF IC ASI TTARESPOS ELOT ICU AIRS HE NS POINTT EPA IDEALLOW DER ABLA BSI DERATIANS O
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg, 37 score -4.59 words 0.00
+      BILA RG YMPLO GEORG ENTAN YOURAC IESTR OMESPA RTI FFE ENSTALCOL OPPOINS FUN DELAT TERSERUS TU MIGN O
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 23.jpg-26 score -4.68 words 0.00
+      ST RUCCES SIS HETAI REASHERI EUE ERS TIUGGET TESSI TYLEC CEPRELI CTOODU CTER SESU FFIF TERALM OUNALE
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.jpg, 49 score -4.70 words 0.00
+      ARO MIALSOMEANTES SAIN CIALSOUG HO LIS TUA NC R EADE PACE POSEPEAC ER ICHIMELAT CHAB OU PPR ESPE RES
+  50.jpg - 33.jpg                            score -4.55 words 0.04
+      EN CRISHERS EE CTERICILE GINSWI THOS ENO TEMSE XTR UE NTRECAN CEP ALIA NALLET IUELA RTIUENTR IE FIE 
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.jpg, 55 score -4.55 words 0.04
+      TIAN ATTED WIDDLE GGESPON ECAP PEAR CHAU SE CA NYW ON TLYM PL A NYWHOWELE STOPEOPLI CANA RESC OMPTES
+  56.jpg - 39.jpg                            score -4.60 words 0.04
+      MAN CLAN DEUERE PEDUC TALF RIU ERIEN TRIESEA R CHRICHA DJA PHY THNGSTIUE RNA LF ULDREA DEFTERECUL ET
+  57.jpg - 40.jpg                            score -4.53 words 0.00
+      CHR ICENC LANDE NCHA STI CASET TLEN CL OSELIESURSTY PER UIS SIA NSIN EWITHROM ENJOHN ICA TART IMP LE
+  71.jpg - 54.jpg                            score -4.53 words 0.04
+      H ATENTIANS ERABOULT ILE TWELLIA MI NSTLA UGG ER FOR NALWA STAFTER EDI UMBI LIMPLICALL IATERACCE RIT
+
+best: score -4.51, words 0.00 (23.jpg, 24.jpg - 6.jpg-7.jpg)
+genuine running key calibrated at -4.59
+Inconclusive: raise --order/--beam/--head, or crib a specific key text.

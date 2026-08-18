@@ -5,7 +5,7 @@ whose pointer advances an extra step to avoid emitting a doublet (the
 mechanism whose statistical signature matches the data — see
 no_repeat_model.py), then a naive Vigenere decode desynchronises at every
 hidden skip. But the skips are ~3% of positions, so a beam search over
-{0,1,2 skips} per position, scored by an English bigram model, can resync
+{0,1,2 skips} per position, scored by an English n-gram model, can resync
 and recover the plaintext IF this is the real scheme.
 
 This directly tests "known prime-family keystream + doublet-avoidance
@@ -21,7 +21,7 @@ import math
 import ciphers as c
 import gematria as g
 from parse_lp import parse
-from crib_drag import build_bigram_model
+from language_model import get_model
 
 N = g.N
 
@@ -37,20 +37,21 @@ def keystreams(length):
 
 
 def beam_decode(cipher, K, start, sign, model, beam_width, max_skip):
-    """Return (best_score, plaintext_indices). sign=-1: p=c-K; +1: p=c+K."""
+    """Return (best_score, plaintext_indices). sign=-1: p=c-K; +1: p=c+K.
+    Plaintext is scored with the n-gram model (limited search freedom — only
+    the per-position skip count is chosen — so the model discriminates well)."""
     SKIP_PEN = math.log(0.03)  # skips are rare; penalise choosing them
-    # state: (score, pointer, prev_rune, path_tuple)
-    beams = [(0.0, start, None, ())]
+    ctx = model.order - 1
+    # state: (score, pointer, hist_tuple, path_tuple)
+    beams = [(0.0, start, (), ())]
     for ci in cipher:
         nxt = []
-        for score, j, prev, path in beams:
+        for score, j, hist, path in beams:
             for sk in range(max_skip + 1):
                 used = j + sk
                 p = (ci + sign * K[used]) % N
-                s = score + (SKIP_PEN * sk)
-                if prev is not None:
-                    s += model[(prev, p)]
-                nxt.append((s, used + 1, p, path + (p,)))
+                s = score + (SKIP_PEN * sk) + model.logscore_next(hist, p)
+                nxt.append((s, used + 1, (hist + (p,))[-ctx:], path + (p,)))
         nxt.sort(key=lambda t: -t[0])
         beams = nxt[:beam_width]
     best = beams[0]
@@ -89,11 +90,12 @@ def main():
     ap.add_argument("--head", type=int, default=200,
                     help="analyze only the first N runes of each segment "
                          "(enough to detect English; 0 = whole segment)")
+    ap.add_argument("--order", type=int, default=3)
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
     segs = parse("data/liber_primus.md")
-    model = build_bigram_model(segs)
+    model = get_model(args.order)
 
     if args.selftest:
         raise SystemExit(0 if selftest(model) else 1)
@@ -103,9 +105,12 @@ def main():
     print()
 
     unsolved = [s for s in segs if not s.solved and len(s.indices) >= 50]
-    rnd = -math.log(N)
-    print(f"random-baseline bigram logprob ~{rnd:.2f}; "
-          f"English ~ -2.4 or higher\n")
+    from doublet_sim import LCG, english_plaintext
+    rng = LCG(7)
+    rand_ref = model.score_sequence([rng.randint(N) for _ in range(400)])
+    eng_ref = model.score_sequence(english_plaintext(segs)[:400])
+    print(f"order-{args.order} model refs: English decode ~{eng_ref:.2f}, "
+          f"random ~{rand_ref:.2f} (a real break lands near English)\n")
     best_overall = None
     for s in unsolved:
         ix = s.indices if not args.head else s.indices[:args.head]
@@ -130,7 +135,7 @@ def main():
                         best = (bl, kname, sign, start, ws, text)
         bl, kname, sign, start, ws, text = best
         print(f"{s.section[:44]:44s} best {kname}{'+' if sign>0 else '-'} "
-              f"start {start:2d}: bigram {bl:.2f} words {ws:.2f}")
+              f"start {start:2d}: score {bl:.2f} words {ws:.2f}")
         print(f"    {text[:110]}")
         if best_overall is None or ws > best_overall[0]:
             best_overall = (ws, s.section)

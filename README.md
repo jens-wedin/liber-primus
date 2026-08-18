@@ -22,6 +22,7 @@ Findings so far are in [REPORT.md](REPORT.md).
 | `no_repeat_model.py` | Models the no-adjacent-repeat mechanism (re-roll vs key-skip) and quantifies the keystream desync. |
 | `attack_keyskip.py` | Beam-search attack on the key-skip hypothesis over prime/totient streams. `--selftest` proves 98% recovery when the hypothesis holds. |
 | `attack_runningkey.py` | Key-text-free running-key attack (joint English-ness of plaintext and key). Self-calibrates and reports when it is underpowered. |
+| `language_model.py` | Frequency-weighted n-gram model (order 2–4) over rune indices, built from the `wordfreq` English list with Stupid Backoff. Run directly for the English-vs-random discrimination test. |
 | `results/` | Archived run outputs, dated. |
 
 ## Usage
@@ -34,7 +35,10 @@ python3 analyze_unsolved.py  # statistics + simple-attack battery
 python3 attack_autokey.py    # autokey brute force (a few minutes)
 ```
 
-No dependencies beyond the Python 3 standard library.
+Most scripts need only the Python 3 standard library. The n-gram model
+(`language_model.py`, and the `--order` paths of the beam attacks) needs
+`wordfreq` — `pip install -r requirements.txt`. The model is cached under
+`model_cache/` (gitignored) and rebuilds in ~3s on first use.
 
 ## The cipher conventions (verified, not assumed)
 

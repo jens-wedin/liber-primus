@@ -140,6 +140,23 @@ to crib, higher-order (trigram+) models over full-length pages, or a
 known-plaintext anchor — recorded so the teasing fragments are not mistaken
 for a lead.
 
+**Trigram upgrade (does it rescue the running-key test?).** Built a proper
+n-gram language model (`language_model.py`) from the `wordfreq` 50k-word
+English list — frequency-weighted rune n-grams with Stupid Backoff — since
+the earlier bigram model came from far too little text. On *fixed* sequences
+it is strong: English-vs-random separation rises from ~0.9 (old bigram) to
+2.56 / 3.13 / 3.77 for orders 2 / 3 / 4. Re-running the attacks:
+- **Key-skip** with the trigram model: prime/totient key-skip is now
+  *robustly* rejected — self-test still recovers 96%, model refs sit far
+  apart (English −3.4, random −6.2), yet all segments score −4.8 to −5.0
+  (word-score ≤ 0.11).
+- **Running-key** with the trigram model: **still underpowered** (genuine vs
+  random separation −0.03; 12% recovery). Because the model is demonstrably
+  strong on fixed sequences, this proves the running-key failure is
+  *intrinsic* — when the decoder chooses the plaintext freely, it fits any
+  input, including random. A running key here cannot be broken without a
+  specific candidate key text to crib.
+
 ## 5. Where to go next
 
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,
