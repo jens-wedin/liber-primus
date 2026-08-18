@@ -71,34 +71,61 @@ sizes explain.
   page 56 from cribs alone, so the negative is genuine. Details in
   [LOG.md](LOG.md).
 
-## 4. Interpretation and where to go next
+## 4. The doublet anomaly, characterized (main result)
 
-The numbers reproduce and sharpen the community consensus: the unsolved
-Liber Primus is not a substitution, not a repeating-key Vigenère, not the
-prime/totient streams used on the solved pages, and not a short-primer
-autokey. The flat IoC says the keystream is close to uniform; the 17σ
-doublet deficiency says it is *not* independent of position — the two
-together point at something like a running key drawn from an unknown text,
-a hash/PRNG-derived stream, or a scheme with a built-in no-repeat
-constraint, possibly keyed per page.
+Using the doublet deficiency as a *filter* on cipher families
+(`doublet_sim.py`) turned out to be the productive move. Synthesizing
+English-in-runes plaintext and encrypting it under each family shows that
+**every independent-keystream cipher — OTP, Vigenère at any period, running
+key, prime/totient streams — leaves the doublet rate at the random ~3.4%**.
+None of them can produce the observed 0.66%. Only two constructions drop
+below it: ciphertext-autokey (where doublets occur exactly when the
+plaintext rune is F) and a deliberate no-repeat rejection scheme.
 
-Promising directions this toolkit is set up for:
+A decisive test rules the autokey family out too. If the cipher were a pure
+cumulative sum (`c[i] = p[i] + c[i-1]`), first-differencing the ciphertext
+would recover the plaintext. It doesn't — `d[i] = c[i] − c[i-1]` has IoC
+**1.02** (not English's 1.7). But differencing *does* restore the doublet
+rate to the normal **3.37%**, which proves the anomaly is a **pure lag-1
+effect**.
 
-1. **Crib-dragging** Cicada's own recurring phrases ("A KOAN", "AN
-   INSTRUCTION", "KNOW THIS", "THE PRIMES ARE SACRED") along each segment:
-   for each offset, derive the implied keystream and test it for structure
-   (primes, totients, digits of constants, gematria sums of the crib …).
-2. **Modeling the doublet deficiency**: simulate candidate schemes
-   (autokey variants with long primers, lagged keystreams, no-repeat
-   rejection sampling) and compare their doublet/IoC signatures against the
-   observed 0.66% / 1.000 — use the anomaly to *filter hypotheses* before
-   brute-forcing them.
-3. **Per-page keying**: the first-word/first-line of several pages may be
-   headers ("A KOAN"-style); testing key resets at line or page boundaries
-   shrinks the effective unknown per unit.
-4. Cross-checking against the **page images** (rune spacing, section marks)
-   for information the transcription flattens.
+Fully characterized: the first-difference histogram is uniform across all 28
+non-zero values (χ² = 41 on 27 dof) with a single sharp notch at zero. **The
+unsolved ciphertext is statistically a uniform random stream with exactly one
+constraint — adjacent runes are almost never equal.** The 86 residual
+doublets are spread evenly over all 29 runes, so the no-repeat property is
+near-total and rune-independent.
+
+This eliminates, rigorously: substitution (IoC would be 1.78), every
+repeating/independent keystream (doublets would be 3.4%), and pure
+autokey/cumulative-sum (differencing yields no English). What survives is a
+construction that *forbids adjacent-equal ciphertext runes* — an
+interrupter/skip rule or an explicit no-repeat step, plausibly keyed per
+page. Note this is a **cipher** property, not a plaintext one: the solved
+pages' plaintext doublet rate is ~2.3%, not 0.66%.
+
+## 5. Where to go next
+
+Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,
+the productive result). Genuinely open threads, in priority order:
+
+1. **Model the no-repeat mechanism.** The signature points at a construction
+   that forbids adjacent-equal ciphertext runes. Test explicit skip/
+   interrupter models: a rule that, after normal keyed encryption, inserts a
+   spacer rune or advances the key whenever a repeat would occur. Cicada
+   already uses interrupters (the literal ᚠ), so an interrupter-driven
+   no-repeat rule is in character. The 86 rune-uniform residual doublets are
+   the fingerprint to reproduce.
+2. **Work in difference space.** Because the meaningful lag-1 structure is in
+   `c[i] − c[i-1]`, re-run crib-dragging and keystream tests on the
+   first-difference stream rather than the raw runes.
+3. **Per-page keying.** Several pages open with what look like short headers
+   ("A KOAN"-style); testing key resets at line/page boundaries shrinks the
+   effective unknown per unit.
+4. **Cross-check the page images** (rune spacing, section marks) for
+   information the transcription flattens — relevant if interrupters are
+   positional.
 
 Sober expectation: this cipher has resisted a decade of exactly this kind of
-analysis; the realistic value here is a verified, scriptable foundation to
-test new hypotheses quickly rather than an imminent break.
+analysis; the realistic value here is a verified, scriptable foundation plus
+a rigorously narrowed hypothesis space — not an imminent break.

@@ -78,3 +78,63 @@ description.
 Next candidates for the crib list: reversed text, crib placement ignoring
 word boundaries (if the • separators are decoys in unsolved pages), and
 doublet-signature simulation to pre-filter cipher families.
+
+## 2026-08-18 — Session 3: doublet-signature simulation (the productive one)
+
+Goal: use the 17σ doublet anomaly as a *filter* on cipher families instead
+of brute-forcing blind. Built `doublet_sim.py`: synthesize English-in-runes
+plaintext from the solved pages, encrypt it with each candidate family under
+random keys (deterministic LCG, since Date/random are unavailable), and
+measure IoC + doublet rate against the observed (1.000, 0.66%).
+
+**Result — only two families reproduce the signature** (`results/doublet_sim_2026-08-18.txt`):
+
+| family | IoC | doublet % |
+| --- | --- | --- |
+| plaintext (no cipher) | 1.78 | 2.3 |
+| OTP / long random key | 1.00 | **3.4** |
+| Vigenère period 5 / 13 | 1.05–1.16 | 3.4 |
+| prime stream mod 29 | 1.00 | 3.2 |
+| running key (English) | 1.06 | 3.7 |
+| plaintext-autokey lag 1/2 | 1.11–1.14 | 3.8–6.0 |
+| **ciphertext-autokey lag 1** | **1.00** | **1.65 (= plaintext F-freq)** |
+| **no-repeat OTP (rejection)** | **1.00** | **0.00** |
+
+Every independent-keystream cipher sits at the random 3.4% doublet rate —
+**all of them are ruled out**. Only ciphertext-autokey (analytic: doublets
+occur iff the plaintext rune is F) and a deliberate no-repeat construction
+drop below it. The observed 0.66% sits between them.
+
+**Decisive test — first-difference the real ciphertext.** If the scheme were
+a pure cumulative sum / ciphertext-autokey (`c[i]=p[i]+c[i-1]`), then
+`d[i]=c[i]−c[i-1]` recovers the plaintext and should show English IoC ~1.7.
+It does not:
+
+- raw unsolved: IoC 1.000, doublet 0.66%
+- first-difference lag 1: IoC **1.02** (not English), doublet **3.37%** (normal)
+
+So pure autokey/cumulative-sum is **ruled out** (no English emerges), but the
+snap-back of the doublet rate to 3.37% under differencing proves the anomaly
+is a **pure lag-1 effect**.
+
+**Full characterization.** The first-difference histogram is uniform over all
+28 non-zero values (χ² = 41 on 27 dof) with a single sharp notch at d=0
+(0.66%). I.e. the ciphertext is statistically a uniform random stream with
+exactly one constraint: **adjacent runes are almost never equal**. The 86
+surviving doublets are spread evenly across all 29 runes (not concentrated at
+ᚠ or any interrupter candidate), so the no-repeat property is near-total and
+rune-independent, with a uniform ~0.66% leak.
+
+**What this eliminates, rigorously:** OTP, Vigenère (any period), running
+key, prime/totient streams (all leave doublets at 3.4%); monoalphabetic
+substitution (IoC would be 1.78); pure autokey/cumulative-sum (no English on
+differencing). What remains: a construction that forbids adjacent-equal
+ciphertext runes — either built into the cipher (a skip/interrupter or
+no-repeat rule) or a flattening cipher over a plaintext with that property
+(but the solved plaintext's doublet rate is ~2.3%, not 0.66%, so this is a
+cipher property, not a plaintext one).
+
+Next: (1) test skip/interrupter models — a rule that inserts or re-keys to
+avoid repeats; (2) hunt the exact leak mechanism behind the residual 0.66%;
+(3) revisit crib-dragging under a "differences" model, since the meaningful
+plaintext structure may live in `c[i]−c[i-1]` space.
