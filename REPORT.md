@@ -201,3 +201,35 @@ the productive result). Genuinely open threads, in priority order:
 Sober expectation: this cipher has resisted a decade of exactly this kind of
 analysis; the realistic value here is a verified, scriptable foundation plus
 a rigorously narrowed hypothesis space — not an imminent break.
+
+## 6. Candidate running-key text: KJV ruled out (control-validated)
+
+The one running-key avenue left open was a *specific* external key text. The
+King James Bible is the canonical first guess, so `attack_running_text.py`
+tests it directly against the key-skip hypothesis. Because a plain running
+key is already excluded by the doublet signature (§4), the test decodes with
+the key-skip beam (which tolerates the ~3% desync), not straight subtraction.
+
+Method — two stages, since a 3.16M-rune key can't be beam-searched at every
+offset:
+1. a vectorised **trigram coarse scan** slides the whole KJV rune stream past
+   several short windows of each segment and ranks key offsets by how English
+   the implied plaintext looks;
+2. the **key-skip beam** confirms the top offsets per window.
+
+A planted **positive control** (encrypt English with KJV at a known offset via
+key-skip, then recover it through the same pipeline) passes: it relocates the
+key to within a rune or two and recovers ~100% of the window at trigram ≈
+−3.4. So the pipeline provably finds a real KJV key.
+
+Result on the actual ciphertext: **negative on all 13 segments.** The best
+decode anywhere scores trigram −3.95 (gibberish, no words), well short of the
+English/true-hit band at ≈ −3.4 (English reference −3.38; the control landed
+−3.42). KJV is not the running key for any page — the whole book, every
+offset, both directions.
+
+Crowley's *Liber AL vel Legis* — the other common guess — could not be tested
+here: no clean public-domain copy was reachable through the sandbox's proxy
+(Project Gutenberg is blocked; it is not on npm/PyPI). The framework is ready
+for it: drop the text in via `keytexts.py --add-textfile <path> crowley` and
+run `attack_running_text.py --key crowley`. Same for any candidate text.

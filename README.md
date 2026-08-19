@@ -24,6 +24,8 @@ Findings so far are in [REPORT.md](REPORT.md).
 | `attack_runningkey.py` | Key-text-free running-key attack (joint English-ness of plaintext and key). Self-calibrates and reports when it is underpowered. |
 | `language_model.py` | Frequency-weighted n-gram model (order 2–4) over rune indices, built from the `wordfreq` English list with Stupid Backoff. Run directly for the English-vs-random discrimination test. |
 | `attack_keycrib.py` | Candidate-key attacks: self-referential running keys via key-skip (Part A) and a common-word key crib with a random-ciphertext false-positive control (Part B). |
+| `keytexts.py` | Loads/caches candidate running-key texts (KJV from the `bible-kjv` npm package; any plain-text file) as rune streams. |
+| `attack_running_text.py` | Tests a full book (KJV) as the running key against the key-skip hypothesis: trigram coarse scan → key-skip beam confirm, with a planted positive control. |
 | `results/` | Archived run outputs, dated. |
 
 ## Usage
@@ -38,8 +40,22 @@ python3 attack_autokey.py    # autokey brute force (a few minutes)
 
 Most scripts need only the Python 3 standard library. The n-gram model
 (`language_model.py`, and the `--order` paths of the beam attacks) needs
-`wordfreq` — `pip install -r requirements.txt`. The model is cached under
-`model_cache/` (gitignored) and rebuilds in ~3s on first use.
+`wordfreq`, and `attack_running_text.py` also needs `numpy` —
+`pip install -r requirements.txt`. Models are cached under `model_cache/`
+(gitignored) and rebuild in ~3s on first use.
+
+The KJV key stream for `attack_running_text.py` is built once from the
+`bible-kjv` npm package (Project Gutenberg is often network-blocked):
+
+```bash
+npm pack bible-kjv && tar xzf bible-kjv-*.tgz          # gives package/dist/
+python3 keytexts.py --build-kjv package/dist           # caches keytext_cache/kjv.u8
+python3 attack_running_text.py --key kjv               # runs the attack + control
+```
+
+Any other candidate key text works too:
+`python3 keytexts.py --add-textfile mybook.txt mybook` then
+`--key mybook`.
 
 ## The cipher conventions (verified, not assumed)
 

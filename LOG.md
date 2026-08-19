@@ -307,3 +307,43 @@ not a language attack); (2) obtaining specific candidate key texts (KJV,
 Crowley, Blake, Mabinogion) — blocked here by the proxy, feasible with the
 right allow-listed source; (3) image-level re-transcription. All three need
 inputs outside this sandbox; the language-only avenues are exhausted.
+
+## 2026-08-19 — Session 8: candidate running-key text (KJV)
+
+Moved the toolkit to its own repo (jens-wedin/liber-primus) and continued
+here. Tested the canonical running-key guess, the King James Bible.
+
+**Getting the text.** Proxy blocks Project Gutenberg (403). PyPI/npm are
+allowed, so pulled the `bible-kjv` npm package's verse JSON, stripped markup,
+concatenated Genesis→Revelation, and transliterated to a 3,162,779-rune
+stream (`keytexts.py`, cached, gitignored). Crowley's *Liber AL* is not on
+npm/PyPI and Gutenberg is blocked, so it could not be tested — framework is
+ready for a dropped-in text file.
+
+**Attack (`attack_running_text.py`).** A 3.16M-rune key can't be beam-searched
+at every offset, so: (1) a vectorised trigram coarse scan slides KJV past
+several short windows per segment and ranks offsets by English-ness of the
+implied plaintext; (2) the key-skip beam confirms the top offsets. Multi-
+window makes it robust to the ~3% skips (a skip-free window localises the key
+even if others are corrupted).
+
+**Debugging that mattered** (the control caught every bug):
+- Wrong decrypt sign in the control (enc is c=p+k ⇒ decrypt sign −1, not +1).
+- Unigram coarse scan too weak to localise 1 offset in 3.16M → upgraded to a
+  dense trigram table; then a single early skip still broke a single long
+  head → multi-window scanning fixed it.
+- coarse scan was 22s/call (int64 + repeated casts) → int16 rows + float32
+  table brought it to ~1.1s.
+Positive control now PASSES: plants KJV at offset 500000, recovers it at key
+offset ~500079, ~100% of the window, trigram −3.4.
+
+**Result: KJV ruled out.** Negative on all 13 segments — best decode trigram
+−3.95 (gibberish), vs English/true-hit ≈ −3.4 (control −3.42). The whole
+book, every offset, both directions. `results/running_kjv_2026-08-19.txt`.
+
+Also removed the duplicate `liber-primus/` folder from the Manfred branch
+(studio-manfred/manfred-design-system) so the toolkit lives only here.
+
+Open threads unchanged: other specific key texts (Crowley, Blake, Mabinogion
+— need a reachable source), the re-roll pad as a seeded PRNG/hash (non-
+linguistic), difference-space analysis, and the page images.
