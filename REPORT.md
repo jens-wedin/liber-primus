@@ -252,6 +252,40 @@ trigram −4.23 (gibberish), against English −3.38 and a genuine key at −3.9
 Caveat on coverage: this rules out *common/thematic dictionary* word keys,
 not all short keys. Notably the known key FIRFUMFERENFE is CIRCUMFERENCE with
 C→F — a deliberate non-dictionary mangling — so a real key may be a similarly
-mangled or coined word outside any word list. Widening `--nwords`, adding
-letter-substitution variants of thematic words, or brute-forcing very short
-keys are the natural extensions.
+mangled or coined word outside any word list. That specific gap is closed in
+§8; brute-forcing very short keys remains open.
+
+## 8. Coined/mangled word keys — negative
+
+The one gap §7 left open was Cicada's own habit of *mangling* a key word
+(FIRFUMFERENFE = CIRCUMFERENCE with every C→F). A dictionary word list can
+never reach such a key, so `mangle.py` expands the thematic vocabulary into
+coined variants, using only transforms Cicada is attested to use on a solved
+page: the **consonant collapse** C↔F/K/Q and S/Z, U/V (the C→F family that
+produced FIRFUMFERENFE, plus the futhorc's own letter collapses); **atbash**
+(reversed gematria, i→28−i, the page 06–09 cipher); **reversal** in rune
+space; and a light **vowel rotation**. `attack_vigenere_skip.py --mangle`
+feeds the 121 resulting variants through the same key-skip beam as any word.
+
+Two controls gate the run, both passing:
+- the generator reproduces the one ground-truth mangling
+  (CIRCUMFERENCE→FIRFUMFERENFE via C→F);
+- a planted **coined** key that is *not* in any word list
+  (PRESERVATION~atbash) is recovered as the rank-#1 key at 100% of the
+  window — so the expanded key space provably has power to catch a coined
+  key, not just dictionary ones.
+
+Result on the real ciphertext: **negative on all 13 segments.** Best decode
+anywhere is trigram −4.13 (gibberish, no words). For calibration on this
+head length the two positive controls — *correctly* keyed short decodes —
+land at −3.90 (CIRCUMFERENCE) and −4.00 (the coined PRESERVATION~atbash);
+English is −3.38. Every real segment scores *below even the known-correct-key
+band*, so none behaves like a correctly-keyed page. Coined/mangled variants
+of the thematic words (consonant-collapse, atbash, reversal, vowel-rotation)
+are ruled out. `results/vigenere_skip_mangle_2026-08-20.txt`.
+
+Coverage, stated plainly: only the ~29 *thematic* words were mangled (not the
+common-word list), each by a *single* transform (no compositions like
+atbash∘C→F), key length 4–16, both signs, key-skip max-skip 2, 30-rune heads.
+Still open: multi-transform manglings, mangled common words, and very-short
+(<4) brute force.

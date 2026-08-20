@@ -368,3 +368,34 @@ keys — but NOT mangled/coined keys (the known FIRFUMFERENFE = CIRCUMFERENCE
 with C→F is exactly such a non-dictionary key). Natural next: substitution
 variants of thematic words, and very-short brute force.
 `results/vigenere_skip_2026-08-19.txt`.
+
+### Session 9 (2026-08-20) — coined/mangled word keys
+
+Picked up the active lead: the one gap Session 8 left was Cicada's own habit of
+mangling a key word (FIRFUMFERENFE = CIRCUMFERENCE, every C→F), which no
+dictionary word list can reach. New `mangle.py` expands the thematic vocab into
+coined variants using ONLY attested Cicada transforms: consonant collapse
+C↔F/K/Q and S/Z, U/V; atbash (i→28−i, the page 06–09 cipher); rune-space
+reversal; vowel rotation. `attack_vigenere_skip.py --mangle` beams the 121
+variants through the existing (unchanged) key-skip pipeline.
+
+Discipline: kept the CIRCUMFERENCE control and added a second one. The
+generator has a ground-truth self-check (CIRCUMFERENCE→FIRFUMFERENFE via C→F,
+PASS), and the run plants a *coined* key that is in no word list —
+PRESERVATION~atbash — and requires the expanded space to recover that exact
+sequence. First tried DIVINITY~atbash (only 73% at head 30 — a short 8-index
+key desyncs too much), so I probed a handful of coined keys and switched to
+PRESERVATION~atbash (100%, rank #1). Both controls PASS; `validate_solved.py`
+still 9/9 (core cipher code untouched).
+
+Result: **negative on all 13 segments.** Best decode trigram −4.13 (gibberish,
+no words). The two positive controls (correctly-keyed short decodes at this
+head length) land at −3.90 and −4.00; English is −3.38. Every real segment
+scores *below even the known-correct-key band* — none looks correctly keyed.
+Rules out single-transform coined variants of the thematic words.
+`results/vigenere_skip_mangle_2026-08-20.txt`.
+
+Coverage stated: thematic words only (not the common-word list), one transform
+each (no compositions like atbash∘C→F), key length 4–16, 30-rune heads. Still
+open: multi-transform manglings, mangled common words, very-short (<4) brute
+force.

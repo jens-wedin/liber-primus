@@ -32,6 +32,7 @@ from language_model import get_model
 from attack_keyskip import beam_decode
 from no_repeat_model import enc_key_skip
 from doublet_sim import english_plaintext
+from mangle import mangle_words, selfcheck as mangle_selfcheck
 import ciphers as c
 
 N = g.N
@@ -75,8 +76,23 @@ def attack_segment(cidx, keys, model, head, beam, max_skip):
         for sign in (-1, +1):
             bl, dec = confirm(chead, key, model, sign, beam, max_skip)
             if best is None or bl > best[0]:
-                best = (bl, name, sign, dec)
+                best = (bl, name, sign, dec, key)
     return best
+
+
+def add_mangled(keys, base_words, min_len, max_len):
+    """Extend `keys` with coined/mangled variants of the thematic base words,
+    deduped against the words already present and held to the length bounds.
+    Returns the number of variants added."""
+    have = {tuple(k) for _, k in keys}
+    added = 0
+    for name, ix in mangle_words(base_words):
+        t = tuple(ix)
+        if min_len <= len(ix) <= max_len and t not in have:
+            have.add(t)
+            keys.append((name, ix))
+            added += 1
+    return added
 
 
 def positive_control(keys, model, head, beam, max_skip):
@@ -87,11 +103,37 @@ def positive_control(keys, model, head, beam, max_skip):
     reps = len(pt) * (max_skip + 1) // len(key) + 4
     ct = enc_key_skip(pt, key * reps)      # c = p + k  ==> decrypt sign -1
     best = attack_segment(ct, keys, model, head, beam, max_skip)
-    bl, name, sign, dec = best
+    bl, name, sign, dec, _ = best
     acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
     ok = name == "CIRCUMFERENCE" and acc > 0.8
     print(f"  recovered key '{name}' sign {sign}, trigram {bl:.2f}, "
           f"{acc*100:.0f}% of plaintext")
+    print(f"  control: {'PASS' if ok else 'FAIL'}\n")
+    return ok
+
+
+def mangle_control(keys, model, head, beam, max_skip):
+    """Prove the mangled key space has power: plant a *coined* key that is NOT
+    a dictionary or base word (atbash of DIVINITY, a variant the generator
+    emits), encrypt English under it + key-skip, and confirm the expanded key
+    space recovers that exact key sequence."""
+    print("=== MANGLE CONTROL: plant a COINED (non-dictionary) key ===")
+    ok_gen = mangle_selfcheck()
+    print(f"  generator ground truth (CIRCUMFERENCE->FIRFUMFERENFE): "
+          f"{'PASS' if ok_gen else 'FAIL'}")
+    from mangle import mangle
+    planted = "PRESERVATION~atbash"
+    coined = dict(mangle("PRESERVATION"))[planted]
+    segs = parse("data/liber_primus.md")
+    pt = english_plaintext(segs)[:head]
+    reps = len(pt) * (max_skip + 1) // len(coined) + 4
+    ct = enc_key_skip(pt, coined * reps)
+    best = attack_segment(ct, keys, model, head, beam, max_skip)
+    bl, name, sign, dec, key = best
+    acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
+    ok = ok_gen and key == coined and acc > 0.8
+    print(f"  planted '{planted}' ({g.indices_to_latin(coined)}); "
+          f"recovered '{name}' sign {sign}, trigram {bl:.2f}, {acc*100:.0f}%")
     print(f"  control: {'PASS' if ok else 'FAIL'}\n")
     return ok
 
@@ -105,15 +147,27 @@ def main():
     ap.add_argument("--order", type=int, default=3)
     ap.add_argument("--beam", type=int, default=100)
     ap.add_argument("--max-skip", type=int, default=2)
+    ap.add_argument("--mangle", action="store_true",
+                    help="also test coined/mangled variants of the thematic "
+                         "words (the FIRFUMFERENFE=CIRCUMFERENCE family)")
     args = ap.parse_args()
 
     segs = parse("data/liber_primus.md")
     model = get_model(args.order)
     keys = load_key_words(args.nwords, args.min_len, args.max_len)
-    print(f"key space: {len(keys)} words (len {args.min_len}-{args.max_len})")
+    if args.mangle:
+        added = add_mangled(keys, CICADA_WORDS, args.min_len, args.max_len)
+        print(f"key space: {len(keys)} words "
+              f"({added} coined/mangled variants added, len "
+              f"{args.min_len}-{args.max_len})")
+    else:
+        print(f"key space: {len(keys)} words (len "
+              f"{args.min_len}-{args.max_len})")
     eng_ref = model.score_sequence(english_plaintext(segs)[:400])
 
     positive_control(keys, model, args.head, args.beam, args.max_skip)
+    if args.mangle:
+        mangle_control(keys, model, args.head, args.beam, args.max_skip)
 
     print("REAL unsolved segments (short word key + key-skip):")
     overall = None
@@ -122,7 +176,7 @@ def main():
             continue
         best = attack_segment(s.indices, keys, model, args.head,
                               args.beam, args.max_skip)
-        bl, name, sign, dec = best
+        bl, name, sign, dec, _ = best
         print(f"  {s.section[:40]:40s} key '{name}' {('c-k' if sign<0 else 'c+k')}"
               f" trigram {bl:.2f}")
         print(f"      {g.indices_to_latin(dec)[:84]}")
