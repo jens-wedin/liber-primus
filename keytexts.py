@@ -19,11 +19,24 @@ import argparse
 import json
 import os
 import re
+import unicodedata
 
 import gematria as g
 
 CACHE = os.path.join(os.path.dirname(__file__), "keytext_cache")
 TAG_RE = re.compile(r"<[^>]+>")  # KJV markup: <FI>..<Fi>, <CM>, <RF>..<Rf>, etc.
+
+# Ligatures the transliterator has digraphs for; everything else accented is
+# folded to its base letter via NFKD so real-world texts (Welsh Mabinogion,
+# etc.) don't crash latin_to_indices on a stray Æ/ê/ô.
+_LIGATURES = {"Æ": "AE", "æ": "ae", "Œ": "OE", "œ": "oe", "ß": "ss"}
+
+
+def ascii_fold(text):
+    for k, v in _LIGATURES.items():
+        text = text.replace(k, v)
+    text = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in text if ord(c) < 128)
 
 
 def _cache_path(name):
@@ -63,7 +76,7 @@ def build_kjv(dist_dir):
 
 def load_textfile(path, name):
     text = open(path, encoding="utf-8", errors="ignore").read()
-    idx = g.latin_text_to_indices(text)
+    idx = g.latin_text_to_indices(ascii_fold(text))
     save_stream(name, idx)
     return idx
 

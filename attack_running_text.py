@@ -132,11 +132,14 @@ def run_key(name, Karr, segs, model, T, scan_head, step, conf_len, top,
 
 def positive_control(Karr, model, T, scan_head, step, conf_len, top, beam,
                      max_skip):
-    print("=== POSITIVE CONTROL: plant KJV key, try to recover ===")
+    print("=== POSITIVE CONTROL: plant key text, try to recover ===")
     segs = parse("data/liber_primus.md")
     pt = english_plaintext(segs)[:150]
-    OFF = 500000
-    K_at = Karr[OFF:OFF + len(pt) * (max_skip + 1) + 64].tolist()
+    # Plant near the middle of whatever key text this is, so the control works
+    # for short texts (Blake, Liber AL) as well as the 3.16M-rune KJV.
+    need = len(pt) * (max_skip + 1) + 64
+    OFF = max(0, (len(Karr) - need) // 2)
+    K_at = Karr[OFF:OFF + need].tolist()
     ct = enc_key_skip(pt, K_at)          # c = p + k  ==> decrypt sign = -1
     best = best_over_windows(ct, Karr, T, model, scan_head, step, conf_len,
                              top, beam, max_skip)

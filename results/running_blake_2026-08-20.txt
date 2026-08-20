@@ -1,0 +1,34 @@
+=== POSITIVE CONTROL: plant key text, try to recover ===
+  best window: ct pos 96, key offset 16440 (planted 16340), trigram -3.51, recovered 100% of that window
+  control: PASS (pipeline finds a real KJV key)
+
+
+===== KEY TEXT: blake (33,195 runes) =====
+  17.jpg-19.jpg - 0.jpg-2.jpg            c+k key@   14355 ctpos   48 trigram -4.21
+      LEAILAYRFAETROUNTOREBRNGTADOSCOEULTACYMMOCCPHNGT
+  20.jpg - 3.jpg-5.jpg                   c+k key@   20283 ctpos    0 trigram -4.18
+      GIATENGEXCYONEOOUDGRATTHEIAXINHLIPLITESPRODDENO
+  20.jpg - 3.jpg-5.jpg                   c-k key@   17961 ctpos    0 trigram -4.32
+      RLAYEAOTHEREEIRREJUSPIPEGONEXTHERCNGBYIUMPCUTUNT
+  23.jpg, 24.jpg - 6.jpg-7.jpg           c+k key@   22232 ctpos   72 trigram -4.24
+      BMMUCIAMBARBOLEFANEOWCIDERSEMOUTIMAPITNAUNGMADS
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.jpg c+k key@   12085 ctpos    0 trigram -4.27
+      NLDHANGFWIDOEOHAEOLAOEGSMEONCHAHARAPTIALOYDNTEECIAN
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg c+k key@    9779 ctpos    0 trigram -4.28
+      ACATINIAENGSAINLGBYFRCLARTUCSEASRMMACYDNEMECTEF
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 23.jp c-k key@   10329 ctpos   72 trigram -4.15
+      NSAELMATEGGRFOTHBOOFEASOLOTOPEOGEOLMSTAMEAIBISEN
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.jpg c+k key@   15888 ctpos   24 trigram -4.28
+      IMARRIAOEONGINABLELACNGLLIHATCREALEARNGFIRACOMYEARTH
+  50.jpg - 33.jpg                        c-k key@   19006 ctpos   24 trigram -4.41
+      PTUORAFCIDOXASYUEATHDRUILACOESAGHEAPHYDIATRIUPENG
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.jpg c-k key@    7439 ctpos   96 trigram -4.30
+      CPOWEBRREALLUHANCSGSHDDHRRYITTEXACENCTICANSWNG
+  56.jpg - 39.jpg                        c-k key@   13488 ctpos   48 trigram -4.34
+      MFEFLYMEOHIRTUGTHWNSIGIAPPLIGGNGGETTHEXPATERNAMOS
+  57.jpg - 40.jpg                        c-k key@   25545 ctpos   48 trigram -4.25
+      RGONGAESPRNGSHESIUIBEHEAUPNOYCRINPLEASANRUPOEETHER
+  71.jpg - 54.jpg                        c-k key@   29099 ctpos   72 trigram -4.20
+      WELIMPUOTHUGUBBOTAOGUEABYEPTUADRLLOALIATLIABPSY
+
+  best blake: trigram -4.15 on 40.jpg, 41.jpg, 42.jpg, 43.jpg — English ~-3.38, random ~-6.2 (a real hit lands near English)

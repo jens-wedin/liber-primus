@@ -59,41 +59,50 @@ is why fixed-position attacks fail.
 - Running key, every way testable without the actual key text: key-text-free
   joint-English (intrinsically underpowered), self-referential keys,
   common-word key-crib (false positives at exactly the random rate).
-- **KJV** as a running key (whole book, every offset, both directions).
+- **Candidate running-key texts** (control-validated): KJV, Crowley's *Liber
+  AL vel Legis*, the *Mabinogion*, Blake's *Marriage of Heaven and Hell* — the
+  texts Cicada is documented to have used/referenced — whole text, every
+  offset, both directions. (REPORT §6, §9.)
 - **Short word keys + key-skip** over Cicada vocab + top ~1200 English words.
 - **Coined/mangled thematic word keys** + key-skip: single-transform variants
   (C↔F/K/Q & S/Z, U/V collapses; atbash; rune reversal; vowel rotation) of the
   Cicada vocabulary. Closes the FIRFUMFERENFE=CIRCUMFERENCE gap.
+- **Very-short key brute + key-skip** is *underpowered*, not a clean negative:
+  key-skip freedom makes L≤4 keys non-identifiable and L≥5 isn't brute-forceable
+  (`probe_shortkey_id.py`, REPORT §10).
 
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys)
-- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts), `mangle.py` (coined/mangled key-word generator, self-checked)
-- Runs archived under `results/`.
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control)
+- **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
+- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
+- Runs archived under `results/`; candidate key texts + research briefing vendored under `download/` (PD); background research in `docs/cicada-3301-background.md`.
 
 Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
 (`model_cache/`, `keytext_cache/`) are gitignored and rebuild on demand.
 
 ## The active lead — try this next
 
-The mangled-key lead is **closed, negative** (REPORT.md §8): single-transform
-coined variants of the thematic words + key-skip are ruled out. What that
-result leaves open, in rough priority:
+Two leads closed negative this round: coined/mangled word keys (REPORT §8) and
+the documented running-key texts (Liber AL, Mabinogion, Blake — REPORT §9,
+joining KJV §6). Very-short brute is underpowered (§10). What remains, in rough
+priority:
 
-1. **Widen the mangling** in `attack_vigenere_skip.py --mangle` / `mangle.py`:
-   *composed* transforms (e.g. atbash∘C→F), mangled *common* words (not just
-   thematic), and a genuine very-short (<4 rune) brute force. Keep both
-   controls (CIRCUMFERENCE and the coined PRESERVATION~atbash).
-2. **More running-key texts** if reachable (Crowley's *Liber AL*, Blake,
-   Milton) via `keytexts.py --add-textfile` + `attack_running_text.py`.
-3. **Difference-space** (`c[i]-c[i-1]`) attacks; the re-roll no-repeat variant
-   as a seeded PRNG/hash pad (non-linguistic — needs the seed/algorithm); the
-   page images (interrupter positions the transcription may flatten). See
-   REPORT.md §5.
+1. **Difference-space** (`c[i]-c[i-1]`) attacks: the meaningful lag-1 structure
+   lives there, so re-run crib-dragging / keystream tests on the first-
+   difference stream (REPORT §5.2). This is the freshest untried angle.
+2. **The re-roll no-repeat variant as a seeded PRNG/hash pad** — non-linguistic;
+   needs the seed/algorithm, not a language model. A different kind of search.
+3. **Widen the mangling** (lower prior after §8): *composed* transforms
+   (atbash∘C→F), mangled *common* words. Keep both controls. NB very-short
+   brute is out — it's underpowered (§10).
+4. **Lower-prior key texts** if wanted: Emerson's *Self-Reliance*, the Old
+   English Rune Poem (wikisource) via `keytexts.py --add-textfile`.
+5. **The page images** — interrupter positions the transcription may flatten.
 
-Sober note: every keystream family testable without the actual key text is now
-exhausted. The realistic value is the narrowed hypothesis space, not a break.
+Sober note: every keystream family and every documented key text testable here
+is exhausted. The realistic value is the narrowed hypothesis space, not a break.
 
 ## Working style that fits this project
 

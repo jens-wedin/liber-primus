@@ -1,0 +1,27 @@
+# probe_shortkey_id.py — can a very-short key be recovered under key-skip?
+# (nrand=1500 x 3 trials, beam=100, order-3 model)
+# true-key rank = 1 + (# random distractor keys scoring >= the true key)
+
+identifiability of length-L keys under key-skip:
+L=2 head=30 beam=100: true-key rank ~6/1500 (want 1), acc ~97% | trials [9, 6, 3]
+L=3 head=30 beam=100: true-key rank ~2/1500 (want 1), acc ~98% | trials [1, 4, 2]
+L=4 head=30 beam=100: true-key rank ~2/1500 (want 1), acc ~93% | trials [1, 3, 1]
+L=5 head=30 beam=100: true-key rank ~1/1500 (want 1), acc ~86% | trials [1, 1, 1]
+L=6 head=30 beam=100: true-key rank ~2/1500 (want 1), acc ~91% | trials [3, 1, 1]
+--- longer head ---
+L=2 head=60 beam=100: true-key rank ~6/1500 (want 1), acc ~95% | trials [7, 7, 5]
+L=3 head=60 beam=100: true-key rank ~1/1500 (want 1), acc ~98% | trials [1, 1, 1]
+L=4 head=60 beam=100: true-key rank ~1/1500 (want 1), acc ~98% | trials [1, 1, 1]
+
+CONCLUSION
+At L=2 the true key does not even rank #1 (~5 wrong 2-rune keys score higher):
+the key-skip desync gives the decoder enough per-position freedom to bend many
+wrong short keys toward English. L=3-4 reach rank ~1 only with a longer head,
+and even then the ~1/4500 per-key false-positive rate, scaled over a full
+29^3 = 24,389-key brute, implies several chance "hits". Since brute force is
+only feasible at L=2-3 and clean identifiability only arrives at L>=5 (29^5 =
+20.5M, not brute-forceable), a very-short-key brute + key-skip cannot decisively
+test short keys. This is the same intrinsic underpowerment as the key-text-free
+running-key attack (REPORT.md §4) — a decoder with too much freedom fits any
+input. A full L=3 brute was therefore NOT run; it would return chance decodes,
+not a clean negative.

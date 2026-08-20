@@ -24,9 +24,14 @@ Findings so far are in [REPORT.md](REPORT.md).
 | `attack_runningkey.py` | Key-text-free running-key attack (joint English-ness of plaintext and key). Self-calibrates and reports when it is underpowered. |
 | `language_model.py` | Frequency-weighted n-gram model (order 2–4) over rune indices, built from the `wordfreq` English list with Stupid Backoff. Run directly for the English-vs-random discrimination test. |
 | `attack_keycrib.py` | Candidate-key attacks: self-referential running keys via key-skip (Part A) and a common-word key crib with a random-ciphertext false-positive control (Part B). |
-| `keytexts.py` | Loads/caches candidate running-key texts (KJV from the `bible-kjv` npm package; any plain-text file) as rune streams. |
-| `attack_running_text.py` | Tests a full book (KJV) as the running key against the key-skip hypothesis: trigram coarse scan → key-skip beam confirm, with a planted positive control. |
-| `attack_vigenere_skip.py` | Short word key (Vigenère) + key-skip desync: beam-decodes Cicada/common word keys, with a planted positive control. |
+| `keytexts.py` | Loads/caches candidate running-key texts (KJV from the `bible-kjv` npm package; any plain-text file, ASCII-folded so non-English texts don't crash) as rune streams. |
+| `attack_running_text.py` | Tests any book as the running key against the key-skip hypothesis: trigram coarse scan → key-skip beam confirm, with a planted positive control (planted at the key's midpoint, so short texts work too). |
+| `attack_vigenere_skip.py` | Short word key (Vigenère) + key-skip desync: beam-decodes Cicada/common word keys, with a planted positive control. `--mangle` also tests coined/mangled variants (the FIRFUMFERENFE=CIRCUMFERENCE family). |
+| `mangle.py` | Coined/mangled key-word generator (consonant-collapse, atbash, reversal, vowel-rotation), self-checked to reproduce CIRCUMFERENCE→FIRFUMFERENFE. |
+| `attack_shortbrute.py` | Exhaustive very-short (len 2..L) key brute + key-skip, judged against a random-ciphertext chance ceiling (short keys are underpowered under key-skip — see below). |
+| `probe_shortkey_id.py` | Measures how identifiable a length-L key is under key-skip (ranks a planted key against random ones). |
+| `download/` | Candidate key texts (Liber AL, Mabinogion, Blake — public domain) + the research briefing, with provenance. |
+| `docs/` | Background briefing on Cicada 3301, the runes, and the ciphers. |
 | `results/` | Archived run outputs, dated. |
 
 ## Usage
@@ -56,7 +61,9 @@ python3 attack_running_text.py --key kjv               # runs the attack + contr
 
 Any other candidate key text works too:
 `python3 keytexts.py --add-textfile mybook.txt mybook` then
-`--key mybook`.
+`--key mybook`. The public-domain texts Cicada is documented to have used or
+referenced (Crowley's *Liber AL*, the *Mabinogion*, Blake) are vendored under
+`download/` — all tested and ruled out (see [REPORT.md](REPORT.md) §9).
 
 ## The cipher conventions (verified, not assumed)
 

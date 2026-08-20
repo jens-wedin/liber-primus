@@ -399,3 +399,45 @@ Coverage stated: thematic words only (not the common-word list), one transform
 each (no compositions like atbash∘C→F), key length 4–16, 30-rune heads. Still
 open: multi-transform manglings, mangled common words, very-short (<4) brute
 force.
+
+### Session 10 (2026-08-20) — very-short brute, more running-key texts, research
+
+Housekeeping: `.DS_Store` → `.gitignore`.
+
+**Very-short key brute.** Built `attack_shortbrute.py` (all 29^L keys, key-skip
+beam). Its plant-and-recover control FAILED at L=2 — the planted key wasn't
+recovered. Not a param bug: a 2-rune key is too short for key-skip to pin down.
+Quantified it with `probe_shortkey_id.py` (plant length-L key, rank the true
+key vs random distractors): true-key rank ~6/1500 at L=2, ~2 at L=3–4 (head 30),
+~1 at L=5; a 60-rune head pulls L=3–4 to ~1 but leaves L=2 at ~6. So the
+brute-feasible lengths (2–3) are underpowered and the identifiable lengths (≥5)
+aren't brute-forceable — a 3-hour L=3 brute would return chance decodes, so it
+was NOT run. Reframed `attack_shortbrute.py` to the honest test (like the §4
+key-crib): brute real segments vs matched-length random ciphertexts. L=2 result:
+real best −4.26 vs chance ceiling −4.23 → NO SIGNAL. Underpowered, not ruled out.
+`results/shortkey_id_2026-08-20.txt`, `results/shortbrute_len2_2026-08-20.txt`.
+
+**Research (subagent) → candidate running-key texts.** Dispatched a research
+agent for the Cicada history, the runes/Gematria Primus, the ciphers, and — key
+for us — the texts Cicada *used/referenced* as keys. Briefing in
+`docs/cicada-3301-background.md` (Gematria table spot-checked against
+`gematria.py`, exact). Highest priors: Crowley's *Liber AL* (2013 book-cipher
+key), the *Mabinogion* (2012 key), Blake's *Marriage of Heaven and Hell*.
+Downloaded (Gutenberg reachable now; sacred-texts 403s curl, got Liber AL via
+firecrawl); vendored under `download/` (PD) + provenance README.
+
+**Two pipeline fixes to run them.** (1) `keytexts.py` now ASCII-folds source
+text (Æ→AE, NFKD accent strip) — the Welsh Mabinogion crashed `latin_to_indices`
+on 'Æ'. (2) `attack_running_text.py`'s control planted at a hardcoded offset
+500000, past the end of any short text; now plants at the key's midpoint, so it
+works for Blake/Liber AL (tens of k runes), not just KJV.
+
+**Running-key texts — all negative, control-validated.** Every control PASSED
+(planted key recovered ~100% at trigram ≈ −3.5). Best real decodes: Liber AL
+−3.97, Mabinogion −3.97, Blake −4.15 — all at the ~−3.95 gibberish floor (= KJV),
+vs English −3.38. So the four strongest literary running keys (KJV + these three)
+are ruled out. `results/running_{liberal,mabinogion,blake}_2026-08-20.txt`.
+`validate_solved.py` still 9/9 (core untouched). REPORT §9, §10.
+
+Open threads now favour difference-space (`c[i]-c[i-1]`) attacks and the
+re-roll pad as a seeded PRNG — the running-key and short-key avenues are spent.

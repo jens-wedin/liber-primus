@@ -253,7 +253,7 @@ Caveat on coverage: this rules out *common/thematic dictionary* word keys,
 not all short keys. Notably the known key FIRFUMFERENFE is CIRCUMFERENCE with
 C→F — a deliberate non-dictionary mangling — so a real key may be a similarly
 mangled or coined word outside any word list. That specific gap is closed in
-§8; brute-forcing very short keys remains open.
+§8; very-short brute is addressed in §10.
 
 ## 8. Coined/mangled word keys — negative
 
@@ -287,5 +287,64 @@ are ruled out. `results/vigenere_skip_mangle_2026-08-20.txt`.
 Coverage, stated plainly: only the ~29 *thematic* words were mangled (not the
 common-word list), each by a *single* transform (no compositions like
 atbash∘C→F), key length 4–16, both signs, key-skip max-skip 2, 30-rune heads.
-Still open: multi-transform manglings, mangled common words, and very-short
-(<4) brute force.
+Still open: multi-transform manglings, mangled common words.
+
+## 9. More candidate running-key texts — all negative (control-validated)
+
+After KJV (§6), a background briefing (`docs/cicada-3301-background.md`, also
+in `download/`) pinned down the texts Cicada is *documented* to have used as
+book-cipher keys or heavily referenced. The three strongest were tested as
+running keys through the same key-skip pipeline (`attack_running_text.py`),
+each with a planted positive control:
+
+| Key text | Cicada link | runes | control | best real decode |
+| --- | --- | --- | --- | --- |
+| Crowley, *Liber AL vel Legis* | 2013 book-cipher key (strongest prior) | 22,045 | PASS (−3.51, 100%) | −3.97 |
+| *The Mabinogion* (Guest tr.) | 2012 book-cipher key | 425,501 | PASS (−3.53, 91%) | −3.97 |
+| Blake, *Marriage of Heaven and Hell* | referenced 2012 | 33,195 | PASS (−3.51, 100%) | −4.15 |
+
+Every control passed — a planted key recovered ~100% at trigram ≈ −3.5 — so
+each negative is meaningful. Every real decode sits at the ~−3.95 gibberish
+noise floor, identical to KJV's best (§6), versus English −3.38 and the
+true-hit band ≈ −3.5. None is a running key for any page: whole text, every
+offset, both directions.
+
+Two fixes enabled this. `keytexts.py` now ASCII-folds non-English source text
+(Æ→AE, accents dropped via NFKD) so the Welsh *Mabinogion* transliterates
+without crashing; and `attack_running_text.py`'s positive control now plants at
+the middle of whatever key text it is given, so it works for short texts
+(Blake, Liber AL — tens of thousands of runes), not only the 3.16M-rune KJV.
+
+Source texts and provenance are vendored under `download/` (all public domain).
+Not tested: Gibson's *Agrippa* (not public domain — living author); Emerson's
+*Self-Reliance* and the Old English Rune Poem remain available if wanted (lower
+prior — no documented use as a cipher key). Runs:
+`results/running_{liberal,mabinogion,blake}_2026-08-20.txt`.
+
+## 10. Very-short key brute force — underpowered, not decisive
+
+The last short-key gap was a very short, meaningless run of runes as the key
+(page 56's φ-stream is essentially that). Before brute-forcing it,
+`probe_shortkey_id.py` measured whether such a key is even *identifiable* under
+the key-skip: plant a random length-L key, encrypt English with key-skip, and
+rank the true key against random length-L keys through the same beam.
+
+The verdict (`results/shortkey_id_2026-08-20.txt`): at a 30-rune head the true
+key ranks **~6/1500 at L=2** — it does not even come first, because the
+key-skip's per-position freedom lets several wrong 2-rune keys decode to
+English-looking text. L=3–4 reach rank ~1 only with a longer (60-rune) head,
+and even then the residual ~1/4500 per-key false-positive rate, scaled over a
+full 29³ = 24,389-key brute, implies several chance "hits". Since brute force is
+only feasible at L=2–3 and clean identifiability arrives at L≥5 (29⁵ = 20.5M,
+not brute-forceable), a very-short-key brute + key-skip cannot decisively test
+short keys.
+
+`attack_shortbrute.py` therefore runs the honest test for an underpowered
+regime (as §4's key-crib does): it brutes the real segments AND matched-length
+random ciphertexts, and asks whether any real segment beats the random chance
+ceiling. Result at L=2 (`results/shortbrute_len2_2026-08-20.txt`): the best
+real decode is trigram **−4.26**, *below* the random chance ceiling of **−4.23**
+— real ciphertext does no better than random. **No signal.** This neither
+confirms nor excludes a short key; it is underpowered, the same intrinsic limit
+as the key-text-free running key (§4). A full L=3 brute was **not** run: it
+would return chance decodes, not a clean negative.
