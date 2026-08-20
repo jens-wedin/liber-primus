@@ -181,13 +181,11 @@ non-linguistic search for the seed/algorithm), or the page images
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,
 the productive result). Genuinely open threads, in priority order:
 
-1. **Model the no-repeat mechanism.** The signature points at a construction
-   that forbids adjacent-equal ciphertext runes. Test explicit skip/
-   interrupter models: a rule that, after normal keyed encryption, inserts a
-   spacer rune or advances the key whenever a repeat would occur. Cicada
-   already uses interrupters (the literal ᚠ), so an interrupter-driven
-   no-repeat rule is in character. The 86 rune-uniform residual doublets are
-   the fingerprint to reproduce.
+1. **Model the no-repeat mechanism.** *(Done — see §11.)* Modeled further: the
+   collision resolution is uniform (deterministic bump/nudge ruled out) and the
+   86 residual doublets are transcription-noise-consistent with no key-period
+   leak. The mechanism forbids adjacent-equal runes near-totally with a uniform
+   re-pick — no arithmetic-interrupter shortcut to invert.
 2. **Work in difference space.** Because the meaningful lag-1 structure is in
    `c[i] − c[i-1]`, re-run crib-dragging and keystream tests on the
    first-difference stream rather than the raw runes.
@@ -348,3 +346,40 @@ real decode is trigram **−4.26**, *below* the random chance ceiling of **−4.
 confirms nor excludes a short key; it is underpowered, the same intrinsic limit
 as the key-text-free running key (§4). A full L=3 brute was **not** run: it
 would return chance decodes, not a clean negative.
+
+## 11. The no-repeat mechanism, modeled further (§5.1)
+
+§4 showed a re-roll pad and a key-skip both reproduce the fingerprint. Two
+questions the fingerprint can still decide, each behind a control
+(`model_norepeat_mechanisms.py`):
+
+**How a collision is resolved — uniformly, not deterministically.** Synthesising
+uniform no-repeat streams under different resolution rules and comparing their
+first-difference histograms: a DETERMINISTIC rule (bump c by a fixed k on a
+collision, or nudge to the nearest free value) forces every ~3.4% collision into
+one difference bin, raising it to **1.9×** the uniform height — a clear spike at
+that bin. The real stream's tallest difference bin is **1.11×** uniform (flat),
+matching a uniform re-pick (1.07×) or a key-skip over a pseudo-random keystream
+(1.19×). So the collision resolution lands UNIFORMLY on the other 28 values; a
+deterministic bump or nearest-value nudge is ruled out. That fits a free re-roll
+pad or a pseudo-random fixed keystream, and rules out a simple arithmetic
+interrupter — there is no fixed offset to invert at the avoided positions.
+
+**What the 86 residual doublets are — transcription noise, no key-period leak.**
+If the residual doublets leaked from the mechanism at key events, their
+positions would beat at that period, handing us the key period. They do not: the
+doubled runes are rune-uniform (χ² 26 vs ~28), the gaps between doublets are
+memoryless (CV 0.85), and a period scan (T = 2..64) finds no periodicity beyond
+chance — the strongest period (T = 31) sits at permutation **p = 0.82** over
+2000 shuffles. A control that plants independent (noise) doublets into synthetic
+streams of the same segment lengths behaves identically (rune-uniform, CV 0.92,
+best-period p = 0.80), proving the test reads true noise as noise. So the 86
+doublets carry no exploitable structure — they are consistent with the ~0.66%
+transcription dittography §4 proposed. Honest caveat: at only 86 events the
+periodicity test has low power; a very weak periodic leak could still hide below
+the noise floor the control establishes.
+
+Net: the mechanism is a near-total no-repeat enforcement with **uniform**
+collision resolution, and its residual leak is noise, not signal — slightly
+sharper than, and fully consistent with, §4's re-roll / key-skip picture.
+`results/norepeat_mechanisms_2026-08-20.txt`.

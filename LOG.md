@@ -441,3 +441,32 @@ are ruled out. `results/running_{liberal,mabinogion,blake}_2026-08-20.txt`.
 
 Open threads now favour difference-space (`c[i]-c[i-1]`) attacks and the
 re-roll pad as a seeded PRNG — the running-key and short-key avenues are spent.
+
+### Session 11 (2026-08-20) — overview site + modeling the no-repeat mechanism
+
+Published a one-page overview: an esoteric-codex `index.html` (dark ink & gold,
+Cormorant/EB Garamond, the 29-rune Gematria Primus band) summarising the central
+finding, the ruled-out ledger, the key-text verdicts and the open threads, with
+links out to REPORT/LOG/background. Live on GitHub Pages at
+jens-wedin.github.io/liber-primus (main / root, `.nojekyll`); also seeded as a
+Claude Design canvas. README links it.
+
+Then §5.1: `model_norepeat_mechanisms.py` pushes past `no_repeat_model.py`'s
+re-roll-vs-key-skip, on two fingerprint-decidable questions, each control-gated.
+- (A) HOW is a collision resolved? Synthesised uniform no-repeat streams under
+  different rules: a deterministic bump (c += k on collision) spikes the first-
+  difference histogram at bin k (1.9x uniform); a uniform re-pick / key-skip
+  stays flat (~1.1x). Real data is flat (1.11x) → resolution is UNIFORM;
+  deterministic bump/nudge ruled out (no arithmetic interrupter to invert).
+- (B) Are the 86 residual doublets noise or a leak? Rune-uniform (chi2 26 vs 28),
+  memoryless gaps (CV 0.85), no periodicity (best T=31, permutation p=0.82 over
+  2000 shuffles). A control planting INDEPENDENT doublets into synthetic streams
+  of the same segment lengths behaves identically (p=0.80) → the test reads true
+  noise as noise. So the residual is transcription dittography, no key-period
+  leak. Low power at 86 events (caveat noted).
+
+validate_solved.py still 9/9. `results/norepeat_mechanisms_2026-08-20.txt`.
+REPORT §11; §5.1 closed. Sharper picture: near-total no-repeat with UNIFORM
+resolution — consistent with a free re-roll pad or a pseudo-random key-skip,
+which is why the linguistic attacks all die. Difference-space and the seeded-PRNG
+(re-roll) angle are what's left.

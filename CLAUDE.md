@@ -49,7 +49,9 @@ periodic/independent keystream (Vigenère, running key, prime/totient), and
 pure autokey/cumulative-sum. What survives: an output-stage **no-repeat
 enforcement**, most likely a **key-skip** (the key pointer advances an extra
 step to dodge a would-be doublet), which desynchronises the keystream ~3% and
-is why fixed-position attacks fail.
+is why fixed-position attacks fail. Modeled further (REPORT §11): the collision
+resolution is **uniform** (deterministic bump/nudge ruled out) and the 86
+residual doublets are transcription-noise-consistent (no key-period leak).
 
 ## What has been ruled out (all control-validated)
 
@@ -70,10 +72,13 @@ is why fixed-position attacks fail.
 - **Very-short key brute + key-skip** is *underpowered*, not a clean negative:
   key-skip freedom makes L≤4 keys non-identifiable and L≥5 isn't brute-forceable
   (`probe_shortkey_id.py`, REPORT §10).
+- **Deterministic collision-resolution** for the no-repeat rule (fixed bump /
+  nearest-value nudge): the first-difference histogram is flat, so the
+  resolution is uniform (REPORT §11).
 
 ## Toolkit map
 
-- **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`
+- **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
 - **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)

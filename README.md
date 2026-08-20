@@ -5,7 +5,9 @@ Primus*, working from the rune transcription in
 [scream314/cicada3301](https://github.com/scream314/cicada3301/blob/master/liber_primus.md)
 (vendored at `data/liber_primus.md`).
 
-Findings so far are in [REPORT.md](REPORT.md).
+Findings so far are in [REPORT.md](REPORT.md). A one-page visual overview is
+published at **<https://jens-wedin.github.io/liber-primus/>** (source in
+`index.html`).
 
 ## Layout
 

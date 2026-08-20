@@ -1,0 +1,25 @@
+unsolved: 13 segments, 12947 runes, IoC 1.000
+
+=== A. how a would-be doublet is resolved ===
+   (difference-histogram peak / uniform; ~1.0 flat, >>1 a spike)
+
+  uniform re-pick                    doublet 0.00%  peak 1.07x  MATCHES data
+  key-skip (pseudo-random stream)    doublet 0.00%  peak 1.19x  MATCHES data
+  deterministic bump +1              doublet 0.00%  peak 1.86x  SPIKE @ diff 1 -> ruled out
+  deterministic bump +7              doublet 0.00%  peak 1.91x  SPIKE @ diff 7 -> ruled out
+  REAL unsolved stream               doublet 0.66%  peak 1.11x  (flat -> resolution is UNIFORM, not deterministic)
+
+=== CONTROL for B: independent (noise) doublets, same sizes ===
+=== B. the residual doublets: transcription noise or a leak? ===
+  87 residual doublets in 12947 runes (0.67%)
+  doubled-rune distribution: chi2 24.7 over 29 runes (~28 if rune-uniform) -> uniform
+  gap between doublets: mean 125 (geometric expects ~149), CV 0.92 (geometric ~1.0) -> memoryless, noise-like
+  periodicity scan (T=2..64): strongest at T=10, permutation p=0.795 over 2000 shuffles
+  --> no periodicity beyond chance (low power at 87 events); positions are consistent with independent transcription noise.
+
+=== B. the residual doublets: transcription noise or a leak? ===
+  86 residual doublets in 12947 runes (0.66%)
+  doubled-rune distribution: chi2 26.0 over 29 runes (~28 if rune-uniform) -> uniform
+  gap between doublets: mean 123 (geometric expects ~151), CV 0.85 (geometric ~1.0) -> memoryless, noise-like
+  periodicity scan (T=2..64): strongest at T=31, permutation p=0.815 over 2000 shuffles
+  --> no periodicity beyond chance (low power at 86 events); positions are consistent with independent transcription noise.
