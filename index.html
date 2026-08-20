@@ -162,6 +162,7 @@
       <div class="stat"><div class="num">~17&#963;</div><div class="cap">the deficiency</div></div>
     </div>
     <p class="dim">A pure lag-1 effect: first differences are otherwise uniform. It rules out substitution and every periodic or independent keystream. What survives is an output-stage <em>no-repeat enforcement</em> &mdash; most likely a key-skip that advances the key pointer to dodge a would-be doublet, desynchronising the stream by ~3% and defeating every fixed-position attack.</p>
+    <p class="dim">Modeled further, the collision resolution is <em>uniform</em> and the 86 residual doublets are transcription noise &mdash; no key-period leak. Whether a re-roll pad or a key-skip, the differences stay uniform; that is why every keyed attack, on the raw stream and on the differences alike, comes back silent.</p>
   </section>
 
   <section>
@@ -176,6 +177,8 @@
       <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Short word keys + key-skip</span><span class="sub">Cicada vocab + top ~1,200 words</span></span></div>
       <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Coined / mangled word keys</span><span class="sub">the FIRFUMFERENFE = CIRCUMFERENCE family</span></span></div>
       <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Four literary running keys</span><span class="sub">see the reckoning below</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Cumulative / chained cipher</span><span class="sub">tested in difference space, c[i] &minus; c[i&minus;1]</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Seeded-PRNG / hash pad (naive)</span><span class="sub">7 generators, seeds 0&ndash;20k + thematic</span></span></div>
     </div>
     <p class="caveat">Very-short-key brute force is <b>not</b> counted here: under the key-skip it is underpowered &mdash; it can neither confirm nor exclude a short key.</p>
   </section>
@@ -197,13 +200,13 @@
   </section>
 
   <section>
-    <p class="eyebrow">Where the Trail Leads</p>
-    <h2>The threads still open</h2>
+    <p class="eyebrow">What Remains</p>
+    <h2>One thread, and a wall</h2>
     <ul class="trail">
-      <li><span class="idx">I</span><span class="txt"><span class="h">Difference-space attacks. </span><span class="d">The meaningful structure lives in c[i] &minus; c[i&minus;1]; re-run the keystream tests there.</span></span></li>
-      <li><span class="idx">II</span><span class="txt"><span class="h">The re-roll pad as a seeded generator. </span><span class="d">A non-linguistic search for a PRNG or hash, not a language model.</span></span></li>
-      <li><span class="idx">III</span><span class="txt"><span class="h">The page images. </span><span class="d">Interrupter positions the transcription may have flattened.</span></span></li>
+      <li><span class="idx">&#10022;</span><span class="txt"><span class="h">The page images. </span><span class="d">The one untapped source of new information &mdash; interrupter and spacing positions the transcription may have flattened, or copy-errors among the 86 residual doublets.</span></span></li>
     </ul>
+    <p class="caveat" style="margin-top: 24px"><b>Out of reach.</b> If the pad is a keyed CSPRNG, then c = p + k is a genuine one-time pad &mdash; unbreakable without the seed. That is precisely why c is uniform. No attack over the transcription can beat it.</p>
+    <p class="dim" style="margin-top: 18px">Every attack testable over the transcription &mdash; every keystream family on the raw stream and on the differences, every documented key text, the naive seeded pads &mdash; is now exhausted and control-validated. The realistic value here was always a rigorously narrowed hypothesis space, not a break.</p>
   </section>
 
   <footer>

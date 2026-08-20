@@ -22,6 +22,7 @@ published at **<https://jens-wedin.github.io/liber-primus/>** (source in
 | `crib_drag.py` | Word-aligned crib-dragging with the literal-ᚠ filter; tests implied keystreams for structure. `--selftest` recovers known keys. |
 | `doublet_sim.py` | Simulates cipher families and measures which reproduce the observed (IoC 1.000, doublet 0.66%) signature. |
 | `no_repeat_model.py` | Models the no-adjacent-repeat mechanism (re-roll vs key-skip) and quantifies the keystream desync. |
+| `model_norepeat_mechanisms.py` | Sharpens the no-repeat model: shows the collision resolution is uniform (deterministic bump/nudge ruled out) and the residual doublets are transcription noise with no key-period leak. |
 | `attack_keyskip.py` | Beam-search attack on the key-skip hypothesis over prime/totient streams. `--selftest` proves 98% recovery when the hypothesis holds. |
 | `attack_runningkey.py` | Key-text-free running-key attack (joint English-ness of plaintext and key). Self-calibrates and reports when it is underpowered. |
 | `language_model.py` | Frequency-weighted n-gram model (order 2–4) over rune indices, built from the `wordfreq` English list with Stupid Backoff. Run directly for the English-vs-random discrimination test. |
@@ -32,6 +33,8 @@ published at **<https://jens-wedin.github.io/liber-primus/>** (source in
 | `mangle.py` | Coined/mangled key-word generator (consonant-collapse, atbash, reversal, vowel-rotation), self-checked to reproduce CIRCUMFERENCE→FIRFUMFERENFE. |
 | `attack_shortbrute.py` | Exhaustive very-short (len 2..L) key brute + key-skip, judged against a random-ciphertext chance ceiling (short keys are underpowered under key-skip — see below). |
 | `probe_shortkey_id.py` | Measures how identifiable a length-L key is under key-skip (ranks a planted key against random ones). |
+| `difference_space.py` | Tests the cumulative/chained-cipher family on the first-difference stream `c[i]−c[i-1]` (keyless, repeating-key Vigenère, prime/totient), with planted controls. |
+| `attack_prng.py` | Seeded-PRNG / hash-pad brute (LCG/xorshift/Mersenne/SHA-of-counter over small + thematic seeds) for the re-roll hypothesis, judged against a random-text chance ceiling. |
 | `download/` | Candidate key texts (Liber AL, Mabinogion, Blake — public domain) + the research briefing, with provenance. |
 | `docs/` | Background briefing on Cicada 3301, the runes, and the ciphers. |
 | `results/` | Archived run outputs, dated. |
