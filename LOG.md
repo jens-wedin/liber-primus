@@ -496,3 +496,28 @@ thread left is the **re-roll pad as a seeded PRNG/hash** (non-linguistic: search
 for the generator/seed, not a language model); the page images are the other.
 Lower-prior leftovers: running-key text or word-key-with-skip on the difference
 stream.
+
+### Session 13 (2026-08-20) — seeded-PRNG / hash-pad (the re-roll pad)
+
+Took on the main live thread. `attack_prng.py` brutes (generator, seed) for
+p = c − K English. Framed honestly up front: a good PRNG + non-trivial seed is a
+one-time pad, unbreakable without the seed (why c is uniform); so this only
+reaches NAIVE/weak generators with SMALL/thematic seeds, and only the RE-ROLL
+variant (K position-locked; a key-skip pad would desync and defeat position-
+locked subtraction).
+
+Battery: glibc/NR/Java LCGs, xorshift32, Mersenne Twister, SHA256-of-counter;
+seeds 0..20000 + thematic (3301, years, gematria sums), both signs, tried global
+(one seed) and per-segment. Control PASS — planted glibc seed 1234 recovered
+exactly, trigram −3.57 (≈ English −3.38). Chance ceiling on random text −3.91
+(bounds the multiple-comparison inflation over ~280k candidates/brute). Real
+best −5.14 — BELOW the ceiling, i.e. no better than the same brute on random
+text. NEGATIVE: these naive generators with small/thematic seeds are ruled out;
+a keyed CSPRNG is not (and cannot be) touched. validate_solved 9/9.
+`results/prng_2026-08-20.txt`. REPORT §13.
+
+State: the linguistic/algebraic space is fully exhausted on both the raw and the
+difference streams, and the naive-PRNG pad is ruled out. What genuinely remains
+is the PAGE IMAGES (the only untapped source of new information); everything else
+is either information-theoretically out of reach (a keyed CSPRNG pad) or a
+lower-prior leftover.

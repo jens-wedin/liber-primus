@@ -420,3 +420,31 @@ Coverage: not tested in difference space are a running-key *text* on d
 (intrinsically underpowered, as on the raw stream — §4) and word-keys-with-
 key-skip on d; both lower prior. The periodic-IoC test does cover every
 repeating key up to period 40.
+
+## 13. Seeded-PRNG / hash-pad — negative for naive generators (§5, re-roll)
+
+§11's uniform resolution fits a free re-roll pad; if that pad is a *seeded*
+generator, the keystream is deterministic and the break is finding
+(generator, seed) with `p = c − K` English. **Honest scope, stated first:** a
+good PRNG with a non-trivial seed makes `c = p + K` a one-time pad, unbreakable
+without the seed — which is exactly why `c` is uniform. So `attack_prng.py` only
+targets the low-hanging fruit — naive/weak generators seeded with a SMALL or
+THEMATIC value — and the RE-ROLL variant (re-roll keeps K position-locked, so
+`c − K` aligns; a key-skip pad desyncs and would need the beam, not a seed
+brute).
+
+Battery: 7 generators — glibc LCG (raw and high-bits), Numerical-Recipes LCG,
+Java LCG, xorshift32, Python's Mersenne Twister, and SHA-256-of-counter (a hash
+pad) — over every integer seed 0..20,000 plus thematic seeds (3301, years, and
+the Gematria sums of DIVINITY / CIRCUMFERENCE / …), both signs, tried both as a
+GLOBAL seed (one for the whole stream) and PER-SEGMENT (a seed per page).
+
+Controls: a planted glibc-LCG pad + re-roll is recovered exactly — seed and all,
+trigram **−3.57** (≈ English −3.38); and a **chance-ceiling** brute on random
+text (**−3.91**) bounds the multiple-comparison inflation.
+
+Result: **negative.** The best real decode is trigram **−5.14** — *below* the
+−3.91 chance ceiling, i.e. no better than the same brute on random text, and far
+from English −3.38. No tested generator+seed reads English. This rules out these
+naive/weak generators with small or thematic seeds; it does NOT — and cannot —
+rule out a keyed CSPRNG. `results/prng_2026-08-20.txt`.

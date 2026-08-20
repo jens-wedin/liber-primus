@@ -1,0 +1,31 @@
+refs: English trigram -3.38, random -6.41
+
+generators: lcg_glibc, lcg_glibc_hi, lcg_nr, lcg_java, xorshift32, mersenne, sha256_ctr
+seed space: 0..19999 + 18 thematic (x 7 generators x 2 signs)
+
+=== POSITIVE CONTROL: plant a generator+seed + re-roll ===
+  planted lcg_glibc seed 1234; recovered lcg_glibc seed 1234 sign 1, trigram -3.57 (English ~-3.38)
+  control: PASS
+
+=== CHANCE CEILING (same brute on random text): -3.91 ===
+
+=== REAL: global keystream (one seed, whole stream) ===
+  best mersenne seed 11627 c+k trigram -5.39
+
+=== REAL: per-segment keystream (each page its own seed) ===
+  17.jpg-19.jpg - 0.jpg-2.jpg        mersenne     seed   11627 c+k trigram -5.39
+  20.jpg - 3.jpg-5.jpg               mersenne     seed   13303 c-k trigram -5.33
+  20.jpg - 3.jpg-5.jpg               lcg_nr       seed    7970 c-k trigram -5.28
+  23.jpg, 24.jpg - 6.jpg-7.jpg       lcg_glibc_hi seed    9691 c-k trigram -5.34
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29 lcg_java     seed   17300 c-k trigram -5.33
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36 lcg_glibc_hi seed   16261 c+k trigram -5.34
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 2 lcg_glibc_hi seed    2102 c-k trigram -5.34
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48 lcg_java     seed   15021 c+k trigram -5.33
+  50.jpg - 33.jpg                    sha256_ctr   seed    8578 c+k trigram -5.19
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54 mersenne     seed   18415 c+k trigram -5.14
+  56.jpg - 39.jpg                    mersenne     seed    4966 c+k trigram -5.27
+  57.jpg - 40.jpg                    mersenne     seed   18883 c+k trigram -5.34
+  71.jpg - 54.jpg                    sha256_ctr   seed    7689 c-k trigram -5.37
+
+  verdict: best PRNG-pad decode trigram -5.14 vs chance ceiling -3.91, English -3.38, random -6.41
+  -> negative: best decode sits at the chance ceiling, no better than the same brute on random text. Rules out these naive/weak generators with small/thematic seeds — NOT a keyed CSPRNG (unbreakable without the seed).

@@ -78,11 +78,15 @@ residual doublets are transcription-noise-consistent (no key-period leak).
 - **Cumulative / chained cipher** (`c[i]=c[i-1]+m[i]`) via difference space:
   keyless, repeating-key Vigenère (≤40), and prime/totient — all negative; the
   difference stream `d=c[i]−c[i-1]` is as random as `c` (REPORT §12).
+- **Seeded-PRNG / hash pad (naive)** via re-roll: 7 generators (glibc/NR/Java
+  LCG, xorshift32, Mersenne, SHA256-of-counter) × seeds 0–20k + thematic, both
+  signs — negative vs a random-text chance ceiling. A keyed CSPRNG pad is
+  information-theoretically unbreakable without the seed (REPORT §13).
 
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`)
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
 - Runs archived under `results/`; candidate key texts + research briefing vendored under `download/` (PD); background research in `docs/cicada-3301-background.md`.
@@ -93,28 +97,32 @@ Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
 ## The active lead — try this next
 
 Closed negative this round: coined/mangled word keys (§8), the documented
-running-key texts (§9, joining KJV §6), and the cumulative-cipher family in
-difference space (§12); the no-repeat mechanism is modeled (§11, uniform
-resolution) and very-short brute is underpowered (§10). What remains, in rough
-priority:
+running-key texts (§9, joining KJV §6), the cumulative-cipher family in
+difference space (§12), and the naive seeded-PRNG / hash pad (§13); the no-repeat
+mechanism is modeled (§11, uniform resolution) and very-short brute is
+underpowered (§10). What remains, in rough priority:
 
-1. **The re-roll no-repeat variant as a seeded PRNG/hash pad** — the main live
-   thread. §11 says the resolution is uniform, which fits a free pad; if that
-   pad is a seeded PRNG or hash, the break is non-linguistic — search for the
-   generator/seed, not English. No language model helps here.
-2. **The page images** — interrupter positions the transcription may flatten;
-   the only source of *new* information beyond the transcription.
-3. **Widen the mangling** (lower prior after §8): *composed* transforms
+1. **The page images** — the only untapped source of *new* information beyond
+   the transcription (interrupter/spacing positions the transcription may
+   flatten; possible transcription errors in the 86 residual doublets). Every
+   in-transcription avenue is now spent, so this is where a real break would
+   have to come from.
+2. **Widen the mangling** (lower prior after §8): *composed* transforms
    (atbash∘C→F), mangled *common* words. Keep both controls. NB very-short
    brute is out — underpowered (§10).
-4. **Difference-space leftovers** (lower prior): a running-key *text* or a
+3. **Difference-space leftovers** (lower prior): a running-key *text* or a
    word-key-with-skip on `c[i]−c[i-1]` (§12 covered the periodic/prime families).
-5. **Lower-prior key texts**: Emerson's *Self-Reliance*, the Old English Rune
+4. **Lower-prior key texts**: Emerson's *Self-Reliance*, the Old English Rune
    Poem (wikisource) via `keytexts.py --add-textfile`.
 
-Sober note: every keystream family — on the raw stream AND the differences — and
-every documented key text is now exhausted, all control-validated. The realistic
-value is the narrowed hypothesis space, not a break.
+Out of reach here: a **keyed CSPRNG re-roll pad** — `c = p + K` is then a
+one-time pad, unbreakable without the seed (§13). If the scheme is that, no
+statistical attack over the transcription can win.
+
+Sober note: every keystream family — on the raw stream AND the differences — the
+naive seeded-PRNG family, and every documented key text is now exhausted, all
+control-validated. The realistic value is the narrowed hypothesis space, not a
+break.
 
 ## Working style that fits this project
 
