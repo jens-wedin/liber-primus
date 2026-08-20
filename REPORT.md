@@ -487,5 +487,49 @@ Net: **for cipher purposes the transcription is faithful** — the features it
 flattens (colour, punctuation) are provably cosmetic, since solved pages that
 contain them decode exactly without them. This validates the input the whole
 toolkit rests on and closes the page-images lead as negative for the main
-stream. The only genuine omission is page-local ornament (e.g. the page-50
-cuneiform), a curiosity to catalogue, not part of the rune cipher.
+stream.
+
+> **Correction (§15 supersedes the last claim here).** The sentence above
+> originally added "the only genuine omission is page-local ornament, a
+> curiosity" — that was drawn from just three pages and is WRONG. A systematic
+> sweep of all 75 scans (§15) found the transcription also omits substantial
+> **numeric and code content**: two magic squares, a numeric table, 100+
+> alphanumeric codes, a hex block. Colour and punctuation are still cosmetic;
+> but "the images add nothing" was premature.
+
+## 15. The images DO carry more: numeric grids & code pages the transcription drops
+
+Prompted by an external 2025 write-up claiming a Liber Primus "page-16 magic
+square" (Echo446Ghq/Magic-Square-Solution — its square is arithmetically valid
+but its mod-256→ASCII 'rl)lr' decode is numerology, see LOG), I catalogued all
+75 scans for non-rune content (`results/page_glyph_catalogue_2026-08-20.txt`).
+This overturns §14's over-broad "the images add nothing" — that was drawn from
+three pages. **21 pages carry non-rune content absent from
+`data/liber_primus.md`**, and some of it is substantial DATA, not decoration:
+
+- **Two magic squares.** Page **16** carries a **5×5 magic square** (verified
+  firsthand): magic constant **3301**, fully palindromic, prime centre 809 —
+  *identical* to the 2025 write-up's square, so that square is a **genuine LP
+  artifact** (only its decode was numerology). Page **32** carries a **4×4
+  numeric grid** whose every cell is **3301 − a prime** (2,3,5,7,13,23,43,79,
+  149,263,463,829,1481,2593), with 3299 = 3301−2 in **red** and a hand-drawn
+  **Möbius/∞** — deeply on-theme ("the primes are sacred, the totient is
+  sacred"). Page 16's runic instruction is solved (substitution); the square is
+  a *separate* element the transcription omits.
+- **A whole page of codes.** Page **67** is entirely a **13×8 grid of 104
+  two-character alphanumeric codes** (each = digit 0–4 + a letter; verified
+  firsthand), no runes at all. Pages **66** and **68** carry more of the same
+  code. Page **73** carries a **hex block**. Page **05** carries a small
+  palindromic **numeric table**.
+- **Recurring marks** (probably structural/decorative): red pixel-block squares
+  at line-ends (pages 50–56, 66, 70–74), a recurring **cuneiform-like glyph
+  cluster** on pages 50–56 (identical each page → a section motif), red verse
+  numerals (10, 11, 53–55), and small dot constellations (24, 40, 73).
+
+**None of this is in the rune transcription** — the toolkit's 12,956-rune stream
+never saw it. So the honest position: the *rune-cipher* campaign (§1–§13) is
+exhausted and its input is faithful (colour/punctuation are cosmetic, §14), but
+the **images open a genuinely new front** the toolkit was blind to — two magic
+squares and 100+ codes with obvious cryptographic intent. Whether they are keys
+for the unsolved runic pages, a separate cipher, or an index, is untested. This
+re-opens the investigation on new material. `results/page_glyph_catalogue_2026-08-20.txt`.

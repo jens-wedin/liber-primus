@@ -96,33 +96,39 @@ Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
 
 ## The active lead — try this next
 
-Closed negative this round: coined/mangled word keys (§8), the documented
-running-key texts (§9, joining KJV §6), the cumulative-cipher family in
-difference space (§12), and the naive seeded-PRNG / hash pad (§13); the no-repeat
-mechanism is modeled (§11, uniform resolution), very-short brute is underpowered
-(§10), and the **page images** are assessed (§14) — the features the
-transcription flattens (colour, punctuation) are provably cosmetic, so the input
-the toolkit runs on is faithful. That was the last untapped avenue for the main
-rune stream.
+The **rune-cipher** campaign is exhausted (all control-validated): substitution,
+Vigenère, autokey, prime/totient (§3); running keys and 4 documented key texts
+(§6, §9); word/coined keys (§7, §8); difference-space cumulative family (§12);
+naive seeded-PRNG pad (§13). The no-repeat mechanism is modeled (§11, uniform
+resolution) and very-short brute is underpowered (§10). Colour/punctuation the
+transcription flattens are cosmetic (§14).
 
-What's left is thin, in rough priority:
+BUT the investigation is **NOT** complete: a full page-image catalogue (§15)
+found the transcription silently omits substantial **numeric/code content** the
+rune-only toolkit never saw. That is the live front now:
 
-1. **Catalogue the page-local ornament** (§14): the non-futhorc glyphs the
-   transcription omits entirely — the cuneiform-like marks at the foot of page
-   50, and similar on other pages. Not part of the rune stream; possibly a
-   separate micro-cipher or decoration. The one genuinely un-looked-at thing.
-2. **Widen the mangling** (lower prior after §8): *composed* transforms
-   (atbash∘C→F), mangled *common* words. Keep both controls.
-3. **Difference-space leftovers** (lower prior): a running-key *text* or a
-   word-key-with-skip on `c[i]−c[i-1]` (§12 covered the periodic/prime families).
-4. **Lower-prior key texts**: Emerson's *Self-Reliance*, the Old English Rune
-   Poem (wikisource) via `keytexts.py --add-textfile`.
+1. **The two magic squares.** Page 16 = **5×5, magic constant 3301**, palindromic,
+   prime centre 809 (this IS the genuine LP square the 2025 write-up used). Page
+   32 = **4×4 grid, every cell = 3301 − prime**, 3299 in red, + a Möbius. Test
+   these as **keys / interrupters for the unsolved runic pages**, or decode them
+   as a puzzle in their own right. Values are in
+   `results/page_glyph_catalogue_2026-08-20.txt`.
+2. **The code pages.** Page 67 is **104 two-char alphanumeric codes** (digit 0–4
+   + letter), no runes; pages 66, 68 carry more; page 73 a hex block; page 05 a
+   numeric table. A separate cipher/dataset — transcribe and analyse.
+3. **Recurring marks**: the cuneiform cluster (50–56, likely a section motif),
+   red pixel-blocks (line-ends), red verse numerals — probably structural.
 
-Out of reach here: a **keyed CSPRNG re-roll pad** — `c = p + K` is then a
-one-time pad, unbreakable without the seed (§13). If the scheme is that, no
-statistical attack over the transcription can win. Given §14 shows the images
-add nothing to the main stream, this is the most likely wall the puzzle sits
-behind.
+Lower-prior rune-cipher leftovers: composed manglings (§8), running-key/word-key
+on the difference stream (§12), Emerson/Rune-Poem key texts.
+
+Out of reach for the RUNIC stream: a **keyed CSPRNG re-roll pad** (`c = p + K` a
+one-time pad, unbreakable without the seed, §13) — the likely wall the runes sit
+behind. The numeric/code content above is the way *around* it, not through it.
+
+NB — lesson (§14→§15): don't conclude "the images add nothing" from a handful of
+pages; a full sweep found magic squares and a code page. Scale the evidence to
+the claim.
 
 Sober note: every keystream family — on the raw stream AND the differences — the
 naive seeded-PRNG family, and every documented key text is now exhausted, all

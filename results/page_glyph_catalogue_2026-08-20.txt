@@ -1,0 +1,103 @@
+# Liber Primus page-image catalogue — non-rune content the transcription omits
+# Method: viewed all 75 scans (data/pages/00..74.jpg) in 5 batches; key finds
+# (pages 16, 32, 67) verified firsthand. Categories:
+#   RUNES    = futhorc rune text only (in data/liber_primus.md), maybe a border
+#   ORNAMENT = runes + purely decorative illustration (art, not cipher)
+#   GLYPHS   = embedded NON-RUNE symbolic/numeric content NOT in the transcription
+
+00 ORNAMENT  Latin title "Liber Primus"
+01 RUNES     + mirrored cicada figures, vine border
+02 ORNAMENT  Latin front-matter "Chapter 1 / Intus"
+03 RUNES     leaf/vine border
+04 RUNES     red rune footer line
+05 GLYPHS    numeric table: 7 values (272 138 131 151 18 226 245), 5-col, palindromic
+06 RUNES     sage portrait, scroll/tablet frame
+07 RUNES     sage portrait
+08 RUNES     sage portrait
+09 RUNES     sage portrait + cicada
+10 GLYPHS    red Arabic numeral "1" (verse marker)
+11 GLYPHS    red Arabic numeral "2" (verse marker)
+12 RUNES     twin-figure border
+13 RUNES     twin-figure border + cicada
+14 RUNES     reclining figure at foot
+15 ORNAMENT  cicada figures + reclining corpse
+16 GLYPHS    *** 5x5 MAGIC SQUARE (const 3301), palindromic, prime centre 809 *** + cicada + corpse
+17 ORNAMENT  brush inverted-cross/dagger margins + infinity flourishes
+18 ORNAMENT  brush cross/dagger + infinity
+19 ORNAMENT  brush cross/dagger + infinity + cicada
+20 ORNAMENT  scrollwork/vine margins
+21 ORNAMENT  scrollwork/vine
+22 ORNAMENT  scrollwork/vine
+23 ORNAMENT  scrollwork/vine
+24 ORNAMENT  scrollwork/vine + 4 scattered black dots
+25 ORNAMENT  bare tree-with-roots, left margin
+26 ORNAMENT  bare tree, right margin
+27 ORNAMENT  bare tree, left margin
+28 ORNAMENT  bare tree, right margin
+29 ORNAMENT  bare tree, left margin
+30 ORNAMENT  bare tree, right margin
+31 ORNAMENT  bare tree + mayfly + red dot-cluster
+32 GLYPHS    *** 4x4 NUMERIC GRID: every cell = 3301 - prime, 3299(=3301-2) in RED *** + Mobius/infinity loop
+33 RUNES     plain
+34 RUNES     plain
+35 RUNES     plain
+36 RUNES     plain
+37 RUNES     plain
+38 RUNES     plain
+39 ORNAMENT  ink-brush motif + reclining corpse
+40 GLYPHS    5 black dots (constellation/quincunx) — borderline; + red drop-cap
+41 ORNAMENT  mirrored mayfly-wing margins
+42 ORNAMENT  mayfly-wing margins
+43 ORNAMENT  mayfly-wing margins
+44 ORNAMENT  veined insect-wing + red drop-cap
+45 RUNES     plain
+46 RUNES     plain
+47 RUNES     plain
+48 RUNES     plain
+49 ORNAMENT  bare-tree illustration
+50 GLYPHS    cuneiform-like wedge cluster (~6-7 glyphs, 2 rows) at FOOT + red drop-caps
+51 GLYPHS    same cuneiform cluster at TOP
+52 GLYPHS    same cuneiform cluster at TOP
+53 GLYPHS    cuneiform cluster + red verse numeral "1"
+54 GLYPHS    cuneiform cluster + red verse numerals 2,3,4
+55 GLYPHS    cuneiform cluster + red verse numeral "5"
+56 GLYPHS    cuneiform cluster + red bind-capital
+57 ORNAMENT  elaborate vine/tree/root border
+58 ORNAMENT  vine/root border
+59 ORNAMENT  vine/root border
+60 RUNES     tree-vine-root border
+61 RUNES     tree border
+62 RUNES     tree border
+63 RUNES     tree border
+64 RUNES     tree border
+65 RUNES     tree border
+66 GLYPHS    red pixel-block grid + ~70 two-char alphanumeric codes
+67 GLYPHS    *** ENTIRE PAGE = 104 two-char alphanumeric codes (13 rows x 8), NO runes ***
+68 GLYPHS    two-char codes (top 8 lines) + runes (bottom 4)
+69 RUNES     tree border
+70 GLYPHS    red pixel-block grid + cicada/moth ornament
+71 GLYPHS    red/black pixel-block grid + red Feoh drop-cap
+72 GLYPHS    red pixel-block grid + tree/moth ornament
+73 GLYPHS    hex digit block (e.g. 36367763ab73783c...) + pixel-blocks + 5 dots
+74 GLYPHS    red pixel-block grids + stippled winged-figure ornament
+
+# ===== SUMMARY =====
+# ~30 pages plain RUNES; ~24 ORNAMENT (decorative art around runes);
+# 21 GLYPHS pages carry non-rune content the transcription drops entirely.
+#
+# The cipher-relevant GLYPHS (DATA, not marks/decoration):
+#   - MAGIC SQUARES: page 16 (5x5, magic constant 3301) and page 32 (4x4, cells
+#     = 3301 - prime, Mobius symbol). Page 16's square == the 2025
+#     Echo446Ghq/Magic-Square-Solution square -> that square is GENUINE (its
+#     mod-256->ASCII 'rl)lr' decode remains numerology; see LOG).
+#   - NUMERIC TABLE: page 05 (7 palindromic values).
+#   - ALPHANUMERIC CODE BLOCKS: pages 66, 67 (full page, 104 codes), 68 — each
+#     code = digit(0-4) + letter; a substantial separate cipher/data set.
+#   - HEX BLOCK: page 73.
+# Smaller marks (probably structural/decorative): red pixel-block squares at
+# line-ends (50-56, 66, 70-74), the recurring cuneiform cluster (50-56, a section
+# motif), red verse numerals (10,11,53,54,55), dot constellations (24,40,73).
+#
+# NONE of this numeric/code content is in data/liber_primus.md — the toolkit's
+# 12,956-rune stream never saw it. This OVERTURNS REPORT §14's premature "the
+# images add nothing" conclusion (drawn from only 3 pages). See REPORT §15.

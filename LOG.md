@@ -567,3 +567,30 @@ the toolkit's input; closes the page-images lead as negative for the main stream
 Only open curiosity: the page-local ornamental glyphs (e.g. page-50 cuneiform),
 worth cataloguing. REPORT §14. This exhausts the untapped in-transcription and
 in-image leads for the main rune stream.
+
+### Page catalogue — §14 was WRONG; the images carry magic squares & code (§15)
+
+Catalogued all 75 scans (5 subagents; key pages verified firsthand). §14's "the
+images add nothing" was drawn from 3 pages and is overturned: 21 pages carry
+non-rune content absent from data/liber_primus.md, and some is real DATA:
+- MAGIC SQUARES: page 16 = 5x5, magic constant 3301, palindromic, prime centre
+  809 — IDENTICAL to the 2025 Echo446Ghq square, so THAT SQUARE IS GENUINE (I was
+  wrong to doubt its provenance; only its mod-256->ASCII decode is numerology).
+  Page 32 = 4x4 grid where every cell = 3301 - prime (verified: 2,3,5,7,13,23,43,
+  79,149,263,463,829,1481,2593), 3299(=3301-2) in red, + a hand-drawn Mobius.
+- CODE PAGES: page 67 = ENTIRE page of 104 two-char alphanumeric codes (digit 0-4
+  + letter), no runes (verified firsthand); pages 66, 68 carry more; page 73 a
+  hex block; page 05 a small palindromic numeric table.
+- Marks: recurring cuneiform cluster (50-56, a section motif), red pixel-blocks
+  at line-ends (50-56, 66, 70-74), red verse numerals (10,11,53-55), dot
+  constellations (24,40,73).
+Colour/punctuation ARE still cosmetic (§14 that part stands, proven by solved
+pages). But the rune-only toolkit was blind to all this numeric/code content.
+`results/page_glyph_catalogue_2026-08-20.txt`, REPORT §15.
+
+Honest correction: the rune-cipher campaign (§1-§13) is exhausted, but the
+investigation is NOT complete — the images opened a genuinely new front (two
+magic squares + 100+ codes with obvious cryptographic intent). The user's
+magic-square lead was right. Next: analyse page 16 / page 32 squares and the
+page 66-68 code as possible keys for the unsolved runic pages, or a separate
+cipher. Updated the overview site + canvas from "complete" to "a new front".
