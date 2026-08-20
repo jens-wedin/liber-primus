@@ -448,3 +448,44 @@ Result: **negative.** The best real decode is trigram **−5.14** — *below* th
 from English −3.38. No tested generator+seed reads English. This rules out these
 naive/weak generators with small or thematic seeds; it does NOT — and cannot —
 rule out a keyed CSPRNG. `results/prng_2026-08-20.txt`.
+
+## 14. The page images: what the transcription flattens (§5 page-images lead)
+
+Fetched the full book (75 scans → `data/pages/`, via `fetch_pages.sh`) and
+compared the actual pages to `data/liber_primus.md`. The transcription omits
+some visual features; the decisive test for each is whether a **solved** page
+carrying the feature still decodes exactly with the feature ignored — if so, the
+feature is cosmetic, not cipher.
+
+- **Colour (red vs black).** Every page opens with a large red illuminated
+  drop-cap and a short run of red runes, then turns black (systematic on
+  unsolved pages 50, 57 and solved page 06). The transcription is monochrome —
+  colour is fully lost. BUT solved page 06 (atbash+3, "A KOAN…") carries the red
+  drop-cap + red opening runes and forward-encrypts to an **exact** match with
+  every rune treated uniformly (validate_solved 9/9). So the red is rubrication
+  of the opening capital/word — decorative, part of the normal cipher stream,
+  not a separate key. **Cosmetic.**
+- **Punctuation (`"` and `:`).** Besides the `•` word-dot (3308×) the pages carry
+  a double-quote `"` (44×) and a colon `:` (8×); the toolkit drops all non-rune
+  characters, collapsing them to word breaks. Decisive test: these marks appear
+  in **solved** segments too — page 06 has 22 `"` + 8 `:` and still decodes
+  exactly. They are plaintext punctuation (the koan's quoted speech), cosmetic
+  for the cipher; dropping them is correct.
+- **Page-local ornament.** Some pages carry non-futhorc marks the transcription
+  omits entirely — cuneiform-like glyphs at the foot of page 50, decorative
+  tree/border art on page 57, figure illustrations. These sit outside the rune
+  stream; whether any is a distinct micro-cipher is untested, but they are not
+  part of the 12,956-rune body.
+
+Faithfully captured, by contrast: line breaks (indented lines), `•` word-dots,
+and the `•••` section divider. And the stray digits/hex in the transcription are
+the **title page's hash** (page 00), not embedded numbers — so there is no
+numeric magic square in the runic book (bearing on the 2025 "page-16 magic
+square" claim, whose square is uncited).
+
+Net: **for cipher purposes the transcription is faithful** — the features it
+flattens (colour, punctuation) are provably cosmetic, since solved pages that
+contain them decode exactly without them. This validates the input the whole
+toolkit rests on and closes the page-images lead as negative for the main
+stream. The only genuine omission is page-local ornament (e.g. the page-50
+cuneiform), a curiosity to catalogue, not part of the rune cipher.

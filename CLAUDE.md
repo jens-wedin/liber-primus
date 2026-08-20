@@ -99,17 +99,20 @@ Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
 Closed negative this round: coined/mangled word keys (§8), the documented
 running-key texts (§9, joining KJV §6), the cumulative-cipher family in
 difference space (§12), and the naive seeded-PRNG / hash pad (§13); the no-repeat
-mechanism is modeled (§11, uniform resolution) and very-short brute is
-underpowered (§10). What remains, in rough priority:
+mechanism is modeled (§11, uniform resolution), very-short brute is underpowered
+(§10), and the **page images** are assessed (§14) — the features the
+transcription flattens (colour, punctuation) are provably cosmetic, so the input
+the toolkit runs on is faithful. That was the last untapped avenue for the main
+rune stream.
 
-1. **The page images** — the only untapped source of *new* information beyond
-   the transcription (interrupter/spacing positions the transcription may
-   flatten; possible transcription errors in the 86 residual doublets). Every
-   in-transcription avenue is now spent, so this is where a real break would
-   have to come from.
+What's left is thin, in rough priority:
+
+1. **Catalogue the page-local ornament** (§14): the non-futhorc glyphs the
+   transcription omits entirely — the cuneiform-like marks at the foot of page
+   50, and similar on other pages. Not part of the rune stream; possibly a
+   separate micro-cipher or decoration. The one genuinely un-looked-at thing.
 2. **Widen the mangling** (lower prior after §8): *composed* transforms
-   (atbash∘C→F), mangled *common* words. Keep both controls. NB very-short
-   brute is out — underpowered (§10).
+   (atbash∘C→F), mangled *common* words. Keep both controls.
 3. **Difference-space leftovers** (lower prior): a running-key *text* or a
    word-key-with-skip on `c[i]−c[i-1]` (§12 covered the periodic/prime families).
 4. **Lower-prior key texts**: Emerson's *Self-Reliance*, the Old English Rune
@@ -117,7 +120,9 @@ underpowered (§10). What remains, in rough priority:
 
 Out of reach here: a **keyed CSPRNG re-roll pad** — `c = p + K` is then a
 one-time pad, unbreakable without the seed (§13). If the scheme is that, no
-statistical attack over the transcription can win.
+statistical attack over the transcription can win. Given §14 shows the images
+add nothing to the main stream, this is the most likely wall the puzzle sits
+behind.
 
 Sober note: every keystream family — on the raw stream AND the differences — the
 naive seeded-PRNG family, and every documented key text is now exhausted, all

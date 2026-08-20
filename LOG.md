@@ -541,3 +541,29 @@ Useful outcome: downloaded the full Liber Primus page images (75 scans,
 `assets/2014/liber-primus-complete`) into `data/pages/` (gitignored; rebuild with
 `bash fetch_pages.sh`). Page 00 confirmed = the "Liber Primus" title page. These
 feed the page-images thread — the one remaining lead.
+
+### Page-images analysis — flattened features are cosmetic (§5 → §14)
+
+Compared the scans to `data/liber_primus.md` on unsolved pages 50 & 57 and solved
+page 06. The transcription flattens three things; the decisive test for each is
+whether a SOLVED page carrying the feature still decodes exactly with it ignored.
+- COLOUR: every page opens with a red illuminated drop-cap + a run of red runes,
+  then black (systematic, incl. solved page 06). Monochrome transcription loses
+  it — BUT solved page 06 (atbash+3, "A KOAN…") carries the red runes and
+  forward-encrypts to an EXACT match treating all runes uniformly (validate 9/9).
+  So red = rubrication, part of the normal cipher stream. Cosmetic.
+- PUNCTUATION: besides `•` (3308×) the pages carry `"` (44×) and `:` (8×); the
+  toolkit drops all non-rune chars. These appear in SOLVED segments too (page 06:
+  22 `"` + 8 `:`) which still decode exactly -> plaintext punctuation (quoted
+  koan speech), cosmetic; dropping is correct.
+- ORNAMENT: page-local non-futhorc glyphs the transcription omits (cuneiform-like
+  marks at the foot of page 50; tree/border art on 57). Outside the rune stream.
+Faithfully captured: line breaks, `•` dots, `•••` dividers. The transcription's
+stray digits are the TITLE page's hash (page 00), not embedded numbers -> no
+numeric magic square in the book (re the 2025 claim).
+Net: for cipher purposes the transcription is FAITHFUL — flattened features are
+provably cosmetic (solved pages carry them and decode without them). Validates
+the toolkit's input; closes the page-images lead as negative for the main stream.
+Only open curiosity: the page-local ornamental glyphs (e.g. page-50 cuneiform),
+worth cataloguing. REPORT §14. This exhausts the untapped in-transcription and
+in-image leads for the main rune stream.
