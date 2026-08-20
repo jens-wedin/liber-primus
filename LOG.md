@@ -470,3 +470,29 @@ REPORT §11; §5.1 closed. Sharper picture: near-total no-repeat with UNIFORM
 resolution — consistent with a free re-roll pad or a pseudo-random key-skip,
 which is why the linguistic attacks all die. Difference-space and the seeded-PRNG
 (re-roll) angle are what's left.
+
+### Session 12 (2026-08-20) — difference-space: the cumulative-cipher family
+
+Took on §5.2. Key reframe: the fingerprint (uniform c, notch at d=0) is exactly
+what a CUMULATIVE cipher c[i]=c[i-1]+m[i] with m!=0 produces — so d[i]=m[i] is
+the meaningful stream, and if m=p+k, d is a plain keystream cipher. §4 only
+killed the KEYLESS case (m=p, d would be English — it isn't). `difference_space.py`
+tests the KEYED case, gated by planted controls: cumulative-Vigenere → d shows a
+periodic-IoC bump 1.84 at the planted period (PASS); cumulative-prime →
+key-subtract trigram −3.36 (PASS).
+
+Real difference stream: negative everywhere. d-IoC 1.024 (random ~1.00, English
+1.78); best periodic-IoC 1.03 @ period 35 (flat — no Vigenere period); d read as
+plaintext trigram −6.49 (keyless cumulative re-confirmed dead with the trigram
+model); prime/totient subtraction best −6.02 (random-level). So the cumulative /
+chained family (keyless, repeating-key ≤40, prime/totient) is ruled out — the
+differences are as random as the raw stream, consistent with §11's uniform
+resolution. validate_solved 9/9. `results/difference_space_2026-08-20.txt`.
+REPORT §12; §5.2 closed.
+
+State of play: every linguistic / algebraic keystream avenue — on the raw stream
+AND on the differences — is now exhausted and control-validated. The one live
+thread left is the **re-roll pad as a seeded PRNG/hash** (non-linguistic: search
+for the generator/seed, not a language model); the page images are the other.
+Lower-prior leftovers: running-key text or word-key-with-skip on the difference
+stream.

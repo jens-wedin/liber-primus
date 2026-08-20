@@ -186,9 +186,11 @@ the productive result). Genuinely open threads, in priority order:
    86 residual doublets are transcription-noise-consistent with no key-period
    leak. The mechanism forbids adjacent-equal runes near-totally with a uniform
    re-pick — no arithmetic-interrupter shortcut to invert.
-2. **Work in difference space.** Because the meaningful lag-1 structure is in
-   `c[i] − c[i-1]`, re-run crib-dragging and keystream tests on the
-   first-difference stream rather than the raw runes.
+2. **Work in difference space.** *(Done — see §12.)* Tested the cumulative /
+   chained-cipher family on `c[i] − c[i-1]`: keyless, repeating-key Vigenère
+   (≤40), prime/totient — all negative, control-validated. The differences are
+   as random as the raw stream. Untested (lower prior): a running-key text or
+   word-key-with-skip on the difference stream.
 3. **Per-page keying.** Several pages open with what look like short headers
    ("A KOAN"-style); testing key resets at line/page boundaries shrinks the
    effective unknown per unit.
@@ -383,3 +385,38 @@ Net: the mechanism is a near-total no-repeat enforcement with **uniform**
 collision resolution, and its residual leak is noise, not signal — slightly
 sharper than, and fully consistent with, §4's re-roll / key-skip picture.
 `results/norepeat_mechanisms_2026-08-20.txt`.
+
+## 12. Difference-space: the cumulative-cipher family — negative (§5.2)
+
+The fingerprint — c uniform, differences uniform with a notch at 0 — is exactly
+what a CUMULATIVE / chained cipher produces:
+`c[i] = (c[i-1] + m[i]) mod 29` with `m[i] != 0`. That makes the difference
+`d[i] = c[i]-c[i-1] = m[i]` the meaningful stream; if `m = p + k`, then d is an
+ordinary keystream cipher of the plaintext. §4 ruled out only the *keyless* case
+(m = p). `difference_space.py` tests the *keyed* case, gated by controls that
+plant a cumulative cipher of known English and recover it in difference space
+(cumulative-Vigenère → periodic-IoC **1.84** at the planted period;
+cumulative-prime → key-subtract trigram **−3.36**; both PASS).
+
+Result on the real difference stream — negative on every path:
+- **d-IoC 1.024** (random ~1.00, English 1.78): the differences are as random as
+  the raw stream.
+- **Best periodic-IoC over periods 1–40 is 1.03** (at 35) — flat, no
+  cumulative-Vigenère period hiding in the differences.
+- **d read as plaintext scores trigram −6.49** (random −6.62; English −3.38):
+  the keyless cumulative case, re-confirmed dead with the trigram model (sharper
+  than §4's IoC-only test).
+- **Subtracting the prime and totient streams from d** (both signs, small start
+  offsets) tops out at **−6.02** — random-level.
+
+So the cumulative / chained-cipher family — keyless, repeating-key Vigenère
+(period ≤ 40), and prime/totient keystreams — is ruled out; the difference
+stream carries no more structure than the raw ciphertext. This fits §11: the
+differences are uniform *because* the collision resolution is uniform, so a
+cumulative cipher (which would leave a periodic or keystream-recoverable
+signature in d) is excluded. `results/difference_space_2026-08-20.txt`.
+
+Coverage: not tested in difference space are a running-key *text* on d
+(intrinsically underpowered, as on the raw stream — §4) and word-keys-with-
+key-skip on d; both lower prior. The periodic-IoC test does cover every
+repeating key up to period 40.
