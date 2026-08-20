@@ -26,6 +26,7 @@ Findings so far are in [REPORT.md](REPORT.md).
 | `attack_keycrib.py` | Candidate-key attacks: self-referential running keys via key-skip (Part A) and a common-word key crib with a random-ciphertext false-positive control (Part B). |
 | `keytexts.py` | Loads/caches candidate running-key texts (KJV from the `bible-kjv` npm package; any plain-text file) as rune streams. |
 | `attack_running_text.py` | Tests a full book (KJV) as the running key against the key-skip hypothesis: trigram coarse scan → key-skip beam confirm, with a planted positive control. |
+| `attack_vigenere_skip.py` | Short word key (Vigenère) + key-skip desync: beam-decodes Cicada/common word keys, with a planted positive control. |
 | `results/` | Archived run outputs, dated. |
 
 ## Usage

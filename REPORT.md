@@ -233,3 +233,25 @@ here: no clean public-domain copy was reachable through the sandbox's proxy
 (Project Gutenberg is blocked; it is not on npm/PyPI). The framework is ready
 for it: drop the text in via `keytexts.py --add-textfile <path> crowley` and
 run `attack_running_text.py --key crowley`. Same for any candidate text.
+
+## 7. Short word key + key-skip (the solved-page scheme) — negative
+
+The solved pages use short *word* keys (DIVINITY, FIRFUMFERENFE) with an
+interrupter. Earlier work tested short repeating keys *without* the desync
+(periodic-IoC, crib-dragging) and the desync *only* with prime/totient
+streams — never the two together. `attack_vigenere_skip.py` closes that: it
+key-skip beam-decodes every candidate word key directly (a straight-decode
+coarse filter provably fails here — a short repeating key desynchronises
+after the first skip, so the true key ranks ~4000/14000).
+
+Key space: the Cicada vocabulary + the top ~1200 English words. Positive
+control passes (plant CIRCUMFERENCE + key-skip → recovered rank #1, 83%,
+trigram −3.90). Result on the real ciphertext: **negative** — best decode
+trigram −4.23 (gibberish), against English −3.38 and a genuine key at −3.90.
+
+Caveat on coverage: this rules out *common/thematic dictionary* word keys,
+not all short keys. Notably the known key FIRFUMFERENFE is CIRCUMFERENCE with
+C→F — a deliberate non-dictionary mangling — so a real key may be a similarly
+mangled or coined word outside any word list. Widening `--nwords`, adding
+letter-substitution variants of thematic words, or brute-forcing very short
+keys are the natural extensions.

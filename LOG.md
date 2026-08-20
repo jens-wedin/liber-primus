@@ -347,3 +347,24 @@ Also removed the duplicate `liber-primus/` folder from the Manfred branch
 Open threads unchanged: other specific key texts (Crowley, Blake, Mabinogion
 — need a reachable source), the re-roll pad as a seeded PRNG/hash (non-
 linguistic), difference-space analysis, and the page images.
+
+### Session 8 (cont.) — short word key + key-skip
+
+Couldn't reach more running-key texts (nltk gutenberg download host blocked;
+npm book packages are code, not text). Pivoted to a real gap: the solved
+pages use short WORD keys + an interrupter, but I'd only tested short keys
+without desync, and desync only with prime/totient. `attack_vigenere_skip.py`
+key-skip beam-decodes every candidate word key.
+
+Debug: a straight-decode coarse filter is useless for short repeating keys —
+one key-skip desyncs the key phase for the rest of the head, so the true key
+(CIRCUMFERENCE) ranked ~4000/14000. Confirmed the confirm stage is fine
+(true key → 98%). Fix: drop the coarse filter, beam every key over a bounded
+word set. Control then PASSES (CIRCUMFERENCE rank #1, 83%).
+
+Result: negative over Cicada vocab + top 1200 words (best −4.23 gibberish vs
+English −3.38, genuine key −3.90). Rules out common/thematic dictionary word
+keys — but NOT mangled/coined keys (the known FIRFUMFERENFE = CIRCUMFERENCE
+with C→F is exactly such a non-dictionary key). Natural next: substitution
+variants of thematic words, and very-short brute force.
+`results/vigenere_skip_2026-08-19.txt`.
