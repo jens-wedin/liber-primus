@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liber Primus — Cryptanalysis</title>
+  <meta name="description" content="An overview of the cryptanalysis of Cicada 3301's unsolved Liber Primus, with links to the full write-up.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+Runic&display=swap">
+  <style>
+    :root {
+      --ink:      #14100b;
+      --ink-2:    #1b1610;
+      --line:     #3a2f1e;
+      --line-2:   #2a2216;
+      --parch:    #ece2cf;
+      --dim:      #b3a88d;
+      --faint:    #8a7f66;
+      --gold:     #c9a24c;
+      --gold-dim: #8f7534;
+      --oxblood:  #b06a54;
+      --serif:    'EB Garamond', Georgia, 'Times New Roman', serif;
+      --display:  'Cormorant Garamond', Georgia, serif;
+      --runic:    'Noto Sans Runic', 'Segoe UI Historic', serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--ink); color: var(--parch);
+      font-family: var(--serif); font-size: 18px; line-height: 1.62;
+      -webkit-font-smoothing: antialiased; }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--parch); }
+
+    .page { max-width: 780px; margin: 0 auto; padding: 72px 40px 96px; }
+
+    .kicker { font-family: var(--serif); font-size: 13px; letter-spacing: 0.34em;
+      text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+
+    .title { font-family: var(--display); font-weight: 500; font-size: 78px;
+      line-height: 0.98; letter-spacing: 0.01em; margin: 0; color: var(--parch); }
+
+    .rune-band { font-family: var(--runic); font-size: 21px; letter-spacing: 0.16em;
+      color: var(--gold-dim); margin: 22px 0 8px; word-break: break-all; }
+
+    .lede { font-family: var(--display); font-weight: 400; font-size: 25px;
+      line-height: 1.4; color: var(--dim); font-style: italic; margin: 14px 0 28px;
+      max-width: 30ch; }
+
+    .status { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 15px;
+      letter-spacing: 0.02em; color: var(--faint);
+      border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2);
+      padding: 14px 0; }
+    .status b { color: var(--parch); font-weight: 500; }
+
+    section, footer { margin-top: 64px; }
+
+    .eyebrow { font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--gold); margin: 0 0 10px; }
+
+    h2 { font-family: var(--display); font-weight: 500; font-size: 34px;
+      line-height: 1.12; letter-spacing: 0.01em; margin: 0 0 18px; color: var(--parch); }
+    h2 .muted { color: var(--faint); font-style: italic; font-size: 22px; }
+
+    p { margin: 0 0 16px; color: var(--parch); }
+    p.dim { color: var(--dim); }
+    em { color: var(--gold); font-style: italic; }
+
+    .statement { font-family: var(--display); font-size: 27px; line-height: 1.34;
+      font-weight: 400; color: var(--parch); margin-bottom: 26px; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px;
+      background: var(--line-2); border: 1px solid var(--line-2); margin: 8px 0 26px; }
+    .stat { background: var(--ink-2); padding: 20px 18px; }
+    .stat .num { font-family: var(--display); font-size: 40px; line-height: 1;
+      color: var(--gold); font-weight: 500; }
+    .stat .cap { font-size: 13px; letter-spacing: 0.06em; color: var(--faint);
+      margin-top: 8px; text-transform: uppercase; }
+
+    .ruled { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); }
+    .rule-item { background: var(--ink-2); padding: 16px 18px; display: flex;
+      gap: 12px; align-items: baseline; }
+    .rule-item .mark { color: var(--gold); flex: 0 0 auto; line-height: 1; }
+    .rule-item .name { color: var(--parch); }
+    .rule-item .sub { display: block; font-size: 14px; color: var(--faint);
+      letter-spacing: 0.01em; margin-top: 2px; }
+
+    .caveat { font-size: 15px; color: var(--dim); font-style: italic;
+      border-left: 2px solid var(--gold-dim); padding: 4px 0 4px 16px; margin-top: 22px; }
+
+    .texts { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+    .trow { display: grid; grid-template-columns: 1fr auto; gap: 8px 20px;
+      align-items: baseline; padding: 15px 0; border-bottom: 1px solid var(--line-2); }
+    .trow .work { font-family: var(--display); font-size: 22px; color: var(--parch); }
+    .trow .link { display: block; font-size: 14px; color: var(--faint);
+      letter-spacing: 0.02em; margin-top: 2px; }
+    .verdict { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--oxblood); white-space: nowrap; align-self: center; }
+
+    blockquote { margin: 0; font-family: var(--display); font-style: italic;
+      font-size: 28px; line-height: 1.4; color: var(--parch);
+      border-left: 2px solid var(--gold); padding: 6px 0 6px 26px; }
+
+    ul.trail { list-style: none; margin: 0; padding: 0; }
+    ul.trail li { display: flex; gap: 14px; align-items: baseline; padding: 12px 0;
+      border-bottom: 1px solid var(--line-2); }
+    ul.trail li:first-child { border-top: 1px solid var(--line-2); }
+    ul.trail .idx { font-family: var(--display); font-size: 20px; color: var(--gold);
+      flex: 0 0 auto; }
+    ul.trail .txt .h { color: var(--parch); }
+    ul.trail .txt .d { color: var(--faint); font-size: 15px; }
+
+    .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px;
+      background: var(--line-2); border: 1px solid var(--line-2); }
+    .link-card { background: var(--ink-2); padding: 18px 20px; display: flex;
+      flex-direction: column; gap: 3px; }
+    .link-card .lc-top { display: flex; align-items: center; gap: 8px; }
+    .link-card .lc-name { font-family: var(--display); font-size: 21px; color: var(--gold); }
+    .link-card:hover .lc-name { color: var(--parch); }
+    .link-card .lc-desc { font-size: 14px; color: var(--faint); }
+    .link-card .lc-url { font-size: 13px; color: var(--faint); letter-spacing: 0.01em;
+      word-break: break-all; margin-top: 4px; }
+    .arrow { color: var(--gold); flex: 0 0 auto; }
+
+    .colophon { margin-top: 40px; text-align: center; }
+    .colophon .rune-band { text-align: center; word-break: normal; }
+    .colophon p { font-size: 14px; color: var(--faint); font-style: italic; margin: 8px 0 0; }
+
+    @media (max-width: 620px) {
+      .page { padding: 48px 22px 72px; }
+      .title { font-size: 54px; }
+      .stats, .ruled, .links { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <p class="kicker">Cicada 3301 &middot; Cryptanalysis</p>
+    <h1 class="title">Liber Primus</h1>
+    <div class="rune-band">&#5792;&#5794;&#5798;&#5801;&#5809;&#5811;&#5815;&#5817;&#5819;&#5822;&#5825;&#5828;&#5831;&#5832;&#5833;&#5835;&#5839;&#5842;&#5846;&#5847;&#5850;&#5853;&#5855;&#5854;&#5802;&#5803;&#5795;&#5857;&#5856;</div>
+    <p class="lede">Notes on the attack against the unsolved runes &mdash; what the ciphertext is, what has been ruled out, and where the trail leads next.</p>
+    <div class="status">
+      <span>Status&nbsp; <b>Unsolved</b></span>
+      <span>&#126;12,956 runes &middot; 13 segments</span>
+      <span>solved pages reproduced&nbsp; <b>9 / 9</b></span>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">The Central Finding</p>
+    <p class="statement">The unsolved ciphertext is, statistically, a uniform random stream bound by a single law &mdash; <em>adjacent runes are almost never equal.</em></p>
+    <div class="stats">
+      <div class="stat"><div class="num">0.66%</div><div class="cap">observed doublet rate</div></div>
+      <div class="stat"><div class="num">3.45%</div><div class="cap">expected at random</div></div>
+      <div class="stat"><div class="num">~17&#963;</div><div class="cap">the deficiency</div></div>
+    </div>
+    <p class="dim">A pure lag-1 effect: first differences are otherwise uniform. It rules out substitution and every periodic or independent keystream. What survives is an output-stage <em>no-repeat enforcement</em> &mdash; most likely a key-skip that advances the key pointer to dodge a would-be doublet, desynchronising the stream by ~3% and defeating every fixed-position attack.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">The Ledger of Negatives</p>
+    <h2>What has been ruled out <span class="muted">&mdash; each control-validated</span></h2>
+    <div class="ruled">
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Substitution, shifts, atbash</span><span class="sub">IoC is 1.000 &mdash; indistinguishable from random</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Repeating-key Vigen&egrave;re</span><span class="sub">every period up to 40</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Prime &amp; totient keystreams</span><span class="sub">both directions, &plusmn; key-skip</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Autokey</span><span class="sub">plaintext- and ciphertext-fed, short primers</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Running key, key-text-free</span><span class="sub">self-referential &amp; common-word crib</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Short word keys + key-skip</span><span class="sub">Cicada vocab + top ~1,200 words</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Coined / mangled word keys</span><span class="sub">the FIRFUMFERENFE = CIRCUMFERENCE family</span></span></div>
+      <div class="rule-item"><span class="mark">&#10022;</span><span><span class="name">Four literary running keys</span><span class="sub">see the reckoning below</span></span></div>
+    </div>
+    <p class="caveat">Very-short-key brute force is <b>not</b> counted here: under the key-skip it is underpowered &mdash; it can neither confirm nor exclude a short key.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">The Candidate Key-Texts</p>
+    <h2>The books Cicada wrote by &mdash; all silent</h2>
+    <p class="dim">The texts Cicada is documented to have used or referenced, each tested as a running key. Every control passed &mdash; a planted key recovers ~100% of its window &mdash; yet every real decode falls to the gibberish floor.</p>
+    <div class="texts">
+      <div class="trow"><div><span class="work">King James Bible</span><span class="link">community heuristic &middot; whole book, every offset</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">Crowley &middot; <i>Liber AL vel Legis</i></span><span class="link">the 2013 book-cipher key &mdash; strongest prior</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">The <i>Mabinogion</i></span><span class="link">the 2012 book-cipher key</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">Blake &middot; <i>The Marriage of Heaven and Hell</i></span><span class="link">heavily referenced, 2012</span></div><span class="verdict">Ruled out</span></div>
+    </div>
+  </section>
+
+  <section>
+    <blockquote>Every claim is control-validated &mdash; encrypt known English with the hypothesised scheme, then recover it through the same pipeline, before any result is trusted.</blockquote>
+  </section>
+
+  <section>
+    <p class="eyebrow">Where the Trail Leads</p>
+    <h2>The threads still open</h2>
+    <ul class="trail">
+      <li><span class="idx">I</span><span class="txt"><span class="h">Difference-space attacks. </span><span class="d">The meaningful structure lives in c[i] &minus; c[i&minus;1]; re-run the keystream tests there.</span></span></li>
+      <li><span class="idx">II</span><span class="txt"><span class="h">The re-roll pad as a seeded generator. </span><span class="d">A non-linguistic search for a PRNG or hash, not a language model.</span></span></li>
+      <li><span class="idx">III</span><span class="txt"><span class="h">The page images. </span><span class="d">Interrupter positions the transcription may have flattened.</span></span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p class="eyebrow">Read the Full Account</p>
+    <div class="links">
+      <a class="link-card" href="https://github.com/jens-wedin/liber-primus" target="_blank" rel="noopener">
+        <span class="lc-top"><span class="lc-name">The repository</span><svg class="arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <span class="lc-desc">The full toolkit, control-validated</span>
+        <span class="lc-url">github.com/jens-wedin/liber-primus</span>
+      </a>
+      <a class="link-card" href="https://github.com/jens-wedin/liber-primus/blob/main/REPORT.md" target="_blank" rel="noopener">
+        <span class="lc-top"><span class="lc-name">REPORT.md</span><svg class="arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <span class="lc-desc">The findings, in full</span>
+        <span class="lc-url">/blob/main/REPORT.md</span>
+      </a>
+      <a class="link-card" href="https://github.com/jens-wedin/liber-primus/blob/main/LOG.md" target="_blank" rel="noopener">
+        <span class="lc-top"><span class="lc-name">LOG.md</span><svg class="arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <span class="lc-desc">The blow-by-blow, session by session</span>
+        <span class="lc-url">/blob/main/LOG.md</span>
+      </a>
+      <a class="link-card" href="https://github.com/jens-wedin/liber-primus/blob/main/docs/cicada-3301-background.md" target="_blank" rel="noopener">
+        <span class="lc-top"><span class="lc-name">Background</span><svg class="arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+        <span class="lc-desc">History, the runes, the ciphers</span>
+        <span class="lc-url">/docs/cicada-3301-background.md</span>
+      </a>
+    </div>
+    <div class="colophon">
+      <div class="rune-band">&#5792;&#5794;&#5798;&#5801;&#5809;&#5811;&#5815;&#5817;&#5819;&#5822;</div>
+      <p>Gematria Primus &mdash; 29 runes, each a letter and a prime.</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
