@@ -594,3 +594,30 @@ magic squares + 100+ codes with obvious cryptographic intent). The user's
 magic-square lead was right. Next: analyse page 16 / page 32 squares and the
 page 66-68 code as possible keys for the unsolved runic pages, or a separate
 cipher. Updated the overview site + canvas from "complete" to "a new front".
+
+### Testing the new front — magic-square keys & code pages (§16)
+
+(1) Magic squares as keys — `attack_magicsquare.py` derives keystreams from both
+squares (page-16 5×5, page-32 4×4): row/col/unique/reversed mod 29, plus page-32
+prime transforms (3301−value mod 29, GP-prime rune indices, prime ordinals);
+key-skip beam-decoded on all unsolved segments, both signs, via the validated
+word-key pipeline. NEGATIVE, control-validated: best −4.23 (gibberish) at the
+−4.57 chance ceiling, English −3.38. Neither square is a repeating key under
+these derivations. `results/magicsquare_2026-08-20.txt`. (Debug: first control
+run FAILED because `positive_control` plants CIRCUMFERENCE and my key list didn't
+contain it → fixed by adding it to the searched set; a negative behind a failed
+control is worthless, so the fix mattered.)
+
+(2) Code pages — pages 66/67/68 carry two-char codes (digit 0-4 + base-62 char).
+Transcribed 67 (104 codes, full page) + 68 (72 codes above 4 rune lines — codes
+spatially SEPARATE from runes) firsthand → `data/code_pages.txt`.
+`analyze_codepage.py`: HIGH-ENTROPY in both positions (2nd char flat over 49/62
+symbols max count 5, letters no English skew — 'q' appears 5×, primes at chance
+density). So the codes are KEY-LIKE data, not a substituted message; no natural
+decode (base-62; digit×26+letter; 2nd-char-alone) reads English (≈−6.6=random)
+or keys the unsolved pages (−4.33, chance). Genuine unsolved sub-cipher;
+hand-transcription caveat (mixed-case OCR).
+
+Net: §15's new front is opened and characterised, not cracked. validate_solved
+9/9. The magic squares are not keys (these derivations); the code pages are a
+separate high-entropy cipher awaiting a verified transcription + more context.

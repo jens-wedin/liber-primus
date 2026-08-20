@@ -1,0 +1,34 @@
+# Two-character code pages, transcribed firsthand from the scans (§15).
+# The rune transcription (liber_primus.md) omits these entirely. Each code is a
+# digit 0-4 followed by a base-62 character (0-9, a-z, A-Z). Reading order is
+# left-to-right, top-to-bottom, as laid out on the page.
+#
+# CAVEAT: hand-transcribed from image; mixed-case OCR at this size is error-prone,
+# so treat individual codes as ~reliable-not-exact. Page 66 (a partial block with
+# a red pixel-grid) is not yet transcribed. Analysis: analyze_codepage.py.
+
+## page 67  (full page, 104 codes, 13x8, NO runes)
+2M 0w 3L 3D 2r 0S 1p 15
+3V 3e 3l 0n 3u 1O 0u 0Z
+3g 2U 1C 0Y 1N 3n 0W 3Q
+22 13 0V 3c 0E 34 0W 1t
+1D 2N 3H 47 0s 2p 0Z 34
+0g 3v 1Q 0s 0D 0K 2h 3D
+3L 2x 1Q 20 2n 2L 1C 2p
+0A 29 3r 0D 45 0k 2e 2W
+25 3U 1W 2r 46 2s 2X 39
+3p 0X 0E 1q 0q 4B 49 48
+3r 3b 3C 1M 1j 0I 4A 48
+40 3m 4E 0s 2S 1v 3T 0I
+3t 2B 2k 2t 2O 0e 2l 1L
+
+## page 68  (72 codes, 9x8, above 4 lines of ordinary runes)
+28 2a 0J 1L 0c 3C 2o 0X
+00 2Z 2d 1T 2u 1t 1j 0l
+1o 1E 3T 18 3E 1G 27 0L
+0v 2t 06 11 1A 2U 4B 1O
+2M 3d 2S 0x 0w 0q 0p 2V
+18 0q 1D 49 2O 00 1v 2t
+1k 3s 3G 21 3w 0W 29 2r
+2O 2L 0g 3Y 0M 0u 3l 3C
+1r 2c 2q 3o 30 0a 39 1K

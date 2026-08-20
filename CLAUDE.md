@@ -86,7 +86,8 @@ residual doublets are transcription-noise-consistent (no key-period leak).
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling)
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as keys)
+- **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` + `analyze_codepage.py` (the page 66-68 two-char code)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
 - Runs archived under `results/`; candidate key texts + research briefing vendored under `download/` (PD); background research in `docs/cicada-3301-background.md`.
@@ -107,15 +108,17 @@ BUT the investigation is **NOT** complete: a full page-image catalogue (§15)
 found the transcription silently omits substantial **numeric/code content** the
 rune-only toolkit never saw. That is the live front now:
 
-1. **The two magic squares.** Page 16 = **5×5, magic constant 3301**, palindromic,
-   prime centre 809 (this IS the genuine LP square the 2025 write-up used). Page
-   32 = **4×4 grid, every cell = 3301 − prime**, 3299 in red, + a Möbius. Test
-   these as **keys / interrupters for the unsolved runic pages**, or decode them
-   as a puzzle in their own right. Values are in
-   `results/page_glyph_catalogue_2026-08-20.txt`.
-2. **The code pages.** Page 67 is **104 two-char alphanumeric codes** (digit 0–4
-   + letter), no runes; pages 66, 68 carry more; page 73 a hex block; page 05 a
-   numeric table. A separate cipher/dataset — transcribe and analyse.
+1. **The two magic squares** (page 16 = 5×5 const 3301; page 32 = 4×4, cells =
+   3301 − prime). Tested as *repeating keys* — negative (§16, `attack_magicsquare.py`):
+   row/col/unique/reversed × mod-29 and page-32 prime transforms all give
+   gibberish, control-validated. STILL UNTESTED: a bespoke reading path, a
+   per-page sub-square, or the square as an *interrupter/skip schedule* rather
+   than an additive key. Or decode the squares as a puzzle in their own right.
+2. **The code pages** (66/67/68). Transcribed → `data/code_pages.txt`; §16
+   (`analyze_codepage.py`) shows they are HIGH-ENTROPY (key-like, not a
+   substituted message) — no natural decode reads English or keys the runes.
+   Open: a verified (non-OCR) transcription of all three pages, page 73's hex,
+   and community context; then treat as a pad / index / self-enciphered stream.
 3. **Recurring marks**: the cuneiform cluster (50–56, likely a section motif),
    red pixel-blocks (line-ends), red verse numerals — probably structural.
 

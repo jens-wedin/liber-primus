@@ -1,0 +1,35 @@
+magic-square key derivations (9):
+  sq16_row               len 25: EAGOEBNUFGMIABJYJBIAMGFUNBOEGEA
+  sq16_col               len 25: EAUBIANGFJMBOEGYGOEBMJFGNIABUEA
+  sq16_uniq              len 13: EAGOEBNUFGMIABJY
+  sq16_rev               len 25: EAGOEBNUFGMIABJYJBIAMGFUNBOEGEA
+  sq32_row               len 16: IOLOEUOENGAEJBMWNGBEOOE
+  sq32_col               len 16: IUJNGOOEBBLNGMEOOEAEWOE
+  sq32_primes_mod29      len 16: XNGRTHDTHOEAPWCBOWEOTH
+  sq32_gp_runes          len  8: PNGHFUCOTH
+  sq32_prime_ordinal     len 14: XOEGIANUTHOGROFUTH
+
+refs: English trigram -3.38, random -6.59
+
+=== POSITIVE CONTROL: plant a word key + key-skip ===
+  recovered key 'CIRCUMFERENCE' sign -1, trigram -3.90, 83% of plaintext
+  control: PASS
+
+=== CHANCE CEILING (these keys on random text): -4.57 ===
+
+REAL unsolved segments (magic-square keys + key-skip):
+  17.jpg-19.jpg - 0.jpg-2.jpg        key 'sq32_prime_ordinal' c-k trigram -4.72
+  20.jpg - 3.jpg-5.jpg               key 'sq32_primes_mod29' c+k trigram -4.64
+  20.jpg - 3.jpg-5.jpg               key 'sq32_row' c-k trigram -4.68
+  23.jpg, 24.jpg - 6.jpg-7.jpg       key 'sq32_prime_ordinal' c+k trigram -4.69
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29 key 'sq32_primes_mod29' c+k trigram -4.23  <-- ABOVE CEILING
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36 key 'sq32_primes_mod29' c+k trigram -4.64
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 2 key 'sq32_primes_mod29' c-k trigram -5.00
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48 key 'sq16_row' c-k trigram -4.63
+  50.jpg - 33.jpg                    key 'sq16_row' c-k trigram -4.49  <-- ABOVE CEILING
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54 key 'sq32_primes_mod29' c+k trigram -4.58
+  56.jpg - 39.jpg                    key 'sq16_col' c-k trigram -5.00
+  57.jpg - 40.jpg                    key 'sq32_gp_runes' c-k trigram -4.37  <-- ABOVE CEILING
+  71.jpg - 54.jpg                    key 'sq16_uniq' c+k trigram -4.77
+
+best: trigram -4.23 on 25.jpg, 26.jpg, 27.jpg, 28.jpg (key 'sq32_primes_mod29') vs ceiling -4.57, English -3.38 -> NO SIGNAL — best decode is gibberish, no better than chance

@@ -533,3 +533,37 @@ the **images open a genuinely new front** the toolkit was blind to — two magic
 squares and 100+ codes with obvious cryptographic intent. Whether they are keys
 for the unsolved runic pages, a separate cipher, or an index, is untested. This
 re-opens the investigation on new material. `results/page_glyph_catalogue_2026-08-20.txt`.
+
+## 16. Testing the new front — magic-square keys (negative) and the code pages
+
+**Magic squares as keys — negative, control-validated.** `attack_magicsquare.py`
+derives candidate keystreams from both squares under natural transforms —
+row/column/unique/reversed reading orders with values mod 29, plus page 32's
+prime structure (3301−value mod 29; the Gematria-Primus-prime rune indices; the
+prime ordinals mod 29) — and key-skip beam-decodes every unsolved segment with
+each, both signs, through the validated word-key pipeline (CIRCUMFERENCE control
+passes: recovered #1, 83%, −3.90). Result: **negative**. Best decode −4.23
+(gibberish), at the −4.57 chance ceiling, far from English −3.38. Neither square
+is a repeating keystream for the unsolved pages under these derivations.
+Untested: a bespoke-path key, a per-page sub-square, or the square as an
+interrupter schedule. `results/magicsquare_2026-08-20.txt`.
+
+**The code pages — a high-entropy, unsolved sub-cipher.** Pages 66, 67, 68 carry
+two-character codes (a digit 0–4 + a base-62 character); page 67 is a full
+104-code page (no runes), page 68 has 72 codes *above* four ordinary rune lines
+(the codes are spatially separate from the runes, not interlinear). Transcribed
+firsthand into `data/code_pages.txt`. Analysis (`analyze_codepage.py`): the codes
+are **high-entropy** in both positions — the second character spreads flat over
+49 of 62 symbols (max count 5), the letters show no English skew (even 'q'
+appears 5×), and the base-62 values are mostly distinct with primes at chance
+density. So the codes are **key-like data, not a simple substituted plaintext** —
+which is why no natural numeric decode (base-62; digit×26+letter; second-char
+alone), mapped into rune space, reads as English (all ≈ −6.6 = random) or works
+as a key for the unsolved pages (−4.33, chance). A genuine unsolved sub-cipher:
+plausibly itself-encrypted, a pad, or an index set. Caveat: this rests on a
+hand-transcription of small mixed-case codes (error-prone); a verified
+transcription of all three pages, plus community context, is the way forward.
+
+Net: the magic squares and the code pages are real, newly-recovered content, but
+neither yields to a first-pass attack. The §15 front is opened and characterised,
+not cracked.
