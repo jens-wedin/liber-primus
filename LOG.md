@@ -521,3 +521,23 @@ difference streams, and the naive-PRNG pad is ruled out. What genuinely remains
 is the PAGE IMAGES (the only untapped source of new information); everything else
 is either information-theoretically out of reach (a keyed CSPRNG pad) or a
 lower-prior leftover.
+
+### External lead reviewed + page images fetched (2026-08-20)
+
+Reviewed a 2025 write-up (Echo446Ghq/Magic-Square-Solution) claiming to solve a
+Liber Primus "page-16" 5x5 magic square (magic constant 3301, centre prime 809).
+The square IS a valid magic square (verified: rows/cols/diagonals all 3301), but
+the claimed decode is **numerology, not usable**: take the centre row
+[626,620,809,620,626], reduce mod 256, read as ASCII -> 'rl)lr'. Mod-256-ASCII
+has no basis in Cicada's Gematria Primus (runes<->primes); 'rl)lr' is not a
+message; "100% ASCII validity" and "p<0.0001" are vacuous (every int mod 256 IS
+a byte, and the "4 independent methods" all just re-read the same centre row);
+the Nigeria-coordinate and digital-root "layers" are apophenia. Nothing to fold
+into the toolkit; the square's provenance as a genuine LP artifact is itself
+uncited.
+
+Useful outcome: downloaded the full Liber Primus page images (75 scans,
+2400x3600, ~50 MB) from the transcription's own source (scream314/cicada3301,
+`assets/2014/liber-primus-complete`) into `data/pages/` (gitignored; rebuild with
+`bash fetch_pages.sh`). Page 00 confirmed = the "Liber Primus" title page. These
+feed the page-images thread — the one remaining lead.

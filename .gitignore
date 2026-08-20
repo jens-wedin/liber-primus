@@ -3,3 +3,4 @@ model_cache/
 keytext_cache/
 .kjv_src/
 .DS_Store
+data/pages/
