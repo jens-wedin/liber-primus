@@ -1109,12 +1109,29 @@ TRUTH→VOTE, SACRED→SOMETHING, GOVERNMENT→TOUR, KNOW→TALK) — had the au
 planted TRUTH instead of CIRCUMFERENCE, the control would have failed. ~38% of the
 key space yields no evidence.
 
-**§9 (Liber AL) — "sits at the noise floor" is wrong.** Against a computed
-13-trial matched ceiling of **−4.13**, the archived Crowley result (−3.97) is
-**0.16 ABOVE** it, not at it. It remains ~0.4–0.6 below the detection floor
-(−3.54, verified by 5 plants at 5 offsets, all recovered), so the negative stands
-— but the "identical to the noise floor" framing was never computed and is false
-for the strongest-prior text.
+**§6/§9 (book keys) — the "gibberish noise floor" was never computed, and it is
+not a property of the ciphertext.** Matched 13-trial ceilings through the
+identical pipeline:
+
+| key text | runes | matched ceiling | archived real best | |
+| --- | --- | --- | --- | --- |
+| Liber AL | 22,045 | **−4.13** | −3.97 | 0.16 **above** |
+| Blake | 33,195 | −4.01 | −4.15 | below ✓ |
+| Mabinogion | 425,501 | −3.92 | −3.97 | below ✓ |
+| KJV | 3.16M | *unverifiable — `kjv.u8` absent* | −3.95 | — |
+
+The key result is that **the ceiling scales with key-text length** (−4.01 at 33k
+offsets → −3.92 at 425k), because the coarse scan cherry-picks the top-200
+most-English-looking offsets from a larger pool. So §9's observation that all four
+bests cluster near −3.95 is exactly what a **chance maximum** looks like — it is a
+selection artefact of the search, not a shared "gibberish floor" property of the
+ciphertext as §9 framed it. Extrapolating, KJV's ceiling would be ≥ −3.92, putting
+§6's −3.95 at/below its own ceiling too — though that cannot be confirmed while
+`keytext_cache/kjv.u8` is missing, which makes **§6 not reproducible from the
+repo**. Only Liber AL exceeds its own ceiling, by 0.16 against a ceiling whose
+sampling error is ~±0.15 — a marginal excess at the edge of the null, still ~0.43
+below the detection floor (−3.54, verified by 5 plants at 5 offsets, all
+recovered). The negative stands; the "identical noise floor" sentence does not.
 
 **Two coverage claims that are simply wrong.**
 - **Crib-dragging searched 18 cribs, not 32** (§3). `--min-runes 8` silently drops
