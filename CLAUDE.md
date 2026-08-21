@@ -75,9 +75,11 @@ favoured, not proven.
 - **Coined/mangled thematic word keys** + key-skip: single-transform variants
   (C↔F/K/Q & S/Z, U/V collapses; atbash; rune reversal; vowel rotation) of the
   Cicada vocabulary. Closes the FIRFUMFERENFE=CIRCUMFERENCE gap.
-- **Very-short key brute + key-skip** is *underpowered*, not a clean negative:
-  key-skip freedom makes L≤4 keys non-identifiable and L≥5 isn't brute-forceable
-  (`probe_shortkey_id.py`, REPORT §10).
+- **Very-short key brute + key-skip** — L=2 exhaustive is a **clean negative**.
+  *(Corrected §30: the old "underpowered, L≤4 non-identifiable" claim was a
+  RANKING BUG in `probe_shortkey_id.py`, not a property of the cipher. Fixed, a
+  planted key ranks #1 at every length tested. That also voided the stated reason
+  for never running an L=3 brute — now run, see §31.)*
 - **Deterministic collision-resolution** for the no-repeat rule (fixed bump /
   nearest-value nudge): the first-difference histogram is flat, so the
   resolution is uniform (REPORT §11).

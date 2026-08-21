@@ -335,7 +335,15 @@ Not tested: Gibson's *Agrippa* (not public domain — living author); Emerson's
 prior — no documented use as a cipher key). Runs:
 `results/running_{liberal,mabinogion,blake}_2026-08-20.txt`.
 
-## 10. Very-short key brute force — underpowered, not decisive
+## 10. Very-short key brute force — ~~underpowered~~ **a clean negative** (corrected §30)
+
+> **This section's original conclusion is WRONG and is retained for the record.**
+> It rested on `probe_shortkey_id.py` reporting the true key at rank ~6/1500,
+> which §30 shows was a ranking bug (distractors drawn with replacement from an
+> 841-key space; sign-mirrors always tying; ties counted as beats). Corrected, a
+> planted key ranks **#1** at L=2–6. The L=2 exhaustive brute is therefore a
+> clean negative, and the L=3 brute this section declined to run is legitimate
+> (§31).
 
 The last short-key gap was a very short, meaningless run of runes as the key
 (page 56's φ-stream is essentially that). Before brute-forcing it,
@@ -993,3 +1001,77 @@ Net: the hypothesis space is unchanged, but the evidence under it is now sound,
 and the coverage gaps are stated rather than hidden. R4 (auditing the
 never-audited §3–§13 scripts, including an independent recomputation of the
 central finding) is outstanding.
+
+## 30. Audit of the never-audited statistical core (R4a) — central finding confirmed, §10 refuted
+
+The §28/§29 work audited only this session's code. R4 turned the same adversarial
+treatment on the scripts behind the project's oldest and most load-bearing claims
+(§2, §4, §10–§13). Result: **the central finding is independently confirmed, and
+one long-standing conclusion (§10) is refuted as a software bug.**
+
+**The central finding (§4) survives an independent recomputation.** The auditor
+rebuilt the parser and rune table from scratch — no project helpers — and got:
+doublet rate **0.6649%** (86 within-segment pairs of 12,934) against a 3.448%
+null, **z = −17.35** (p ≈ 1e-66), **IoC 0.9998**, unigram χ² 25.9 on df 28
+(marginals uniform), and equality at lags 2–8 all null — confirming the effect is
+purely lag-1. The σ is computed correctly: doublet indicators are *pairwise*
+independent under the iid-uniform null, so Var = np(1−p) is exact. Concatenating
+segments (which counts 12 cross-boundary pairs) is immaterial: 0 spurious
+doublets, 0.6643% vs 0.6649%. One overstatement corrected: "first differences are
+otherwise uniform" is only marginal — χ² 41.2 on df 27, **p ≈ 0.04**, max-bin
+z = +2.6 — now written as "uniform to p≈0.04".
+
+**§10 is REFUTED — short keys ARE identifiable.** `probe_shortkey_id.py` reported
+the true key ranking ~6/1500 at L=2 and concluded that key-skip freedom makes
+short keys non-identifiable, which is why REPORT §10 and CLAUDE.md called the
+short-key brute "underpowered, not a clean negative" and why an L=3 brute was
+never run. That rank was a **ranking bug**, three compounding errors: distractor
+keys were redrawn *with replacement* from a space of only 841 (so the true key was
+redrawn ~1.8× per trial and counted as beating itself); `score_key` maximises over
+both signs, so every key's sign-mirror `(−k mod 29)` decodes to the identical
+plaintext and always tied; and `>=` counted ties as beats. Corrected (distinct
+distractors, sign-mirror excluded, strict comparison), the true key ranks:
+
+| L | old (buggy) | corrected |
+| --- | --- | --- |
+| 2 | ~6/1500 | **1.0** |
+| 3 | ~2 | 1.3 |
+| 4, 5, 6 | ~2 | **1.0** |
+
+At head 60 every length ranks 1.0. Consequences: the existing L=2 exhaustive brute
+is a **clean negative**, not an underpowered non-result; and the stated reason for
+skipping L=3 is void, so that brute is now worth running (in progress).
+
+**A contaminated null (critical, §13).** `attack_prng.py` drew its chance ceiling
+from `LCG(700+d)` — the *same* Numerical Recipes LCG it brute-forces (`lcg_nr`),
+with seeds inside `range(20000)`. The brute recovered the exact stream that
+generated the null, decoded it to all-ᚠ, and scored −3.91 against a true ceiling
+of ≈ −5.25: inflated by 1.36 nats, under which **~30% of genuine planted breaks
+would have been reported as negative** (24 of 80 planted breaks fall below the
+rule's threshold). The root cause was systemic and had reached `controls.py`, this
+session's own fix, whose `random_runes()` used the same LCG. Nulls now come from a
+domain-separated SHA-256 stream no searched generator can produce, and the module
+self-tests that LCG seeds 0–20k cannot reproduce it. §13's conclusion survives —
+against the corrected ceiling the real best is still below it — but its published
+evidence did not.
+
+**Two weakened (not overturned) claims.**
+- §11's "no key-period leak" was tested only against a *position-locked* leak. The
+  permutation test's control checks specificity, never sensitivity; planting a
+  period-31 leak with the ~3% phase drift that key-skip itself produces yields
+  p ≈ 0.07–0.18, i.e. it would be reported as "consistent with noise". So §11
+  excludes a rigid periodic leak, not a drifting one.
+- `doublet_sim.py`'s fit band was ~15× the observed rate's standard error,
+  accepting anything under 1.66% and labelling ciphertext-autokey (1.65%, ~14 SE
+  from 0.66%) a "MATCH" — contradicting §4's own ruling-out of autokey. Tightened
+  to 3 SE; the only matching family is now no-repeat (rejection), as §4 concludes.
+- `difference_space.py` (§12) has no matched ceiling and its controls never
+  enable the no-repeat notch that defines the real data; enabling it shrinks the
+  prime control's margin from 0.32 to 0.08 nats. The §12 negative survives (best
+  real −6.02 vs English −3.38) but on a narrower margin than published.
+
+Verified sound: `parse_lp`/`gematria` (independent reparse matches exactly),
+`validate_solved` 9/9, `language_model` (score_sequence is a per-symbol mean over
+L−1 terms; an independent reimplementation matches to 1e-15), `english_plaintext`
+contains no ciphertext leakage, and the §11 permutation statistic itself is
+correctly constructed.

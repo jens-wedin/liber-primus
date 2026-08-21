@@ -33,6 +33,7 @@ from language_model import get_model
 from attack_keyskip import beam_decode
 from no_repeat_model import enc_key_skip
 from doublet_sim import english_plaintext, LCG
+from controls import detection_floor, matched_ceiling, verdict
 
 N = g.N
 
@@ -73,23 +74,36 @@ def chance_ceiling(min_len, max_len, model, head, beam, max_skip, draws):
     return max(scores), sum(scores) / len(scores)
 
 
-def power_note(min_len, max_len, model, head, beam, max_skip):
-    """Informational: plant a random short key and see if the brute recovers it
-    (it will not rank #1 at L=2 — that is the point; see probe_shortkey_id.py)."""
+def short_key_floor(min_len, max_len, model, head, beam, max_skip, samples=10):
+    """Detection floor: plant `samples` random short keys and recover each.
+
+    Replaces an informational one-key "power note" whose docstring asserted the
+    brute "will not rank #1 at L=2". That claim came from probe_shortkey_id.py,
+    whose ranking was BUGGY (distractors drawn with replacement from an 841-key
+    space, sign-mirrors always tying, ties counted as beats). With the probe
+    fixed, planted short keys rank strictly #1 — so the brute IS identifying, and
+    a real floor is meaningful.
+    """
     segs = parse("data/liber_primus.md")
     pt = english_plaintext(segs)[:head]
     rng = LCG(20260820)
-    key = [rng.randint(N) for _ in range(max_len)]
-    while len(set(key)) < 2:
-        key = [rng.randint(N) for _ in range(max_len)]
-    reps = len(pt) * (max_skip + 1) // len(key) + 4
-    ct = enc_key_skip(pt, key * reps)
-    bl, name, sign, dec, rkey = brute_best(ct, min_len, max_len, model, head,
-                                           beam, max_skip)
-    acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
-    print(f"  power note: planted {g.indices_to_latin(key)}, brute's best was "
-          f"{g.indices_to_latin(rkey)} ({'recovered' if rkey == key else 'a DIFFERENT key'}), "
-          f"acc {acc*100:.0f}%")
+    keys = []
+    while len(keys) < samples:
+        k = tuple(rng.randint(N) for _ in range(max_len))
+        if len(set(k)) >= 2 and k not in keys:
+            keys.append(k)
+
+    def plant(k):
+        reps = len(pt) * (max_skip + 1) // len(k) + 4
+        return enc_key_skip(pt, list(k) * reps)
+
+    def recover(ct):
+        bl, name, sign, dec, rkey = brute_best(ct, min_len, max_len, model,
+                                               head, beam, max_skip)
+        acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
+        return bl, tuple(rkey), acc
+
+    return detection_floor(list(keys), plant, recover, label="planted short key")
 
 
 def main():
@@ -111,35 +125,32 @@ def main():
     print(f"key space: {nkeys} short keys (len {args.min_len}-{args.max_len}), "
           f"both signs, key-skip max {args.max_skip}, head {args.head}")
 
-    print("=== CHANCE CEILING (brute on random ciphertext) ===")
-    power_note(args.min_len, args.max_len, model, args.head, args.beam,
-               args.max_skip)
-    ceil_max, ceil_avg = chance_ceiling(args.min_len, args.max_len, model,
-                                        args.head, args.beam, args.max_skip,
-                                        args.draws)
-    print(f"  best short-key trigram on RANDOM text: max {ceil_max:.2f}, "
-          f"avg {ceil_avg:.2f} over {args.draws} draws")
-    print(f"  (English decode ~{eng_ref:.2f}; a real short key would beat the "
-          f"ceiling clearly)\n")
+    real_segs = [x for x in segs if not x.solved and len(x.indices) >= 50]
+    floor, covered, uncovered, _ = short_key_floor(
+        args.min_len, args.max_len, model, args.head, args.beam, args.max_skip)
+
+    # matched ceiling: independent (non-LCG) null, one trial per real segment
+    ceil_max = matched_ceiling(
+        lambda ct: brute_best(ct, args.min_len, args.max_len, model,
+                              args.head, args.beam, args.max_skip)[0],
+        args.head, trials=len(real_segs), seed=6100)
+    print(f"=== MATCHED CHANCE CEILING (independent null, {len(real_segs)} "
+          f"trials): {ceil_max:.2f} ===\n")
 
     print("REAL unsolved segments (very-short key + key-skip):")
     overall = None
-    for s in segs:
-        if s.solved or len(s.indices) < 50:
-            continue
+    for s in real_segs:
         bl, name, sign, dec, _ = brute_best(s.indices, args.min_len,
                                             args.max_len, model, args.head,
                                             args.beam, args.max_skip)
-        flag = "  <-- ABOVE CEILING" if bl > ceil_max else ""
+        flag = "  <-- above ceiling" if bl > ceil_max else ""
         print(f"  {s.section[:38]:38s} key '{name}' "
               f"{('c-k' if sign < 0 else 'c+k')} trigram {bl:.2f}{flag}")
         if overall is None or bl > overall[0]:
             overall = (bl, s.section, name)
-    verdict = ("SIGNAL — a segment beats the chance ceiling"
-               if overall[0] > ceil_max else
-               "NO SIGNAL — real best sits at the chance ceiling (underpowered)")
-    print(f"\nbest real: trigram {overall[0]:.2f} on {overall[1][:30]} "
-          f"(key '{overall[2]}') vs ceiling {ceil_max:.2f} -> {verdict}")
+    print(f"\nbest real on {overall[1][:30]} (key '{overall[2]}')")
+    print(verdict(overall[0], floor, ceil_max, len(covered),
+                  len(covered) + len(uncovered), label="planted short keys"))
 
 
 if __name__ == "__main__":

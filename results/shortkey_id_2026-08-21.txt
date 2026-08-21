@@ -1,0 +1,10 @@
+identifiability of length-L keys under key-skip (400 distractors x 3 trials):
+L=2 head=30 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~96%, ties ~0.0 | ranks [1, 1, 1]
+L=3 head=30 beam=100: true-key rank ~1.3 of 401 distinct (want 1), acc ~86%, ties ~0.0 | ranks [1, 1, 2]
+L=4 head=30 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~87%, ties ~0.0 | ranks [1, 1, 1]
+L=5 head=30 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~87%, ties ~0.0 | ranks [1, 1, 1]
+L=6 head=30 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~94%, ties ~0.0 | ranks [1, 1, 1]
+--- longer head (more constraint per key value) ---
+L=2 head=60 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~98%, ties ~0.0 | ranks [1, 1, 1]
+L=3 head=60 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~98%, ties ~0.0 | ranks [1, 1, 1]
+L=4 head=60 beam=100: true-key rank ~1.0 of 401 distinct (want 1), acc ~93%, ties ~0.0 | ranks [1, 1, 1]

@@ -889,3 +889,40 @@ R4 (audit the never-audited §3–§13 scripts, incl. an independent recomputati
 the central finding) delegated to two adversarial agents — in progress.
 
 validate_solved 9/9 throughout; controls.py self-test passes. REPORT §29.
+
+### 2026-08-21 (cont.) — R4a: audit of the never-audited statistical core (§30)
+
+CENTRAL FINDING CONFIRMED by independent recomputation (own parser, no project
+helpers): doublet 0.6649% (86/12,934), z=−17.35, IoC 0.9998, lags 2–8 null (pure
+lag-1). Sigma computed correctly (pairwise-independent indicators → exact
+variance). Cross-segment concatenation immaterial (0 spurious doublets). Only
+correction: "first differences uniform" is marginal (χ²41.2/df27, p≈0.04).
+
+§10 REFUTED — and this one is a conclusion reversal, not a methodology tidy-up.
+`probe_shortkey_id.py`'s "true key ranks ~6/1500 at L=2, NOT identifiable" was a
+ranking bug with three compounding causes: distractors drawn WITH replacement
+from an 841-key space (true key redrawn ~1.8×/trial, counted as beating itself);
+`score_key` maxes over both signs so every key's sign-mirror decodes identically
+and always tied; `>=` counted ties as beats. Fixed → rank 1.0 at L=2, 1.3 at L=3,
+1.0 at L=4/5/6; 1.0 everywhere at head 60. So short keys ARE identifiable, the
+L=2 brute is a CLEAN NEGATIVE, and the stated reason for never running L=3 is
+void. L=3 brute (24,389 keys) launched.
+
+CRITICAL contaminated null (§13): attack_prng drew its ceiling from LCG(700+d) —
+the same NR LCG it brute-forces, seeds inside range(20000) — so it recovered the
+null's own stream, decoded all-ᚠ, scored −3.91 vs a true ≈−5.25. Under that
+inflated ceiling ~30% of genuine planted breaks read as negative. Root cause had
+reached MY controls.py (same LCG in random_runes). Fixed: domain-separated
+SHA-256 null + a self-test that no searched LCG seed reproduces it.
+
+Weakened but not overturned: §11's "no key-period leak" only excludes a
+POSITION-LOCKED leak (a period-31 leak with the ~3% drift key-skip itself causes
+scores p≈0.07–0.18 → would read as "noise"); doublet_sim's fit band was 15× the
+observed SE and mislabelled ciphertext-autokey (1.65%) a MATCH — tightened to
+3 SE, now only no-repeat matches, agreeing with §4; difference_space (§12) has no
+matched ceiling and its controls never enable the no-repeat notch (margin shrinks
+0.32→0.08 nats when enabled) — negative survives on a narrower margin.
+
+Sound: parse/gematria (independent reparse matches), validate_solved 9/9,
+language_model (independent reimplementation matches to 1e-15), english_plaintext
+has no ciphertext leakage, §11's permutation statistic correctly constructed.
