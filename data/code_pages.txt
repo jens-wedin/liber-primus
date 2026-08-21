@@ -3,9 +3,13 @@
 # digit 0-4 followed by a base-62 character (0-9, a-z, A-Z). Reading order is
 # left-to-right, top-to-bottom, as laid out on the page.
 #
-# CAVEAT: hand-transcribed from image; mixed-case OCR at this size is error-prone,
-# so treat individual codes as ~reliable-not-exact. Page 66 (a partial block with
-# a red pixel-grid) is not yet transcribed. Analysis: analyze_codepage.py.
+# VERIFIED 2026-08-21 (P1.3): pages 67 and 68 were re-read from the scans code-by-
+# code and confirmed EXACT, case included (0S vs 0s, 1O vs 1o, 1l vs 1I, etc.).
+# Page 66 is now transcribed for the first time (single careful pass; a couple of
+# mixed-case letters ~90% confident). The scans are clean line-art at this size,
+# so transcription is reliable — not the OCR-noise earlier feared. The rune lines
+# on pages 66/68 are separate content (not part of these code blocks).
+# Analysis: analyze_codepage.py.
 
 ## page 67  (full page, 104 codes, 13x8, NO runes)
 2M 0w 3L 3D 2r 0S 1p 15
@@ -32,3 +36,15 @@
 1k 3s 3G 21 3w 0W 29 2r
 2O 2L 0g 3Y 0M 0u 3l 3C
 1r 2c 2q 3o 30 0a 39 1K
+
+## page 66  (80 codes, 10x8, BELOW 3 lines of runes ending in a red pixel-block)
+3N 3p 2l 36 1b 3v 26 33
+1W 49 2a 3g 47 04 33 3W
+21 3M 0F 0X 1g 2H 0x 1R
+1n 3l 2r 0P 2U 16 2L 2D
+1t 1s 3H 0d 0s 1K 2D 05
+1K 1O 0S 1D 3o 1l 3J 1G
+4D 0G 0l 0x 1Q 2p 2a 1K
+4E 1w 2Q 19 1k 3G 24 0p
+22 4F 0P 3C 3J 1D 2n 1m
+2i 1J 3P 2v 1s 2O 0k 1M

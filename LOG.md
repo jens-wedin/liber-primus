@@ -705,6 +705,18 @@ the removed ᚠᚠ (gap 1, non-prime) drops it to +2.3, within multiple-comparis
 noise. Solved reference flat too. So no ᚠ fingerprint survives into the ciphertext
 — empirically confirms §18's caveat. `results/fpositions_2026-08-21.txt`.
 
-P1.3 (code-pages verified transcription) is the remaining P1 — genuinely
-human-in-the-loop (careful non-OCR reading of the page scans), not a scripted
-experiment; teed up but not run this session.
+(P1.3) Code pages — verified transcription + re-analysis. The scans
+(`data/pages/{66,67,68}.jpg`) are clean line-art and legible, so I read them
+directly: pages 67 (104) and 68 (72) confirmed EXACT against the existing
+hand-transcription (case included); page 66 transcribed for the first time (10×8
+= 80 codes, below 3 rune lines + a red pixel-block). All 256 codes validate as
+digit(0-4)+base-62; `analyze_codepage.py` now loads all three from
+`data/code_pages.txt`. Re-run on the full set: §16 verdict holds — no natural
+decode reads English (−6.48 ≈ random) or keys the pages (−4.33 vs −4.40).
+New structural hints: total = 256 = 2⁸ (cross-checks the page-66 row count; maybe
+a 256-entry table/pad), and the leading digit is non-uniform (0–3 ~60 each, 4
+rare at 6.6%). REPORT §21, `results/codepage_2026-08-21.txt`. Remaining P1.3 work
+(codes as an index into the runes / a pad / self-enciphered) stays open (P2/P3).
+
+All three P1 experiments are now run; P1.1 and P1.2 negative, P1.3 transcription
+complete + verified with the analysis unchanged (two new structural leads).

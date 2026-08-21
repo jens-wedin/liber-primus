@@ -678,3 +678,26 @@ across the six statistics. The solved reference shows no bulk enrichment either
 co-occurrence, not a population signal. Conclusion: the literal-f layer is a
 **plaintext** property that does not survive encryption into the ciphertext — a
 clean empirical bound, consistent with §18. `results/fpositions_2026-08-21.txt`.
+
+## 21. Code pages verified + completed (P1.3) — still high-entropy, two structural hints
+
+P1.3 asked for a verified, non-OCR transcription of the code pages and a re-test.
+The scans are clean line-art at legible size, so pages 67 and 68 were re-read
+code-by-code against `data/pages/{67,68}.jpg` and the existing hand-transcriptions
+confirmed **exact** (case included: 0S/0s, 1O/1o, 1l/1I). Page 66 — a 10×8 block
+of 80 codes below three rune lines and a red pixel-block — is now transcribed for
+the first time. All 256 codes validate as digit(0-4)+base-62.
+
+Re-running `analyze_codepage.py` on the full, verified 256-code set: the §16
+verdict holds — no natural numeric decode (base-62; digit×26+letter; second-char
+alone) reads as an English rune message (best −6.48 ≈ random −6.59) or keys the
+unsolved pages (−4.33 vs −4.40 ceiling). High-entropy, key-like, unbroken.
+
+Two structural notes for future work: (1) the three blocks total **256 = 2⁸**
+codes (104+72+80) — a round total that also independently cross-checks the
+page-66 row count; the set may be a 256-entry table / pad / S-box. (2) the leading
+digit is **not** uniform over 0–4: 0–3 are common (~60 each) but **4 is rare**
+(17/256 = 6.6%), so the first char behaves like a 4-ary symbol with an occasional
+escape rather than a flat 5-ary one. Neither cracks the pages, but both sharpen
+the "treat as a pad / index / self-enciphered stream" direction (BACKLOG P1.3
+remainder). `results/codepage_2026-08-21.txt`.

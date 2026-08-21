@@ -1,0 +1,19 @@
+loaded 3 pages, 256 codes total (67:104 + 68:72 + 66:80)
+  format OK: every code is digit(0-4) + base-62 char
+  page 67   104 codes | 1st {'0': 26, '1': 17, '2': 25, '3': 26, '4': 10} | 2nd 49 distinct, max count 5
+  page 68    72 codes | 1st {'0': 19, '1': 17, '2': 21, '3': 13, '4': 2} | 2nd 42 distinct, max count 3
+  page 66    80 codes | 1st {'0': 15, '1': 24, '2': 19, '3': 17, '4': 5} | 2nd 44 distinct, max count 5
+  COMBINED  256 codes | 1st {'0': 60, '1': 58, '2': 65, '3': 56, '4': 17} | 2nd 59 distinct, max count 11
+
+refs: English trigram -3.38, random -6.59
+
+=== code stream as a MESSAGE (decode -> runes -> trigram) ===
+  d*62+b62 %29       trigram -6.78   IAOUOEGAEFNJYRDPAEUOEAGPTHAGFGIWEAAJTFRXEAYDEA
+  b62*5+d %29        trigram -6.59   ISGANGNIYIASNGEAHMCSAENGBIXTHFTHEOTACYDFUOESSI
+  b62(second) %29    trigram -6.48   MOEIIAAEAECEAXNGDUNGUOTIANTHLDFDTHOEAEOJRFFILX
+  d*26+letter %29    trigram -6.67   GOETHDJEEOSEOATHPJJLAEYXEAAIROEWOEPNGOERCOETFW
+  best message trigram -6.48 (b62(second) %29) vs English -3.38 -> gibberish
+
+=== code stream as a KEY for the unsolved runic pages ===
+  chance ceiling (these keys on random text): -4.40
+  best key decode trigram -4.33 on 50.jpg - 33.jpg (d*62+b62 %29) vs ceiling -4.40 -> NO SIGNAL — gibberish

@@ -51,7 +51,13 @@ untried leads surfaced).
 - **Cheap** (uses data we already have; no decryption needed).
 
 ### 3. Code pages 66 / 67 / 68 (+ page-73 hex) — verified transcription & structure
-- **Status.** The highest-prior *open* front (REPORT §16); characterised as
+- **PARTLY DONE 2026-08-21 (REPORT §21).** Transcription VERIFIED from the scans:
+  67 (104) and 68 (72) exact, page 66 (80) newly transcribed; all 256 codes valid.
+  Page-73 "hex" is the already-known AN END SHA-512, not new. First-pass analysis
+  unchanged (high-entropy; no decode/key). NEW leads: total = 256 = 2⁸ (possible
+  256-entry table/pad); leading digit non-uniform (4 rare, 6.6%). **Still open:**
+  the codes as an index into the runes / a pad / a self-enciphered stream.
+- **Status.** The highest-prior *open* front (REPORT §16/§21); characterised as
   high-entropy, key-like, not a substituted message.
 - **Method.** Re-transcribe from the page images non-OCR (two independent
   passes, reconcile) into `data/code_pages.txt`; then test the codes as (a) an
