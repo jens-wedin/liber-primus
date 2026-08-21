@@ -158,6 +158,13 @@ def positive_control(Karr, model, T, scan_head, step, conf_len, top, beam,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--key", default="kjv")
+    ap.add_argument("--reverse", action="store_true",
+                    help="read the KEY TEXT backwards (rune-reversed). §6/§9's "
+                         "'both directions' only ever meant both SIGNS "
+                         "(p=c-k, p=c+k); a backwards-read key text — the "
+                         "classic book-cipher variant, and Cicada demonstrably "
+                         "uses reversed gematria on solved pages 06-09 — was "
+                         "never tested. Audit finding, 2026-08-21.")
     ap.add_argument("--scan-head", type=int, default=28,
                     help="window length for the coarse offset scan")
     ap.add_argument("--step", type=int, default=24, help="window stride")
@@ -173,11 +180,18 @@ def main():
     model = get_model(args.order)
     T = trigram_table(model)
     Karr = np.array(keytexts.get(args.key), dtype=np.int16)
+    if args.reverse:
+        Karr = Karr[::-1].copy()
+        print(f"KEY TEXT REVERSED ({args.key} read backwards, "
+              f"{len(Karr)} runes)")
     eng_ref = model.score_sequence(english_plaintext(segs)[:400])
 
-    positive_control(Karr, model, T, args.scan_head, args.step, args.conf_len,
-                     args.top, args.beam, args.max_skip)
-    run_key(args.key, Karr, segs, model, T, args.scan_head, args.step,
+    if not positive_control(Karr, model, T, args.scan_head, args.step,
+                            args.conf_len, args.top, args.beam, args.max_skip):
+        raise SystemExit("control FAILED — aborting rather than reporting an "
+                         "unvalidated negative (audit: controls must GATE).")
+    run_key(args.key + ("-reversed" if args.reverse else ""), Karr,
+            segs, model, T, args.scan_head, args.step,
             args.conf_len, args.top, args.beam, args.max_skip, eng_ref)
 
 

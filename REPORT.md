@@ -61,6 +61,10 @@ sizes explain.
   feedback loop skews the output distribution regardless of content; word
   scores stay at zero, which is the honest verdict.
 - **Crib-dragging** (`crib_drag.py`): 32 Cicada-vocabulary cribs dragged
+  *(correction §31: only **18** were effectively tested — `--min-runes 8` drops 4,
+  including the page openers A KOAN and AN END, and all 10 F-bearing cribs had
+  every legal placement rejected by the literal-ᚠ filter, contributing zero
+  scored placements)*
   word-aligned over every unsolved segment, exploiting the preserved word
   boundaries and the literal-ᚠ rule as filters (422 legal placements). The
   implied keystream at each placement was tested for constant/AP/short
@@ -1075,3 +1079,76 @@ Verified sound: `parse_lp`/`gematria` (independent reparse matches exactly),
 L−1 terms; an independent reimplementation matches to 1e-15), `english_plaintext`
 contains no ciphertext leakage, and the §11 permutation statistic itself is
 correctly constructed.
+
+## 31. Audit of the never-audited attack scripts (R4b) — three negatives weakened, two coverage claims wrong
+
+The companion to §30, over the scripts behind §3 and §5–§9. **No negative is
+overturned**, but three rest on far less than the write-ups claimed, and two
+stated coverage figures are simply wrong.
+
+**§5 (self-referential running keys) — coverage ≈0.1%, and no control at all.**
+`attack_keycrib.py` Part A has no positive control (violating the project's first
+ground rule) and hardwires every candidate key stream to start at rune 0
+(`Kx = (K + K)[...]`). Planting the hypothesis at other offsets shows what that
+costs: offset 0 → recovered (95% accuracy, −3.72); offset **50 → missed** (4%);
+offset **300 → missed** (3%). The run therefore covers 26 of ~26,000 natural
+hypotheses (13 streams × 2 signs × ~1000 offsets). The offset-0 conclusion is
+sound — a computed detection floor of −3.76 against a matched ceiling of −4.86
+puts the archived best (−4.79) 1.03 below the floor — but §5's claim that the
+running-key hypothesis is "exhausted in every form testable without the actual
+key text" is **not supported**.
+
+**§7/§8 (word keys) — a negative with essentially zero operating margin.**
+Planting 13 real keys × 5 plaintexts through the exact `main()` settings gives a
+**detection floor of −4.00**; a matched 13-trial ceiling at the same length is
+**−4.01**. The score a genuine break produces and the level pure noise reaches are
+the same number. The negatives survive (0 of 60 planted breaks scored as low as
+the real −4.23/−4.13), but with no headroom. Worse for coverage: on the script's
+own control plaintext **5 of 13 planted keys do not rank first** (INSTAR→INSIDE,
+TRUTH→VOTE, SACRED→SOMETHING, GOVERNMENT→TOUR, KNOW→TALK) — had the author
+planted TRUTH instead of CIRCUMFERENCE, the control would have failed. ~38% of the
+key space yields no evidence.
+
+**§9 (Liber AL) — "sits at the noise floor" is wrong.** Against a computed
+13-trial matched ceiling of **−4.13**, the archived Crowley result (−3.97) is
+**0.16 ABOVE** it, not at it. It remains ~0.4–0.6 below the detection floor
+(−3.54, verified by 5 plants at 5 offsets, all recovered), so the negative stands
+— but the "identical to the noise floor" framing was never computed and is false
+for the strongest-prior text.
+
+**Two coverage claims that are simply wrong.**
+- **Crib-dragging searched 18 cribs, not 32** (§3). `--min-runes 8` silently drops
+  4 — including *A KOAN* and *AN END*, the documented openers of pages 14 and 73 —
+  and all 10 F-bearing cribs produced **zero** scored placements, every legal
+  placement rejected by the literal-ᚠ filter. All 422 scored placements come from
+  18 F-free cribs. Given §19 finds no literal-ᚠ convention on the unsolved pages,
+  those 10 cribs were effectively never tested.
+- **"Both directions" means both SIGNS** (p = c−k, p = c+k), not a reversed key
+  text (§6/§9). No key-text reversal or atbash appears anywhere in
+  `attack_running_text.py` or `keytexts.py`. A backwards-read key text is the
+  classic book-cipher variant, and Cicada demonstrably uses reversed gematria on
+  solved pages 06–09 — so this is a genuine, untested, high-prior hypothesis.
+  A `--reverse` option now exists and is being run (§32).
+
+**Other confirmed defects.** `crib_drag.selftest()` is partly vacuous — deleting
+the literal-ᚠ rule entirely, or zeroing the bigram model, still leaves it passing
+(only the structural arm is exercised); its printed "random baseline" of −3.37 is
+`−log 29`, an upper bound, where the empirical mean is **−3.95** (LOG.md reasoned
+from the wrong number). `attack_keyskip.py` looped `range(N)` for the key START
+OFFSET — using the alphabet size (29) as a keystream index bound; planted starts
+0/10/28/40 are found but **120 is missed**, so §3's key-skip negative covered
+starts ≈0–50 only (now `--max-start`, default 200). `attack_running_text.py` scans
+only the first ~140 runes of each segment (mean coverage ≈14%, 4.7% on the
+largest), which §6/§9 never state. And across all six scripts **controls were
+advisory, never gating** — a FAILED control printed "FAIL" and the script carried
+on to report its negative; they now abort.
+
+**Verified sound.** §3's prime/totient key-skip negative is clean and now has
+numbers (floor −3.66, matched ceiling −4.77, real bests −4.89…−4.98 — below both);
+`attack_keyskip.selftest` genuinely exercises its mechanism (4 of 5 deliberate
+breakages kill it); §3's never-computed claim that the best crib keystream is
+"indistinguishable from the best of 422 random draws" is **true** (P = 0.31);
+`attack_running_text` really does search every offset and its control plants a key
+from the same text and recovers it (5/5); and `attack_runningkey`'s
+"intrinsically underpowered" self-diagnosis is correct and not a beam artifact
+(separation stays ≤0.04 at beam 4000).

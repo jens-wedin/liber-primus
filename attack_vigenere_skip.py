@@ -165,7 +165,9 @@ def main():
               f"{args.min_len}-{args.max_len})")
     eng_ref = model.score_sequence(english_plaintext(segs)[:400])
 
-    positive_control(keys, model, args.head, args.beam, args.max_skip)
+    if not positive_control(keys, model, args.head, args.beam, args.max_skip):
+        raise SystemExit("control FAILED — aborting rather than reporting an "
+                         "unvalidated negative (audit: controls must GATE).")
     if args.mangle:
         mangle_control(keys, model, args.head, args.beam, args.max_skip)
 

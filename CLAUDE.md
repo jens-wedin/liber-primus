@@ -65,12 +65,18 @@ favoured, not proven.
 - Prime/totient keystreams, ± directions, with/without key-skip.
 - Autokey (plaintext/ciphertext fed), short primers.
 - Running key, every way testable without the actual key text: key-text-free
-  joint-English (intrinsically underpowered), self-referential keys,
-  common-word key-crib (false positives at exactly the random rate).
+  joint-English (intrinsically underpowered — correctly self-diagnosed),
+  self-referential keys *(§31: only at key offset 0 — ~0.1% of the hypothesis
+  space; offsets 50/300 are provably invisible, so "exhausted" is NOT supported)*,
+  common-word key-crib (false positives at exactly the random rate; §31 finds this
+  arm near-powerless: 23-44% true-positive rate).
 - **Candidate running-key texts** (control-validated): KJV, Crowley's *Liber
   AL vel Legis*, the *Mabinogion*, Blake's *Marriage of Heaven and Hell* — the
   texts Cicada is documented to have used/referenced — whole text, every
-  offset, both directions. (REPORT §6, §9.)
+  offset, both SIGNS. (REPORT §6, §9.) **NB §31: "both directions" never meant a
+  REVERSED key text — that is untested and high-prior (Cicada uses reversed
+  gematria on solved pages 06-09); `attack_running_text.py --reverse` now exists.
+  Also: only the first ~140 runes of each segment are scanned (~14% coverage).**
 - **Short word keys + key-skip** over Cicada vocab + top ~1200 English words.
 - **Coined/mangled thematic word keys** + key-skip: single-transform variants
   (C↔F/K/Q & S/Z, U/V collapses; atbash; rune reversal; vowel rotation) of the

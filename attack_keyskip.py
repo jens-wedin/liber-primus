@@ -91,6 +91,13 @@ def main():
                     help="analyze only the first N runes of each segment "
                          "(enough to detect English; 0 = whole segment)")
     ap.add_argument("--order", type=int, default=3)
+    ap.add_argument("--max-start", type=int, default=200,
+                    help="how far into the keystream to try starting. The "
+                         "original code looped `range(N)` — using the ALPHABET "
+                         "SIZE (29) as a keystream-offset bound, which is a "
+                         "category error. An audit planted prime-index starts "
+                         "0/10/28/40 (all found) and 120 (MISSED), so the old "
+                         "negative covered starts ~0-50 only.")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -102,6 +109,10 @@ def main():
 
     print(f"selftest first: ", end="")
     ok = selftest(model)
+    if not ok:
+        raise SystemExit("selftest FAILED — the beam cannot recover a planted "
+                         "key-skip stream, so any negative below would be "
+                         "meaningless. Aborting (audit: controls must GATE).")
     print()
 
     unsolved = [s for s in segs if not s.solved and len(s.indices) >= 50]
@@ -126,7 +137,7 @@ def main():
         best = None
         for kname, K in Ks.items():
             for sign in (-1, +1):
-                for start in range(N):
+                for start in range(args.max_start):
                     sc, dec = beam_decode(ix, K, start, sign, model,
                                           args.beam, args.max_skip)
                     bl = sc / max(1, len(ix) - 1)
