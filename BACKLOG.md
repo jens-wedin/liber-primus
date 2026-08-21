@@ -11,6 +11,76 @@ key" readings closed), §18 (the literal-ᚠ GP-sum steganography layer on solve
 pages), and the Uncovering-Cicada wiki sweep (independent replication of §4;
 untried leads surfaced).
 
+## R — RE-DO BACKLOG (opened 2026-08-21 by the §28 self-audit)
+
+The audit of §17–§27 found defect *classes*, not one-off slips. This section
+lists work that must be **re-done** because the stated evidence does not support
+the stated conclusion. Expectation: most of these will CONFIRM their negative —
+the real scores sit far below even a corrected threshold — but as they stand they
+are not established. Order is by risk (could the conclusion be wrong?).
+
+### R1. Beam attacks whose verdict rule would report a REAL BREAK as negative
+**Evidence (not speculation):** the beam adds a per-skip penalty and normalises by
+len−1, so a genuine break scores ~−4.0, not ~−3.4. Any script that judges a beam
+score by "near English" (`eng − 0.5` = −3.88) therefore rejects real breaks. This
+was proven in §26 (planted keys recovered at 97–100% scored −4.00) — and:
+- **`attack_magicsquare.py` (§16) — CONFIRMED BROKEN.** Its own planted
+  CIRCUMFERENCE control recovers at **−3.90, below its own −3.88 threshold**: the
+  script would call its own successful control "NO SIGNAL".
+- **`analyze_codepage.py` (§21)** — same beam, same rule; its key test also
+  reported the real best (−4.33) *above* its own ceiling (−4.40).
+- **`attack_literal_f.py` (§19)** — same rule; never re-run with a floor.
+
+**Fix:** replace the "near English" rule with an empirical **detection floor** —
+plant each hypothesis, recover it, use the minimum recovered score as the
+threshold (the pattern now in `attack_hints.py` / `attack_codepages.py`).
+**Also report which hypotheses are non-identifiable** (fail to self-recover) as
+NOT COVERED rather than negative.
+NB `attack_magicsquare_interrupter.py` (§17) and `attack_prng.py` (§13) are
+direct-decode, not beam — their thresholds are sound. Do not "fix" them.
+
+### R2. Under-powered / mismatched chance ceilings
+Ceilings took a max over 6 random draws while the real result is a max over 13
+segments, and some were computed at a fixed length while short segments were
+scored on 91–121 symbols (shorter sequences score higher).
+- `attack_magicsquare.py` (§16), `analyze_codepage.py` (§21),
+  `attack_shortbrute.py` (§10), `attack_literal_f.py` (§19).
+- `attack_magicsquare_interrupter.py` (§17) — length mismatch only; the audit's
+  matched ceiling puts the best real **0.37 BELOW** it, i.e. a *stronger*
+  negative than published. Re-run to correct the record.
+**Fix:** draws = number of real trials; compute the null at each segment's own
+length.
+
+### R3. An attack with no positive control at all
+- **`attack_autokey.py` (§3)** has only a random-head chi² baseline — no planted
+  autokey that must be recovered. That violates the project's own ground rule, so
+  the autokey negative is currently unvalidated. (Checked: `attack_runningkey.py`
+  and `attack_keycrib.py` DO calibrate — leave them.)
+**Fix:** plant a known autokey encryption, confirm recovery, then re-run.
+
+### R4. The pre-session work (§3–§16) has never been adversarially audited
+The two audits covered only this session. Everything older shares the same
+patterns: `crib_drag.py`, `attack_keyskip.py`, `attack_vigenere_skip.py`,
+`attack_running_text.py`, `attack_keycrib.py`, `attack_runningkey.py`,
+`difference_space.py`, `probe_shortkey_id.py`, `model_norepeat_mechanisms.py`,
+`analyze_unsolved.py`.
+**Do:** run the same two adversarial passes (controls & power; null models) over
+them, and check every "ruled out" claim in CLAUDE.md against its script.
+
+### R5. Systemic fix — stop re-introducing these defects
+Extract a shared `controls.py` providing `detection_floor(hypotheses, ...)` and
+`matched_ceiling(length, trials, ...)`, and route every attack through it so
+calibrated thresholds and matched nulls are the default rather than per-script
+choices. Then re-run the whole suite and **diff the conclusions** against the
+current REPORT.
+
+### Not redos — genuinely open experiments (carried forward)
+Per-page / per-line key resets (§5.3, never tested — needs page-level splits);
+running-key & word-key on the difference stream (§12 remainder); composed
+manglings (§8); Emerson / Rune-Poem key texts. See item 9 and P3 below.
+
+---
+
 ## P1 — do next
 
 ### 1. Literal-ᚠ as a keystream interrupter on the *unsolved* pages

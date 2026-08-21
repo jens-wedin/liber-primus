@@ -130,7 +130,19 @@ test; vacuous controls; nulls that weren't the real battery). No headline
 negative was overturned, but read §28 before trusting any margin quoted in
 §17–§27.
 
-### What is actually still open
+### Do this first: the RE-DO backlog (BACKLOG.md § R)
+
+The §28 audit found defect *classes*, and the pre-session work was never audited.
+`BACKLOG.md` opens with an **R section** listing what must be re-done before any
+new attack is worth running. Highest priority, with proof rather than suspicion:
+**`attack_magicsquare.py` (§16) would report a real break as negative** — its own
+planted control recovers at −3.90, below its own −3.88 "near-English" threshold.
+`analyze_codepage.py` (§21) and `attack_literal_f.py` (§19) share the rule.
+The fix everywhere is an empirical **detection floor** (plant → recover → use that
+score), plus trial- and length-matched ceilings. Expect most negatives to be
+CONFIRMED — but they are not established until this is done.
+
+### What is actually still open (new experiments)
 
 1. **Per-page / per-line key resets** (REPORT §5.3) — genuinely never tested.
    Segments bundle several .jpg pages, so this needs page-level splits first.
