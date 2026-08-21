@@ -51,7 +51,10 @@ enforcement**, most likely a **key-skip** (the key pointer advances an extra
 step to dodge a would-be doublet), which desynchronises the keystream ~3% and
 is why fixed-position attacks fail. Modeled further (REPORT §11): the collision
 resolution is **uniform** (deterministic bump/nudge ruled out) and the 86
-residual doublets are transcription-noise-consistent (no key-period leak).
+residual doublets carry no key-period leak. §23 (P2.4) revises the old
+"transcription noise" reading: an independent transcription (rtkd/iddqd)
+reproduces all 86 doublets, so they are **real ciphertext** (imperfect no-repeat
+enforcement), not copy errors.
 
 ## What has been ruled out (all control-validated)
 
@@ -87,7 +90,7 @@ residual doublets are transcription-noise-consistent (no key-period leak).
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
 - **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17), `attack_literal_f.py` (literal-ᚠ rule as a keystream interrupter — pointer HOLDS at a ciphertext ᚠ; §19/P1.1)
-- **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2)
+- **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2), `compare_transcriptions.py` (aligns our stream vs rtkd/iddqd's; the doublet-noise test, §23/P2.4)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` (pages 66/67/68 — 256 codes, verified from scans §21) + `analyze_codepage.py` (loads all three pages; natural decodes) + `attack_codepages.py` (pad / index / self-cipher / permutation-table attacks, all negative §22)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)

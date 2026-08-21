@@ -734,3 +734,25 @@ symbol): −6.2. All negative. `results/codepages_attacks_2026-08-21.txt`. The c
 pages are now characterised as far as key-free analysis reaches — consistent with
 a keyed pad/self-cipher (§13 wall). Structure carried forward: 256 = 2⁸ and the
 4-ary+escape leading digit.
+
+### 2026-08-21 (cont.) — P2.4 transcription cross-check REVISES §11 (§23)
+
+Fetched rtkd/iddqd's independent master transcription (vendored to
+`download/rtkd_liber_primus_transcription.txt`) and aligned it to our scream314
+stream with difflib (`compare_transcriptions.py`). Agreement 15744/15750 runes
+(0.994). Doublet test: rtkd reproduces **ALL 86** unsolved doublets (0 disagree),
+vs a 0.01% baseline disagreement — and the 6 real rune-level disagreements fall
+elsewhere. So the doublets are **REAL ciphertext, not transcription noise** —
+overturns §11's copy-error reading. Caveat: scream314/rtkd may share lineage, so
+"no independent transcription lacks them" more than proof of independence; the 6
+disagreements show they're not identical copies. Implication: the no-repeat
+enforcement is imperfect by design (0.66% genuine leak), not clean. Updated
+REPORT §11 note + §23, index.html central finding, CLAUDE central-finding note.
+
+Bonuses: (1) rtkd transcribes the code pages too — both exactly 256 tokens
+(corroborates the page-66 count §21); they agree on ~250 and differ only on ~5
+case-ambiguous l/I/L/s/S glyphs (e.g. my 3l vs rtkd 3I on page 66) — my §21 read
+stands bar those. (2) rtkd carries ~185 runes ours DROPS (≈ the rune lines that
+sit with the code blocks on pages 66/68) — another silently-omitted-content
+instance (cf. §15); logged as a new lead (recover those runes into the corpus).
+`results/transcription_compare_2026-08-21.txt`.

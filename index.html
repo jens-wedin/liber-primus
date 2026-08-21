@@ -162,7 +162,7 @@
       <div class="stat"><div class="num">~17&#963;</div><div class="cap">the deficiency</div></div>
     </div>
     <p class="dim">A pure lag-1 effect: first differences are otherwise uniform. It rules out substitution and every periodic or independent keystream. What survives is an output-stage <em>no-repeat enforcement</em> &mdash; most likely a key-skip that advances the key pointer to dodge a would-be doublet, desynchronising the stream by ~3% and defeating every fixed-position attack.</p>
-    <p class="dim">Modeled further, the collision resolution is <em>uniform</em> and the 86 residual doublets are transcription noise &mdash; no key-period leak. Whether a re-roll pad or a key-skip, the differences stay uniform; that is why every keyed attack, on the raw stream and on the differences alike, comes back silent.</p>
+    <p class="dim">Modeled further, the collision resolution is <em>uniform</em>, and the 86 residual doublets carry no key-period leak. A second, independent transcription reproduces every one of those doublets &mdash; so they are <em>real ciphertext</em>, not copy errors: the no-repeat enforcement is imperfect by design. Whether a re-roll pad or a key-skip, the differences stay uniform; that is why every keyed attack, on the raw stream and on the differences alike, comes back silent.</p>
   </section>
 
   <section>

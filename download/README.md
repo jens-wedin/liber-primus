@@ -25,6 +25,16 @@ transliteration. Project Gutenberg boilerplate is left in the Mabinogion/Blake
 files; being ordinary English it adds only harmless key material and does not
 create false running-key hits.
 
+## Transcription cross-check (not public domain — attributed)
+
+| File | What | Source | License |
+| --- | --- | --- | --- |
+| `rtkd_liber_primus_transcription.txt` | An independent master transcription of the Liber Primus runes (with word/line/page delimiters and the two-char code pages) | github.com/rtkd/iddqd, `liber-primus__transcription--master/` | CC-BY-SA (community asset) |
+
+Used by `compare_transcriptions.py` (§23/P2.4) to cross-check the vendored
+scream314 stream: it establishes that the 86 unsolved doublets are reproduced by
+an independent transcription (i.e. real, not copy noise). Unmodified from source.
+
 ## Research
 
 `cicada-3301-background.md` — briefing on the history of Cicada 3301, the runes

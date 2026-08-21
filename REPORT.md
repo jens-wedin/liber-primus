@@ -377,7 +377,10 @@ deterministic bump or nearest-value nudge is ruled out. That fits a free re-roll
 pad or a pseudo-random fixed keystream, and rules out a simple arithmetic
 interrupter — there is no fixed offset to invert at the avoided positions.
 
-**What the 86 residual doublets are — transcription noise, no key-period leak.**
+**What the 86 residual doublets are — no key-period leak.** *(Update: §23 revises
+the "transcription noise" half of this — an independent transcription reproduces
+all 86, so they are REAL ciphertext doublets, not copy errors. The no-key-period
+result below still stands.)*
 If the residual doublets leaked from the mechanism at key events, their
 positions would beat at that period, handing us the key period. They do not: the
 doubled runes are rune-uniform (χ² 26 vs ~28), the gaps between doublets are
@@ -728,3 +731,33 @@ control-validated. What survives is only the structure (§21): 256 = 2⁸ codes 
 a **keyed pad or self-cipher**, unbreakable without the key (§13). The code pages
 are now characterised as far as key-free analysis reaches.
 `results/codepages_attacks_2026-08-21.txt`.
+
+## 23. Transcription cross-check revises §11 — the 86 doublets are REAL, not noise (P2.4)
+
+§11 attributed the 86 residual unsolved-stream doublets to transcription noise (a
+plausible ~0.66% hand-copy error rate). `compare_transcriptions.py` tests that
+directly against a second, independent transcription — rtkd/iddqd's master
+(`download/rtkd_liber_primus_transcription.txt`, github.com/rtkd/iddqd). Aligned
+with difflib, the two agree on **15744/15750 runes** (ratio 0.994; 6 genuine
+rune-level disagreements, plus 185 runes rtkd has that ours drops — see below). At
+our 86 unsolved doublets, rtkd reproduces **all 86** (0 disagreements), while the
+baseline disagreement over unsolved runes is 1/12947 = 0.01%. The transcribers
+disagree on 6 *other* runes but on none of the doublets.
+
+Conclusion: the doublets are **not transcription noise** — a second transcription
+records every one, and the handful of real transcription disagreements fall
+elsewhere. §11's "transcription-noise-consistent" reading is **revised**: the
+residual 0.66% doublets are a genuine feature of the ciphertext (imperfect
+no-repeat enforcement, not copy slips). §11's other result still stands — they
+carry no key-period leak (rune-uniform). Caveat: scream314 and rtkd may share some
+transcription lineage, so this is "no independent transcription lacks the
+doublets" rather than proof of fully independent observation; the 6 real
+disagreements show the two are not identical copies, lending the doublets genuine
+(if not absolute) weight.
+
+Bonus 1 — code pages: rtkd independently transcribes the code pages too; both have
+exactly **256 tokens** (corroborating the page-66 count, §21) and agree on ~250,
+differing only on ~5 case-ambiguous glyphs (l/I/L, s/S) — the §21 read stands bar
+those. Bonus 2 — a lead: rtkd carries **~185 runes ours omits** (≈ the rune lines
+that accompany the code pages on 66/68), another instance of the transcription
+silently dropping content (cf. §15). `results/transcription_compare_2026-08-21.txt`.

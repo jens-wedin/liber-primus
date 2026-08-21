@@ -1,0 +1,18 @@
+our runes: 15750 (12947 unsolved); rtkd runes: 15933
+our unsolved within-segment doublets: 86
+
+=== ALIGNMENT (difflib) ===
+  similarity ratio 0.9938; matched 15744/15750 (100.0%) of our runes
+  differing regions: replace≈6, our-only(delete) 0, rtkd-only(insert) 185
+
+=== DOUBLET TEST (§11: are the doublets transcription noise?) ===
+  baseline: 1/12947 unsolved runes fall in a disagreeing region = 0.01%
+  of 86 unsolved doublets: rtkd REPRODUCES 86, does NOT reproduce 0 (0 different runes, 0 in an indel region) = 0% not reproduced
+  doublet disagreement 0% vs baseline 0.01% -> 0.0x enriched
+  -> rtkd REPRODUCES most doublets: they are REAL in both transcriptions, NOT mere transcription noise. Revises §11.
+
+=== BONUS: code-page transcription cross-check (my read vs rtkd) ===
+  our code tokens: 256; rtkd code tokens: 256
+  multiset diff — only in ours: ['0I', '1l', '2S', '3l']
+                  only in rtkd: ['0L', '1L', '2s', '3I', '3i']
+  same count; positional mismatches: 254 [(0, '2M', '3N'), (1, '0w', '3p'), (2, '3L', '2l'), (3, '3D', '36'), (4, '2r', '1b'), (5, '0S', '3v')]
