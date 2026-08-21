@@ -852,3 +852,40 @@ at 100%); the MC sampler; and every documented number matching its archived run.
 Lesson recorded in CLAUDE.md: calibrate the decision threshold by planting and
 recovering the hypothesis; make nulls match in length, composition AND
 multiplicity.
+
+### 2026-08-21 (cont.) — R-backlog execution: R5, R1, R2, R3 done (§29)
+
+Plan was R5 first (shared controls) then R1 through it — that ordering paid off.
+
+R5: wrote `controls.py` (self-tested): `detection_floor()`, `matched_ceiling()`,
+`shuffled()`/`shuffle_ceiling()`, `verdict()`. Its own self-test immediately
+caught a bug in MY earlier attack_hints fix: I had required BOTH a name match and
+>90% accuracy, which demotes keys that rank first but decode imperfectly.
+IDENTIFIABILITY (does the true hypothesis rank first? → defines the floor) is not
+DECODE QUALITY (accuracy → reported separately). Fixing that raised §26's coverage
+from 6/9 to 9/9 with the same negative.
+
+R1 (all four now calibrated, all negatives HOLD):
+  §16 attack_magicsquare  floor −3.95, best −4.23 (0.27 below), 8/9 covered
+  §21 analyze_codepage    floor −4.00, best −4.33 (0.33 below), 4/4
+  §19 attack_literal_f    floor −3.65, best −4.81 (1.17 below), 33/34; head 80→120
+  §26 attack_hints        floor −4.00, best −4.38 (0.38 below), 9/9
+Two coverage gaps now visible that the old scripts never reported: sq16_rev (§16)
+and one §19 config are non-identifiable → no evidence either way for those.
+
+R2: §17 interrupter now takes a ceiling at each segment's OWN length. Every
+segment sits below its own ceiling (best margin −0.19) → negative is STRONGER
+than the published fixed-length comparison suggested, as the audit predicted.
+
+R3: attack_autokey.py had no positive control at all. Added one — planted
+ciphertext- and plaintext-autokey both recovered (99%/100%, right method+sign) →
+PASS, real segments word-score 0.00. §3's autokey negative is validated for the
+first time. The control surfaced a real cipher property: a ciphertext-autokey
+primer only supplies the first L key values, so the primer is essentially
+unidentifiable — criterion is method+sign+recovery, not exact primer match. (My
+first attempt used exact-primer matching and "failed" a 99%-accurate recovery.)
+
+R4 (audit the never-audited §3–§13 scripts, incl. an independent recomputation of
+the central finding) delegated to two adversarial agents — in progress.
+
+validate_solved 9/9 throughout; controls.py self-test passes. REPORT §29.

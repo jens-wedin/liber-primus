@@ -95,7 +95,7 @@ favoured, not proven.
 - **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2), `compare_transcriptions.py` (aligns our stream vs rtkd/iddqd's; the doublet-noise test, §23/P2.4), `analyze_squares.py` (squares read directly as a message vs a numerology ceiling, §24/P2.6), `gp_filter.py` (the §18 GP-sum signature detector + control — fails to discriminate, deflates §18, §25/P2.5), `attack_hints.py` (pre-LP2 "hints never used" numeric sequences as keys/primers via the key-skip beam, negative, §26/P3.7)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` (pages 66/67/68 — 256 codes, verified from scans §21) + `analyze_codepage.py` (loads all three pages; natural decodes) + `attack_codepages.py` (pad / index / self-cipher / permutation-table attacks, all negative §22)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
-- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked), `solved_text.py` (**verified plaintexts + `full_plaintext()`** — use this, not `english_plaintext()`, for anything about ᚠ or Gematria sums; §28C)
+- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked), **`controls.py`** (detection floor + matched/shuffled ceilings + verdict renderer — route EVERY new attack through this; §29/R5), `solved_text.py` (**verified plaintexts + `full_plaintext()`** — use this, not `english_plaintext()`, for anything about ᚠ or Gematria sums; §28C)
 - Runs archived under `results/`; candidate key texts + research briefing vendored under `download/` (PD); background research in `docs/cicada-3301-background.md`.
 
 Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
@@ -130,7 +130,7 @@ test; vacuous controls; nulls that weren't the real battery). No headline
 negative was overturned, but read §28 before trusting any margin quoted in
 §17–§27.
 
-### Do this first: the RE-DO backlog (BACKLOG.md § R)
+### Do this first: the RE-DO backlog (BACKLOG.md § R) — R1/R2/R3/R5 DONE, R4 open
 
 The §28 audit found defect *classes*, and the pre-session work was never audited.
 `BACKLOG.md` opens with an **R section** listing what must be re-done before any
@@ -139,8 +139,10 @@ new attack is worth running. Highest priority, with proof rather than suspicion:
 planted control recovers at −3.90, below its own −3.88 "near-English" threshold.
 `analyze_codepage.py` (§21) and `attack_literal_f.py` (§19) share the rule.
 The fix everywhere is an empirical **detection floor** (plant → recover → use that
-score), plus trial- and length-matched ceilings. Expect most negatives to be
-CONFIRMED — but they are not established until this is done.
+score), plus trial- and length-matched ceilings — now implemented once in
+`controls.py`. **R1/R2/R3/R5 are done (§29) and every recalibrated negative held**,
+with two previously-hidden coverage gaps now reported. R4 (auditing the
+never-audited §3–§13 scripts) is the remaining item.
 
 ### What is actually still open (new experiments)
 

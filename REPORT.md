@@ -937,3 +937,57 @@ alignment and the 86/86 doublet reproduction (independently re-derived); the
 control; the interrupter grid's identifiability (**48/48 planted mechanisms
 recovered at 100%**, so §17's negative is genuinely supported); the ᚠ-position
 Monte-Carlo sampler; and every documented number matching its archived run.
+
+## 29. Re-doing the work on calibrated controls (R1–R3, R5) — every negative holds
+
+§28 found that several negatives rested on invalid evidence. This section is the
+re-do. **No conclusion changed; all of them are now supported by demonstrated
+power** — each attack proves it *could* have seen a break before claiming it
+didn't.
+
+**R5 — `controls.py` (the systemic fix).** One self-tested module now provides
+`detection_floor()` (plant each hypothesis, recover it through the identical
+pipeline, take the minimum recovered score as the threshold a real break would
+产 produce), `matched_ceiling()` (a null with the same LENGTH and the same number of
+TRIALS as the real run), `shuffled()` / `shuffle_ceiling()` (composition-matched
+nulls) and `verdict()` (so the wording cannot drift from the numbers). It also
+encodes the distinction §28 exposed: **identifiability** (does the true
+hypothesis rank first? — this defines the floor) is not **decode quality**
+(accuracy, reported separately). Conflating them was itself a bug in the first
+§26 fix, which under-reported coverage as 6/9 when it was 9/9.
+
+**R1 — the three scripts whose verdict rule could have hidden a break.** All
+re-run through the floor; all negatives hold, and each now states its coverage:
+
+| § | script | floor | best real | margin | coverage |
+| --- | --- | --- | --- | --- | --- |
+| 16 | `attack_magicsquare.py` | −3.95 | −4.23 | 0.27 below | 8/9 (`sq16_rev` NOT COVERED) |
+| 21 | `analyze_codepage.py` | −4.00 | −4.33 | 0.33 below | 4/4 |
+| 19 | `attack_literal_f.py` | −3.65 | −4.81 | 1.17 below | 33/34 |
+| 26 | `attack_hints.py` | −4.00 | −4.38 | 0.38 below | 9/9 |
+
+§16 is the one proven broken in §28 — its own planted control scored −3.90
+against its own −3.88 threshold. Recalibrated, its negative stands. §19's default
+head is raised 80 → 120 so the control exercises several literal-ᚠ rather than
+one. Two coverage gaps are now visible that the old scripts never reported:
+`sq16_rev` (§16) and one §19 config are non-identifiable — for those the runs
+yield no evidence either way.
+
+**R2 — length-matched ceilings.** `attack_magicsquare_interrupter.py` (§17) now
+draws its ceiling at each segment's own length. Every segment sits **below** its
+own ceiling (best margin −0.19), so the negative is *stronger* than the published
+fixed-length comparison implied.
+
+**R3 — the attack that had no control at all.** `attack_autokey.py` (§3) ranked
+by chi² with only a random baseline, so its negative was unvalidated under the
+project's own ground rule. A planted control now recovers both ciphertext- and
+plaintext-autokey (99% / 100%, correct method and sign) → **PASS**, while the real
+segments score word-score 0.00. The autokey negative is validated for the first
+time. The control also documents a genuine property: a *ciphertext*-autokey
+primer supplies only the first L key values, so it is essentially unidentifiable
+— the criterion is method + sign + recovery, not an exact primer match.
+
+Net: the hypothesis space is unchanged, but the evidence under it is now sound,
+and the coverage gaps are stated rather than hidden. R4 (auditing the
+never-audited §3–§13 scripts, including an independent recomputation of the
+central finding) is outstanding.

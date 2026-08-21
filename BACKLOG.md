@@ -13,13 +13,18 @@ untried leads surfaced).
 
 ## R — RE-DO BACKLOG (opened 2026-08-21 by the §28 self-audit)
 
+**STATUS 2026-08-21: R1, R2, R3 and R5 are DONE (§29). R4 in progress.**
+Every recalibrated negative HELD — see §29 for the calibrated numbers. The
+scripts now share `controls.py`, so a detection floor and matched nulls are the
+default rather than a per-script choice.
+
 The audit of §17–§27 found defect *classes*, not one-off slips. This section
 lists work that must be **re-done** because the stated evidence does not support
 the stated conclusion. Expectation: most of these will CONFIRM their negative —
 the real scores sit far below even a corrected threshold — but as they stand they
 are not established. Order is by risk (could the conclusion be wrong?).
 
-### R1. Beam attacks whose verdict rule would report a REAL BREAK as negative
+### R1. Beam attacks whose verdict rule would report a REAL BREAK as negative — **DONE (§29)**
 **Evidence (not speculation):** the beam adds a per-skip penalty and normalises by
 len−1, so a genuine break scores ~−4.0, not ~−3.4. Any script that judges a beam
 score by "near English" (`eng − 0.5` = −3.88) therefore rejects real breaks. This
@@ -39,7 +44,7 @@ NOT COVERED rather than negative.
 NB `attack_magicsquare_interrupter.py` (§17) and `attack_prng.py` (§13) are
 direct-decode, not beam — their thresholds are sound. Do not "fix" them.
 
-### R2. Under-powered / mismatched chance ceilings
+### R2. Under-powered / mismatched chance ceilings — **DONE (§29)**
 Ceilings took a max over 6 random draws while the real result is a max over 13
 segments, and some were computed at a fixed length while short segments were
 scored on 91–121 symbols (shorter sequences score higher).
@@ -51,14 +56,14 @@ scored on 91–121 symbols (shorter sequences score higher).
 **Fix:** draws = number of real trials; compute the null at each segment's own
 length.
 
-### R3. An attack with no positive control at all
+### R3. An attack with no positive control at all — **DONE (§29): control added and it PASSES**
 - **`attack_autokey.py` (§3)** has only a random-head chi² baseline — no planted
   autokey that must be recovered. That violates the project's own ground rule, so
   the autokey negative is currently unvalidated. (Checked: `attack_runningkey.py`
   and `attack_keycrib.py` DO calibrate — leave them.)
 **Fix:** plant a known autokey encryption, confirm recovery, then re-run.
 
-### R4. The pre-session work (§3–§16) has never been adversarially audited
+### R4. The pre-session work (§3–§16) has never been adversarially audited — **IN PROGRESS**
 The two audits covered only this session. Everything older shares the same
 patterns: `crib_drag.py`, `attack_keyskip.py`, `attack_vigenere_skip.py`,
 `attack_running_text.py`, `attack_keycrib.py`, `attack_runningkey.py`,
@@ -67,7 +72,7 @@ patterns: `crib_drag.py`, `attack_keyskip.py`, `attack_vigenere_skip.py`,
 **Do:** run the same two adversarial passes (controls & power; null models) over
 them, and check every "ruled out" claim in CLAUDE.md against its script.
 
-### R5. Systemic fix — stop re-introducing these defects
+### R5. Systemic fix — stop re-introducing these defects — **DONE (§29): `controls.py`**
 Extract a shared `controls.py` providing `detection_floor(hypotheses, ...)` and
 `matched_ceiling(length, trials, ...)`, and route every attack through it so
 calibrated thresholds and matched nulls are the default rather than per-script
