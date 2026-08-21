@@ -803,3 +803,26 @@ base-rate), the **co-occurrence** §18 leaned on is also within (indeed below) t
 random range. §18's verified arithmetic stands, but its "suggestive of deliberate
 authoring" reading is **not statistically supported** — it is best treated as
 numerology. `results/gp_filter_2026-08-21.txt`.
+
+## 26. Pre-LP2 "hints never used" as keys — negative (P3.7)
+
+`attack_hints.py` runs the numeric sequences from Uncovering-Cicada's "Possible
+hints never used" through the validated key-skip beam: the 2012 OutGuess whitespace
+(0,2,3,5,7,11,13,…), the 2014 message.txt.asc whitespace (2,3,5,7,11,13,17,23,29,
+31,37 — it skips 19), the emirp cookie ids 167/761 (as digits, mod 29, and as
+**start offsets** into the prime/totient streams), and the "missing primes" 73…1223.
+Control passes (CIRCUMFERENCE, 83%); chance ceiling −4.65; best real −4.38
+(missing_primes), ~1 below English −3.38 → **NO SIGNAL**. A couple of keys edge the
+noisy ceiling by tenths (multiple comparison over 14 keys × both signs) — chance.
+The pre-LP2 hint sequences do not key the unsolved pages, as expected at their low
+prior. `results/hints_2026-08-21.txt`.
+
+## 27. The AN END deep-web hash (P3.8) — out of scope, documented
+
+The solved "AN END" page (LP2 56 ≈ scream314 73; §23 cross-check) reads: "WITHIN
+THE DEEP WEB THERE EXISTS A PAGE THAT HASHES TO
+`36367763ab73783c7af284446c59466b4cd653239a311cb7116d4618dee09a8425893dc7500b464fdaf1672d7bef5e891c6e2274568926a49fb4f45132c2a8b4`",
+and page 73's hex block is exactly that SHA-512 (confirmed §21). Finding the page
+that hashes to it is a **Tor hidden-service OSINT hunt**, not runic cryptanalysis —
+it is not actionable with this toolkit and is recorded for completeness only. No
+experiment run.

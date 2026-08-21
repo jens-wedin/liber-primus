@@ -124,14 +124,16 @@ untried leads surfaced).
 ## P3 — low / opportunistic
 
 ### 7. Prime-indexed "hints never used" as key primers
-- Low prior (2012–2015 artifacts, pre-LP2). Test the documented prime whitespace
-  sequences (0,2,3,5,7,11,13,…) and the emirp cookie ids (167 / 761) as keystream
-  primers / offsets on the unsolved pages, with the usual control + ceiling.
+- **DONE 2026-08-21 — NEGATIVE (REPORT §26, `attack_hints.py`).** The 2012/2014
+  whitespace prime sequences, cookie emirps 167/761 (digits, mod 29, and as
+  start-offsets into prime/totient), and the "missing primes" 73…1223, all through
+  the key-skip beam: control PASS, ceiling −4.65, best −4.38 (~1 below English) —
+  gibberish. Pre-LP2 hints don't key the unsolved pages.
 
 ### 8. "AN END" deep-web hash page (non-cryptanalytic — logged only)
-- The solved AN END page advertises a deep-web page that hashes to a specific
-  SHA-512. That is an OSINT/hunt task, not a runic-cipher experiment; recorded
-  for completeness, deprioritised.
+- **DOCUMENTED 2026-08-21 (REPORT §27).** The AN END SHA-512 = page 73's hex
+  (confirmed §21). Finding the page that hashes to it is a Tor OSINT hunt, not
+  runic cryptanalysis — not actionable with this toolkit, recorded only.
 
 ---
 

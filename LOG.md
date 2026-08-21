@@ -786,3 +786,19 @@ weight). Noted in §18 + new §25. `results/gp_filter_2026-08-21.txt`.
 All P2 items now done: P2.4 (doublets favoured-real, §23), P2.5 (GP filter fails /
 §18 deflated, §25), P2.6 (squares no message, §24). Net of the P2 tier: two clean
 negatives, one honest revision (doublets), and a deflation of §18.
+
+### 2026-08-21 (cont.) — P3 tier (§26/§27), closes the backlog
+
+P3.7 (`attack_hints.py`, §26): the pre-LP2 "hints never used" numeric sequences as
+keys/primers through the key-skip beam — 2012/2014 whitespace prime sequences,
+cookie emirps 167/761 (digits, mod 29, and as start-offsets into prime/totient),
+and the "missing primes" 73…1223. Control PASS; ceiling −4.65, best real −4.38
+(~1 below English) → NEGATIVE. A few keys edge the noisy ceiling by tenths =
+multiple-comparison chance. `results/hints_2026-08-21.txt`.
+
+P3.8 (§27): the AN END deep-web SHA-512 (= page 73's hex, confirmed §21) — a Tor
+OSINT hunt, not runic cryptanalysis; documented, not run.
+
+BACKLOG P1–P3 now fully worked. Session net: §17–§27. No break; the value is a
+comprehensively narrowed, control-validated hypothesis space, one honest revision
+(§11 doublets likely real), and one deflation (§18 → numerology).
