@@ -1,4 +1,4 @@
-"""Running-text key attack: test a real book (KJV) as the running key.
+"""Running-text key attack: test a real book as the running key.
 
 The doublet signature says a running key, if used, is combined with no-repeat
 enforcement (key-skip). Brute-forcing a 3.16M-rune key at every start offset
@@ -151,7 +151,8 @@ def positive_control(Karr, model, T, scan_head, step, conf_len, top, beam,
     print(f"  best window: ct pos {w}, key offset {off} (planted {OFF}), "
           f"trigram {bl:.2f}, recovered {acc*100:.0f}% of that window")
     print(f"  control: {'PASS' if ok else 'FAIL'} "
-          f"(pipeline {'finds' if ok else 'MISSES'} a real KJV key)\n")
+          f"(pipeline {'recovers' if ok else 'MISSES'} a real key from "
+          f"this text)\n")
     return ok
 
 
