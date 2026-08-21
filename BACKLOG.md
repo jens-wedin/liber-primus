@@ -104,6 +104,11 @@ untried leads surfaced).
   near-English candidates, which none currently do.
 
 ### 6. Magic squares decoded as a standalone message
+- **DONE 2026-08-21 — no message (REPORT §24, `analyze_squares.py`).** Values read
+  directly (row/col/spiral/boustro → runes; page-32 prime structure; ASCII) sit
+  at/below a numerology ceiling; the ASCII path only reproduces the known `rl)lr`
+  numerology. At 16-25 symbols the test can't be decisive → "no evidence", not a
+  strong negative. The squares' meaning stays their 3301/prime structure.
 - **Status.** Both "square is a *key*" readings are closed (additive §16,
   interrupter §17). What remains is the square as a puzzle in its own right.
 - **Method.** Read the squares themselves — magic constants, the 3301−prime

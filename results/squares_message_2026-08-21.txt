@@ -1,0 +1,18 @@
+refs: English trigram -3.38, random -6.59
+(NB: 16-25 runes is too short for a decisive n-gram test — the numerology ceiling is the real comparison)
+
+=== page-16 (5x5, 3301) ===
+  numerology ceiling (random grids, same battery): -4.60
+  best reading: row/mod29        trigram -6.72
+      EAGOEBNUFGMIABJYJBIAMGFUNBOEGEA
+  ascii(mod256) printable 44%: '²\x1f8\x16ÆÌ,¦\x18/rl)lr/\x18¦,ÌÆ\x168\x1f²'
+  -> at/below the numerology ceiling — no message
+
+=== page-32 (4x4, 3301-prime) ===
+  numerology ceiling (random grids, same battery): -2.09
+  best reading: row/prime-ord    trigram -4.71
+      XOEGIANUTHOGROFUTH
+  ascii(mod256) printable 6%: 'º\x96PÞÎãâ\x16ØÞà¨¤¶Ä\x1c'
+  -> at/below the numerology ceiling — no message
+
+Verdict: reading the squares directly as runes/ASCII yields nothing above the numerology ceiling; and at 16-25 symbols no such test could be decisive anyway. The squares' meaning is their 3301/prime structure (established), not a hidden runic message.

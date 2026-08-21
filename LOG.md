@@ -760,3 +760,14 @@ Bonus that survives: rtkd transcribes the code pages too — both exactly 256 to
 (corroborates the page-66 count §21); they differ only on ~6 case-ambiguous glyphs
 (my `3l` vs rtkd `3I` ×3, plus l/L, s/S) — my §21 read stands bar those.
 `results/transcription_compare_2026-08-21.txt`.
+
+### 2026-08-21 (cont.) — P2.6 squares as a standalone message (§24, negative)
+
+`analyze_squares.py` reads the page-16/page-32 square VALUES directly (row/col/
+spiral/boustro → runes mod 29; page-32 3301−value → GP-index/prime-ordinal; ASCII
+mod 256), vs a numerology ceiling (same battery on random grids). Nothing above
+ceiling: page-16 −6.72 vs −4.60; page-32 −4.71 vs −2.09 (random grids score
+higher → 16-25 symbols have no n-gram power). ASCII gives the known palindromic
+`rl)lr` numerology, nothing more. The squares' meaning is their 3301/prime
+structure, not a hidden message — but at this length the test can't be decisive,
+so it's "no evidence" rather than a strong negative. `results/squares_message_2026-08-21.txt`.

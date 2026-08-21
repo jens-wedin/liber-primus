@@ -768,3 +768,19 @@ tokens** (corroborating the page-66 count, §21) and differ only on ~6
 case-ambiguous glyphs (my `3l` vs rtkd `3I` ×3, plus l/L, s/S calls) — the §21
 read stands bar those genuinely ambiguous characters.
 `results/transcription_compare_2026-08-21.txt`.
+
+## 24. The squares as a standalone message — nothing above numerology (P2.6)
+
+§16/§17 closed the squares as keys/interrupters; this reads their VALUES directly.
+`analyze_squares.py` maps page-16 (25 values) and page-32 (16 values) through
+several reading paths (row/col/spiral/boustrophedon) into runes (mod 29), plus
+page-32's prime structure (3301−value → GP-index / prime-ordinal), and an ASCII
+(mod-256) reading. Every decode sits **at or below a numerology ceiling** (the
+same battery on random value-grids): page-16 best −6.72 vs ceiling −4.60; page-32
+best −4.71 vs ceiling −2.09 — random grids score *higher*, the tell that 16-25
+symbols carry no n-gram power. The mod-256 ASCII reading reproduces the known
+palindromic `rl)lr` numerology (page-glyph catalogue), nothing more. Conclusion:
+the squares hold no hidden runic/ASCII message; their meaning is the established
+3301/prime structure. At 16-25 symbols no such test could be decisive regardless,
+so this closes the reading as "no evidence", not a strong positive-power negative.
+`results/squares_message_2026-08-21.txt`.
