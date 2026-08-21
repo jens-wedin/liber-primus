@@ -193,9 +193,11 @@ the productive result). Genuinely open threads, in priority order:
 
 1. **Model the no-repeat mechanism.** *(Done — see §11.)* Modeled further: the
    collision resolution is uniform (deterministic bump/nudge ruled out) and the
-   86 residual doublets are transcription-noise-consistent with no key-period
-   leak. The mechanism forbids adjacent-equal runes near-totally with a uniform
-   re-pick — no arithmetic-interrupter shortcut to invert.
+   86 residual doublets carry no key-period leak. *(§23 revises the other half:
+   an independent transcription reproduces all 86, so "transcription noise" is
+   not supported — real doublets are favoured, not proven.)* The mechanism
+   forbids adjacent-equal runes near-totally with a uniform re-pick — no
+   arithmetic-interrupter shortcut to invert.
 2. **Work in difference space.** *(Done — see §12.)* Tested the cumulative /
    chained-cipher family on `c[i] − c[i-1]`: keyless, repeating-key Vigenère
    (≤40), prime/totient — all negative, control-validated. The differences are
