@@ -1169,3 +1169,26 @@ breakages kill it); §3's never-computed claim that the best crib keystream is
 from the same text and recovers it (5/5); and `attack_runningkey`'s
 "intrinsically underpowered" self-diagnosis is correct and not a beam artifact
 (separation stays ≤0.04 at beam 4000).
+
+
+## 32. Reversed key texts — the untested book-cipher variant (R4b follow-up)
+
+§31 found that §6/§9's "both directions" only ever meant both *signs*; a
+backwards-read key text was never tried, despite Cicada using reversed gematria
+on solved pages 06-09. `attack_running_text.py --reverse` closes that gap.
+
+**Crowley's *Liber AL vel Legis*, read backwards — negative.** Best decode
+**-3.95** (on 32-36.jpg), against a matched chance ceiling of ~-4.13 for this text
+length and a detection floor of -3.54 (a genuine planted running key from the same
+text scores there). So the reversed reading lands in exactly the same place as the
+forward one (-3.97): ~0.2 above a chance ceiling that a top-200 offset scan is
+expected to produce (§31: the ceiling is a selection artefact that scales with
+key-text length), and ~0.4 BELOW the score a real break gives. The decodes read as
+gibberish (`SRISOODMRCYUPICALEFIRTEOEEAMNTECTIUTIUEARONELL`).
+
+Reversed Blake and reversed *Mabinogion* are running; KJV cannot be run at all
+until `keytext_cache/kjv.u8` is restored (§31).
+
+Net: the strongest documented prior — the 2013 book-cipher key — is now tested in
+both reading directions and both signs, and is negative in all four combinations.
+`results/running_liberal_reversed_2026-08-21.txt`.

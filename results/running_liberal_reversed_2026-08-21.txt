@@ -1,0 +1,35 @@
+KEY TEXT REVERSED (liberal read backwards, 22045 runes)
+=== POSITIVE CONTROL: plant key text, try to recover ===
+  best window: ct pos 24, key offset 10789 (planted 10765), trigram -3.58, recovered 100% of that window
+  control: PASS (pipeline finds a real KJV key)
+
+
+===== KEY TEXT: liberal-reversed (22,045 runes) =====
+  17.jpg-19.jpg - 0.jpg-2.jpg            c+k key@   14788 ctpos   72 trigram -4.29
+      ALBERGNGBIRNPCDALESSRICUOCAEADEPEOOULACTOSWHENE
+  20.jpg - 3.jpg-5.jpg                   c-k key@   16075 ctpos   48 trigram -4.26
+      EOUCSTCHEATRRNARSOPUBBLOGUIPWATUASRFSEELIGAMES
+  20.jpg - 3.jpg-5.jpg                   c+k key@   15202 ctpos   96 trigram -4.18
+      MOLUEOFENSHWIDAMRECOSCHUHOIBMIRGUENHILDWHMETE
+  23.jpg, 24.jpg - 6.jpg-7.jpg           c-k key@   21137 ctpos   48 trigram -4.27
+      OWNGTIAMPYJAGRPSPRITYFILADARIATEMOWLERPLITSLOTNG
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.jpg c-k key@   14396 ctpos   48 trigram -4.24
+      HAHULBADLINTASEAHBOATIBUMBYEAHETRRTALINFRDERU
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg c+k key@   20983 ctpos   72 trigram -3.95
+      SRISOODMRCYUPICALEFIRTEOEEAMNTECTIUTIUEARONELL
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 23.jp c+k key@    4071 ctpos    0 trigram -4.35
+      UMSYSNIMPNGDUERMSENALUNNDOESSIOEUEALAGONGFLMEOLOU
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.jpg c-k key@   10943 ctpos   96 trigram -4.23
+      WHISHOESHLLNGFORMCCESEITLWAEAXCUPOSIADANGULEFIFIC
+  50.jpg - 33.jpg                        c-k key@   13407 ctpos   48 trigram -4.40
+      JAELEANSTIAUSEANGNEIONGENUOLMMUCTIRCNGLOSTROCCABNC
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.jpg c-k key@   15028 ctpos   96 trigram -4.36
+      CAEEADUSMORLEDDEPUBUDSDAOREHEAYEARECOUELREADINFU
+  56.jpg - 39.jpg                        c-k key@   11428 ctpos   48 trigram -4.29
+      HMELLOCGGENJUSLEAUNDRAYSAGETTORLINYEADERIARCEIL
+  57.jpg - 40.jpg                        c-k key@   12401 ctpos   72 trigram -4.21
+      JUBIAIDDFRAPHOPSNATIABLLOWEADYNEILISSULOPBEFECI
+  71.jpg - 54.jpg                        c-k key@    6318 ctpos   24 trigram -4.24
+      CMRIGOEATMEDGODGEOYCHYIANSHMOALLERTSBFMEELBENRI
+
+  best liberal-reversed: trigram -3.95 on 32.jpg, 33.jpg, 34.jpg, 35.jpg — English ~-3.38, random ~-6.2 (a real hit lands near English)
