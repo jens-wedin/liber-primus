@@ -720,3 +720,17 @@ rare at 6.6%). REPORT §21, `results/codepage_2026-08-21.txt`. Remaining P1.3 wo
 
 All three P1 experiments are now run; P1.1 and P1.2 negative, P1.3 transcription
 complete + verified with the analysis unchanged (two new structural leads).
+
+### 2026-08-21 (cont.) — code-page deeper attacks (P1.3 remainder, §22)
+
+`attack_codepages.py` — pad / index / self-cipher / table on the verified 256
+codes, all control-validated / ceiling'd. Table/permutation RULED OUT: only 161
+distinct codes of 256 (95 repeats), no bijective map → a repetition-bearing
+stream, not an S-box; the 256 = 2⁸ is a pad/message length, not a table size.
+Position-locked pad: control PASS, best −5.73 vs −6.19 ceiling (gibberish). Index
+into solved-plaintext/unsolved-cipher/alphabet: best −4.84 at its −4.76 ceiling (a
+bag of English letters, no coherence). Self-cipher (digit as shift on the base-62
+symbol): −6.2. All negative. `results/codepages_attacks_2026-08-21.txt`. The code
+pages are now characterised as far as key-free analysis reaches — consistent with
+a keyed pad/self-cipher (§13 wall). Structure carried forward: 256 = 2⁸ and the
+4-ary+escape leading digit.

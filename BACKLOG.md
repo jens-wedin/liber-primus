@@ -55,8 +55,14 @@ untried leads surfaced).
   67 (104) and 68 (72) exact, page 66 (80) newly transcribed; all 256 codes valid.
   Page-73 "hex" is the already-known AN END SHA-512, not new. First-pass analysis
   unchanged (high-entropy; no decode/key). NEW leads: total = 256 = 2⁸ (possible
-  256-entry table/pad); leading digit non-uniform (4 rare, 6.6%). **Still open:**
-  the codes as an index into the runes / a pad / a self-enciphered stream.
+  256-entry table/pad); leading digit non-uniform (4 rare, 6.6%).
+- **DEEPER ATTACKS DONE 2026-08-21 (REPORT §22, `attack_codepages.py`) — all
+  NEGATIVE.** Table/permutation ruled out (only 161 distinct of 256 → a
+  repetition-bearing stream, not an S-box). Position-locked pad, index-into-runes
+  (solved/unsolved/alphabet), and self-cipher (digit-as-shift) all read as
+  gibberish vs their ceilings, control-validated. Consistent with a keyed
+  pad/self-cipher (§13 wall). **Residual open (low prior):** a non-natural value
+  map, a keyed reading, or external context that supplies the key.
 - **Status.** The highest-prior *open* front (REPORT §16/§21); characterised as
   high-entropy, key-like, not a substituted message.
 - **Method.** Re-transcribe from the page images non-OCR (two independent

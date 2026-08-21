@@ -1,0 +1,33 @@
+codes: 256; refs English -3.38, random -6.59
+
+=== STRUCTURAL: is the code set a table / permutation? ===
+  256 codes, 161 distinct as 2-char strings (dups: ['2M', '0w', '3L', '3D', '2r', '0S', '3l', '1O', '0u', '0Z']...)
+  map d*62+b62 : 161 distinct / 256 (range 0..289) 
+  map b62*5+d  : 161 distinct / 256 (range 0..307) 
+  map b62      :  59 distinct / 256 (range 0..61) 
+  map d*26+let :  92 distinct / 256 (range 0..109) 
+  leading digit: {'0': 60, '1': 58, '2': 65, '3': 56, '4': 17} (4 rare -> ~4-ary + escape, not flat 5-ary)
+  total 256 = 2^8 (True); a 256-entry pad/S-box is the natural read.
+
+=== PAD: position-locked one-time key  p = c - pad ===
+  control (plant pad, recover): PASS
+  chance ceiling: -6.19
+  best -5.73 on 50.jpg - 33.jpg (d*62+b62 c+k) vs ceiling -6.19, English -3.38 -> no signal
+      NGSSIAGGATMOTTPEOMAEIAUJBUOEASEOOOIANGWERAELJSHRIAAILYTHARHUIEIEWLLIEM
+
+=== INDEX: each code selects a rune from a stream ===
+  into solved-plaintext: best -4.84 (d*26+let) vs ceiling -4.76 -> no signal
+      EATHSYAIAMRHTHRETEEDEERCRABARSSWNASTEOCACENSRNAETHOSTHNNEEBECSTUESTHSC
+  into unsolved-cipher : best -6.58 (b62*5+d) vs ceiling -6.25 -> no signal
+      UMOEFXUEABBYIAFTHLBOITNLOTHDICAETHPIANDJNGEDHFYONNGNGWFNYTHFOETWEEOSNY
+  into gematria-29     : best -6.48 (b62) vs ceiling -6.15 -> no signal
+      MOEIIAAEAECEAXNGDUNGUOTIANTHLDFDTHOEAEOJRFFILXWEAAEORTTHDEAIBBIERDFDEN
+
+=== SELF-CIPHER: digit as a shift on the base-62 symbol ===
+  best rune-path: -6.24 (b62 - digit %29) vs English -3.38
+      BOSWAEAEARAEJEDIALUOPAEHTHMLFLFTHEANJUFEANEJOEADOUTEAOEEAIBSWSTHOEIANG
+  letter-shift path (214 alpha codes): trigram -6.14
+      kwiapsosbinrnuzdsbymkwnvzewsclesnzgspsdkfaivpljbnaodkcurvpqvmxepqxoyzl
+  -> no signal
+
+Verdict: natural pad / index / self-cipher readings of the code pages are exhausted here. A keyed pad or self-cipher is unbreakable without the key (§13). Structure to carry forward: 256 = 2^8 and the 4-ary+escape leading digit.

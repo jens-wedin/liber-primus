@@ -701,3 +701,30 @@ digit is **not** uniform over 0–4: 0–3 are common (~60 each) but **4 is rare
 escape rather than a flat 5-ary one. Neither cracks the pages, but both sharpen
 the "treat as a pad / index / self-enciphered stream" direction (BACKLOG P1.3
 remainder). `results/codepage_2026-08-21.txt`.
+
+## 22. Code pages: pad / index / self-cipher / table — all negative (P1.3 remainder)
+
+`attack_codepages.py` takes the verified 256-code set past the natural numeric
+decodes (§21) into the interpretations its structure invites, each
+control-validated / chance-ceiling'd:
+
+- **Table / permutation — ruled out.** The 256 codes are only **161 distinct** as
+  2-char strings (95 repeats), and no value map is a bijection — so the set is a
+  stream *with repetition*, not a 256-entry S-box / lookup table. The 256 = 2⁸
+  total is therefore a message/pad length, not a table's size.
+- **Pad** (position-locked `p = c − pad`, offset-aligned, no skip — distinct from
+  §21's repeating-key test): control passes; best real −5.73 vs −6.19 ceiling
+  (English −3.38) — gibberish, no signal.
+- **Index** (each code selects a rune from solved plaintext / unsolved ciphertext
+  / the 29-rune alphabet): best −4.84 selecting from the English solved plaintext,
+  at its own −4.76 ceiling — i.e. just a bag of English letters, no coherence; the
+  other streams below their ceilings.
+- **Self-cipher** (digit as a per-position shift on the base-62 symbol, rune and
+  letter paths): −6.2, gibberish.
+
+So every natural pad / index / self-cipher / table reading is exhausted,
+control-validated. What survives is only the structure (§21): 256 = 2⁸ codes and a
+4-ary-plus-escape leading digit, on a repetition-bearing stream — consistent with
+a **keyed pad or self-cipher**, unbreakable without the key (§13). The code pages
+are now characterised as far as key-free analysis reaches.
+`results/codepages_attacks_2026-08-21.txt`.
