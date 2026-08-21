@@ -1,0 +1,14 @@
+=== PART 1: reproduce the two claimed GP sums ===
+  1033-run: 30 runes = 1031; +F -> 31 runes = 1033  [len emirp=True] PASS
+  3301-run: 75 runes = 3303; ignore skipped F -> 74 runes = 3301 (37+37)  [lens emirp=True] PASS
+  1033 is a digit-anagram of 3301: True
+  PART 1: PASS
+
+=== PART 2: base-rate control (boundary-freedom null) ===
+  solved plaintext: 1875 runes; window = any run length in a band around each target's natural size; ±2 slack = optional literal-F.
+  ~1033 scale (lengths 28-34): THEMED 1033=28  controls 1030=26, 1032=24, 1034=31, 1036=27
+  ~3301 scale (lengths 70-80): THEMED 3301=111  controls 3290=106, 3300=100, 3310=128, 3350=126
+  -> at each scale the themed target is hit about as often as its arbitrary neighbours: a single hit is NOT rare given free boundaries + the ±2 F knob.
+  => the arithmetic alone is weak; the weight is the CO-OCCURRENCE (two ADJACENT runs, emirp lengths, anagram totals, F-anomalies explained).
+
+VERDICT: both GP sums reproduce exactly (Part 1 PASS). The effect is a PLAINTEXT-side authoring/steganographic layer via deliberate literal-ᚠ placement — NOT a decryption lever (GP sums are not preserved through the mod-29 additive cipher, so they cannot be checked on unsolved ciphertext). Value: a plausibility filter for future candidate decrypts, and motivation to catalogue ᚠ positions on unsolved pages as possible structural markers.

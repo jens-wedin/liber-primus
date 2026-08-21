@@ -567,3 +567,66 @@ transcription of all three pages, plus community context, is the way forward.
 Net: the magic squares and the code pages are real, newly-recovered content, but
 neither yields to a first-pass attack. The §15 front is opened and characterised,
 not cracked.
+
+## 17. Page-16 square as an interrupter *schedule* (not an additive key) — negative
+
+§16 closed the square as an additive keystream (`c = p + sq[j]`). This closes the
+other reading CLAUDE.md flagged: the square **schedules the motion** of a base
+keystream rather than supplying the added values. `attack_magicsquare_interrupter.py`
+reads M16 in four orders (row, column, boustrophedon, spiral) as a repeating
+schedule that drives three interrupter mechanisms over four base streams (primes,
+totients, the square's own values, DIVINITY), both signs — a 384-mechanism grid,
+each a deterministic invertible decrypt:
+
+- **stride** — the key pointer advances by `1 + (s mod m)` each rune (a dense,
+  square-dictated key-stride);
+- **gated** — pointer advances +1 normally, +2 when the schedule value triggers
+  (`s mod k == 0`, or `s` prime) — a sparse interrupter, the closest analogue to
+  the observed ~3% key-skip;
+- **reset** — pointer resets to 0 at each trigger (the classic *interrupted key*).
+
+Result: **negative, control-validated.** The positive control (plant a known
+interrupter encryption, recover it) passes at 100%; the chance ceiling on random
+text is −5.64; the best real decode is −5.66 (*at* the ceiling, ~2.3 below
+English −3.38), so no segment reads as English under any mechanism. The winners
+cluster on high-stride / gated rules — i.e. schedules that heavily desync and
+merely randomise — which is why they edge the ceiling by chance.
+
+Honest scope: `attack_keyskip.py` already beam-searches *every* skip-≤2 schedule
+over primes and totients (negative), so **stride/gated with small skips over those
+streams was largely subsumed**; the genuinely new coverage here is the **reset**
+interrupter (which the local beam cannot express), larger strides, and the
+square/DIVINITY base streams — all negative. Both readings of "the square is a
+key" (additive §16, interrupter §17) are now closed. `results/magicsquare_interrupter_2026-08-21.txt`.
+
+## 18. The r/cicada GP-sum observation — reproduced; a plaintext-side ᚠ layer
+
+A July-2025 r/cicada post ("56-57.jpg: GP sums of 3301 and 1033 found next to
+each other") reports that the **solved** parable/instar plaintext is arranged so
+adjacent rune-runs hit Cicada-themed Gematria-Primus totals. `verify_gp_sums.py`
+reproduces both claims exactly from the toolkit's own gematria:
+
+- `WE MUST SHED OUR OWN CIRCUMFERENCES` = 30 runes, GP **1031**; the errant
+  literal-ᚠ (F, GP value 2) makes it **31 runes = 1033**;
+- `…IS THE DUTY OF EVERY PILGRIM TO SEEK OUT THIS PAGE. PARABLE LIKE THE INSTAR
+  TUNNELING TO THE SURFACE.` = **75 runes, GP 3303**; ignoring one *skipped* ᚠ
+  (−2) gives **3301**, and the period splits the remaining **74 into 37 + 37**.
+  All three sub-run lengths (31, 37, 37) are **emirp** primes; **1033 is a
+  digit-anagram of 3301**. The literal-ᚠ is the ±2 knob used to land the totals —
+  the same F-abuse seen in the 2016-17 hidden message.
+
+Skeptic's control (Part 2): with free run boundaries and the optional ±2 F, a
+*single* target is not rare — sliding all prime-length windows over the 1875-rune
+solved plaintext, 1033 is hit 28× (arbitrary neighbours 24–31×) and 3301 111×
+(neighbours 100–128×). So the arithmetic alone is weak; the weight is the
+**co-occurrence** (two *adjacent* runs, all-emirp lengths, anagram totals, and
+the otherwise-inexplicable ᚠ skips explained).
+
+Cryptanalytic bearing: this is a **plaintext-side authoring/steganographic layer**
+via deliberate literal-ᚠ placement — **not a decryption lever**. GP sums are not
+preserved through the mod-29 additive cipher, so they cannot be checked on
+unsolved *ciphertext*; the property only exists once a page is in plaintext. Its
+value is (a) a **plausibility filter** for any future candidate decrypt (a real
+plaintext should partition into thematically-summing prime-length runs at its
+ᚠ/period marks), and (b) motivation to **catalogue ᚠ positions/counts on the
+unsolved pages** as possible structural markers. `results/gp_sums_verify_2026-08-21.txt`.

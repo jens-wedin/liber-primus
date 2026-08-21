@@ -86,7 +86,8 @@ residual doublets are transcription-noise-consistent (no key-period leak).
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as keys)
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17)
+- **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` + `analyze_codepage.py` (the page 66-68 two-char code)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
@@ -109,18 +110,31 @@ found the transcription silently omits substantial **numeric/code content** the
 rune-only toolkit never saw. That is the live front now:
 
 1. **The two magic squares** (page 16 = 5×5 const 3301; page 32 = 4×4, cells =
-   3301 − prime). Tested as *repeating keys* — negative (§16, `attack_magicsquare.py`):
-   row/col/unique/reversed × mod-29 and page-32 prime transforms all give
-   gibberish, control-validated. STILL UNTESTED: a bespoke reading path, a
-   per-page sub-square, or the square as an *interrupter/skip schedule* rather
-   than an additive key. Or decode the squares as a puzzle in their own right.
+   3301 − prime). Tested as *repeating keys* — negative (§16, `attack_magicsquare.py`)
+   AND as an *interrupter/skip schedule* — negative (§17,
+   `attack_magicsquare_interrupter.py`: stride/gated/reset over primes/totients/
+   self/DIVINITY, both signs, control-validated, best at the chance ceiling). Both
+   "square is a key" readings are now closed. STILL UNTESTED: a bespoke reading
+   path, a per-page sub-square, or decoding the squares as a puzzle in their own
+   right.
 2. **The code pages** (66/67/68). Transcribed → `data/code_pages.txt`; §16
    (`analyze_codepage.py`) shows they are HIGH-ENTROPY (key-like, not a
    substituted message) — no natural decode reads English or keys the runes.
    Open: a verified (non-OCR) transcription of all three pages, page 73's hex,
    and community context; then treat as a pad / index / self-enciphered stream.
+   **This is now the highest-prior live front.**
 3. **Recurring marks**: the cuneiform cluster (50–56, likely a section motif),
    red pixel-blocks (line-ends), red verse numerals — probably structural.
+4. **The literal-ᚠ steganography layer (§18, `verify_gp_sums.py`).** The r/cicada
+   "56-57.jpg" observation reproduces exactly: on *solved* plaintext, deliberately
+   placed/skipped ᚠ runes (GP value 2, the ±2 knob) make adjacent emirp-length
+   rune-runs sum to 3301 and 1033 (a digit-anagram of 3301). This is a
+   PLAINTEXT-side layer, **not a decryption lever** (GP sums aren't preserved
+   through mod-29 addition, so uncheckable on ciphertext). Actionable: (a) use
+   "does it partition into thematically-summing prime-length runs at ᚠ/period
+   marks" as a **plausibility filter** on any future candidate decrypt; (b)
+   **catalogue ᚠ positions/counts on the unsolved pages** as candidate structural
+   markers (segment boundaries / checksums).
 
 Lower-prior rune-cipher leftovers: composed manglings (§8), running-key/word-key
 on the difference stream (§12), Emerson/Rune-Poem key texts.

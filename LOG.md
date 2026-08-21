@@ -621,3 +621,40 @@ hand-transcription caveat (mixed-case OCR).
 Net: §15's new front is opened and characterised, not cracked. validate_solved
 9/9. The magic squares are not keys (these derivations); the code pages are a
 separate high-entropy cipher awaiting a verified transcription + more context.
+
+### 2026-08-21 — square as interrupter schedule (§17) + r/cicada GP-sum check (§18)
+
+(1) Interrupter schedule — the last open magic-square reading (CLAUDE.md §16.1).
+`attack_magicsquare_interrupter.py` reads M16 (row/col/boustro/spiral) as a
+repeating schedule driving three interrupter mechanisms — **stride** (pointer +=
+1+(s mod m)), **gated** (extra skip when s mod k==0 / s prime), **reset** (pointer
+→0 at trigger, the classic interrupted key) — over four base streams (primes,
+totients, square-self, DIVINITY), both signs = 384 deterministic decrypts.
+NEGATIVE, control-validated: positive control recovers the planted interrupter at
+100%; chance ceiling −5.64, best real −5.66 (*at* the ceiling, English −3.38).
+Winners cluster on high-stride/gated (heavy desync → randomise). Scope note:
+`attack_keyskip` already covered skip-≤2 schedules over primes/totients; the NEW
+ground was **reset** (beam can't express a pointer reset), larger strides, and the
+square/DIVINITY streams — all negative. Additive (§16) AND interrupter (§17)
+readings of the square are now both closed. `results/magicsquare_interrupter_2026-08-21.txt`.
+
+(2) r/cicada "56-57.jpg: GP sums 3301 & 1033" (the second half of the task — the
+thread the user linked). It is NOT a second magic square (my first web-search
+guess was wrong); it is a **GP-sum observation on SOLVED parable plaintext**.
+`verify_gp_sums.py` reproduces both exactly: `WE MUST SHED OUR OWN CIRCUMFERENCES`
+= 30 runes GP 1031, +errant ᚠ → 31 runes = **1033**; the `…PILGRIM…SEEK OUT…
+PAGE. PARABLE…INSTAR…SURFACE.` run = 75 runes GP 3303, minus one skipped ᚠ (−2) =
+**3301**, splitting 37+37 at the period. Lengths 31/37/37 emirp; 1033 = anagram of
+3301; the literal-ᚠ is the ±2 knob. Skeptic control (Part 2): a single target is
+NOT rare given free boundaries + ±2 F (1033 hit 28× vs neighbours 24–31×; 3301
+111× vs 100–128×) — the weight is the co-occurrence, not the arithmetic. Bearing:
+a **plaintext-side ᚠ steganography layer**, not a decryption lever (GP sums aren't
+preserved through mod-29 addition, so uncheckable on ciphertext). Use as a
+plausibility filter for future decrypts + catalogue ᚠ positions on unsolved pages.
+`results/gp_sums_verify_2026-08-21.txt`.
+
+Reddit access note: the thread would not fetch (Reddit 403s datacenter IPs on
+www/old/.json; no Wayback snapshot; redlib/jina mirrors blocked; Chrome extension
+not connected). The user pasted the text; WebSearch alone had mis-summarised it as
+a "second magic square". Lesson: get the primary source before modelling on a
+search gloss.
