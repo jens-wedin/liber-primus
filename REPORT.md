@@ -90,7 +90,9 @@ rate to the normal **3.37%**, which proves the anomaly is a **pure lag-1
 effect**.
 
 Fully characterized: the first-difference histogram is uniform across all 28
-non-zero values (χ² = 41 on 27 dof) with a single sharp notch at zero. **The
+non-zero values (χ² = 41 on 27 dof — *marginally* so: p ≈ 0.04, max-bin
+z = +2.6, so read "uniform" as "uniform to p≈0.04", not exactly flat) with a
+single sharp notch at zero. **The
 unsolved ciphertext is statistically a uniform random stream with exactly one
 constraint — adjacent runes are almost never equal.** The 86 residual
 doublets are spread evenly over all 29 runes, so the no-repeat property is

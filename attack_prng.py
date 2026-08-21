@@ -31,6 +31,7 @@ import gematria as g
 from parse_lp import parse
 from language_model import get_model
 from doublet_sim import english_plaintext, LCG
+from controls import matched_ceiling
 import ciphers as c
 
 N = g.N
@@ -163,15 +164,23 @@ def main():
         print("control FAILED — not trusting the real run.")
         return
 
-    # chance ceiling: the best trigram this same brute reaches on RANDOM
-    # ciphertext, so the multiple-comparison inflation is accounted for.
-    ceil = None
-    for d in range(3):
-        r = LCG(700 + d)
-        rct = [r.randint(N) for _ in range(args.head)]
-        ct = brute(rct, GENERATORS, seeds, model)[0]
-        ceil = ct if ceil is None else max(ceil, ct)
-    print(f"=== CHANCE CEILING (same brute on random text): {ceil:.2f} ===\n")
+    # Chance ceiling — the best trigram this same brute reaches on RANDOM
+    # ciphertext, accounting for multiple-comparison inflation.
+    #
+    # AUDIT FIX (critical). This previously drew the null from `LCG(700+d)`,
+    # which is the SAME Numerical Recipes LCG the brute searches (`lcg_nr`),
+    # with seeds inside `range(20000)`. The brute recovered the exact stream
+    # that generated the null, decoded it to all-ᚠ, and scored -3.91 instead of
+    # the true ~-5.25 — an inflated ceiling that would have reported ~30% of
+    # GENUINE breaks as negatives. `controls.random_runes` draws from a
+    # domain-separated SHA-256 stream that no searched generator can produce,
+    # and `matched_ceiling` uses one trial per real trial.
+    n_trials = len(unsolved) + 1          # per-segment runs + the global run
+    ceil = matched_ceiling(
+        lambda ct: brute(ct, GENERATORS, seeds, model)[0],
+        args.head, trials=n_trials, seed=700)
+    print(f"=== CHANCE CEILING (independent null, {n_trials} trials matched to "
+          f"the {n_trials} real runs): {ceil:.2f} ===\n")
 
     # GLOBAL: one seed for the whole concatenated unsolved stream
     glob = [i for s in unsolved for i in s.indices][:args.head]

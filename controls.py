@@ -40,9 +40,39 @@ N = g.N
 
 # --- nulls --------------------------------------------------------------------
 
+_NULL_DOMAIN = b"liber-primus/null-stream/v1|"
+
+
 def random_runes(length, seed):
-    rng = LCG(seed)
-    return [rng.randint(N) for _ in range(length)]
+    """A reproducible uniform rune stream for use as a NULL.
+
+    IMPORTANT — why this is not the project's LCG. An audit found
+    `attack_prng.py` computing its chance ceiling from `LCG(700+d)`, which is the
+    *same* Numerical Recipes LCG that sits in its own brute-forced generator set
+    (`lcg_nr`), with seeds inside the searched range. The brute therefore
+    recovered the exact stream that produced the null, decoded it to all-ᚠ, and
+    scored -3.91 instead of the true -5.25 — inflating the ceiling by 1.36 nats
+    and turning ~30% of genuine breaks into "negatives".
+
+    A null must be drawn from a source the attack cannot possibly be searching.
+    We therefore use SHA-256 under a DOMAIN-SEPARATION prefix: it is reproducible,
+    uniform, and structurally outside every generator family the toolkit brutes
+    (plain LCGs, xorshift, Mersenne, and bare SHA256-of-counter), because the
+    prefix is never part of those constructions.
+    """
+    import hashlib
+    out, ctr = [], 0
+    while len(out) < length:
+        h = hashlib.sha256(_NULL_DOMAIN + str(seed).encode() + b"|" +
+                           str(ctr).encode()).digest()
+        for b in h:
+            if len(out) >= length:
+                break
+            # rejection-sample to keep the distribution exactly uniform mod 29
+            if b < 256 - (256 % N):
+                out.append(b % N)
+        ctr += 1
+    return out
 
 
 def matched_ceiling(score_fn, length, trials, seed=900, extra=0):
@@ -228,10 +258,33 @@ def _selftest():
           f"{long_:.2f} {'PASS' if ok_len else 'FAIL'}  (why ceilings must be "
           f"length-matched)")
 
+    # NULL INDEPENDENCE: the null must not be producible by any generator the
+    # attacks brute-force. This is the defect that inflated attack_prng's ceiling
+    # by 1.36 nats. Check our SHA-domain null is not reproduced by the project's
+    # LCG at any seed the brutes search.
+    from doublet_sim import LCG as _LCG
+    null = random_runes(40, 700)
+    clash = None
+    for sd in range(0, 20000):
+        r = _LCG(sd)
+        if [r.randint(N) for _ in range(8)] == null[:8]:
+            clash = sd
+            break
+    ok_null = clash is None
+    print(f"  null independence: LCG seeds 0..20k reproduce the null? "
+          f"{'NO — PASS' if ok_null else f'YES at seed {clash} — FAIL'}")
+    from collections import Counter as _C
+    big = random_runes(29000, 1)
+    cnt = _C(big); exp = len(big) / N
+    chi = sum((cnt.get(k, 0) - exp) ** 2 / exp for k in range(N))
+    ok_unif = chi < 60          # df=28; 60 is ~p=0.0004
+    print(f"  null uniformity: chi2={chi:.1f} on df=28 "
+          f"{'PASS' if ok_unif else 'FAIL'}")
+
     print()
     print(verdict(best=-4.38, floor=floor, ceiling=c13,
                   n_covered=len(cov), n_total=len(keys), label="keys"))
-    return ok_floor and ok_trials and ok_len
+    return ok_floor and ok_trials and ok_len and ok_null and ok_unif
 
 
 if __name__ == "__main__":

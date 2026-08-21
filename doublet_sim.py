@@ -16,8 +16,14 @@ Analytic prediction worth stating up front: a **ciphertext-autokey** with lag
 c[i] == c[i+1]  iff  p[i+1] == 0, i.e. exactly when the *plaintext* rune is F.
 So its doublet rate equals the plaintext F-frequency (a few percent, and low),
 and cumulative sums mod 29 flatten toward uniform (IoC -> 1.0). That is
-precisely the observed signature — so this simulation predicts ciphertext
-autokey is the family most consistent with the data.
+qualitatively the observed signature — flat IoC plus a suppressed doublet rate.
+
+But QUANTITATIVELY it does not fit, and an over-wide acceptance band used to
+hide that (audit-fixed): ciphertext-autokey lands at a 1.65% doublet rate, ~14
+standard errors from the observed 0.66% (SE ≈ 0.071%). The only family that
+actually matches is the **no-repeat (rejection)** construction. This agrees with
+§4, which rules out pure autokey independently: first-differencing the real
+ciphertext yields no English.
 """
 
 import statistics
@@ -176,10 +182,16 @@ def main():
             dbs.append(doublet_rate(ct))
         mi, si = statistics.mean(iocs), statistics.pstdev(iocs)
         md, sd = statistics.mean(dbs), statistics.pstdev(dbs)
-        # distance from observed, in each metric's own natural scale
+        # Distance from observed, in each metric's own natural scale.
+        # AUDIT FIX: the doublet band was `dd < 0.010`, ~15x the standard error
+        # of the observed rate (SE = sqrt(p(1-p)/n) ≈ 0.00071 at n≈12.9k). That
+        # accepted ANY family below 1.66% and so flagged ciphertext-autokey
+        # (1.65%, ~14 SE from the observed 0.66%) as a "MATCH", contradicting
+        # the project's own ruling-out of autokey. Band is now 3 SE.
         di = abs(mi - OBS_IOC)
         dd = abs(md - OBS_DOUBLET)
-        fit = "  <== MATCH" if (di < 0.03 and dd < 0.010) else ""
+        SE_DOUBLET = (OBS_DOUBLET * (1 - OBS_DOUBLET) / 12946) ** 0.5
+        fit = "  <== MATCH" if (di < 0.03 and dd < 3 * SE_DOUBLET) else ""
         rows.append((di + dd * 5, name, mi, si, md, sd, fit))
         print(f"{name:30s} {mi:.3f}±{si:.3f}     "
               f"{md*100:5.2f}±{sd*100:4.2f}%          {fit}")

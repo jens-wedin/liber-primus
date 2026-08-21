@@ -43,7 +43,8 @@ its own at `github.com/jens-wedin/liber-primus`.
 
 The unsolved ciphertext is statistically a **uniform random stream with one
 constraint: adjacent runes are almost never equal** (doublet rate 0.66% vs
-3.45% random — a ~17σ deficiency; first differences are otherwise uniform).
+3.45% random — a ~17σ deficiency, independently recomputed in §30; first
+differences are otherwise uniform, though only to p≈0.04).
 This is a *pure lag-1 effect*. It rules out substitution, every
 periodic/independent keystream (Vigenère, running key, prime/totient), and
 pure autokey/cumulative-sum. What survives: an output-stage **no-repeat
