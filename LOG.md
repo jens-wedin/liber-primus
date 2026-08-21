@@ -802,3 +802,53 @@ OSINT hunt, not runic cryptanalysis; documented, not run.
 BACKLOG P1–P3 now fully worked. Session net: §17–§27. No break; the value is a
 comprehensively narrowed, control-validated hypothesis space, one honest revision
 (§11 doublets likely real), and one deflation (§18 → numerology).
+
+### 2026-08-21 (cont.) — SELF-AUDIT of the session's own work (§28)
+
+Ran two adversarial audits over §17–§27 (one on the attack scripts' controls, one
+on the statistical null models) plus my own claims-vs-archives check. They found
+real defects. **No headline negative was overturned**, but several rested on
+invalid evidence and are now re-grounded. All fixed in code and re-run; the
+archived results/ files are the corrected outputs. Full detail in REPORT §28.
+
+The serious ones:
+- **§26 verdict rule would have MISSED a real break.** Planting the very keys
+  under test and recovering them at 97-100% scored −4.00, below my −3.88
+  "near-English" cutoff → the script would print NO SIGNAL on a total break of
+  4/9 keys. Replaced with an empirical DETECTION FLOOR (plant → recover → use
+  that score). Real best −4.38 is 0.38 below the floor, so the negative now has
+  demonstrated power. Also: 3/9 keys aren't recoverable even when planted (now
+  reported as NOT COVERED), and `missing_primes` == prime_stream[20:].
+- **§25's detector never implemented its own test.** It gated both runs to prime
+  lengths, but §18's 3301 run is 74 runes (not prime) — so it counted ZERO true
+  signatures and compared noise to noise. Re-implemented + re-run on the full
+  solved plaintext: 31 real vs shuffle-null 30.6, P=50.2%. Conclusion (§18 is
+  numerology) SURVIVES, now on real evidence.
+- **The English reference dropped a third of the solved text.** english_plaintext()
+  omits every keyed page — including page 73 "AN END", the page §18 is about.
+  New `solved_text.py` / `full_plaintext()` (2530 vs 1875 runes) fixes it; the
+  plaintext constants are de-duplicated there and validate_solved still says 9/9.
+- **§22's pad control was vacuous** (an algebraic identity that passes with the
+  pad stubbed to zeros) and the self-cipher had no null at all. Both fixed;
+  margins corrected for length. Byte-encoding hypothesis newly ruled out.
+- **§24's null wasn't the real battery** (random grids make 3301−v rarely prime →
+  3-5 symbol readings, and short sequences score high). Permutation null instead:
+  page-16 p=72% (sound), page-32 **p≈8% — marginal, not the clean negative**.
+- **§20 was overstated**: its positive reference silently failed (only ~41 ᚠ →
+  can't reach z=3), and the prime-gap row breaches its own band (Bonferroni
+  p≈0.13). Downgraded to "no evidence on an underpowered test".
+- **§23**: the error rate wasn't like-for-like (~17× not ~10× within the analysed
+  corpus). NEW finding: the transcription disagreements are systematically ᚠ —
+  the ᚠ inventory itself is disputed, a caveat on every ᚠ-counting result.
+- **Ceilings were under-powered throughout** (max of 6 draws vs max of 13
+  segments). Matched, §17's best real sits 0.37 BELOW its ceiling (stronger than
+  reported) and §26's ceiling moves −4.65 → −4.49.
+
+Verified sound: 9/9 solved reproduction; the difflib alignment and 86/86 doublet
+reproduction (independently re-derived); verify_gp_sums' headline sums and
+base-rate control; §17's grid identifiability (48/48 planted mechanisms recovered
+at 100%); the MC sampler; and every documented number matching its archived run.
+
+Lesson recorded in CLAUDE.md: calibrate the decision threshold by planting and
+recovering the hypothesis; make nulls match in length, composition AND
+multiplicity.

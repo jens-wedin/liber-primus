@@ -5,9 +5,15 @@
 
 === 2. DOUBLET TEST (§11: are the 86 doublets transcription noise?) ===
   of 86 unsolved doublets, rtkd reproduces 86, not 0
-  reading A (if independent): inter-transcription error rate 0.069% is ~10x below §4's 0.66% dittography figure — so copy error is far too rare to explain the 0.66% doublet rate: the doublets are REAL.
-  reading B (if shared lineage, likely at this agreement): the canonical transcription stably contains all 86 — consistent with real doublets, but cannot exclude a common-source error. INCONCLUSIVE.
+  disagreements INSIDE the analysed corpus: 6 of 15750 = 0.0381%
+  reading A (if independent): that is ~17x below §4's 0.66% dittography figure — copy error is far too rare to explain the doublet rate, so the doublets are REAL.
+  reading B (if shared lineage — likely at 0.9995 agreement): the canonical transcription stably contains all 86; consistent with real doublets but cannot exclude a common-source error. INCONCLUSIVE.
   net: §11's 'transcription noise' reading is NOT supported either way; 'real doublets' is favoured, not proven.
+
+=== 2b. WHAT the transcribers disagree about ===
+  runes only in OURS : ['F', 'F', 'W', 'S', 'W', 'S', 'F', 'A', 'F', 'E']
+  runes only in RTKD : ['EA', 'EA', 'O', 'AE', 'Y']
+  -> 4/10 of our extra runes are ᚠ. The disagreement class is not random: it lands on exactly the rune the literal-ᚠ thesis (§18-§20) depends on, so the ᚠ INVENTORY is itself disputed between sources — a caveat on any ᚠ-counting result.
 
 === 3. BONUS: code-page transcription cross-check (my read vs rtkd) ===
   our code tokens 256, rtkd 256 (match: True)

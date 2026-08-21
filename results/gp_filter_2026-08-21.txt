@@ -1,9 +1,14 @@
-solved plaintext: 1875 runes; prime run-lengths 5..79
+solved plaintext (FULL, keyed pages included): 2530 runes
+  3301 searched at lengths 60..90 (§18's run is 74 — NOT prime, which the old prime-only gate could not represent)
+  1033 searched at prime lengths 23..43 (§18's run is 31)
 
-=== CONTROL: fire on the parable, quiet on random? ===
-  solved plaintext (has the §18 3301+1033 signature): count = 7
-  random plaintext (n=1875): mean 10.89, 95th pct 17, P(count=0) = 0%
-  P(random >= 7) = 88.5%
-  -> does NOT cleanly discriminate at this length/tolerance: the adjacent-conjunction still arises in random text often enough that the filter is at best a very soft prior. Consistent with §18's verdict that the GP-sum signal is weak on its own.
+=== REAL solved plaintext ===
+  3301-hitting runs 266, 1033-hitting runs 45, ADJACENT pairs (the §18 signature) = 31
 
-Use: as a TIE-BREAKER only — add a small bonus to a candidate decrypt whose signature count exceeds the random 95th percentile; never as the primary signal (a real break must first read as English).
+=== NULL: 400 shuffles of the SAME runes (composition fixed, arrangement varied) ===
+  null mean 30.60, 95th pct 41, max 49
+  P(null >= real 31) = 50.2%
+
+  -> does NOT discriminate: the §18 conjunction is as common in shuffles of the same text as in the real arrangement. The filter is unusable, and §18's co-occurrence carries no evidential weight — it is numerology.
+
+Either way: never a primary signal — a real break must read as English first.

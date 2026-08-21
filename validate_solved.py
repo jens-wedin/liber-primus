@@ -11,6 +11,7 @@ encrypted rune), so encryption is the deterministic direction.
 import ciphers as c
 import gematria as g
 from parse_lp import parse
+from solved_text import P03, P14, P73   # verified plaintexts, single source of truth
 
 segs = parse("data/liber_primus.md")
 
@@ -62,11 +63,6 @@ for prefix, expect in [
 # break differs); we verify that prefix exactly. 04.jpg's rune block in the md
 # is marked unverified by its author and doesn't align with its plaintext, so
 # it is not strictly checked here.
-P03 = ("WELCOME WELCOME PILGRIM TO THE GREAT JOURNEY TOWARD THE END OF ALL "
-       "THINGS IT IS NOT AN EASY TRIP BUT FOR THOSE WHO FIND THEIR WAY HERE "
-       "IT IS A NECESSARY ONE ALONG THE WAY YOU WILL FIND AN END TO ALL "
-       "STRUGGLE AND SUFFERING YOUR INNOCENCE YOUR ILLUSIONS YOUR CERTAINTY "
-       "AND YOUR REALITY ULTIMATELY YOU WILL DISCOVER AN END TO SELF")
 key = g.latin_to_indices("DIVINITY")
 results.append(check_encrypt("03.jpg (Vigenère DIVINITY, literal F)",
                              P03, seg("03.jpg").indices,
@@ -81,13 +77,6 @@ results.append(check_contains("06-09.jpg (atbash then +3)", dec,
 # --- 14.jpg (covers pages 14+15): Vigenère, key FIRFUMFERENFE ----------------
 # "LESSON"/"ENLIGHTENED" appear slightly differently in the md's rendering;
 # a couple of single-rune spelling differences are tolerated (threshold 0.95).
-P14 = ("A KOAN DURING A LESSON THE MASTER EXPLAINED THE I THE I IS THE "
-       "VOICE OF THE CIRCUMFERENCE HE SAID WHEN ASKED BY A STUDENT TO "
-       "EXPLAIN WHAT THAT MEANT THE MASTER SAID IT IS A VOICE INSIDE YOUR "
-       "HEAD I DONT HAVE A VOICE IN MY HEAD THOUGHT THE STUDENT AND HE "
-       "RAISED HIS HAND TO TELL THE MASTER THE MASTER "
-       "STOPPED THE STUDENT AND SAID THE VOICE THAT JUST SAID YOU HAVE NO "
-       "VOICE IN YOUR HEAD IS THE I AND THE STUDENTS WERE ENLIGHTENED")
 key = g.latin_to_indices("FIRFUMFERENFE")
 results.append(check_encrypt("14-15.jpg (Vigenère FIRFUMFERENFE, literal F)",
                              P14, seg("14.jpg").indices,
@@ -95,8 +84,6 @@ results.append(check_encrypt("14-15.jpg (Vigenère FIRFUMFERENFE, literal F)",
                              threshold=0.95))
 
 # --- 73.jpg: keystream phi(prime_i) ------------------------------------------
-P73 = ("AN END WITHIN THE DEEP WEB THERE EXISTS A PAGE THAT HASHES TO "
-       "IT IS THE DUTY OF EUERY PILGRIM TO SEEK OUT THIS PAGE")
 results.append(check_encrypt("73.jpg (phi(prime) stream, literal F)",
                              P73, seg("73.jpg").indices,
                              lambda p: c.keystream_encrypt(p, c.totient_stream(),

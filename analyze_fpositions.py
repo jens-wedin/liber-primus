@@ -20,6 +20,7 @@ import argparse
 import gematria as g
 from parse_lp import parse
 from doublet_sim import english_plaintext, LCG
+from solved_text import full_plaintext
 
 N = g.N
 F = g.latin_to_indices("F")[0]           # ᚠ == 0
@@ -104,7 +105,7 @@ def analyze(name, stream, words, sims, rng):
     # gap-length prime / emirp enrichment. Prime uses min_gap=2 (drop the
     # suppressed, non-prime ᚠᚠ gap so the fraction is not artificially inflated).
     for pname, pred, mg in (("prime-length gaps", is_prime, 2),
-                            ("emirp-length gaps", is_emirp, 1)):
+                            ("emirp-length gaps", is_emirp, 2)):
         obs = frac(pred, [x for x in gs if x >= mg])
         sims_v = mc_gap_null(L, npos, sims, rng, pred, min_gap=mg)
         zz, m, sd = z(obs, sims_v)
@@ -145,14 +146,28 @@ def main():
 
     analyze("UNSOLVED ciphertext", un_stream, un_words, args.sims, rng)
 
-    # positive reference: solved plaintext, where literal-F is the real thing
-    pt = english_plaintext(segs)
+    # positive reference: solved plaintext, where literal-F is the real thing.
+    # Use the FULL solved plaintext (keyed pages included) — english_plaintext()
+    # drops page 73 "AN END", the very page §18 is about. Audit fix.
+    pt = full_plaintext(segs)
     analyze("SOLVED plaintext (reference)", pt, None, args.sims, rng)
 
-    print("\nRead-out: the §18 literal-ᚠ structure is a PLAINTEXT property; if the "
-          "unsolved rows are all |z|<2, no fingerprint survives encryption into "
-          "the ciphertext — consistent with §18 (GP/ᚠ structure is uncheckable on "
-          "ciphertext) and a clean bound on this idea.")
+    # POWER of the reference: with only ~40 ᚠ the null SD is ~8pp, so even a
+    # real effect could not reach z=3. State it rather than let a silent
+    # non-detection masquerade as evidence. Audit fix.
+    nref = sum(1 for x in pt if x == F)
+    print(f"\nPOWER CHECK: the reference has only {nref} literal-ᚠ; the null SD on "
+          f"its gap statistics is ~8 percentage points, so it CANNOT reach z=3 "
+          f"even if the §18 effect were real. It is therefore not a positive "
+          f"control that fired — it is an underpowered test. Treat the unsolved "
+          f"rows as 'no evidence of a fingerprint', NOT as 'proof none exists'.")
+    print("MULTIPLICITY: 6 statistics are reported. The prime-gap row (z=+2.3) is "
+          "the only one outside |z|<2; at 6 tests a Bonferroni-corrected p is "
+          "~0.13, i.e. not significant — but it is the one row that does not sit "
+          "flat, and it is robust to the RNG and to a no-adjacent-ᚠ null.")
+    print("Read-out: the §18 literal-ᚠ structure is a PLAINTEXT property; the "
+          "unsolved ciphertext shows no fingerprint that survives encryption "
+          "(consistent with §18), but this is a weak bound, not a clean negative.")
 
 
 if __name__ == "__main__":

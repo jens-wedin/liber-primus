@@ -652,6 +652,8 @@ unsolved pages** as possible structural markers. `results/gp_sums_verify_2026-08
 
 ## 19. Literal- f-rune rule as a keystream interrupter on the unsolved pages — negative (P1.1)
 
+*(Audit §28H: conclusion unchanged, but the coverage claim is softened — with the hold branch disabled 6 of 13 segments decode identically, so this partly re-measures the §4 key-skip negative; and the control exercises only one literal-ᚠ at the default head. The ᚠ inventory is itself disputed between transcriptions, §28G.)*
+
 The solved pages use a key/stream + the **literal-f-rune rule** (a plaintext F is
 written as an unencrypted f-rune and consumes no key value — the pointer holds).
 `validate_solved.py` proves it, yet no *unsolved*-page attack had modelled it:
@@ -672,6 +674,8 @@ with an English F-rate would predict a mild excess that is not observed — weak
 evidence against the rule here, and the decode settles it. `results/literal_f_2026-08-21.txt`.
 
 ## 20. f-rune position structural map — nothing survives into the ciphertext (P1.2)
+
+*(Audit §28F: DOWNGRADED. The positive reference was underpowered and silently failed to fire, and the prime-gap row breaches the script's own band (Bonferroni p≈0.13). Read this as "no evidence of a fingerprint on an underpowered test", not a clean negative.)*
 
 Does §18's deliberate literal-f placement leave a usable fingerprint on the
 unsolved pages? `analyze_fpositions.py` maps the f-rune positions and tests
@@ -712,6 +716,8 @@ the "treat as a pad / index / self-enciphered stream" direction (BACKLOG P1.3
 remainder). `results/codepage_2026-08-21.txt`.
 
 ## 22. Code pages: pad / index / self-cipher / table — all negative (P1.3 remainder)
+
+*(Audit §28D: the pad control was vacuous and the self-cipher had no null; both fixed and re-run. Conclusions unchanged, margins corrected — the pad best sits at its length-matched ceiling, not below it. Byte encoding additionally ruled out.)*
 
 `attack_codepages.py` takes the verified 256-code set past the natural numeric
 decodes (§21) into the interpretations its structure invites, each
@@ -775,6 +781,8 @@ read stands bar those genuinely ambiguous characters.
 
 ## 24. The squares as a standalone message — nothing above numerology (P2.6)
 
+*(Audit §28E: the null was not the real battery. Under a corrected permutation null, page-16 p=72% (sound) but page-32 is p≈8% — MARGINAL, not the clean negative reported here.)*
+
 §16/§17 closed the squares as keys/interrupters; this reads their VALUES directly.
 `analyze_squares.py` maps page-16 (25 values) and page-32 (16 values) through
 several reading paths (row/col/spiral/boustrophedon) into runes (mod 29), plus
@@ -791,6 +799,8 @@ so this closes the reading as "no evidence", not a strong positive-power negativ
 
 ## 25. The GP-sum plausibility filter does not discriminate — deflates §18 (P2.5)
 
+*(Audit §28B: the original detector could not represent the signature at all (the 3301 run is 74 runes, not prime), so its numbers were meaningless. Re-implemented and re-run on the full solved plaintext: 31 real vs null 30.6, P=50.2% — the conclusion below survives on valid evidence.)*
+
 Intended as a tie-breaker built on §18's signature (adjacent prime-length runs
 summing to 3301 and 1033, ±2 F). `gp_filter.py` counts that conjunction and
 controls it: the solved parable plaintext scores **7**, but random text of the
@@ -805,6 +815,8 @@ authoring" reading is **not statistically supported** — it is best treated as
 numerology. `results/gp_filter_2026-08-21.txt`.
 
 ## 26. Pre-LP2 "hints never used" as keys — negative (P3.7)
+
+*(Audit §28A: the original verdict rule would have printed NO SIGNAL on a real break. Re-run against an empirical detection floor (−4.00); the real best −4.38 is 0.38 below it, so the negative now has demonstrated power — but 3 of 9 keys are NOT COVERED, and `missing_primes` is just the prime stream offset 20.)*
 
 `attack_hints.py` runs the numeric sequences from Uncovering-Cicada's "Possible
 hints never used" through the validated key-skip beam: the 2012 OutGuess whitespace
@@ -826,3 +838,100 @@ and page 73's hex block is exactly that SHA-512 (confirmed §21). Finding the pa
 that hashes to it is a **Tor hidden-service OSINT hunt**, not runic cryptanalysis —
 it is not actionable with this toolkit and is recorded for completeness only. No
 experiment run.
+
+## 28. Self-audit of §17–§27 — defects found and corrected
+
+Two adversarial audits were run over the session's own code (one on the attack
+scripts' controls, one on the statistical null models). They found real defects.
+**No headline negative was overturned** — but several were resting on invalid
+evidence and are now re-grounded. Everything below is fixed in code and re-run;
+the archived `results/` files are the corrected outputs.
+
+**A. A verdict rule that would have missed a real break (§26).** `attack_hints.py`
+declared a break only if the score beat `English − 0.5` (−3.88). Planting the very
+keys under test and recovering them at 97–100% accuracy scores as low as **−4.00**
+— i.e. the script would have printed "NO SIGNAL" on a total break of 4 of its 9
+keys. Fixed by calibrating the threshold empirically: each key is planted and
+recovered, and the minimum recovered score is the **detection floor** (−4.00). The
+real best is −4.38, **0.38 below the floor** → the negative now has demonstrated
+power. Two further §26 corrections: 3 of 9 keys (`ws2012`, `ws2014`,
+`cookies_mod29`) cannot be recovered even when planted, so they are reported as
+**not covered** rather than negative (cf. §10); and `missing_primes` is
+mathematically `prime_stream[20:]`, so its top score is the already-known prime
+stream, not a new lead.
+
+**B. A statistic that never implemented its own test (§25).** `gp_filter.py` gated
+BOTH runs to prime lengths — but §18's 3301 run is **74 runes, not prime**, so the
+detector could never see the signature: the old "real = 7" contained zero true
+signatures and compared noise to noise. Fixed (3301 searched over a length window,
+1033 at prime length) and re-run on a corrected reference: **31 real signatures vs
+a shuffle-null mean of 30.6, P = 50.2%**. §25's conclusion — the §18 co-occurrence
+is numerology — **survives, now on real evidence**.
+
+**C. A reference stream missing a third of the solved text.** `english_plaintext()`
+silently omits every keyed page, including page 73 "AN END" — the page carrying
+§18's own run — using 1875 of 2794 solved runes. New `solved_text.py`
+(`full_plaintext()`, 2530 runes, keyed pages decrypted from the plaintexts
+`validate_solved.py` proves) fixes this and is now the reference for §20 and §25.
+The plaintext constants are de-duplicated into that module; `validate_solved`
+still reports 9/9.
+
+**D. Vacuous / missing controls (§22).** The pad control tested `c − pad == p`, an
+algebraic identity that passes even with the pad stubbed to zeros; the self-cipher
+test had **no null at all**. Both fixed: the pad control now requires the search to
+recover a planted pad (it does — 100%, detection floor −3.57, vs a real best of
+−5.73), and both self-cipher paths get composition-matched shuffle nulls. Also
+corrected: the pad ceiling was computed at a fixed 256 runes while short segments
+were scored on 91–121 symbols (shorter sequences score higher), so the reported
+margin was wrong — length-matched, the best real sits **+0.07 from its own
+ceiling**, not 0.46 below it. And the script's structural line asserted "a
+256-entry pad/S-box is the natural read" while printing 161 distinct codes; that
+is now stated correctly as a **stream with repetition, not a table**, plus a new
+falsified hypothesis: the codes are **not** a byte encoding (digit 4 spans b62
+0–41 and 12 values exceed 255).
+
+**E. A null that was not the real battery (§24).** `analyze_squares.py` drew
+random-valued grids, for which `3301 − v` is rarely prime, so the prime-based
+readings collapsed to 3–5 symbols — and the per-symbol score's SD explodes at
+short length, so the "ceiling" was set by the shortest random reading. It also
+compared ~2400 null samples against 12 real ones. Replaced with a **permutation
+null** (shuffle the square's own cells, best-of-battery vs best-of-battery, 2000
+draws). Page-16: p = 72% — no message, sound. Page-32: **p = 8.2% — marginal, not
+the clean negative first reported**. Still not significant, and 2.5 below English
+at 14 symbols, so "no message" stands, but as a weak result.
+
+**F. An overstated negative (§20).** `analyze_fpositions.py` printed a clean
+negative while its own prime-gap row (z = +2.31) breached the |z| < 2 band it
+declares, and its "positive reference" **silently failed**: with ~41 literal-ᚠ the
+null SD is ~8pp, so the reference could not reach z = 3 even if the effect were
+real. The read-out now states the power limitation and the multiplicity correction
+(6 statistics; Bonferroni p ≈ 0.13 for the prime-gap row) explicitly. §20 is
+downgraded from "clean negative" to **"no evidence of a fingerprint, on an
+underpowered test"**. An emirp obs/null filter mismatch was also fixed (z −0.21 →
+−0.37).
+
+**G. A not-like-for-like rate, and a new finding (§23).** The inter-transcription
+error rate was computed over the whole book but compared to a doublet rate over the
+unsolved stream; like-for-like inside the analysed corpus it is **6/15750 =
+0.038% (~17× below 0.66%)**, not the ~10× reported. Direction unchanged. New
+finding: the disagreements are **systematically ᚠ** — 4 of our 10 extra runes are
+ᚠ, i.e. the two sources disagree precisely about the rune the literal-ᚠ thesis
+depends on. The ᚠ inventory is itself disputed, which is a standing caveat on any
+ᚠ-counting result (§19, §20).
+
+**H. Under-powered ceilings throughout.** All the session's attack scripts used a
+max over 6 random draws as the ceiling while the real result is a max over 13
+segments, biasing ceilings low. Matched, the §26 ceiling moves −4.65 → −4.49, and
+in §17 the length-matched ceiling puts the best real **0.37 below** it rather than
+level with it (a *stronger* negative than reported). §19's conclusion is unchanged
+but its coverage claim is softened: with the ᚠ-hold branch disabled, 6 of 13
+segments decode byte-identically, so that run substantially re-measures the §4
+key-skip negative rather than adding fully independent coverage, and its control
+exercises only one literal-ᚠ at the default `--head 80`.
+
+Verified sound and unchanged: the 9/9 solved-page reproduction; the difflib
+alignment and the 86/86 doublet reproduction (independently re-derived); the
+`verify_gp_sums` headline sums (1033 at 31 runes, 3301 at 74) and its base-rate
+control; the interrupter grid's identifiability (**48/48 planted mechanisms
+recovered at 100%**, so §17's negative is genuinely supported); the ᚠ-position
+Monte-Carlo sampler; and every documented number matching its archived run.

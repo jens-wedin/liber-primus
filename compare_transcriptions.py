@@ -120,16 +120,41 @@ def main():
             notrepro += 1
     print(f"  of {len(doublets)} unsolved doublets, rtkd reproduces {agree}, "
           f"not {notrepro}")
-    err = ndiff / len(our_full)
-    print(f"  reading A (if independent): inter-transcription error rate "
-          f"{err*100:.3f}% is ~{0.0066/err:.0f}x below §4's 0.66% dittography "
-          f"figure — so copy error is far too rare to explain the 0.66% doublet "
-          f"rate: the doublets are REAL.")
-    print(f"  reading B (if shared lineage, likely at this agreement): the "
-          f"canonical transcription stably contains all 86 — consistent with real "
-          f"doublets, but cannot exclude a common-source error. INCONCLUSIVE.")
+
+    # LIKE-FOR-LIKE rate: the 0.66% doublet figure is over the UNSOLVED stream,
+    # so the comparison rate must be the disagreement rate over the unsolved
+    # stream too — not over the whole book. Audit fix (was ~10x, actually ~43x).
+    seg_un = [i for i in range(len(seg_stream)) if i not in pos]
+    err_un = len(seg_un) / max(1, len(seg_stream))
+    print(f"  disagreements INSIDE the analysed corpus: {len(seg_un)} of "
+          f"{len(seg_stream)} = {err_un*100:.4f}%")
+    if err_un > 0:
+        print(f"  reading A (if independent): that is ~{0.0066/err_un:.0f}x below "
+              f"§4's 0.66% dittography figure — copy error is far too rare to "
+              f"explain the doublet rate, so the doublets are REAL.")
+    print(f"  reading B (if shared lineage — likely at {ratio:.4f} agreement): the "
+          f"canonical transcription stably contains all 86; consistent with real "
+          f"doublets but cannot exclude a common-source error. INCONCLUSIVE.")
     print(f"  net: §11's 'transcription noise' reading is NOT supported either "
           f"way; 'real doublets' is favoured, not proven.\n")
+
+    print("=== 2b. WHAT the transcribers disagree about ===")
+    # Classify each disagreement: the audit noticed they are systematically ᚠ.
+    sm = difflib.SequenceMatcher(a=our_full, b=rtkd_full, autojunk=False)
+    dele_runes, ins_runes = [], []
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag in ("delete", "replace"):
+            dele_runes += our_full[i1:i2]
+        if tag in ("insert", "replace"):
+            ins_runes += rtkd_full[j1:j2]
+    lat = lambda xs: [g.indices_to_latin([x]) for x in xs]
+    print(f"  runes only in OURS : {lat(dele_runes)}")
+    print(f"  runes only in RTKD : {lat(ins_runes)}")
+    nF = sum(1 for x in dele_runes if x == 0)
+    print(f"  -> {nF}/{len(dele_runes)} of our extra runes are ᚠ. The disagreement "
+          f"class is not random: it lands on exactly the rune the literal-ᚠ "
+          f"thesis (§18-§20) depends on, so the ᚠ INVENTORY is itself disputed "
+          f"between sources — a caveat on any ᚠ-counting result.\n")
 
     print("=== 3. BONUS: code-page transcription cross-check (my read vs rtkd) ===")
     code_crosscheck(rtkd_text)

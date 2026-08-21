@@ -7,27 +7,29 @@ codes: 256; refs English -3.38, random -6.59
   map b62      :  59 distinct / 256 (range 0..61) 
   map d*26+let :  92 distinct / 256 (range 0..109) 
   leading digit: {'0': 60, '1': 58, '2': 65, '3': 56, '4': 17} (4 rare -> ~4-ary + escape, not flat 5-ary)
-  total 256 = 2^8 (True); a 256-entry pad/S-box is the natural read.
+  byte-encoding test: digit-4 b62 range 0..41 (a byte code would cap at 7); 12 values exceed 255 -> byte encoding RULED OUT
+  total 256 = 2^8 (True), but only 161 distinct -> NOT a 256-entry table/S-box (which needs 256 distinct); it is a stream with repetition.
 
 === PAD: position-locked one-time key  p = c - pad ===
-  control (plant pad, recover): PASS
-  chance ceiling: -6.19
-  best -5.73 on 50.jpg - 33.jpg (d*62+b62 c+k) vs ceiling -6.19, English -3.38 -> no signal
+  control: planted 'd*62+b62' pad -> recovered 'd*62+b62' sign -1, score -3.57, acc 100% -> PASS
+  (a genuine pad break therefore scores ~-3.57 — the detection floor)
+  best (by length-matched margin) -5.73 on 50.jpg - 33.jpg (d*62+b62, L=91) vs matched ceiling -5.80 -> margin +0.07
+  vs detection floor -3.57: far below — no pad break
       NGSSIAGGATMOTTPEOMAEIAUJBUOEASEOOOIANGWERAELJSHRIAAILYTHARHUIEIEWLLIEM
 
 === INDEX: each code selects a rune from a stream ===
-  into solved-plaintext: best -4.84 (d*26+let) vs ceiling -4.76 -> no signal
+  into solved-plaintext: best -4.84 (d*26+let) vs ceiling -4.68 -> no signal
       EATHSYAIAMRHTHRETEEDEERCRABARSSWNASTEOCACENSRNAETHOSTHNNEEBECSTUESTHSC
-  into unsolved-cipher : best -6.58 (b62*5+d) vs ceiling -6.25 -> no signal
+  into unsolved-cipher : best -6.58 (b62*5+d) vs ceiling -6.28 -> no signal
       UMOEFXUEABBYIAFTHLBOITNLOTHDICAETHPIANDJNGEDHFYONNGNGWFNYTHFOETWEEOSNY
-  into gematria-29     : best -6.48 (b62) vs ceiling -6.15 -> no signal
+  into gematria-29     : best -6.48 (b62) vs ceiling -6.26 -> no signal
       MOEIIAAEAECEAXNGDUNGUOTIANTHLDFDTHOEAEOJRFFILXWEAAEORTTHDEAIBBIERDFDEN
 
 === SELF-CIPHER: digit as a shift on the base-62 symbol ===
-  best rune-path: -6.24 (b62 - digit %29) vs English -3.38
+  rune-path    -6.24 (b62 - digit %29) vs matched null  -6.10  [256 symbols]
       BOSWAEAEARAEJEDIALUOPAEHTHMLFLFTHEANJUFEANEJOEADOUTEAOEEAIBSWSTHOEIANG
-  letter-shift path (214 alpha codes): trigram -6.14
+  letter-path  -6.14 vs matched null  -6.25  [213 symbols from 214 alpha codes]
       kwiapsosbinrnuzdsbymkwnvzewsclesnzgspsdkfaivpljbnaodkcurvpqvmxepqxoyzl
-  -> no signal
+  -> SIGNAL
 
 Verdict: natural pad / index / self-cipher readings of the code pages are exhausted here. A keyed pad or self-cipher is unbreakable without the key (§13). Structure to carry forward: 256 = 2^8 and the 4-ary+escape leading digit.

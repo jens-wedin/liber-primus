@@ -95,68 +95,68 @@ favoured, not proven.
 - **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2), `compare_transcriptions.py` (aligns our stream vs rtkd/iddqd's; the doublet-noise test, §23/P2.4), `analyze_squares.py` (squares read directly as a message vs a numerology ceiling, §24/P2.6), `gp_filter.py` (the §18 GP-sum signature detector + control — fails to discriminate, deflates §18, §25/P2.5), `attack_hints.py` (pre-LP2 "hints never used" numeric sequences as keys/primers via the key-skip beam, negative, §26/P3.7)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` (pages 66/67/68 — 256 codes, verified from scans §21) + `analyze_codepage.py` (loads all three pages; natural decodes) + `attack_codepages.py` (pad / index / self-cipher / permutation-table attacks, all negative §22)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
-- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
+- **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked), `solved_text.py` (**verified plaintexts + `full_plaintext()`** — use this, not `english_plaintext()`, for anything about ᚠ or Gematria sums; §28C)
 - Runs archived under `results/`; candidate key texts + research briefing vendored under `download/` (PD); background research in `docs/cicada-3301-background.md`.
 
 Deps: `pip install -r requirements.txt` (wordfreq, numpy). Caches
 (`model_cache/`, `keytext_cache/`) are gitignored and rebuild on demand.
 
-## The active lead — try this next
+## State of play — the backlog is worked through (read this first)
 
 The **rune-cipher** campaign is exhausted (all control-validated): substitution,
 Vigenère, autokey, prime/totient (§3); running keys and 4 documented key texts
 (§6, §9); word/coined keys (§7, §8); difference-space cumulative family (§12);
-naive seeded-PRNG pad (§13). The no-repeat mechanism is modeled (§11, uniform
-resolution) and very-short brute is underpowered (§10). Colour/punctuation the
-transcription flattens are cosmetic (§14).
+naive seeded-PRNG pad (§13); the literal-ᚠ interrupter (§19). The no-repeat
+mechanism is modeled (§11, uniform resolution) and very-short brute is
+underpowered (§10).
 
-BUT the investigation is **NOT** complete: a full page-image catalogue (§15)
-found the transcription silently omits substantial **numeric/code content** the
-rune-only toolkit never saw. That is the live front now:
+The **image/numeric front** opened by §15 is now also worked through:
+- **Magic squares** — closed three ways: additive key (§16), interrupter
+  schedule (§17), and standalone message (§24, page-32 marginal p≈8%).
+- **Code pages 66/67/68** — transcription VERIFIED from the scans and page 66
+  added (§21, 256 codes); pad / index / self-cipher / lookup-table all negative
+  (§22). Only 161 of 256 codes are distinct, so it is a stream with repetition,
+  not a table; byte encoding ruled out. Consistent with a **keyed** pad.
+- **§18's literal-ᚠ GP-sum layer** — deflated to **numerology** (§25): the
+  3301+1033 co-occurrence is exactly as common in shuffles of the same text
+  (P=50%). No ciphertext fingerprint either (§20, on an underpowered test).
+- **Doublets** — an independent transcription reproduces all 86 (§23), so
+  "transcription noise" (§11) is out; real doublets favoured, not proven.
+- **Pre-LP2 hints** — negative against a calibrated detection floor (§26).
 
-1. **The two magic squares** (page 16 = 5×5 const 3301; page 32 = 4×4, cells =
-   3301 − prime). Tested as *repeating keys* — negative (§16, `attack_magicsquare.py`)
-   AND as an *interrupter/skip schedule* — negative (§17,
-   `attack_magicsquare_interrupter.py`: stride/gated/reset over primes/totients/
-   self/DIVINITY, both signs, control-validated, best at the chance ceiling). Both
-   "square is a key" readings are now closed. STILL UNTESTED: a bespoke reading
-   path, a per-page sub-square, or decoding the squares as a puzzle in their own
-   right.
-2. **The code pages** (66/67/68). Transcribed → `data/code_pages.txt`; §16
-   (`analyze_codepage.py`) shows they are HIGH-ENTROPY (key-like, not a
-   substituted message) — no natural decode reads English or keys the runes.
-   Open: a verified (non-OCR) transcription of all three pages, page 73's hex,
-   and community context; then treat as a pad / index / self-enciphered stream.
-   **This is now the highest-prior live front.**
-3. **Recurring marks**: the cuneiform cluster (50–56, likely a section motif),
-   red pixel-blocks (line-ends), red verse numerals — probably structural.
-4. **The literal-ᚠ steganography layer (§18, `verify_gp_sums.py`).** The r/cicada
-   "56-57.jpg" observation reproduces exactly: on *solved* plaintext, deliberately
-   placed/skipped ᚠ runes (GP value 2, the ±2 knob) make adjacent emirp-length
-   rune-runs sum to 3301 and 1033 (a digit-anagram of 3301). This is a
-   PLAINTEXT-side layer, **not a decryption lever** (GP sums aren't preserved
-   through mod-29 addition, so uncheckable on ciphertext). Follow-ups run: the
-   literal-ᚠ **interrupter** (P1.1, §19, `attack_literal_f.py`) and the ᚠ-position
-   **structural map** (P1.2, §20, `analyze_fpositions.py`) are BOTH negative — no
-   ᚠ fingerprint survives into the ciphertext, empirically confirming the caveat.
-   Still live: (a) the GP-sum **plausibility filter** (BACKLOG P2.5) as a
-   tie-breaker on any future candidate decrypt.
+**§28 is a self-audit that found and fixed real defects in §17–§27** (a verdict
+rule that would have missed a break; a statistic that never implemented its own
+test; vacuous controls; nulls that weren't the real battery). No headline
+negative was overturned, but read §28 before trusting any margin quoted in
+§17–§27.
 
-Lower-prior rune-cipher leftovers: composed manglings (§8), running-key/word-key
-on the difference stream (§12), Emerson/Rune-Poem key texts.
+### What is actually still open
 
-Out of reach for the RUNIC stream: a **keyed CSPRNG re-roll pad** (`c = p + K` a
-one-time pad, unbreakable without the seed, §13) — the likely wall the runes sit
-behind. The numeric/code content above is the way *around* it, not through it.
+1. **Per-page / per-line key resets** (REPORT §5.3) — genuinely never tested.
+   Segments bundle several .jpg pages, so this needs page-level splits first.
+   Highest-value remaining rune-side idea.
+2. **Running-key / word-key on the DIFFERENCE stream** (§12 remainder).
+3. **Composed manglings** (§8), Emerson / Rune-Poem key texts (low prior).
+4. **External routes**: the code pages need a key or community context; the
+   AN END deep-web hash (§27) is an OSINT hunt, not cryptanalysis.
 
-NB — lesson (§14→§15): don't conclude "the images add nothing" from a handful of
-pages; a full sweep found magic squares and a code page. Scale the evidence to
-the claim.
+Out of reach for the RUNIC stream: a **keyed CSPRNG re-roll pad** (`c = p + K`,
+unbreakable without the seed, §13) — the likely wall. The numeric/code content is
+the way *around* it, and it is behind its own keyed pad.
+
+NB — two standing methodology lessons, learned the hard way this session:
+- **Calibrate the decision threshold, don't assume it.** Plant the hypothesis,
+  recover it, and use *that* score as the detection floor (§28A). An arbitrary
+  "near English" cutoff silently rejected genuine breaks.
+- **Nulls must match the real thing in length, composition and multiplicity**
+  (§28B/D/E/H). Several "clean negatives" were resting on mismatched nulls.
+- Also: `english_plaintext()` omits the keyed pages — use
+  `solved_text.full_plaintext()` for anything about ᚠ or Gematria sums (§28C).
 
 Sober note: every keystream family — on the raw stream AND the differences — the
-naive seeded-PRNG family, and every documented key text is now exhausted, all
-control-validated. The realistic value is the narrowed hypothesis space, not a
-break.
+naive seeded-PRNG family, every documented key text, and the numeric/image
+content are now exhausted, all control-validated. The realistic value is the
+narrowed hypothesis space, not a break.
 
 ## Working style that fits this project
 

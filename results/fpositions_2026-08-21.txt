@@ -3,13 +3,15 @@ Solved PLAINTEXT is the positive reference (literal-F is identifiable there).
 
 === UNSOLVED ciphertext: 12947 runes, 457 ᚠ (3.53%, uniform 1/29 = 3.45%) ===
   prime-length gaps : obs  38.3%  null  33.2%±2.2  z=+2.31 (gap>=2, ᚠᚠ-corrected)
-  emirp-length gaps : obs   7.2%  null   7.5%±1.2  z=-0.21
+  emirp-length gaps : obs   7.3%  null   7.8%±1.3  z=-0.37 (gap>=2, ᚠᚠ-corrected)
   ᚠ at word edge    : obs  43.1%  null  44.1%±2.3  z=-0.42
   mean gap 28.3 runes
 
-=== SOLVED plaintext (reference): 1875 runes, 31 ᚠ (1.65%, uniform 1/29 = 3.45%) ===
-  prime-length gaps : obs  33.3%  null  27.5%±8.2  z=+0.71 (gap>=2, ᚠᚠ-corrected)
-  emirp-length gaps : obs  13.3%  null   7.5%±4.9  z=+1.20
-  mean gap 60.4 runes
+=== SOLVED plaintext (reference): 2530 runes, 41 ᚠ (1.62%, uniform 1/29 = 3.45%) ===
+  prime-length gaps : obs  25.0%  null  27.9%±7.0  z=-0.42 (gap>=2, ᚠᚠ-corrected)
+  emirp-length gaps : obs  13.9%  null   7.7%±4.3  z=+1.45 (gap>=2, ᚠᚠ-corrected)
+  mean gap 61.4 runes
 
-Read-out: the §18 literal-ᚠ structure is a PLAINTEXT property; if the unsolved rows are all |z|<2, no fingerprint survives encryption into the ciphertext — consistent with §18 (GP/ᚠ structure is uncheckable on ciphertext) and a clean bound on this idea.
+POWER CHECK: the reference has only 41 literal-ᚠ; the null SD on its gap statistics is ~8 percentage points, so it CANNOT reach z=3 even if the §18 effect were real. It is therefore not a positive control that fired — it is an underpowered test. Treat the unsolved rows as 'no evidence of a fingerprint', NOT as 'proof none exists'.
+MULTIPLICITY: 6 statistics are reported. The prime-gap row (z=+2.3) is the only one outside |z|<2; at 6 tests a Bonferroni-corrected p is ~0.13, i.e. not significant — but it is the one row that does not sit flat, and it is robust to the RNG and to a no-adjacent-ᚠ null.
+Read-out: the §18 literal-ᚠ structure is a PLAINTEXT property; the unsolved ciphertext shows no fingerprint that survives encryption (consistent with §18), but this is a weak bound, not a clean negative.

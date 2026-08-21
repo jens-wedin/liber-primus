@@ -74,8 +74,17 @@ def structural(codes):
     firsts = Counter(c[0] for c in codes)
     print(f"  leading digit: {dict(sorted(firsts.items()))} "
           f"(4 rare -> ~4-ary + escape, not flat 5-ary)")
-    print(f"  total {len(codes)} = 2^8 ({len(codes) == 256}); "
-          f"a 256-entry pad/S-box is the natural read.\n")
+    # byte-encoding hypothesis: if value = digit*62+b62 encoded a byte 0..255,
+    # digit 4 could only pair with b62 <= 7. Test it.
+    d4 = [b62(c[1]) for c in codes if c[0] == "4"]
+    vals = [int(c[0]) * 62 + b62(c[1]) for c in codes]
+    over = [v for v in vals if v > 255]
+    print(f"  byte-encoding test: digit-4 b62 range {min(d4)}..{max(d4)} "
+          f"(a byte code would cap at 7); {len(over)} values exceed 255 "
+          f"-> byte encoding RULED OUT")
+    print(f"  total {len(codes)} = 2^8 ({len(codes) == 256}), but only "
+          f"{len(raw)} distinct -> NOT a 256-entry table/S-box (which needs 256 "
+          f"distinct); it is a stream with repetition.\n")
 
 
 # --- 2. codes as a position-locked pad ---------------------------------------
@@ -84,46 +93,69 @@ def pad_stream(codes, mapname):
     return [MAPS[mapname](c) % N for c in codes]
 
 
+def best_on(codes, stream, model):
+    """Best (score, map, sign, decode) over all maps/signs at this stream's own
+    length. Returns the length used so callers can length-match the null."""
+    best, L = None, None
+    for mapname in MAPS:
+        pad = pad_stream(codes, mapname)
+        L = min(len(stream), len(pad))
+        for sign in (-1, +1):
+            dec = [(stream[i] + sign * pad[i]) % N for i in range(L)]
+            sc = model.score_sequence(dec)
+            if best is None or sc > best[0]:
+                best = (sc, mapname, sign, dec)
+    return best + (L,)
+
+
 def pad_test(codes, model, segs, eng):
     print("=== PAD: position-locked one-time key  p = c - pad ===")
-    # control: plant English encrypted by the pad, recover it deterministically
+    # REAL control: plant a pad-encrypted English text and require the SEARCH
+    # (map + sign selection) to recover it. The earlier version checked only the
+    # algebraic identity (c-pad==p), which passes even if the pad is all zeros —
+    # it proved nothing about the attack. Audit-fixed.
     pad = pad_stream(codes, "d*62+b62")
     pt = english_plaintext(segs)[:len(pad)]
     ct = [(pt[i] + pad[i]) % N for i in range(len(pt))]
-    rec = [(ct[i] - pad[i]) % N for i in range(len(pt))]
-    ok = rec == list(pt)
-    print(f"  control (plant pad, recover): {'PASS' if ok else 'FAIL'}")
-    # chance ceiling: random ciphertext through every map/sign
-    def best_on(stream):
-        best = None
-        for mapname in MAPS:
-            pad = pad_stream(codes, mapname)
-            L = min(len(stream), len(pad))
-            for sign in (-1, +1):
-                dec = [(stream[i] + sign * pad[i]) % N for i in range(L)]
-                sc = model.score_sequence(dec)
-                if best is None or sc > best[0]:
-                    best = (sc, mapname, sign, dec)
-        return best
-    ceil = None
-    for d in range(6):
-        r = LCG(800 + d)
-        rr = [r.randint(N) for _ in range(256)]
-        sc = best_on(rr)[0]
-        ceil = sc if ceil is None else max(ceil, sc)
-    print(f"  chance ceiling: {ceil:.2f}")
+    sc, mapname, sign, dec, _ = best_on(codes, ct, model)
+    acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
+    ok = (mapname == "d*62+b62") and sign == -1 and acc > 0.95
+    print(f"  control: planted 'd*62+b62' pad -> recovered '{mapname}' "
+          f"sign {sign}, score {sc:.2f}, acc {acc*100:.0f}% "
+          f"-> {'PASS' if ok else 'FAIL'}")
+    print(f"  (a genuine pad break therefore scores ~{sc:.2f} — the detection floor)")
+    floor = sc
+
+    # LENGTH-MATCHED ceilings: segments shorter than the 256-code pad are scored
+    # on fewer symbols, and short sequences score higher, so the null must use
+    # the same length. Audit-fixed (was a fixed 256-rune null for every segment).
+    real = [s for s in segs if not s.solved and len(s.indices) >= 50]
+    ceil_cache = {}
+
+    def ceiling_at(L, draws):
+        if L not in ceil_cache:
+            b = None
+            for d in range(draws):
+                r = LCG(800 + d)
+                rr = [r.randint(N) for _ in range(L)]
+                sc = best_on(codes, rr, model)[0]
+                b = sc if b is None else max(b, sc)
+            ceil_cache[L] = b
+        return ceil_cache[L]
+
     overall = None
-    for s in segs:
-        if s.solved or len(s.indices) < 50:
-            continue
-        sc, mapname, sign, dec = best_on(s.indices)
-        if overall is None or sc > overall[0]:
-            overall = (sc, s.section, mapname, sign, dec)
-    sig = overall[0] > eng - 0.5 and overall[0] > ceil + 0.5
-    print(f"  best {overall[0]:.2f} on {overall[1][:24]} ({overall[2]} "
-          f"{'c-k' if overall[3] < 0 else 'c+k'}) vs ceiling {ceil:.2f}, "
-          f"English {eng:.2f} -> {'SIGNAL' if sig else 'no signal'}")
-    print(f"      {g.indices_to_latin(overall[4])[:70]}\n")
+    for s in real:
+        sc, mapname, sign, dec, L = best_on(codes, s.indices, model)
+        cl = ceiling_at(L, draws=len(real))
+        margin = sc - cl
+        if overall is None or margin > overall[0]:
+            overall = (margin, sc, cl, L, s.section, mapname, dec)
+    margin, sc, cl, L, sect, mapname, dec = overall
+    print(f"  best (by length-matched margin) {sc:.2f} on {sect[:24]} "
+          f"({mapname}, L={L}) vs matched ceiling {cl:.2f} -> margin {margin:+.2f}")
+    print(f"  vs detection floor {floor:.2f}: "
+          f"{'AT/ABOVE — inspect' if sc >= floor else 'far below — no pad break'}")
+    print(f"      {g.indices_to_latin(dec)[:70]}\n")
 
 
 # --- 3. codes as an index into a rune stream ---------------------------------
@@ -136,13 +168,21 @@ def index_test(codes, model, segs, eng):
     streams = {"solved-plaintext": solved, "unsolved-cipher": unsolved,
                "gematria-29": list(range(N))}
     for sname, R in streams.items():
-        # ceiling: random codes selecting from R
+        # MATCHED null: shuffle the real codes and push them through the SAME 4
+        # maps, taking best-of-4 exactly as the real path does. The earlier null
+        # drew uniformly over all of R with one implicit map, a different
+        # sampling law than the real maps (which reach only a prefix of R).
+        # Audit-fixed.
         ceil = None
-        for d in range(6):
+        for d in range(20):
             r = LCG(900 + d)
-            sel = [R[r.randint(len(R))] for _ in codes]
-            sc = model.score_sequence(sel)
-            ceil = sc if ceil is None else max(ceil, sc)
+            shuf = list(codes)
+            for i in range(len(shuf) - 1, 0, -1):       # Fisher-Yates
+                j = r.randint(i + 1)
+                shuf[i], shuf[j] = shuf[j], shuf[i]
+            b = max(model.score_sequence([R[f(c) % len(R)] for c in shuf])
+                    for f in MAPS.values())
+            ceil = b if ceil is None else max(ceil, b)
         best = None
         for mapname, f in MAPS.items():
             sel = [R[f(c) % len(R)] for c in codes]
@@ -176,12 +216,43 @@ def selfcipher_test(codes, model, eng):
             latin.append(chr((ord(s.lower()) - 97 - int(c[0])) % 26 + 97))
     lat_ix = g.latin_to_indices("".join(latin).upper())
     sc_lat = model.score_sequence(lat_ix)
-    print(f"  best rune-path: {best[0]:.2f} ({best[1]}) vs English {eng:.2f}")
+    # COMPOSITION- and LENGTH-matched nulls: shuffle the real codes and push them
+    # through the identical transform, so the null has the same symbol mix and
+    # length as the observed path. (The earlier version had no ceiling at all;
+    # an intermediate fix used uniform random runes, whose composition differs
+    # from the letter path's 26-letter alphabet and produced a false "SIGNAL".)
+    def shuffled(seed, draws=30):
+        outs = []
+        for d in range(draws):
+            r = LCG(seed + d)
+            s = list(codes)
+            for i in range(len(s) - 1, 0, -1):
+                j = r.randint(i + 1)
+                s[i], s[j] = s[j], s[i]
+            outs.append(s)
+        return outs
+
+    ceil_rune = max(model.score_sequence(
+        [(b62(c[1]) - int(c[0])) % N for c in s]) for s in shuffled(1700))
+    def lat_of(cs):
+        L = [chr((ord(c[1].lower()) - 97 - int(c[0])) % 26 + 97)
+             for c in cs if c[1].isalpha()]
+        return g.latin_to_indices("".join(L).upper())
+    ceil_lat = max(model.score_sequence(lat_of(s)) for s in shuffled(1800))
+
+    print(f"  rune-path   {best[0]:6.2f} ({best[1]}) vs shuffled null "
+          f"{ceil_rune:6.2f}  [{len(best[2])} symbols]")
     print(f"      {g.indices_to_latin(best[2])[:70]}")
-    print(f"  letter-shift path ({len(latin)} alpha codes): trigram {sc_lat:.2f}")
+    print(f"  letter-path {sc_lat:6.2f} vs shuffled null {ceil_lat:6.2f}  "
+          f"[{len(lat_ix)} symbols from {len(latin)} alpha codes]")
     print(f"      {''.join(latin)[:70]}")
+    # A signal must be READABLE, not merely above a noisy null: require it to
+    # approach English. Beating a null by ~0.1 while sitting 3 below English is
+    # noise, not a decode.
     sig = max(best[0], sc_lat) > eng - 0.5
-    print(f"  -> {'SIGNAL' if sig else 'no signal'}\n")
+    print(f"  -> {'SIGNAL' if sig else 'no signal'} "
+          f"(both paths ~{eng - max(best[0], sc_lat):.1f} below English "
+          f"{eng:.2f}; shuffled nulls sit at the same level)\n")
 
 
 def main():
@@ -199,9 +270,11 @@ def main():
     selfcipher_test(codes, model, eng)
 
     print("Verdict: natural pad / index / self-cipher readings of the code pages "
-          "are exhausted here. A keyed pad or self-cipher is unbreakable without "
-          "the key (§13). Structure to carry forward: 256 = 2^8 and the 4-ary+escape "
-          "leading digit.")
+          "are exhausted here (pad tested against a demonstrated detection floor; "
+          "index and self-cipher against composition-matched nulls). A keyed pad "
+          "or self-cipher is unbreakable without the key (§13). Structure carried "
+          "forward: 256 codes but only 161 distinct — a stream with repetition, "
+          "NOT a 256-entry table; byte encoding ruled out; leading digit 4 rare.")
 
 
 if __name__ == "__main__":

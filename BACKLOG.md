@@ -34,12 +34,13 @@ untried leads surfaced).
   Motivated directly by §18 (ᚠ is meaningful, not incidental).
 
 ### 2. ᚠ-position structural map of the unsolved pages
-- **DONE 2026-08-21 — NEGATIVE / no fingerprint** (`analyze_fpositions.py`,
-  REPORT §20). Gap-length prime/emirp and word-edge tests all consistent with
-  random placement vs a Monte-Carlo null (the one borderline, prime-gap z ≈ +2.3
-  corrected, is a doublet-suppression artifact within multiple-comparison noise).
-  Confirms §18's caveat: the ᚠ layer is a plaintext property, invisible in
-  ciphertext.
+- **DONE 2026-08-21 — NO EVIDENCE (downgraded by audit §28F)** (`analyze_fpositions.py`,
+  REPORT §20). The positive reference was underpowered and never fired (~41 ᚠ),
+  and the prime-gap row breaches the script's own band (Bonferroni p≈0.13). Not a
+  clean negative. Gap-length emirp and word-edge tests sit flat vs a Monte-Carlo
+  null; the prime-gap row (z≈+2.3) is the one that does not, and survives only
+  multiplicity correction. Consistent with §18's caveat (the ᚠ layer is a
+  plaintext property), but it does not prove no fingerprint exists.
 - **Hypothesis.** Literal-ᚠ runes mark **structural boundaries** — prime/emirp-
   length runs, GP-sum checksums — as §18 shows they do on solved pages.
 - **Method.** Extract ᚠ positions/counts per unsolved segment; test inter-ᚠ gap
@@ -78,7 +79,7 @@ untried leads surfaced).
 - **DONE 2026-08-21 — QUESTIONS §11 (REPORT §23, `compare_transcriptions.py`).**
   Full-file, the two transcriptions are near-identical (15938 vs 15933 runes,
   99.95%, only ~11 differing) and rtkd reproduces **all 86** unsolved doublets.
-  So "transcription noise" is no longer supported: either copy error is ~10× too
+  So "transcription noise" is no longer supported: either copy error is ~17× too
   rare to explain the 0.66% doublet rate (→ real), or the two share lineage (→
   inconclusive). "Real doublets" favoured, not proven. Bonus: code pages
   corroborated (both 256 tokens, differ on ~6 case-ambiguous glyphs). NB an
@@ -95,10 +96,12 @@ untried leads surfaced).
 
 ### 5. GP-sum / literal-ᚠ plausibility filter as a secondary decrypt scorer
 - **DONE 2026-08-21 — UNUSABLE, and it deflates §18 (REPORT §25, `gp_filter.py`).**
-  The §18 signature (adjacent prime-length 3301+1033 runs) does not discriminate:
-  the parable scores 7 vs a random mean of 10.9 (P(random≥7)=88%) — below random.
-  So the co-occurrence is common in random text; §18 is best treated as numerology.
-  No tie-breaker worth folding in.
+  *(Audit §28B: the first detector could not represent the signature at all — the
+  3301 run is 74 runes, not prime. Re-implemented: 31 real vs shuffle-null 30.6,
+  P=50.2%. Conclusion survives on valid evidence.)*
+  The §18 signature does not discriminate: the real arrangement's 31 signatures
+  vs a shuffle-null mean of 30.6 (P=50%). The co-occurrence is exactly as common
+  in shuffles of the same runes; §18 is numerology. No tie-breaker worth folding in.
 - **Hypothesis (from §18).** A correct plaintext partitions at ᚠ/period into
   prime-length runs hitting themed GP totals (3301, 1033, anagrams).
 - **Method.** Build a scorer that rewards that partitioning; fold in as a
@@ -109,9 +112,10 @@ untried leads surfaced).
   near-English candidates, which none currently do.
 
 ### 6. Magic squares decoded as a standalone message
-- **DONE 2026-08-21 — no message (REPORT §24, `analyze_squares.py`).** Values read
-  directly (row/col/spiral/boustro → runes; page-32 prime structure; ASCII) sit
-  at/below a numerology ceiling; the ASCII path only reproduces the known `rl)lr`
+- **DONE 2026-08-21 — no message, but page-32 MARGINAL (REPORT §24, audit §28E).**
+  Under a corrected permutation null: page-16 p=72% (sound), page-32 p≈8%. Values read
+  directly (row/col/spiral/boustro → runes; page-32 prime structure; ASCII); the
+  ASCII path only reproduces the known `rl)lr`
   numerology. At 16-25 symbols the test can't be decisive → "no evidence", not a
   strong negative. The squares' meaning stays their 3301/prime structure.
 - **Status.** Both "square is a *key*" readings are closed (additive §16,
@@ -121,10 +125,18 @@ untried leads surfaced).
   as a bespoke reading path, a per-page sub-square, or a coordinate/pointer set
   into the runes.
 
+### 9. Per-page / per-line key resets (still genuinely UNTESTED)
+- REPORT §5.3 flagged this and it was never run. Segments bundle several .jpg
+  pages, so it needs page-level splits first. Highest-value remaining rune-side
+  idea now that everything else is closed.
+
 ## P3 — low / opportunistic
 
 ### 7. Prime-indexed "hints never used" as key primers
-- **DONE 2026-08-21 — NEGATIVE (REPORT §26, `attack_hints.py`).** The 2012/2014
+- **DONE 2026-08-21 — NEGATIVE, with demonstrated power (REPORT §26, audit §28A).**
+  The original verdict rule would have missed a real break; re-run against an
+  empirical detection floor (−4.00) — real best −4.38 sits 0.38 below it. 3 of 9
+  keys are NOT COVERED (non-identifiable even when planted). The 2012/2014
   whitespace prime sequences, cookie emirps 167/761 (digits, mod 29, and as
   start-offsets into prime/totient), and the "missing primes" 73…1223, all through
   the key-skip beam: control PASS, ceiling −4.65, best −4.38 (~1 below English) —

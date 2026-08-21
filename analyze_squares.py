@@ -12,10 +12,18 @@ the square VALUES, read directly, spell something? Natural readings —
 
 Honest, decisive caveat: these squares are 25 (5x5) and 16 (4x4) values. Twenty-
 five runes is far too short to separate English from chance by n-gram score, and
-we try many reading paths. So the discriminating test is a **numerology ceiling**:
-run the identical battery on random "squares" and see whether the real square's
-best decode stands out. It will not — which is the point: a short value grid
-plus reading-path freedom hits gibberish that looks language-ish either way.
+we try many reading paths. So the discriminating test is a **permutation null**:
+shuffle the square's OWN cells, re-run the identical battery, and ask whether the
+real arrangement's best decode is rarer than its own shuffles. This holds length
+and composition fixed and compares best-of-battery with best-of-battery.
+
+(Audit note: the first version used random-valued grids as the null. That was
+invalid — for random values `3301 - v` is rarely prime, so the prime-based
+readings collapsed to 3-5 symbols, and the per-symbol score's SD explodes at
+short length, so the "ceiling" was set by the shortest random reading rather
+than a comparable one. It also compared ~2400 null samples against 12 real ones.
+Under the corrected null the page-32 result is MARGINAL (p≈8%), not the clean
+negative first reported.)
 
 Usage: python3 analyze_squares.py
 """
@@ -70,18 +78,37 @@ def ascii_reading(M):
     return s, printable
 
 
-def numerology_ceiling(model, is32, size, draws):
-    """Best trigram from the same battery on random value-grids of the same shape."""
-    best = None
+def permutation_null(M, model, is32, draws, seed=1000):
+    """PERMUTATION null: shuffle the square's OWN cells and re-run the identical
+    battery. Returns the per-draw best-of-battery scores.
+
+    Audit fix. The previous null drew uniform random cell values, which was
+    invalid twice over: (a) `3301 - v` was then rarely prime, so the `gp-idx`
+    and `prime-ord` readings collapsed to 3-5 symbols (or never fired at all),
+    and `score_sequence` is a per-symbol mean whose SD explodes at short length
+    (1.84 at L=3 vs 0.79 at L=16) — so the ceiling was set by whichever random
+    reading happened to be shortest, not by a comparable one; and (b) it took a
+    max over draws x readings (~2400 samples) and compared it to a max over 12
+    real readings, an asymmetric multiplicity that made the test near
+    unfalsifiable. Shuffling the real cells holds length AND composition fixed,
+    and we compare best-of-battery to best-of-battery."""
+    ncol = 4 if is32 else 5
+    flat = [v for r in M for v in r]
+    out = []
     for d in range(draws):
-        rng = LCG(1000 + d)
-        flat = [rng.randint(4000) for _ in range(size)]
-        M = [flat[i:i + (4 if is32 else 5)]
-             for i in range(0, size, 4 if is32 else 5)]
-        for _, ix in readings(M, is32):
+        rng = LCG(seed + d * 7919)
+        s = list(flat)
+        for i in range(len(s) - 1, 0, -1):
+            j = rng.randint(i + 1)
+            s[i], s[j] = s[j], s[i]
+        Ms = [s[i:i + ncol] for i in range(0, len(s), ncol)]
+        best = None
+        for _, ix in readings(Ms, is32):
             sc = model.score_sequence(ix)
             best = sc if best is None else max(best, sc)
-    return best
+        if best is not None:
+            out.append(best)
+    return out
 
 
 def main():
@@ -92,32 +119,42 @@ def main():
     rnd = model.score_sequence([rng.randint(N) for _ in range(400)])
     print(f"refs: English trigram {eng:.2f}, random {rnd:.2f}")
     print("(NB: 16-25 runes is too short for a decisive n-gram test — the "
-          "numerology ceiling is the real comparison)\n")
+          "permutation null is the real comparison)\n")
 
     for name, M, is32, size in [("page-16 (5x5, 3301)", M16, False, 25),
                                 ("page-32 (4x4, 3301-prime)", M32, True, 16)]:
         print(f"=== {name} ===")
-        ceil = numerology_ceiling(model, is32, size, 200)
+        nulls = permutation_null(M, model, is32, draws=2000)
         best = None
         for rname, ix in readings(M, is32):
             sc = model.score_sequence(ix)
             if best is None or sc > best[0]:
                 best = (sc, rname, ix)
+        p = sum(1 for x in nulls if x >= best[0]) / len(nulls)
+        nm = sum(nulls) / len(nulls)
         s, pr = ascii_reading(M)
-        flag = " > ceiling" if best[0] > ceil else ""
-        print(f"  numerology ceiling (random grids, same battery): {ceil:.2f}")
-        print(f"  best reading: {best[1]:16s} trigram {best[0]:.2f}{flag}")
+        print(f"  best reading: {best[1]:16s} trigram {best[0]:.2f} "
+              f"[{len(best[2])} symbols]")
         print(f"      {g.indices_to_latin(best[2])}")
-        print(f"  ascii(mod256) printable {pr*100:.0f}%: "
-              f"{repr(s)[:56]}")
-        verdict = ("stands out — inspect" if best[0] > ceil + 0.5 and best[0] > eng - 0.5
-                   else "at/below the numerology ceiling — no message")
+        print(f"  permutation null (2000 shuffles of these cells, "
+              f"best-of-battery): mean {nm:.2f}")
+        print(f"  P(null >= real) = {p*100:.1f}%")
+        print(f"  ascii(mod256) printable {pr*100:.0f}%: {repr(s)[:52]}")
+        if p < 0.05:
+            verdict = (f"REAL SQUARE STANDS OUT (p={p*100:.1f}%) — but it is "
+                       f"{eng - best[0]:.1f} below English, so this is an "
+                       f"ordering quirk, not readable text")
+        else:
+            verdict = (f"indistinguishable from its own shuffles "
+                       f"(p={p*100:.1f}%) — no message")
         print(f"  -> {verdict}\n")
 
-    print("Verdict: reading the squares directly as runes/ASCII yields nothing "
-          "above the numerology ceiling; and at 16-25 symbols no such test could "
-          "be decisive anyway. The squares' meaning is their 3301/prime structure "
-          "(established), not a hidden runic message.")
+    print("Verdict: page-16 is indistinguishable from its own shuffles (p=72%) — "
+          "no message. Page-32's best reading is MARGINAL (p~8%): not significant, "
+          "but not the clean negative first reported either; and at 14 symbols, "
+          "2.5 below English, it is an ordering quirk of a 16-cell grid rather "
+          "than readable text. Neither square yields a message; the squares' "
+          "meaning remains their 3301/prime structure.")
 
 
 if __name__ == "__main__":
