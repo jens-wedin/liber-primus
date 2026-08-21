@@ -735,24 +735,28 @@ pages are now characterised as far as key-free analysis reaches — consistent w
 a keyed pad/self-cipher (§13 wall). Structure carried forward: 256 = 2⁸ and the
 4-ary+escape leading digit.
 
-### 2026-08-21 (cont.) — P2.4 transcription cross-check REVISES §11 (§23)
+### 2026-08-21 (cont.) — P2.4 transcription cross-check questions §11 (§23)
 
-Fetched rtkd/iddqd's independent master transcription (vendored to
-`download/rtkd_liber_primus_transcription.txt`) and aligned it to our scream314
-stream with difflib (`compare_transcriptions.py`). Agreement 15744/15750 runes
-(0.994). Doublet test: rtkd reproduces **ALL 86** unsolved doublets (0 disagree),
-vs a 0.01% baseline disagreement — and the 6 real rune-level disagreements fall
-elsewhere. So the doublets are **REAL ciphertext, not transcription noise** —
-overturns §11's copy-error reading. Caveat: scream314/rtkd may share lineage, so
-"no independent transcription lacks them" more than proof of independence; the 6
-disagreements show they're not identical copies. Implication: the no-repeat
-enforcement is imperfect by design (0.66% genuine leak), not clean. Updated
-REPORT §11 note + §23, index.html central finding, CLAUDE central-finding note.
+Fetched rtkd/iddqd's master transcription (vendored to
+`download/rtkd_liber_primus_transcription.txt`, CC-BY-SA) and aligned it to our
+scream314 stream (`compare_transcriptions.py`). **Full-file the two are
+near-identical: 15938 vs 15933 runes, 99.95%, only ~11 differing.** rtkd
+reproduces ALL 86 unsolved doublets. Reading: either the 0.07% inter-transcription
+error rate is ~10× too low for copy error to explain the 0.66% doublet rate (→
+doublets REAL), or the two share lineage at 99.95% agreement (→ inconclusive).
+Net: §11's "transcription noise" reading is no longer supported; "real doublets"
+favoured, not proven. Updated REPORT §11 note + §23, index.html, CLAUDE.
 
-Bonuses: (1) rtkd transcribes the code pages too — both exactly 256 tokens
-(corroborates the page-66 count §21); they agree on ~250 and differ only on ~5
-case-ambiguous l/I/L/s/S glyphs (e.g. my 3l vs rtkd 3I on page 66) — my §21 read
-stands bar those. (2) rtkd carries ~185 runes ours DROPS (≈ the rune lines that
-sit with the code blocks on pages 66/68) — another silently-omitted-content
-instance (cf. §15); logged as a new lead (recover those runes into the corpus).
+Same-session correction: my FIRST draft claimed "0.994 ratio, 6 disagreements,
+~185 runes rtkd has that ours drops" and overstated "REAL, overturns §11". That
+was an artifact of comparing `parse()`'s 15750 SEGMENT runes against rtkd's full
+15933 — a full-file vs full-file redo shows near-identity and NO dropped content
+(diff −5); the ~188-rune gap is non-segment runes (solved-page reproductions in
+prose). Corrected §23, the §11 note, index.html, CLAUDE, and BACKLOG (dropped the
+bogus "recover 185 dropped runes" item). Lesson: compare like-for-like extractions
+before drawing a conclusion, and don't assume independence from mere agreement.
+
+Bonus that survives: rtkd transcribes the code pages too — both exactly 256 tokens
+(corroborates the page-66 count §21); they differ only on ~6 case-ambiguous glyphs
+(my `3l` vs rtkd `3I` ×3, plus l/L, s/S) — my §21 read stands bar those.
 `results/transcription_compare_2026-08-21.txt`.

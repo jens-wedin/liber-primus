@@ -51,10 +51,12 @@ enforcement**, most likely a **key-skip** (the key pointer advances an extra
 step to dodge a would-be doublet), which desynchronises the keystream ~3% and
 is why fixed-position attacks fail. Modeled further (REPORT §11): the collision
 resolution is **uniform** (deterministic bump/nudge ruled out) and the 86
-residual doublets carry no key-period leak. §23 (P2.4) revises the old
-"transcription noise" reading: an independent transcription (rtkd/iddqd)
-reproduces all 86 doublets, so they are **real ciphertext** (imperfect no-repeat
-enforcement), not copy errors.
+residual doublets carry no key-period leak. §23 (P2.4) undercuts the old
+"transcription noise" reading: a second transcription (rtkd/iddqd) reproduces all
+86 doublets and disagrees with ours on only ~11 runes book-wide, so copy error is
+too rare to explain them (→ real) OR the two share lineage (→ inconclusive) —
+either way "transcription noise" is no longer supported; **real doublets** is
+favoured, not proven.
 
 ## What has been ruled out (all control-validated)
 

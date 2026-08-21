@@ -75,13 +75,15 @@ untried leads surfaced).
 ## P2 — medium
 
 ### 4. Transcription cross-check: rtkd/iddqd vs the vendored scream314 stream
-- **DONE 2026-08-21 — REVISES §11 (REPORT §23, `compare_transcriptions.py`).**
-  The two transcriptions agree on 15744/15750 runes; rtkd reproduces **all 86**
-  unsolved doublets (baseline disagreement 0.01%), so the doublets are **REAL
-  ciphertext, not transcription noise** — §11's copy-error reading is overturned
-  (caveat: possible shared lineage). Bonus: code pages corroborated (both 256
-  tokens, ~5 case-ambiguous diffs); and rtkd carries **~185 runes ours omits**
-  (the code-page rune lines on 66/68) → a new "recover the dropped runes" lead.
+- **DONE 2026-08-21 — QUESTIONS §11 (REPORT §23, `compare_transcriptions.py`).**
+  Full-file, the two transcriptions are near-identical (15938 vs 15933 runes,
+  99.95%, only ~11 differing) and rtkd reproduces **all 86** unsolved doublets.
+  So "transcription noise" is no longer supported: either copy error is ~10× too
+  rare to explain the 0.66% doublet rate (→ real), or the two share lineage (→
+  inconclusive). "Real doublets" favoured, not proven. Bonus: code pages
+  corroborated (both 256 tokens, differ on ~6 case-ambiguous glyphs). NB an
+  earlier draft's "~185 dropped runes" was a `parse()`-vs-full-file artifact —
+  there is no dropped content.
 - **Hypothesis.** Tests §4/§11's account that the 86 residual doublets are
   **transcription noise**: two independent transcriptions should disagree exactly
   where our anomalies sit.
@@ -108,14 +110,6 @@ untried leads surfaced).
   cells, the red-marked cell, the Möbius glyph, the palindromic prime centre —
   as a bespoke reading path, a per-page sub-square, or a coordinate/pointer set
   into the runes.
-
-### 6b. Recover the ~185 runes our transcription drops (surfaced by P2.4)
-- **Lead (REPORT §23).** rtkd/iddqd carries ~185 runes the vendored scream314
-  stream omits — the rune lines that sit above/below the code blocks on pages
-  66/68 (and possibly elsewhere). Like §15, the transcription silently drops
-  content the toolkit never saw. **Do:** diff the two transcriptions page-by-page,
-  extract the omitted rune lines, add them to the corpus, and re-run the core
-  stats (are they solved-style or unsolved-style? do they change §4?).
 
 ## P3 — low / opportunistic
 
