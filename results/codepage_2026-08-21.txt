@@ -15,5 +15,16 @@ refs: English trigram -3.38, random -6.59
   best message trigram -6.48 (b62(second) %29) vs English -3.38 -> gibberish
 
 === code stream as a KEY for the unsolved runic pages ===
-  chance ceiling (these keys on random text): -4.40
-  best key decode trigram -4.33 on 50.jpg - 33.jpg (d*62+b62 %29) vs ceiling -4.40 -> NO SIGNAL — gibberish
+=== DETECTION FLOOR: plant each code key, recover it, read off the score a real break gives ===
+  plant d*62+b62 %29                 -> 'd*62+b62 %29                '  -3.78 acc  90%  identified
+  plant b62*5+d %29                  -> 'b62*5+d %29                 '  -3.86 acc  90%  identified
+  plant b62(second) %29              -> 'b62(second) %29             '  -3.76 acc  87%  identified (weak decode)
+  plant d*26+letter %29              -> 'd*26+letter %29             '  -4.00 acc 100%  identified
+
+  FLOOR = -4.00 (min over 4/4 identifiable code keys)
+  weak decodes (identified, but <90% of plaintext): b62(second) %29
+
+  matched chance ceiling (max over 13 random texts): -4.40
+  best on 50.jpg - 33.jpg (map 'd*62+b62 %29')
+  best real -4.33  vs  detection floor -4.00 (what a real break scores)  vs  matched chance ceiling -4.40
+  -> 0.33 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 4/4 code keys.

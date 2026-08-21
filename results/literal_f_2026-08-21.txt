@@ -1,40 +1,77 @@
 literal-ᚠ interrupter: 68 configs (prime/totient x pure/+skip + 30 word keys), both signs
 refs: English trigram -3.38, random -6.59
 
-=== POSITIVE CONTROL: plant keystream + literal-ᚠ, recover it ===
-  planted prime+litf[PURE] (1 Fs): recovered 'prime' sign-1 trigram -3.52, acc 100%, F-positions 1/1
-  planted prime+litf[+SKIP] (1 Fs): recovered 'prime+skip' sign-1+skip trigram -3.61, acc 100%, F-positions 1/1
-  control: PASS
+(the planted plaintext contains 4 literal-ᚠ at head=120)
+=== DETECTION FLOOR: plant each config, recover it, read off the score a real break gives ===
+  plant ('prime', False)             -> '('prime+skip', True)        '  -3.47 acc  98%  NOT IDENTIFIABLE
+  plant ('prime+skip', True)         -> '('prime+skip', True)        '  -3.64 acc  97%  identified
+  plant ('totient', False)           -> '('totient', False)          '  -3.49 acc 100%  identified
+  plant ('totient+skip', True)       -> '('totient+skip', True)      '  -3.65 acc  98%  identified
+  plant ('DIVINITY', False)          -> '('DIVINITY', False)         '  -3.49 acc 100%  identified
+  plant ('CIRCUMFERENCE', False)     -> '('CIRCUMFERENCE', False)    '  -3.49 acc 100%  identified
+  plant ('FIRFUMFERENFE', False)     -> '('FIRFUMFERENFE', False)    '  -3.49 acc 100%  identified
+  plant ('INSTAR', False)            -> '('INSTAR', False)           '  -3.46 acc  98%  identified
+  plant ('MOBIUS', False)            -> '('MOBIUS', False)           '  -3.46 acc  98%  identified
+  plant ('CABAL', False)             -> '('CABAL', False)            '  -3.49 acc 100%  identified
+  plant ('TOTIENT', False)           -> '('TOTIENT', False)          '  -3.45 acc  98%  identified
+  plant ('PRIMES', False)            -> '('PRIMES', False)           '  -3.49 acc 100%  identified
+  plant ('SACRED', False)            -> '('SACRED', False)           '  -3.49 acc 100%  identified
+  plant ('WISDOM', False)            -> '('WISDOM', False)           '  -3.49 acc 100%  identified
+  plant ('PILGRIM', False)           -> '('PILGRIM', False)          '  -3.47 acc  98%  identified
+  plant ('ENLIGHTENMENT', False)     -> '('ENLIGHTENMENT', False)    '  -3.49 acc 100%  identified
+  plant ('PARABLE', False)           -> '('PARABLE', False)          '  -3.45 acc  98%  identified
+  plant ('KOAN', False)              -> '('KOAN', False)             '  -3.45 acc  98%  identified
+  plant ('SHADOWS', False)           -> '('SHADOWS', False)          '  -3.49 acc 100%  identified
+  plant ('AETHEREAL', False)         -> '('AETHEREAL', False)        '  -3.49 acc 100%  identified
+  plant ('BUFFERS', False)           -> '('BUFFERS', False)          '  -3.49 acc 100%  identified
+  plant ('OBSCURA', False)           -> '('OBSCURA', False)          '  -3.49 acc 100%  identified
+  plant ('MOURNFUL', False)          -> '('MOURNFUL', False)         '  -3.49 acc 100%  identified
+  plant ('PRESERVATION', False)      -> '('PRESERVATION', False)     '  -3.49 acc 100%  identified
+  plant ('ADHERENCE', False)         -> '('ADHERENCE', False)        '  -3.49 acc 100%  identified
+  plant ('PROGRAM', False)           -> '('PROGRAM', False)          '  -3.47 acc  98%  identified
+  plant ('REALITY', False)           -> '('REALITY', False)          '  -3.49 acc 100%  identified
+  plant ('DECEPTION', False)         -> '('DECEPTION', False)        '  -3.49 acc 100%  identified
+  plant ('CONSUMPTION', False)       -> '('CONSUMPTION', False)      '  -3.43 acc  98%  identified
+  plant ('EMERGENCE', False)         -> '('EMERGENCE', False)        '  -3.49 acc 100%  identified
+  plant ('INTUS', False)             -> '('INTUS', False)            '  -3.49 acc 100%  identified
+  plant ('WITHIN', False)            -> '('WITHIN', False)           '  -3.49 acc 100%  identified
+  plant ('TRUTH', False)             -> '('TRUTH', False)            '  -3.49 acc 100%  identified
+  plant ('SELF', False)              -> '('SELF', False)             '  -3.49 acc 100%  identified
 
-=== CHANCE CEILING (these configs on random text): -4.79 ===
+  FLOOR = -3.65 (min over 33/34 identifiable configs)
+  NOT COVERED (1): ('prime', False)
+  -> a real break with those would be INVISIBLE to this run; no evidence either way.
+
+=== MATCHED CHANCE CEILING (max over 13 random texts of 120 runes): -4.84 ===
 
 REAL unsolved segments (keystream + literal-ᚠ interrupter):
-  17.jpg-19.jpg - 0.jpg-2.jpg    'prime+skip' c+k+skip trigram -5.05
+  17.jpg-19.jpg - 0.jpg-2.jpg    'prime+skip' c+k+skip trigram -5.01
       BJDIBOSFCLEDBTFUYNAHEADEFSENEMEAANYHYSFUYCETWOMMORDERSPECOXFFLEFGHMPEACFMEPU
-  20.jpg - 3.jpg-5.jpg           'prime+skip' c-k+skip trigram -4.90
+  20.jpg - 3.jpg-5.jpg           'prime+skip' c-k+skip trigram -4.94
       BREALTHODRUIPCAUNLCEABSREOPLEBOAFHTEDIDSUTAALYNGELUNDOEFGUOEAAMALNEEOSSNGROO
-  20.jpg - 3.jpg-5.jpg           'prime+skip' c-k+skip trigram -5.07
+  20.jpg - 3.jpg-5.jpg           'prime+skip' c-k+skip trigram -5.01
       IELEAGOETHLYSIARWRIPICGGBPSICIAJOPIPTSHANEOEAOANGESINEANEDEAEEPNGGETAGMPROSG
-  23.jpg, 24.jpg - 6.jpg-7.jpg   'prime+skip' c+k+skip trigram -5.13
-      YMMAUMBNBTLEDBLWAOFIEOPLEXCIALTHODCSHAEDCUPARURGEANMACEABRUELOPAEFEBTIMRALMS
-  25.jpg, 26.jpg, 27.jpg, 28.jpg 'totient+skip' c-k+skip trigram -4.87
+  23.jpg, 24.jpg - 6.jpg-7.jpg   'totient+skip' c+k+skip trigram -5.17
+      YLLIATHOETHTSMMOUREGESIAFEAEMBENHSHOXYMODCUERJEOMBRIADRIATOSFOTHEOCDLNGNEODM
+  25.jpg, 26.jpg, 27.jpg, 28.jpg 'totient+skip' c-k+skip trigram -4.98
       PHIPLTHYREMOSSESSANGHTEXGTIETTACNGDHRIIAMLUCHECTERSFECSXSNGTFLOODYNGIATEDNGW
-  32.jpg, 33.jpg, 34.jpg, 35.jpg 'totient+skip' c-k+skip trigram -4.91
-      MEABOAEULDULOPTULBEASUBLATODDBOOTTIANAEONEYEOJTHROMITIBUTEGEABRATUMISTAGMCEA
-  40.jpg, 41.jpg, 42.jpg, 43.jpg 'totient+skip' c-k+skip trigram -5.03
+  32.jpg, 33.jpg, 34.jpg, 35.jpg 'totient+skip' c-k+skip trigram -4.96
+      MEABOAEULDULOPTULBEASUBLATODDBOOTTIANAEONEYEOJTHROMITIBUTEIPDIFCIALCTUDOLRGA
+  40.jpg, 41.jpg, 42.jpg, 43.jpg 'totient+skip' c-k+skip trigram -5.09
       FELOPSTAYFIRROMBSLAERBYCHNGUSIRMIAGMEONGUOESLTHLFEPRUFOXTOGREDDIDGROWAMNGESH
-  44.jpg, 45.jpg, 46.jpg, 47.jpg 'totient+skip' c-k+skip trigram -4.99
+  44.jpg, 45.jpg, 46.jpg, 47.jpg 'totient+skip' c-k+skip trigram -5.06
       ENLIOTGOUNCATMEGAIRDEXCBDIAYEDOPEODWFLUGEOIDLEANBTHENGHIMIONUBBMGSFFTOPMSBOG
-  50.jpg - 33.jpg                'totient+skip' c+k+skip trigram -4.86
+  50.jpg - 33.jpg                'totient+skip' c+k+skip trigram -4.85
       AXESTEADHSBAEIFIEAWNETSIEUIAGEDUAETHJAIGNEAHURTHUTTHSAFPIROURIALEANJFNIOREUE
-  50.jpg, 51.jpg, 52.jpg, 53.jpg 'prime+skip' c+k+skip trigram -5.02
-      ANDIAMCALGGNGUITECRECIONNAEUEDLDRYFTYOSHOCNAEIAWEEMDCREAAUEABLENUCEAWARANYEB
-  56.jpg - 39.jpg                'prime+skip' c-k+skip trigram -5.00
+  50.jpg, 51.jpg, 52.jpg, 53.jpg 'totient+skip' c+k+skip trigram -4.91
+      DGELFBNUTERNIELNITOICPOBOERNEMRUFLAUDGEAEACMICJETBNGWHEOITTEDDITUTLIMGAIRCYT
+  56.jpg - 39.jpg                'prime+skip' c-k+skip trigram -4.81  <-- ABOVE CEILING
       AETHIGEOTHICPTOEAICESTLYEACERUNTHSDLTHCUTBMWNERWILDENGHHUFUNGBLENTXCIALSEOUR
   57.jpg - 40.jpg                'totient+skip' c-k+skip trigram -5.10
       EACNIBUYWBTHUNHILLIANGLMCLAGMCREOPEOBAGEMITUIJABADFRCHOEYTHNGEGMPBTAFDOELWLE
-  71.jpg - 54.jpg                'totient+skip' c+k+skip trigram -4.98
+  71.jpg - 54.jpg                'totient+skip' c+k+skip trigram -5.03
       YDIARIEOOLCCYNANOTHUSTUSPYWEUIAUABINGEABPIGUEAFYWAGOEHRAUUNGNGSSLUERAEOEOMEW
 
-best: trigram -4.86 on 50.jpg - 33.jpg ('totient+skip') vs ceiling -4.79, English -3.38
--> NO SIGNAL — best decode is gibberish, no better than chance
+best on 56.jpg - 39.jpg ('prime+skip')
+  best real -4.81  vs  detection floor -3.65 (what a real break scores)  vs  matched chance ceiling -4.84
+  -> 1.17 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 33/34 configs.

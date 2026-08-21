@@ -27,6 +27,8 @@ from parse_lp import parse
 from language_model import get_model
 from doublet_sim import english_plaintext, LCG
 from attack_vigenere_skip import attack_segment
+from no_repeat_model import enc_key_skip
+from controls import detection_floor, matched_ceiling, verdict
 
 N = g.N
 B62 = string.digits + string.ascii_lowercase + string.ascii_uppercase   # 0..61
@@ -122,24 +124,40 @@ def main():
 
     print("=== code stream as a KEY for the unsolved runic pages ===")
     keys = decodings(allcodes)
-    ceils = []
-    for d in range(6):
-        r = LCG(500 + d)
-        ct = [r.randint(N) for _ in range(34)]
-        ceils.append(attack_segment(ct, keys, model, 30, 100, 2)[0])
-    ceil = max(ceils)
-    print(f"  chance ceiling (these keys on random text): {ceil:.2f}")
+    real = [s for s in segs if not s.solved and len(s.indices) >= 50]
+
+    # Calibrated threshold (R1 fix): the old rule was `best > English - 0.5`,
+    # which is wrong for beam scores (they carry a per-skip penalty and are
+    # normalised by len-1), so a genuine break scores ~-4.0 and would have been
+    # reported as "NO SIGNAL". Plant each code-derived key and recover it.
+    pt = english_plaintext(segs)[:30]
+    kmap = dict(keys)
+
+    def plant(name):
+        k = kmap[name]
+        reps = len(pt) * 3 // len(k) + 4
+        return enc_key_skip(pt, k * reps)
+
+    def recover(ct):
+        sc, nm, sign, dec, _ = attack_segment(ct, keys, model, 30, 100, 2)
+        acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
+        return sc, nm, acc
+
+    floor, covered, uncovered, _ = detection_floor(
+        [n for n, _ in keys], plant, recover, label="code key")
+
+    score_fn = lambda ct: attack_segment(ct, keys, model, 30, 100, 2)[0]
+    ceil = matched_ceiling(score_fn, 30, trials=len(real), seed=500, extra=4)
+    print(f"  matched chance ceiling (max over {len(real)} random texts): "
+          f"{ceil:.2f}")
     overall = None
-    for s in segs:
-        if s.solved or len(s.indices) < 50:
-            continue
+    for s in real:
         bl, name, sign, dec, _ = attack_segment(s.indices, keys, model, 30, 100, 2)
         if overall is None or bl > overall[0]:
             overall = (bl, s.section, name)
-    sig = overall[0] > eng - 0.5 and overall[0] > ceil + 0.5
-    print(f"  best key decode trigram {overall[0]:.2f} on {overall[1][:26]} "
-          f"({overall[2]}) vs ceiling {ceil:.2f} -> "
-          f"{'SIGNAL' if sig else 'NO SIGNAL — gibberish'}")
+    print(f"  best on {overall[1][:26]} (map '{overall[2]}')")
+    print(verdict(overall[0], floor, ceil, len(covered), len(keys),
+                  label="code keys"))
 
 
 if __name__ == "__main__":

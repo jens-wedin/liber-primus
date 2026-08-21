@@ -43,6 +43,7 @@ import ciphers as c
 from parse_lp import parse
 from language_model import get_model
 from doublet_sim import english_plaintext, LCG
+from controls import matched_ceiling, verdict
 
 N = g.N
 
@@ -233,27 +234,40 @@ def main():
         print("control FAILED — not trusting the real run.")
         return
 
-    ceil = chance_ceiling(streams, model, args.head, args.draws)
-    print(f"=== CHANCE CEILING (this grid on random text): {ceil:.2f} ===\n")
+    real = [x for x in segs if not x.solved and len(x.indices) >= 50]
+    score_fn = lambda ct: search(ct, streams, model)[0]
+    cache = {}
 
-    print("REAL unsolved segments (page-16 square as interrupter schedule):")
+    def ceil_at(L):
+        if L not in cache:
+            cache[L] = matched_ceiling(score_fn, L, trials=len(real), seed=500)
+        return cache[L]
+
+    print("REAL unsolved segments (page-16 square as interrupter schedule),")
+    print("each against a chance ceiling at ITS OWN length (audit §28/R2):")
     overall = None
-    for s in segs:
-        if s.solved or len(s.indices) < 50:
-            continue
-        sc, mech, dec = search(s.indices[:args.head], streams, model)
-        flag = "  <-- ABOVE CEILING" if sc > ceil else ""
-        print(f"  {s.section[:30]:30s} {mech_str(mech):34s} trigram {sc:.2f}{flag}")
-        print(f"      {g.indices_to_latin(dec)[:76]}")
-        if overall is None or sc > overall[0]:
-            overall = (sc, s.section, mech, dec)
+    for s in real:
+        ix = s.indices[:args.head]
+        sc, mech, dec = search(ix, streams, model)
+        cl = ceil_at(len(ix))
+        margin = sc - cl
+        flag = "  <-- above its ceiling" if margin > 0 else ""
+        print(f"  {s.section[:28]:28s} L={len(ix):3d} {mech_str(mech):30s} "
+              f"{sc:6.2f} vs ceil {cl:6.2f} ({margin:+.2f}){flag}")
+        if overall is None or margin > overall[0]:
+            overall = (margin, sc, cl, s.section, mech, dec)
+    ceil = overall[2]
 
-    signal = overall[0] > eng - 0.5 and overall[0] > ceil + 0.5
-    verdict = ("SIGNAL — a segment reads near English; inspect" if signal else
-               "NO SIGNAL — best decode is gibberish, no better than chance")
-    print(f"\nbest: trigram {overall[0]:.2f} on {overall[1][:26]} "
-          f"({mech_str(overall[2])}) vs ceiling {ceil:.2f}, English {eng:.2f}")
-    print(f"-> {verdict}")
+    margin, sc, cl, sect, mech, dec = overall
+    print(f"\nbest by length-matched margin: {sc:.2f} on {sect[:26]} "
+          f"({mech_str(mech)}) vs its own ceiling {cl:.2f} -> margin {margin:+.2f}")
+    if margin > 0.5 and sc > eng - 0.5:
+        print("-> SIGNAL — inspect.")
+    else:
+        print(f"-> NO SIGNAL: every mechanism sits at/below a length-matched "
+              f"chance ceiling, and {eng - sc:.1f} below English ({eng:.2f}). "
+              f"(The published §17 comparison used a fixed-length null, which "
+              f"understated the margin; matched, the negative is stronger.)")
 
 
 if __name__ == "__main__":

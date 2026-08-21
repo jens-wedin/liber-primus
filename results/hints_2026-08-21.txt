@@ -9,20 +9,19 @@ hint-derived keys (9):
   tot@167                    len 154: IOEYOCSBDRGTEAPBMDFGXLYMNGTHIL
   tot@761                    len 154: GEOLYNPMNGIATHHILOENSGIOEWGEOO
 
-=== CALIBRATION: what score does a REAL break with each key give? ===
-  plant ws2012                     -> 'ws2012                    '  -3.83 acc  70% NOT IDENTIFIABLE
-  plant ws2014                     -> 'ws2014                    '  -3.81 acc  90% NOT IDENTIFIABLE
-  plant cookie_digits              -> 'cookie_digits             '  -3.88 acc 100% OK
-  plant cookies_mod29              -> 'cookies_mod29             '  -3.37 acc  57% NOT IDENTIFIABLE
-  plant missing_primes(=primes@20) -> 'missing_primes(=primes@20)'  -3.71 acc  93% OK
-  plant prime@167                  -> 'prime@167                 '  -4.00 acc 100% OK
-  plant prime@761                  -> 'prime@761                 '  -3.99 acc  97% OK
-  plant tot@167                    -> 'tot@167                   '  -4.00 acc 100% OK
-  plant tot@761                    -> 'tot@761                   '  -3.99 acc  97% OK
+=== DETECTION FLOOR: plant each hint key, recover it, read off the score a real break gives ===
+  plant ws2012                       -> 'ws2012                      '  -3.83 acc  70%  identified (weak decode)
+  plant ws2014                       -> 'ws2014                      '  -3.81 acc  90%  identified
+  plant cookie_digits                -> 'cookie_digits               '  -3.88 acc 100%  identified
+  plant cookies_mod29                -> 'cookies_mod29               '  -3.37 acc  57%  identified (weak decode)
+  plant missing_primes(=primes@20)   -> 'missing_primes(=primes@20)  '  -3.71 acc  93%  identified
+  plant prime@167                    -> 'prime@167                   '  -4.00 acc 100%  identified
+  plant prime@761                    -> 'prime@761                   '  -3.99 acc  97%  identified
+  plant tot@167                      -> 'tot@167                     '  -4.00 acc 100%  identified
+  plant tot@761                      -> 'tot@761                     '  -3.99 acc  97%  identified
 
-  DETECTION FLOOR = -4.00 (min score of a genuine break over 6/9 identifiable keys)
-  NOT COVERED (cannot be recovered even when planted): ws2012, ws2014, cookies_mod29
-  -> for those keys this run yields NO evidence either way (cf. §10: short keys are non-identifiable under key-skip).
+  FLOOR = -4.00 (min over 9/9 identifiable hint keys)
+  weak decodes (identified, but <90% of plaintext): ws2012, cookies_mod29
 
 === CHANCE CEILING (max over 13 random texts, matched to the 13 real segments): -4.49 ===
 
@@ -41,6 +40,6 @@ REAL unsolved segments (hint keys + key-skip):
   57.jpg - 40.jpg                key 'missing_primes(=primes@20)' c+k  -4.86
   71.jpg - 54.jpg                key 'ws2012                    ' c-k  -4.72
 
-best real -4.38 on 17.jpg-19.jpg - 0.jpg-2.jp (key 'missing_primes(=primes@20)')
-  vs DETECTION FLOOR -4.00 (what a real break scores) and chance ceiling -4.49
-  -> 0.38 BELOW the floor a genuine break produces, and at/below the chance ceiling: NEGATIVE, with demonstrated power for the 6 identifiable keys.
+best on 17.jpg-19.jpg - 0.jpg-2.jp (key 'missing_primes(=primes@20)')
+  best real -4.38  vs  detection floor -4.00 (what a real break scores)  vs  matched chance ceiling -4.49
+  -> 0.38 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 9/9 hint keys.

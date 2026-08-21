@@ -41,10 +41,84 @@ def decrypt_plaintext_autokey(ix, primer, sign):
     return out
 
 
+def encrypt_ciphertext_autokey(p, primer):
+    """c[i] = p[i] + k[i]; k = primer, then the CIPHERTEXT L back."""
+    L, out = len(primer), []
+    for i, pi in enumerate(p):
+        k = primer[i] if i < L else out[i - L]
+        out.append((pi + k) % N)
+    return out
+
+
+def encrypt_plaintext_autokey(p, primer):
+    """c[i] = p[i] + k[i]; k = primer, then the PLAINTEXT L back."""
+    L, out = len(primer), []
+    for i, pi in enumerate(p):
+        k = primer[i] if i < L else p[i - L]
+        out.append((pi + k) % N)
+    return out
+
+
+def positive_control(dist):
+    """Plant a known autokey encryption and confirm this pipeline finds it.
+
+    Added by the R3 audit item: this attack previously had NO positive control —
+    only a random-head chi2 baseline — so its negative was unvalidated under the
+    project's own ground rule. The decision criterion in `main` is
+    `word_score > 0.15`, so the control must show a PLANTED autokey clears it;
+    otherwise a real autokey would be invisible and "negative" would mean nothing.
+    """
+    print("=== POSITIVE CONTROL: plant an autokey encryption, recover it ===")
+    from doublet_sim import english_plaintext
+    segs = parse("data/liber_primus.md")
+    pt = english_plaintext(segs)[:150]
+    ok_all = True
+    for label, enc, dec_fn in (
+            ("ciphertext-autokey", encrypt_ciphertext_autokey,
+             decrypt_ciphertext_autokey),
+            ("plaintext-autokey", encrypt_plaintext_autokey,
+             decrypt_plaintext_autokey)):
+        primer = (7, 19)                       # arbitrary known 2-rune primer
+        ct = enc(pt, primer)
+        best = None
+        for L in (1, 2):
+            for cand in itertools.product(range(N), repeat=L):
+                for fn in (decrypt_ciphertext_autokey, decrypt_plaintext_autokey):
+                    for sign in (+1, -1):
+                        d = fn(ct, cand, sign)
+                        sc = chi2(d, dist)
+                        if best is None or sc < best[0]:
+                            best = (sc, fn, cand, sign, d)
+        sc, fn, cand, sign, d = best
+        acc = sum(1 for a, b in zip(d, pt) if a == b) / len(pt)
+        ws = c.word_score([g.indices_to_latin(d)])
+        # The criterion is METHOD + SIGN + plaintext recovery, NOT an exact
+        # primer match: for ciphertext-autokey the primer only supplies the
+        # first L key values (everything after comes from the ciphertext), so a
+        # wrong primer corrupts only L runes and the primer is essentially
+        # unidentifiable. That is a property of the cipher, not a failure of the
+        # attack — recording it rather than demanding the impossible.
+        ok = (fn is dec_fn) and sign == -1 and acc > 0.95
+        ok_all &= ok
+        note = "" if cand == primer else f"  (primer {cand} != planted; only the "\
+                                         f"first {len(primer)} runes differ)"
+        print(f"  planted {label:20s} primer={primer} -> recovered "
+              f"{fn.__name__.replace('decrypt_', ''):18s} "
+              f"sign={sign:+d} chi2={sc:.0f} acc={acc*100:.0f}% "
+              f"{'OK' if ok else 'FAIL'}{note}")
+    print(f"  control: {'PASS — a real autokey WOULD be found' if ok_all else 'FAIL'}\n")
+    return ok_all
+
+
 def main():
     segs = parse("data/liber_primus.md")
     dist = english_rune_distribution(segs)
     unsolved = [s for s in segs if not s.solved and len(s.indices) >= 50]
+
+    if not positive_control(dist):
+        print("control FAILED — this pipeline cannot find a planted autokey, so "
+              "any negative below would be meaningless. Aborting.")
+        return
 
     for s in unsolved:
         ix = s.indices

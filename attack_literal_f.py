@@ -37,6 +37,7 @@ from parse_lp import parse
 from language_model import get_model
 from doublet_sim import english_plaintext, LCG
 from attack_vigenere_skip import CICADA_WORDS
+from controls import detection_floor, matched_ceiling, verdict
 
 N = g.N
 F = g.latin_to_indices("F")[0]          # ᚠ == rune index 0
@@ -137,41 +138,39 @@ def search(cipher, cfgs, model, beam, max_skip):
 
 # --- controls ----------------------------------------------------------------
 
-def positive_control(cfgs, model, head, beam, max_skip):
-    print("=== POSITIVE CONTROL: plant keystream + literal-ᚠ, recover it ===")
+def litf_floor(cfgs, model, head, beam, max_skip):
+    """Detection floor: plant each keystream config (encrypting English under it
+    WITH the literal-ᚠ rule) and recover it through the identical search.
+
+    Replaces a control that (a) judged by `English - 0.5`, wrong for beam scores,
+    and (b) at the old default head=80 exercised only ONE literal-ᚠ, so the
+    accuracy gate was nearly vacuous for the +SKIP arm (§28/R1). The default head
+    is now 120, which carries several ᚠ.
+    """
     segs = parse("data/liber_primus.md")
-    pt = english_plaintext(segs)[:head]          # real solved plaintext (has Fs)
+    pt = english_plaintext(segs)[:head]
     nF = sum(1 for x in pt if x == F)
-    K = materialize("prime", (max_skip + 1) * head + 64)
-    ok_all = True
-    for use_skip in (False, True):
-        ct = enc_litf(pt, K, use_skip)
+    print(f"(the planted plaintext contains {nF} literal-ᚠ at head={head})")
+    by = {}
+    for label, K, sign, use_skip in cfgs:
+        by.setdefault((label, use_skip), (K, sign))
+    names = list(by)
+
+    def plant(name):
+        K, _ = by[name]
+        return enc_litf(pt, K, name[1])
+
+    def recover(ct):
         sc, label, sign, us, dec = search(ct, cfgs, model, beam, max_skip)
         acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
-        fpos = [i for i, x in enumerate(pt) if x == F]
-        frec = sum(1 for i in fpos if i < len(dec) and dec[i] == F)
-        tag = "PURE" if not use_skip else "+SKIP"
-        print(f"  planted prime+litf[{tag}] ({nF} Fs): recovered '{label}' "
-              f"sign{sign}{'+skip' if us else ''} trigram {sc:.2f}, acc {acc*100:.0f}%, "
-              f"F-positions {frec}/{len(fpos)}")
-        ok_all &= (acc > 0.85 and frec == len(fpos))
-    print(f"  control: {'PASS' if ok_all else 'FAIL'}\n")
-    return ok_all
+        return sc, (label, us), acc
 
-
-def chance_ceiling(cfgs, model, head, beam, max_skip, draws):
-    best = None
-    for d in range(draws):
-        rng = LCG(700 + d)
-        ct = [rng.randint(N) for _ in range(head)]
-        sc, *_ = search(ct, cfgs, model, beam, max_skip)
-        best = sc if best is None else max(best, sc)
-    return best
+    return detection_floor(names, plant, recover, label="config")
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--head", type=int, default=80)
+    ap.add_argument("--head", type=int, default=120)
     ap.add_argument("--beam", type=int, default=150)
     ap.add_argument("--order", type=int, default=3)
     ap.add_argument("--max-skip", type=int, default=2)
@@ -188,13 +187,17 @@ def main():
           f"(prime/totient x pure/+skip + {len(CICADA_WORDS)} word keys), both signs")
     print(f"refs: English trigram {eng:.2f}, random {rnd:.2f}\n")
 
-    if not positive_control(cfgs, model, args.head, args.beam, args.max_skip):
-        print("control FAILED — not trusting the real run.")
+    floor, covered, uncovered, _ = litf_floor(
+        cfgs, model, args.head, args.beam, args.max_skip)
+    if floor is None:
+        print("no config self-recovers — no demonstrated power; aborting.")
         return
 
-    ceil = chance_ceiling(cfgs, model, args.head, args.beam, args.max_skip,
-                          args.draws)
-    print(f"=== CHANCE CEILING (these configs on random text): {ceil:.2f} ===\n")
+    real = [s for s in segs if not s.solved and len(s.indices) >= 50]
+    score_fn = lambda ct: search(ct, cfgs, model, args.beam, args.max_skip)[0]
+    ceil = matched_ceiling(score_fn, args.head, trials=len(real), seed=700)
+    print(f"=== MATCHED CHANCE CEILING (max over {len(real)} random texts of "
+          f"{args.head} runes): {ceil:.2f} ===\n")
 
     print("REAL unsolved segments (keystream + literal-ᚠ interrupter):")
     overall = None
@@ -210,12 +213,9 @@ def main():
         if overall is None or sc > overall[0]:
             overall = (sc, s.section, label)
 
-    signal = overall[0] > eng - 0.5 and overall[0] > ceil + 0.5
-    verdict = ("SIGNAL — a segment reads near English; inspect" if signal else
-               "NO SIGNAL — best decode is gibberish, no better than chance")
-    print(f"\nbest: trigram {overall[0]:.2f} on {overall[1][:26]} "
-          f"('{overall[2]}') vs ceiling {ceil:.2f}, English {eng:.2f}")
-    print(f"-> {verdict}")
+    print(f"\nbest on {overall[1][:26]} ('{overall[2]}')")
+    print(verdict(overall[0], floor, ceil, len(covered), len(covered)+len(uncovered),
+                  label="configs"))
 
 
 if __name__ == "__main__":

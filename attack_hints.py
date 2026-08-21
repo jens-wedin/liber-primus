@@ -23,8 +23,11 @@ So the decision threshold is now CALIBRATED EMPIRICALLY: we plant each candidate
 key into English (+ key-skip), recover it through the identical pipeline, and
 record the score. The minimum score over keys that genuinely self-recover is the
 **detection floor** — the score a real break with these keys would produce. The
-real run is negative only if it lands clearly BELOW that floor. Keys that fail to
-self-recover are reported as NOT COVERED (non-identifiable), not as negatives.
+real run is negative only if it lands clearly BELOW that floor. Keys that do not
+rank first when planted are reported as NOT COVERED (non-identifiable), not as
+negatives. Identifiability (does the true key rank first?) is the criterion —
+decode accuracy is reported separately, since an imperfect decode of the correct
+key still produces the score we would observe.
 
 Usage: python3 attack_hints.py [--head 30] [--beam 100]
 """
@@ -38,6 +41,7 @@ from language_model import get_model
 from doublet_sim import english_plaintext, LCG
 from no_repeat_model import enc_key_skip
 from attack_vigenere_skip import attack_segment
+from controls import detection_floor, matched_ceiling, verdict
 
 N = g.N
 
@@ -81,47 +85,30 @@ def build_keys(head, max_skip):
     return keys
 
 
-def detection_floor(keys, model, head, beam, max_skip):
-    """Plant each key into English + key-skip, recover it through the identical
-    pipeline, and report the score. Returns (floor, covered, uncovered)."""
-    print("=== CALIBRATION: what score does a REAL break with each key give? ===")
+def hints_floor(keys, model, head, beam, max_skip):
+    """Detection floor via the shared `controls` helper.
+
+    NB an earlier version of this function required BOTH a name match and >90%
+    plaintext accuracy, which wrongly demoted keys that were correctly ranked
+    first but decoded imperfectly (e.g. ws2012 at 70%). Identifiability — does
+    the true key rank first? — is what decides whether we would see a break, so
+    that alone defines the floor; accuracy is reported separately.
+    """
     segs = parse("data/liber_primus.md")
     pt = english_plaintext(segs)[:head]
-    covered, uncovered, floor = [], [], None
-    for name, k in keys:
+    kmap = dict(keys)
+
+    def plant(name):
+        k = kmap[name]
         reps = len(pt) * (max_skip + 1) // len(k) + 4
-        ct = enc_key_skip(pt, k * reps)
-        bl, rn, sign, dec, _ = attack_segment(ct, keys, model, head, beam, max_skip)
+        return enc_key_skip(pt, k * reps)
+
+    def recover(ct):
+        sc, nm, sign, dec, _ = attack_segment(ct, keys, model, head, beam, max_skip)
         acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
-        ok = (rn == name) and acc > 0.9
-        print(f"  plant {name:26s} -> '{rn:26s}' {bl:6.2f} acc {acc*100:3.0f}% "
-              f"{'OK' if ok else 'NOT IDENTIFIABLE'}")
-        if ok:
-            covered.append(name)
-            floor = bl if floor is None else min(floor, bl)
-        else:
-            uncovered.append(name)
-    print(f"\n  DETECTION FLOOR = {floor:.2f} (min score of a genuine break over "
-          f"{len(covered)}/{len(keys)} identifiable keys)")
-    if uncovered:
-        print(f"  NOT COVERED (cannot be recovered even when planted): "
-              f"{', '.join(uncovered)}")
-        print(f"  -> for those keys this run yields NO evidence either way "
-              f"(cf. §10: short keys are non-identifiable under key-skip).")
-    print()
-    return floor, covered, uncovered
+        return sc, nm, acc
 
-
-def chance_ceiling(keys, model, head, beam, max_skip, draws):
-    """Max over `draws` random texts — draws should MATCH the number of real
-    segments, since the real result is also a max over that many trials."""
-    best = None
-    for d in range(draws):
-        rng = LCG(1300 + d)
-        ct = [rng.randint(N) for _ in range(head + 4)]
-        sc = attack_segment(ct, keys, model, head, beam, max_skip)[0]
-        best = sc if best is None else max(best, sc)
-    return best
+    return detection_floor([n for n, _ in keys], plant, recover, label="hint key")
 
 
 def main():
@@ -141,12 +128,13 @@ def main():
         print(f"  {name:26s} len {len(k):3d}: {g.indices_to_latin(k)[:30]}")
     print()
 
-    floor, covered, uncovered = detection_floor(
+    floor, covered, uncovered, _ = hints_floor(
         keys, model, args.head, args.beam, args.max_skip)
 
-    # ceiling with draws matched to the number of real trials
-    ceil = chance_ceiling(keys, model, args.head, args.beam, args.max_skip,
-                          draws=len(real_segs))
+    score_fn = lambda ct: attack_segment(ct, keys, model, args.head,
+                                         args.beam, args.max_skip)[0]
+    ceil = matched_ceiling(score_fn, args.head, trials=len(real_segs),
+                           seed=1300, extra=4)
     print(f"=== CHANCE CEILING (max over {len(real_segs)} random texts, matched "
           f"to the {len(real_segs)} real segments): {ceil:.2f} ===\n")
 
@@ -161,16 +149,9 @@ def main():
         if overall is None or bl > overall[0]:
             overall = (bl, s.section, name)
 
-    print(f"\nbest real {overall[0]:.2f} on {overall[1][:26]} "
-          f"(key '{overall[2]}')")
-    print(f"  vs DETECTION FLOOR {floor:.2f} (what a real break scores) "
-          f"and chance ceiling {ceil:.2f}")
-    if overall[0] >= floor:
-        print("  -> AT/ABOVE the break floor: this could be a real break — INSPECT.")
-    else:
-        print(f"  -> {floor - overall[0]:.2f} BELOW the floor a genuine break "
-              f"produces, and at/below the chance ceiling: NEGATIVE, with "
-              f"demonstrated power for the {len(covered)} identifiable keys.")
+    print(f"\nbest on {overall[1][:26]} (key '{overall[2]}')")
+    print(verdict(overall[0], floor, ceil, len(covered), len(keys),
+                  label="hint keys"))
 
 
 if __name__ == "__main__":

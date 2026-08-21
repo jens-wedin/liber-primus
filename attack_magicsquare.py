@@ -26,7 +26,9 @@ import gematria as g
 from parse_lp import parse
 from language_model import get_model
 from doublet_sim import english_plaintext, LCG
-from attack_vigenere_skip import attack_segment, positive_control
+from attack_vigenere_skip import attack_segment
+from no_repeat_model import enc_key_skip
+from controls import detection_floor, matched_ceiling, verdict
 import ciphers as c
 
 N = g.N
@@ -105,13 +107,31 @@ def build_keys():
     return keys
 
 
-def chance_ceiling(keys, model, head, beam, max_skip, draws):
-    scores = []
-    for d in range(draws):
-        rng = LCG(400 + d)
-        ct = [rng.randint(N) for _ in range(head + 4)]
-        scores.append(attack_segment(ct, keys, model, head, beam, max_skip)[0])
-    return max(scores)
+def square_floor(keys, model, head, beam, max_skip):
+    """Detection floor: plant each SQUARE-DERIVED key and recover it, so we know
+    the score a real break with these keys would produce.
+
+    This replaces a `best > English - 0.5` verdict rule that was PROVABLY broken
+    (§28/R1): the planted CIRCUMFERENCE control recovers at -3.90, below that
+    rule's own -3.88 threshold — i.e. the script would have called its own
+    successful control "NO SIGNAL". Beam scores carry a per-skip penalty and are
+    normalised by len-1, so they are not comparable to a plain English trigram.
+    """
+    segs = parse("data/liber_primus.md")
+    pt = english_plaintext(segs)[:head]
+    kmap = dict(keys)
+
+    def plant(name):
+        k = kmap[name]
+        reps = len(pt) * (max_skip + 1) // len(k) + 4
+        return enc_key_skip(pt, k * reps)
+
+    def recover(ct):
+        sc, nm, sign, dec, _ = attack_segment(ct, keys, model, head, beam, max_skip)
+        acc = sum(1 for a, b in zip(dec, pt) if a == b) / len(pt)
+        return sc, nm, acc
+
+    return detection_floor([n for n, _ in keys], plant, recover, label="square key")
 
 
 def main():
@@ -135,38 +155,35 @@ def main():
         print(f"  {name:22s} len {len(k):2d}: {g.indices_to_latin(k)[:40]}")
     print(f"\nrefs: English trigram {eng:.2f}, random {rnd:.2f}\n")
 
-    # the control plants CIRCUMFERENCE, so it must be in the searched set to
-    # prove the beam recovers a real key; the real attack below uses only the
-    # square-derived keys.
-    ctrl_keys = keys + [("CIRCUMFERENCE", g.latin_to_indices("CIRCUMFERENCE"))]
-    if not positive_control(ctrl_keys, model, args.head, args.beam, args.max_skip):
-        print("control FAILED — not trusting the real run.")
+    # Calibrated threshold: what does a real break with THESE keys score?
+    floor, covered, uncovered, _ = square_floor(
+        keys, model, args.head, args.beam, args.max_skip)
+    if floor is None:
+        print("no key self-recovers — no demonstrated power; aborting.")
         return
 
-    ceil = chance_ceiling(keys, model, args.head, args.beam, args.max_skip,
-                          args.draws)
-    print(f"=== CHANCE CEILING (these keys on random text): {ceil:.2f} ===\n")
+    real = [s for s in segs if not s.solved and len(s.indices) >= 50]
+    score_fn = lambda ct: attack_segment(ct, keys, model, args.head,
+                                         args.beam, args.max_skip)[0]
+    ceil = matched_ceiling(score_fn, args.head, trials=len(real), seed=400,
+                           extra=4)
+    print(f"=== MATCHED CHANCE CEILING (max over {len(real)} random texts of "
+          f"{args.head} runes, matched to the {len(real)} real segments): "
+          f"{ceil:.2f} ===\n")
 
     print("REAL unsolved segments (magic-square keys + key-skip):")
     overall = None
-    for s in segs:
-        if s.solved or len(s.indices) < 50:
-            continue
+    for s in real:
         bl, name, sign, dec, _ = attack_segment(
             s.indices, keys, model, args.head, args.beam, args.max_skip)
-        flag = "  <-- ABOVE CEILING" if bl > ceil else ""
+        flag = "  <-- above ceiling" if bl > ceil else ""
         print(f"  {s.section[:34]:34s} key '{name}' "
               f"{('c-k' if sign < 0 else 'c+k')} trigram {bl:.2f}{flag}")
         if overall is None or bl > overall[0]:
             overall = (bl, s.section, name)
-    # a genuine key lands near English (~-3.4); merely edging a noisy ceiling
-    # by tenths, while still ~1 below English, is chance.
-    signal = overall[0] > eng - 0.5 and overall[0] > ceil + 0.5
-    verdict = ("SIGNAL — a segment reads near English; inspect" if signal else
-               "NO SIGNAL — best decode is gibberish, no better than chance")
-    print(f"\nbest: trigram {overall[0]:.2f} on {overall[1][:30]} "
-          f"(key '{overall[2]}') vs ceiling {ceil:.2f}, English {eng:.2f} "
-          f"-> {verdict}")
+    print(f"\nbest on {overall[1][:30]} (key '{overall[2]}')")
+    print(verdict(overall[0], floor, ceil, len(covered), len(keys),
+                  label="square keys"))
 
 
 if __name__ == "__main__":
