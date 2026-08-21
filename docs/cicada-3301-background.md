@@ -232,6 +232,49 @@ For each text: **(a)** evidence Cicada referenced it, **(b)** public‑domain st
 
 ---
 
+### Addendum 2026-08-21 — Uncovering-Cicada wiki sweep + external corroboration
+
+Pulled via the context-mode fetcher (the fandom WAF 403s direct/datacenter
+fetches) and left in the local knowledge base, searchable with `ctx_search` in
+future sessions:
+- Frequency Analysis Unsolved Pages: <https://uncovering-cicada.fandom.com/wiki/Frequency_Analysis_Unsolved_Pages>
+- Liber Primus Unsolved Pages (page-by-page image index): <https://uncovering-cicada.fandom.com/wiki/Liber_Primus_Unsolved_Pages>
+- Possible hints never used: <https://uncovering-cicada.fandom.com/wiki/Possible_hints_never_used>
+- Wiki portal / hub: <https://uncovering-cicada.fandom.com/wiki/Uncovering_Cicada_Wiki>
+
+**Independent corroboration of REPORT §4 (the main result).** The wiki's
+Frequency Analysis page runs n-gram counts on the same unsolved stream and finds
+it statistically indistinguishable from random: bigrams 840 unique / 12952
+total-repeated (random ≈ 841 / ≈ 12955); quadgram repeats 255 (random ≈ 235,
+~1σ). An independent replication of our "uniform random stream" finding.
+- We verified their "840 not 841" locally: the single absent bigram is **B–B**
+  (ᛒᛒ); 28/29 doublet types occur. This is *not* an extra constraint — expected
+  B–B count at the 0.66% doublet rate is ~3, so drawing 0 is an ordinary ~5%
+  Poisson fluctuation, fully inside the doublet-suppression story (§4/§11). Their
+  count is right; reading it as a "banned bigram" is not warranted.
+
+**Cross-check for REPORT §18 (r/cicada GP-sum finding).** The "pilgrim / SEEK
+OUT / parable / instar" run is the SOLVED "AN END" page (LP2 56.jpg ≈ scream314
+73.jpg), decrypted by the φ(prime) totient stream; its transliteration is "IT IS
+THE DVTY OF EVERY PILGRIM TO SEEC OVT THIS PAGE" (C→K, V→U) — i.e. the "awkward
+SEEK OUT phrasing" the GP-sum post flagged is just the C/V transliteration.
+Confirms §18 sits on genuinely-solved plaintext.
+
+**Additional vetted tools / transcriptions (external):**
+- rtkd/iddqd — canonical LP transcription; worth diffing against the vendored
+  scream314 transcription to bound the transcription-error hypothesis in §4/§11.
+- mortlach/lp-decrypter — general LP decryption tool.
+- 58 pages in runes (pastebin `vGMK330j`); rune-frequency web tool
+  (ether8unny.shinyapps.io/cickada); CyberChef (opensource.cicada.gq).
+
+**Untried hints (low prior; 2012–2015 artifacts, pre-LP2).** "Possible hints
+never used" collects prime-indexed whitespace sequences (0,2,3,5,7,11,13,… from
+a 2012 OutGuess message) and emirp-looking cookie ids (167 / 761). Thematically
+adjacent to the §18 emirp/prime motif but not tied to the unsolved runic pages —
+noted, not prioritised.
+
+---
+
 ### Source index (primary)
 - Wikipedia — Cicada 3301: <https://en.wikipedia.org/wiki/Cicada_3301>
 - Uncovering Cicada wiki — Gematria Primus: <https://uncovering-cicada.fandom.com/wiki/Gematria_Primus>

@@ -176,6 +176,16 @@ Cicada used, the re-roll variant treated as a seeded PRNG/hash pad (a
 non-linguistic search for the seed/algorithm), or the page images
 (interrupter positions the transcription may flatten).
 
+**Independent corroboration (2026-08-21).** The Uncovering-Cicada wiki's
+*Frequency Analysis Unsolved Pages* reports n-gram counts on the same stream and
+reaches the same verdict: bigrams 840 unique / 12952 total-repeated (random ≈ 841
+/ ≈ 12955); quadgram repeats 255 (random ≈ 235, ~1σ) — statistically random. We
+verified their "840 not 841" locally: the one absent bigram is **B–B** (ᛒᛒ), with
+28/29 doublet types present; at the 0.66% doublet rate the expected B–B count is
+~3, so drawing 0 is an ordinary ~5% Poisson fluctuation — inside the
+doublet-suppression story, not a separately-banned bigram. See
+`docs/cicada-3301-background.md` (Addendum 2026-08-21).
+
 ## 5. Where to go next
 
 Done so far: crib-dragging (§3, negative), doublet-signature filtering (§4,

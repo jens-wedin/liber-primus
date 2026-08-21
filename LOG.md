@@ -658,3 +658,30 @@ www/old/.json; no Wayback snapshot; redlib/jina mirrors blocked; Chrome extensio
 not connected). The user pasted the text; WebSearch alone had mis-summarised it as
 a "second magic square". Lesson: get the primary source before modelling on a
 search gloss.
+
+### 2026-08-21 (cont.) — Uncovering-Cicada wiki sweep + experiment backlog
+
+Indexed four wiki pages into the context-mode knowledge base (fandom WAF 403s
+direct fetches; the ctx fetcher gets through; content persists for `ctx_search`):
+Frequency_Analysis_Unsolved_Pages, Liber_Primus_Unsolved_Pages,
+Possible_hints_never_used, and the portal. Findings recorded in
+`docs/cicada-3301-background.md` (Addendum 2026-08-21):
+
+- The community frequency analysis **independently replicates REPORT §4** (bigram
+  840/12952, quadgram repeats 255 vs random ≈235 — random). Their "840 not 841"
+  checked locally: the single absent bigram is **B–B**; 28/29 doublet types occur;
+  drawing 0 B–B is a ~5% Poisson fluctuation, not a banned bigram (deflates the
+  "extra constraint" reading). Noted in REPORT §4.
+- Cross-check for §18: the pilgrim/SEEK-OUT run is the SOLVED "AN END" page
+  (φ(prime) stream), transliterated "IT IS THE DVTY OF EVERY PILGRIM TO SEEC OVT
+  THIS PAGE" — the "awkward SEEK OUT" is just C→K, V→U. §18 sits on solved text.
+- New leads logged: rtkd/iddqd second transcription (diff vs vendored to test the
+  transcription-noise account of the 86 doublets); mortlach/lp-decrypter; prime
+  whitespace / emirp "hints never used" (low prior, pre-LP2).
+
+Wrote **BACKLOG.md** (8 experiments, each hypothesis→method→control→priority) and
+mirrored the top items on `index.html` ("The Trail Ahead" section + a BACKLOG
+link card). P1: the literal-ᚠ interrupter on unsolved pages (the solved-page rule
+never applied in an attack), the ᚠ-position structural map, and the code-pages
+verified transcription. Both "square is a key" readings are now closed (§16/§17),
+so the backlog pivots to ᚠ-structure and the numeric/image content.
