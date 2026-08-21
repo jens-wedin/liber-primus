@@ -685,3 +685,26 @@ link card). P1: the literal-ᚠ interrupter on unsolved pages (the solved-page r
 never applied in an attack), the ᚠ-position structural map, and the code-pages
 verified transcription. Both "square is a key" readings are now closed (§16/§17),
 so the backlog pivots to ᚠ-structure and the numeric/image content.
+
+### 2026-08-21 (cont.) — P1.1 + P1.2 run (both negative, §19/§20)
+
+(P1.1) `attack_literal_f.py` — the literal-ᚠ rule as an interrupter on the
+unsolved pages. New coverage vs key-skip: at a ciphertext ᚠ the pointer can HOLD
+(advance by 0), which the key-skip beam (advance 1–3) cannot express. Beam over
+{hold=F, advance} at each ᚠ, prime/totient/word keys, PURE + +SKIP, both signs.
+NEGATIVE, control-validated: control recovers 100% incl. every literal-F position;
+ceiling −4.79, best real −4.86 (below ceiling), English −3.38.
+`results/literal_f_2026-08-21.txt`. Bonus: ᚠ is at chance (3.53% ≈ 1/29), which is
+itself mild evidence against a literal-ᚠ rule on these pages.
+
+(P1.2) `analyze_fpositions.py` — ᚠ-position structural map. Gap-length prime/emirp
+and word-edge tests vs a Monte-Carlo null; solved plaintext as positive reference.
+All consistent with random placement (emirp z −0.2, word-edge z −0.4). The lone
+borderline — prime-gap z +2.7 — is a doublet-suppression artifact: correcting for
+the removed ᚠᚠ (gap 1, non-prime) drops it to +2.3, within multiple-comparison
+noise. Solved reference flat too. So no ᚠ fingerprint survives into the ciphertext
+— empirically confirms §18's caveat. `results/fpositions_2026-08-21.txt`.
+
+P1.3 (code-pages verified transcription) is the remaining P1 — genuinely
+human-in-the-loop (careful non-OCR reading of the page scans), not a scripted
+experiment; teed up but not run this session.

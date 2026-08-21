@@ -14,6 +14,11 @@ untried leads surfaced).
 ## P1 — do next
 
 ### 1. Literal-ᚠ as a keystream interrupter on the *unsolved* pages
+- **DONE 2026-08-21 — NEGATIVE, control-validated** (`attack_literal_f.py`,
+  REPORT §19). Best real decode below the chance ceiling; ᚠ is at chance
+  frequency (3.53% ≈ 1/29). The hold-vs-advance branch at each ciphertext ᚠ is
+  genuinely new coverage (the key-skip beam cannot express a pointer hold), and
+  it reads no better than random.
 - **Hypothesis.** The unsolved pages obey the same **literal-ᚠ rule** the solved
   pages do: a ciphertext ᚠ can be an unencrypted plaintext F that consumes **no
   key**. Every attack so far treated all runes uniformly; if some ᚠ mean "key
@@ -29,6 +34,12 @@ untried leads surfaced).
   Motivated directly by §18 (ᚠ is meaningful, not incidental).
 
 ### 2. ᚠ-position structural map of the unsolved pages
+- **DONE 2026-08-21 — NEGATIVE / no fingerprint** (`analyze_fpositions.py`,
+  REPORT §20). Gap-length prime/emirp and word-edge tests all consistent with
+  random placement vs a Monte-Carlo null (the one borderline, prime-gap z ≈ +2.3
+  corrected, is a doublet-suppression artifact within multiple-comparison noise).
+  Confirms §18's caveat: the ᚠ layer is a plaintext property, invisible in
+  ciphertext.
 - **Hypothesis.** Literal-ᚠ runes mark **structural boundaries** — prime/emirp-
   length runs, GP-sum checksums — as §18 shows they do on solved pages.
 - **Method.** Extract ᚠ positions/counts per unsolved segment; test inter-ᚠ gap

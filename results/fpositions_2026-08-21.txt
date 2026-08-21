@@ -1,0 +1,15 @@
+z > +3 would flag real structure; |z| < 2 is consistent with random placement.
+Solved PLAINTEXT is the positive reference (literal-F is identifiable there).
+
+=== UNSOLVED ciphertext: 12947 runes, 457 ᚠ (3.53%, uniform 1/29 = 3.45%) ===
+  prime-length gaps : obs  38.3%  null  33.2%±2.2  z=+2.31 (gap>=2, ᚠᚠ-corrected)
+  emirp-length gaps : obs   7.2%  null   7.5%±1.2  z=-0.21
+  ᚠ at word edge    : obs  43.1%  null  44.1%±2.3  z=-0.42
+  mean gap 28.3 runes
+
+=== SOLVED plaintext (reference): 1875 runes, 31 ᚠ (1.65%, uniform 1/29 = 3.45%) ===
+  prime-length gaps : obs  33.3%  null  27.5%±8.2  z=+0.71 (gap>=2, ᚠᚠ-corrected)
+  emirp-length gaps : obs  13.3%  null   7.5%±4.9  z=+1.20
+  mean gap 60.4 runes
+
+Read-out: the §18 literal-ᚠ structure is a PLAINTEXT property; if the unsolved rows are all |z|<2, no fingerprint survives encryption into the ciphertext — consistent with §18 (GP/ᚠ structure is uncheckable on ciphertext) and a clean bound on this idea.

@@ -86,8 +86,8 @@ residual doublets are transcription-noise-consistent (no key-period leak).
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17)
-- **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18)
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17), `attack_literal_f.py` (literal-ᚠ rule as a keystream interrupter — pointer HOLDS at a ciphertext ᚠ; §19/P1.1)
+- **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` + `analyze_codepage.py` (the page 66-68 two-char code)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
 - **Infra:** `gematria.py`, `parse_lp.py`, `ciphers.py`, `language_model.py` (wordfreq n-gram, cached), `keytexts.py` (candidate key texts; ASCII-folds non-English source text), `mangle.py` (coined/mangled key-word generator, self-checked)
@@ -130,11 +130,12 @@ rune-only toolkit never saw. That is the live front now:
    placed/skipped ᚠ runes (GP value 2, the ±2 knob) make adjacent emirp-length
    rune-runs sum to 3301 and 1033 (a digit-anagram of 3301). This is a
    PLAINTEXT-side layer, **not a decryption lever** (GP sums aren't preserved
-   through mod-29 addition, so uncheckable on ciphertext). Actionable: (a) use
-   "does it partition into thematically-summing prime-length runs at ᚠ/period
-   marks" as a **plausibility filter** on any future candidate decrypt; (b)
-   **catalogue ᚠ positions/counts on the unsolved pages** as candidate structural
-   markers (segment boundaries / checksums).
+   through mod-29 addition, so uncheckable on ciphertext). Follow-ups run: the
+   literal-ᚠ **interrupter** (P1.1, §19, `attack_literal_f.py`) and the ᚠ-position
+   **structural map** (P1.2, §20, `analyze_fpositions.py`) are BOTH negative — no
+   ᚠ fingerprint survives into the ciphertext, empirically confirming the caveat.
+   Still live: (a) the GP-sum **plausibility filter** (BACKLOG P2.5) as a
+   tie-breaker on any future candidate decrypt.
 
 Lower-prior rune-cipher leftovers: composed manglings (§8), running-key/word-key
 on the difference stream (§12), Emerson/Rune-Poem key texts.

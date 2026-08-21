@@ -640,3 +640,41 @@ value is (a) a **plausibility filter** for any future candidate decrypt (a real
 plaintext should partition into thematically-summing prime-length runs at its
 ᚠ/period marks), and (b) motivation to **catalogue ᚠ positions/counts on the
 unsolved pages** as possible structural markers. `results/gp_sums_verify_2026-08-21.txt`.
+
+## 19. Literal- f-rune rule as a keystream interrupter on the unsolved pages — negative (P1.1)
+
+The solved pages use a key/stream + the **literal-f-rune rule** (a plaintext F is
+written as an unencrypted f-rune and consumes no key value — the pointer holds).
+`validate_solved.py` proves it, yet no *unsolved*-page attack had modelled it:
+every keystream attack advanced the pointer once per rune. This is distinct from
+the key-skip (§4): the key-skip beam advances the pointer by 1–3 (a forward
+desync) and *cannot* express an advance-by-0 hold. `attack_literal_f.py` decodes
+each unsolved head with prime/totient/word keystreams where every ciphertext
+f-rune branches {hold: plaintext F, pointer stays; advance: p = c ∓ K}, in two
+variants — PURE (the exact solved-page scheme) and +SKIP (literal-f plus the §4
+key-skip).
+
+Result: **negative, control-validated.** The positive control (plant English +
+prime + literal-f, PURE and +SKIP) recovers 100% and every literal-F position;
+chance ceiling −4.79, best real decode −4.86 (*below* the ceiling, English −3.38).
+No segment reads as English; winners lean on the +skip freedom (mere desync). The
+f-rune count is at chance to begin with (3.53% ≈ 1/29, §20), so a literal-f scheme
+with an English F-rate would predict a mild excess that is not observed — weak
+evidence against the rule here, and the decode settles it. `results/literal_f_2026-08-21.txt`.
+
+## 20. f-rune position structural map — nothing survives into the ciphertext (P1.2)
+
+Does §18's deliberate literal-f placement leave a usable fingerprint on the
+unsolved pages? `analyze_fpositions.py` maps the f-rune positions and tests
+gap-length prime/emirp enrichment and word-edge clustering against a Monte-Carlo
+uniform-placement null, with the solved plaintext (where literal-F is
+identifiable) as the positive reference. The f-rune sits at **3.53%** (≈ 1/29,
+uniform). All tests are consistent with random placement: emirp-gap z = −0.2,
+f-at-word-edge z = −0.4, and the one borderline value — prime-length gaps — is
+z = +2.7 raw but **+2.3 once the suppressed f-f doublet (gap = 1, a non-prime the
+no-repeat rule removes) is corrected for**, i.e. within multiple-comparison noise
+across the six statistics. The solved reference shows no bulk enrichment either
+(only 31 literal-Fs), matching §18's finding that the effect is a curated
+co-occurrence, not a population signal. Conclusion: the literal-f layer is a
+**plaintext** property that does not survive encryption into the ciphertext — a
+clean empirical bound, consistent with §18. `results/fpositions_2026-08-21.txt`.
