@@ -94,6 +94,11 @@ untried leads surfaced).
   location distribution honestly.
 
 ### 5. GP-sum / literal-ᚠ plausibility filter as a secondary decrypt scorer
+- **DONE 2026-08-21 — UNUSABLE, and it deflates §18 (REPORT §25, `gp_filter.py`).**
+  The §18 signature (adjacent prime-length 3301+1033 runs) does not discriminate:
+  the parable scores 7 vs a random mean of 10.9 (P(random≥7)=88%) — below random.
+  So the co-occurrence is common in random text; §18 is best treated as numerology.
+  No tie-breaker worth folding in.
 - **Hypothesis (from §18).** A correct plaintext partitions at ᚠ/period into
   prime-length runs hitting themed GP totals (3301, 1033, anagrams).
 - **Method.** Build a scorer that rewards that partitioning; fold in as a

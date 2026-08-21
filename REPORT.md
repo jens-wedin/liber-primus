@@ -635,7 +635,11 @@ Skeptic's control (Part 2): with free run boundaries and the optional ±2 F, a
 solved plaintext, 1033 is hit 28× (arbitrary neighbours 24–31×) and 3301 111×
 (neighbours 100–128×). So the arithmetic alone is weak; the weight is the
 **co-occurrence** (two *adjacent* runs, all-emirp lengths, anagram totals, and
-the otherwise-inexplicable ᚠ skips explained).
+the otherwise-inexplicable ᚠ skips explained). *(Update: §25 tests that
+co-occurrence and finds it common in random text — the parable scores below the
+random mean — so even the conjunction is not statistically distinguished. Treat
+§18 as numerology; the verified arithmetic stands but carries no evidential
+weight.)*
 
 Cryptanalytic bearing: this is a **plaintext-side authoring/steganographic layer**
 via deliberate literal-ᚠ placement — **not a decryption lever**. GP sums are not
@@ -784,3 +788,18 @@ the squares hold no hidden runic/ASCII message; their meaning is the established
 3301/prime structure. At 16-25 symbols no such test could be decisive regardless,
 so this closes the reading as "no evidence", not a strong positive-power negative.
 `results/squares_message_2026-08-21.txt`.
+
+## 25. The GP-sum plausibility filter does not discriminate — deflates §18 (P2.5)
+
+Intended as a tie-breaker built on §18's signature (adjacent prime-length runs
+summing to 3301 and 1033, ±2 F). `gp_filter.py` counts that conjunction and
+controls it: the solved parable plaintext scores **7**, but random text of the
+same length (1875 runes) averages **10.9** (95th pct 17), with P(random ≥ 7) =
+88%. The real text scores *below* the random mean. So the adjacent-3301+1033
+conjunction is common in random text and the parable is not distinguished — the
+filter cannot discriminate and is unusable as more than the softest prior. This
+further deflates §18: not only is a single GP hit unremarkable (§18's own
+base-rate), the **co-occurrence** §18 leaned on is also within (indeed below) the
+random range. §18's verified arithmetic stands, but its "suggestive of deliberate
+authoring" reading is **not statistically supported** — it is best treated as
+numerology. `results/gp_filter_2026-08-21.txt`.

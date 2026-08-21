@@ -1,0 +1,9 @@
+solved plaintext: 1875 runes; prime run-lengths 5..79
+
+=== CONTROL: fire on the parable, quiet on random? ===
+  solved plaintext (has the §18 3301+1033 signature): count = 7
+  random plaintext (n=1875): mean 10.89, 95th pct 17, P(count=0) = 0%
+  P(random >= 7) = 88.5%
+  -> does NOT cleanly discriminate at this length/tolerance: the adjacent-conjunction still arises in random text often enough that the filter is at best a very soft prior. Consistent with §18's verdict that the GP-sum signal is weak on its own.
+
+Use: as a TIE-BREAKER only — add a small bonus to a candidate decrypt whose signature count exceeds the random 95th percentile; never as the primary signal (a real break must first read as English).

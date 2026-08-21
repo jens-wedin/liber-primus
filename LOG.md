@@ -771,3 +771,18 @@ higher → 16-25 symbols have no n-gram power). ASCII gives the known palindromi
 `rl)lr` numerology, nothing more. The squares' meaning is their 3301/prime
 structure, not a hidden message — but at this length the test can't be decisive,
 so it's "no evidence" rather than a strong negative. `results/squares_message_2026-08-21.txt`.
+
+### 2026-08-21 (cont.) — P2.5 GP-sum filter fails to discriminate; deflates §18 (§25)
+
+`gp_filter.py` built §18's signature detector (adjacent prime-length runs summing
+to 3301 AND 1033, ±2 F) as a would-be tie-breaker, and controlled it. Result: the
+solved parable scores 7, but random 1875-rune text averages 10.9 (95th pct 17,
+P(random≥7)=88%) — the real text is BELOW the random mean. So the conjunction is
+common in random text; the filter can't discriminate and is unusable. Bigger point:
+this deflates §18 further — even the co-occurrence it leaned on is within (below)
+the noise, so §18 is best treated as numerology (verified arithmetic, no evidential
+weight). Noted in §18 + new §25. `results/gp_filter_2026-08-21.txt`.
+
+All P2 items now done: P2.4 (doublets favoured-real, §23), P2.5 (GP filter fails /
+§18 deflated, §25), P2.6 (squares no message, §24). Net of the P2 tier: two clean
+negatives, one honest revision (doublets), and a deflation of §18.
