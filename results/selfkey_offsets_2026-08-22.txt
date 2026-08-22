@@ -1,0 +1,10 @@
+key streams 13 x 32 offsets x 2 signs = 832 hypotheses per segment (was 26 at offset 0 only, §31)
+head 60, beam 100, key-skip <= 2
+
+=== DETECTION FLOOR: plant each (stream, offset), recover it, read off the score a real break gives ===
+  plant ('solved-plaintext', 0)      -> '('solved-plaintext', 0)     '  -3.57 acc  78%  identified (weak decode)
+  plant ('solved-plaintext', 58)     -> '('solved-plaintext', 58)    '  -3.49 acc  83%  identified (weak decode)
+  plant ('solved-plaintext', 116)    -> '('solved-plaintext', 116)   '  -3.58 acc  90%  identified
+  plant ('runes:17.jpg-19.jpg - ', 0 -> '('runes:17.jpg-19.jpg - ', 0'  -3.76 acc 100%  identified
+  plant ('runes:17.jpg-19.jpg - ', 2 -> '('runes:17.jpg-19.jpg - ', 2'  -3.76 acc 100%  identified
+  plant ('runes:17.jpg-19.jpg - ', 4 -> '('runes:17.jpg-19.jpg - ', 4'  -3.51 acc  95%  identified

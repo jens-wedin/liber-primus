@@ -1,0 +1,6 @@
+selftest first: selftest: prime key-skip round-trip, beam recovered 96% of 120 runes
+
+order-3 model refs: English decode ~-3.38, random ~-6.17 (a real break lands near English)
+
+17.jpg-19.jpg - 0.jpg-2.jpg                  best prime- start 198: score -4.81 words 0.02
+    TOCUDEAT FULML SEHNG MOES SOD YFITNGGUIGPL ACORM STRI UOL SHE LCSY MPU BLTANGJ AIORNIGNFLD IS EP TYC LET EFIRS
