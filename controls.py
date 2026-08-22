@@ -211,6 +211,18 @@ def verdict(best, floor, ceiling, n_covered=None, n_total=None,
                     f"search fits WRONG hypotheses to planted text about as well "
                     f"as the right one. This run cannot distinguish a real break "
                     f"from overfitting — it is not a negative and not a lead.")
+    # MARGIN GATE. Even with good coverage, a floor that nearly touches the
+    # ceiling means the test cannot separate a break from noise: there is no
+    # score a real key could produce that chance does not also reach. §31
+    # measured floor -4.00 vs ceiling -4.01 for the word-key pipeline, and the
+    # composed-mangling run (§39) had a 0.14-nat margin and duly flagged a
+    # gibberish decode as a "possible break". Below ~0.25 nats, say so.
+    if ceiling is not None and (floor - ceiling) < 0.25:
+        return (line + f"\n  -> INCONCLUSIVE / NO EVIDENCE: the detection floor "
+                f"sits only {floor - ceiling:+.2f} nats above the chance ceiling, "
+                f"so this search cannot separate a real key from noise at any "
+                f"score. Whatever it ranks first, inspect the DECODE, not the "
+                f"number.")
     if best >= floor:
         return line + "\n  -> AT/ABOVE the break floor: possible real break — INSPECT."
     cov = ""

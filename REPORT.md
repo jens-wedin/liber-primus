@@ -1461,3 +1461,38 @@ they are not separable from each other; the size effect is visible at the extrem
 not across every pair.
 
 `results/diffkeys_{words,books_runepoem,books_liberal,books_kjv}_2026-08-22.txt`.
+
+## 39. Composed manglings — no evidence, and a second false positive from the verdict rule
+
+The last backlog item. §8 tested single-transform coined keys — one consonant
+collapse (the FIRFUMFERENFE = CIRCUMFERENCE family), atbash, rune reversal or
+vowel rotation — and left composed manglings untested. `mangle.mangle2()` now
+composes a letter-level transform with a second letter- or index-level one,
+giving **250 two-transform variants** of the Cicada vocabulary
+(`SELF~F>C~atbash`, `CIRCUMFERENCE~F>C~vowrot`, …).
+
+**The run flagged a "possible real break" — and it is not one.** Best real −3.93
+on 32–35.jpg with `SELF~F>C~atbash`, above a detection floor of −4.03 (11/12
+composed keys identifiable) and 0.24 above the matched ceiling (−4.17). Two
+things settle it:
+
+- **The decode is gibberish**: `UNSOESNUMADCLADJUMAIRAMALWACOERC`.
+- **The score cannot tell**: on the same scale that decode scores **−3.33**,
+  *better* than three genuine English strings of the same length (−3.67, −3.77,
+  −3.96). At 30 runes with 250 keys × 2 signs × key-skip freedom, the trigram
+  score is not merely weak — it ranks gibberish above real English.
+
+**The systemic fix.** The §33 coverage gate did not fire here, because coverage
+was fine (11/12). What was wrong is the **operating margin**: the floor (−4.03)
+sits only 0.14 nats above the ceiling (−4.17), so there is no score a real key
+could produce that chance does not also reach. `controls.verdict()` now applies a
+**margin gate** alongside the coverage gate: below ~0.25 nats it returns NO
+EVIDENCE and directs the reader to the decode rather than the number. This is the
+same zero-margin defect §31 measured for the §7/§8 word-key pipeline (floor −4.00
+vs ceiling −4.01) — it simply had never been enforced in code.
+
+So the honest verdict on composed manglings is **no evidence**, not a negative:
+the search is too flexible at this length to distinguish a coined key from noise.
+Ruling them out would need a longer head or a tighter key space, and the §31
+measurement says the whole word-key family shares this limit.
+`results/mangle2_2026-08-22.txt`.

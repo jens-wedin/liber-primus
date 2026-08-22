@@ -186,17 +186,40 @@
   <section>
     <p class="eyebrow">The Candidate Key-Texts</p>
     <h2>The books Cicada wrote by &mdash; all silent</h2>
-    <p class="dim">The texts Cicada is documented to have used or referenced, each tested as a running key. Every control passed &mdash; a planted key recovers ~100% of its window &mdash; yet every real decode falls to the gibberish floor.</p>
+    <p class="dim">Five candidate texts, each tested as a running key &mdash; whole text, every offset, both signs, and now <em>read backwards as well as forwards</em>, a variant the earlier work never actually covered despite claiming &ldquo;both directions&rdquo;. Every control passed: a key planted in that same text is recovered at ~100%. Every real decode still falls short of it.</p>
     <div class="texts">
-      <div class="trow"><div><span class="work">King James Bible</span><span class="link">community heuristic &middot; whole book, every offset</span></div><span class="verdict">Ruled out</span></div>
-      <div class="trow"><div><span class="work">Crowley &middot; <i>Liber AL vel Legis</i></span><span class="link">the 2013 book-cipher key &mdash; strongest prior</span></div><span class="verdict">Ruled out</span></div>
-      <div class="trow"><div><span class="work">The <i>Mabinogion</i></span><span class="link">the 2012 book-cipher key</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">The Anglo-Saxon Rune Poem</span><span class="link">a poem about the very 29 runes the Gematria Primus is built from &mdash; the aptest candidate, and the sharpest test</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">Crowley &middot; <i>Liber AL vel Legis</i></span><span class="link">the 2013 book-cipher key &mdash; strongest documented prior</span></div><span class="verdict">Ruled out</span></div>
       <div class="trow"><div><span class="work">Blake &middot; <i>The Marriage of Heaven and Hell</i></span><span class="link">heavily referenced, 2012</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">The <i>Mabinogion</i></span><span class="link">the 2012 book-cipher key</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">Emerson &middot; <i>Essays</i></span><span class="link">incl. <i>Self-Reliance</i> &mdash; widely repeated, thinly sourced</span></div><span class="verdict">Ruled out</span></div>
+      <div class="trow"><div><span class="work">King James Bible</span><span class="link">community heuristic &middot; 3.0 million runes</span></div><span class="verdict">Ruled out</span></div>
     </div>
+    <p class="dim" style="margin-top:22px">Measuring the noise these searches reach turned up a law that bounds the whole approach: <em>the bigger the book, the blunter the test.</em> A long text gives the scan more offsets to cherry-pick, so pure chance climbs toward the score a genuine key would give. The gap between them &mdash; all the room this method has to work in &mdash; shrinks steadily with length.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">0.71</div><div class="cap">Rune Poem &middot; 2.4k runes</div></div>
+      <div class="stat"><div class="num">0.45</div><div class="cap">Emerson &middot; 407k runes</div></div>
+      <div class="stat"><div class="num">0.36</div><div class="cap">KJV &middot; 3.0M runes</div></div>
+    </div>
+    <p class="caveat">Extrapolate and a text of a few tens of millions of runes would have <b>no usable gap at all</b> &mdash; chance would reach whatever a real key reaches, and the method could not tell them apart at any score. Bigger candidate texts are not merely unpromising; they are progressively untestable. The productive direction was always shorter and better motivated &mdash; and the best-motivated short text in existence is the one at the top of that list.</p>
   </section>
 
   <section>
     <blockquote>Every claim is control-validated &mdash; encrypt known English with the hypothesised scheme, then recover it through the same pipeline, before any result is trusted.</blockquote>
+  </section>
+
+  <section>
+    <p class="eyebrow">Auditing the Audit</p>
+    <h2>Turning the method on itself</h2>
+    <p class="dim">Every negative above rests on a claim of the form <em>&ldquo;if this cipher were the answer, we would have seen it.&rdquo;</em> That claim is itself testable, and when it was finally tested, several of these results turned out to be resting on nothing. Not wrong &mdash; unsupported, which is a different and more embarrassing thing.</p>
+    <ul class="trail">
+      <li><span class="idx">&#9888;</span><span class="txt"><span class="h">A rule that would have hidden a real break. </span><span class="d">Several searches asked &ldquo;does this decode score near English?&rdquo; But those searches carry a penalty that puts a <em>genuine</em> break well below English. Planting real keys and recovering them at 97&ndash;100% accuracy produced scores the rule would have thrown away. One script would have called its own successful control a failure.</span></span></li>
+      <li><span class="idx">&#9888;</span><span class="txt"><span class="h">A test that never ran. </span><span class="d">The gematria filter gated both runs to prime lengths &mdash; but the run it was built to detect is 74 runes long, which is not prime. It counted zero real signatures and compared noise to noise.</span></span></li>
+      <li><span class="idx">&#9888;</span><span class="txt"><span class="h">A yardstick made of the thing being measured. </span><span class="d">One attack drew its &ldquo;random&rdquo; baseline from the very generator it was brute-forcing, then recovered it and scored the result as chance. The baseline was inflated enough to bury roughly a third of genuine breaks &mdash; and the same flaw had quietly reached the shared fix written to prevent it.</span></span></li>
+      <li><span class="idx">&#9888;</span><span class="txt"><span class="h">Coverage that wasn&rsquo;t. </span><span class="d">Crib-dragging reported 32 phrases; 18 were ever really tested. &ldquo;Both directions&rdquo; meant both <em>signs</em>, never a reversed book. One running-key test searched 0.1% of its own hypothesis space.</span></span></li>
+    </ul>
+    <p class="dim" style="margin-top:22px">Everything was rebuilt on two measured quantities instead of a guess: a <em>detection floor</em> &mdash; plant the hypothesis, recover it, and see what a real break actually scores &mdash; and a <em>matched ceiling</em> drawn from an independent null of the same length and the same number of trials. Where a search can&rsquo;t clear its own floor, or the floor and ceiling nearly touch, the honest answer is <em>no evidence</em>, not a negative.</p>
+    <p class="caveat">Two &ldquo;possible breaks&rdquo; were flagged by the new machinery and both dissolved on inspection: the winning decodes were gibberish that <b>outscored real English of the same length</b>. Short texts plus a flexible search will fit anything. The decode is the evidence &mdash; never the number.</p>
   </section>
 
   <section>
@@ -207,13 +230,13 @@
       <li><span class="idx">&#10022;</span><span class="txt"><span class="h">Two magic squares. </span><span class="d">Page 16 bears a 5&times;5 square of magic constant 3301 &mdash; palindromic, prime centre 809. Page 32 bears a 4&times;4 grid whose every cell is 3301 minus a prime, one marked in red, beside a hand-drawn M&ouml;bius.</span></span></li>
       <li><span class="idx">&#10022;</span><span class="txt"><span class="h">A page of code. </span><span class="d">Page 67 is 104 two-character codes and not one rune; pages 66, 68 and 73 carry more, in decimal and hex. None of it appears in the transcription.</span></span></li>
     </ul>
-    <p class="caveat" style="margin-top: 24px"><b>The wall still stands</b> for the runic stream &mdash; a keyed one-time pad is unbreakable without the seed. These numeric puzzles are the open front now: a first pass rules the squares out as simple keys and finds the code high-entropy, so they stay genuinely unsolved.</p>
+    <p class="caveat" style="margin-top: 24px"><b>Both have since been worked through.</b> The squares are not a key, not an interrupter schedule, and not a message. The code pages were re-read from the scans &mdash; page 66 transcribed for the first time, 256 codes in all &mdash; then tried as a pad, an index, a self-cipher and a lookup table. All silent. <b>The wall still stands:</b> a keyed pad is unbreakable without its key, and that is now the only explanation left standing for the runes.</p>
   </section>
 
   <section>
     <p class="eyebrow">The Trail Ahead</p>
     <h2>The backlog <span class="muted">&mdash; run down, each with its control</span></h2>
-    <p class="dim">A queue opened after the magic-square readings closed, then worked through in full. Each item carried its own control; the marks show what survived. Every result was then re-audited adversarially, which caught real defects in this very work &mdash; a threshold that would have hidden a genuine break, a statistic that never implemented its own test. None broke the cipher &mdash; but two changed what we believe: the residual doublets look real rather than copy-noise, and the tempting <span style="font-family:var(--runic)">&#5792;</span>-and-3301/1033 gematria coincidence turned out to be numerology.</p>
+    <p class="dim">A queue opened after the magic-square readings closed, then worked through in full. Each item carried its own control; the marks show what survived. Every result was then re-audited adversarially, which caught real defects in this very work &mdash; a threshold that would have hidden a genuine break, a statistic that never implemented its own test. None broke the cipher &mdash; but three changed what we believe: the residual doublets look real rather than copy-noise, the tempting <span style="font-family:var(--runic)">&#5792;</span>-and-3301/1033 gematria coincidence turned out to be numerology, and a long-standing claim that short keys were untestable turned out to be a bug in the test, not a property of the cipher.</p>
     <ul class="trail">
       <li><span class="idx">&#10003;</span><span class="txt"><span class="h">The literal-&#5792; interrupter. </span><span class="d">The solved-page rule that a ciphertext &#5792; may be an unencrypted F consuming no key &mdash; a pointer <em>hold</em> the key-skip beam could never express. <em>Tested: negative. It reads no better than random.</em></span></span></li>
       <li><span class="idx">&#10003;</span><span class="txt"><span class="h">Map the &#5792; positions. </span><span class="d">Do the literal-F runes mark structural boundaries &mdash; prime-length runs, checksums &mdash; on the unsolved pages as on the solved? <em>Tested: no fingerprint found &mdash; though with only ~40 literal-F runes to learn from, the test is too weak to prove none exists.</em></span></span></li>
@@ -222,6 +245,9 @@
       <li><span class="idx">&#10003;</span><span class="txt"><span class="h">A GP-sum plausibility filter. </span><span class="d">Built and controlled &mdash; and it fails: the 3301+1033 co-occurrence turns up just as often in shuffles of the very same runes (P&nbsp;=&nbsp;50%). <em>The gematria coincidence is numerology; no usable filter.</em></span></span></li>
       <li><span class="idx">&#10003;</span><span class="txt"><span class="h">The squares as a message. </span><span class="d">Not a key but a puzzle &mdash; the values read directly, along every path, into runes or ASCII. <em>Page 16 is indistinguishable from its own shuffles; page 32 is only marginal (p&nbsp;&asymp;&nbsp;8%). At 16&ndash;25 symbols nothing could be decisive. Their meaning stays the 3301/prime structure.</em></span></span></li>
       <li><span class="idx">&#10003;</span><span class="txt"><span class="h">Prime-indexed hints. </span><span class="d">The old whitespace prime sequences, the emirp cookies 167/761, the &ldquo;missing primes&rdquo; &mdash; tried as keys and offsets. <em>All gibberish; the pre-2014 hints don&rsquo;t key the runes.</em></span></span></li>
+      <li><span class="idx">&#10003;</span><span class="txt"><span class="h">A key that restarts each page. </span><span class="d">The one structural idea that could explain every failure without an unbreakable pad: if the key resets at each page or line, no whole-stream attack could <em>ever</em> work. The page and line breaks came from a second transcription. <em>Ruled out decisively &mdash; and on real text the winning schedule is the one that never resets at all.</em></span></span></li>
+      <li><span class="idx">&#10003;</span><span class="txt"><span class="h">Keys on the differences. </span><span class="d">If each rune were added to the one before it, the differences would be the message &mdash; so ordinary word keys and book keys ought to work there. <em>They don&rsquo;t, closing the chained-cipher variant of both families.</em></span></span></li>
+      <li><span class="idx">&#10003;</span><span class="txt"><span class="h">Doubly-coined keys. </span><span class="d">FIRFUMFERENFE is one substitution deep; nothing says a setter stopped there. 250 two-transform variants. <em>No evidence either way &mdash; at this length the search fits anything, which is the limit of the whole word-key family.</em></span></span></li>
     </ul>
     <p class="caveat">Independently corroborated meanwhile: the community's own frequency analysis finds the unsolved stream statistically indistinguishable from random &mdash; the same verdict as the central finding above.</p>
   </section>

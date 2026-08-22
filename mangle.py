@@ -84,6 +84,67 @@ def mangle(word):
     return out
 
 
+def mangle2(word):
+    """Two-transform COMPOSITIONS — the §8 remainder.
+
+    §8 covered single transforms (a consonant collapse, atbash, rune reversal, or
+    vowel rotation) and noted composed manglings as untested. A coined key like
+    FIRFUMFERENFE is one substitution deep; nothing says a setter stopped there.
+    This composes a letter-level transform with a second letter- or index-level
+    one, deduped against the base word and against the single-transform set.
+    """
+    word = "".join(ch for ch in word.upper() if ch.isalpha())
+    base = tuple(g.latin_to_indices(word))
+    singles = {tuple(ix) for _, ix in mangle(word)}
+    seen = {base} | singles
+    out = []
+
+    def add(label, indices):
+        t = tuple(indices)
+        if t and t not in seen:
+            seen.add(t)
+            out.append((label, list(t)))
+
+    # letter-level intermediates: each substitution, plus vowel rotation
+    inter = []
+    for a, b in SUBS:
+        if a in word:
+            inter.append((f"{a}>{b}", word.replace(a, b)))
+    rot = _rotate_vowels(word)
+    if rot != word:
+        inter.append(("vowrot", rot))
+
+    for lab1, w1 in inter:
+        ix1 = g.latin_to_indices(w1)
+        # compose with the index-level transforms
+        add(f"{word}~{lab1}~atbash", [N - 1 - i for i in ix1])
+        add(f"{word}~{lab1}~rev", list(reversed(ix1)))
+        # compose with a second letter-level transform
+        for a, b in SUBS:
+            if a in w1:
+                add(f"{word}~{lab1}~{a}>{b}",
+                    g.latin_to_indices(w1.replace(a, b)))
+        r2 = _rotate_vowels(w1)
+        if r2 != w1:
+            add(f"{word}~{lab1}~vowrot", g.latin_to_indices(r2))
+
+    # index-level pairs
+    add(f"{word}~atbash~rev", list(reversed([N - 1 - i for i in base])))
+    return out
+
+
+def mangle2_words(words):
+    """All two-transform variants of a base word list, deduped across the set."""
+    seen, out = set(), []
+    for w in words:
+        for label, ix in mangle2(w):
+            t = tuple(ix)
+            if t not in seen:
+                seen.add(t)
+                out.append((label, ix))
+    return out
+
+
 def mangle_words(words):
     """All coined variants of a base word list, deduped across the whole set."""
     seen, out = set(), []

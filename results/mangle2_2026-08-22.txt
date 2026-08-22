@@ -1,0 +1,27 @@
+composed (two-transform) coined keys: 250
+  e.g. DIVINITY~V>U~vowrot, DIVINITY~vowrot~atbash, DIVINITY~vowrot~rev, DIVINITY~vowrot~vowrot
+
+=== DETECTION FLOOR: plant each composed key, recover it, read off the score a real break gives ===
+  plant DIVINITY~V>U~vowrot          -> 'DIVINITY~V>U~vowrot         '  -3.88 acc 100%  identified
+  plant DIVINITY~vowrot~atbash       -> 'DIVINITY~vowrot~atbash      '  -3.98 acc  97%  identified
+  plant DIVINITY~vowrot~rev          -> 'DIVINITY~vowrot~rev         '  -4.03 acc  73%  identified (weak decode)
+  plant DIVINITY~vowrot~vowrot       -> 'DIVINITY~vowrot~vowrot      '  -3.74 acc  73%  identified (weak decode)
+  plant DIVINITY~atbash~rev          -> 'DIVINITY~atbash~rev         '  -4.00 acc 100%  identified
+  plant CIRCUMFERENCE~C>F~atbash     -> 'CIRCUMFERENCE~C>F~atbash    '  -3.88 acc 100%  identified
+  plant CIRCUMFERENCE~C>F~rev        -> 'CIRCUMFERENCE~C>F~rev       '  -3.88 acc 100%  identified
+  plant CIRCUMFERENCE~C>F~vowrot     -> 'FIRFUMFERENFE~U>V~vowrot    '  -3.77 acc  77%  NOT IDENTIFIABLE
+  plant CIRCUMFERENCE~F>C~atbash     -> 'CIRCUMFERENCE~F>C~atbash    '  -3.88 acc 100%  identified
+  plant CIRCUMFERENCE~F>C~rev        -> 'CIRCUMFERENCE~F>C~rev       '  -3.72 acc  90%  identified
+  plant CIRCUMFERENCE~F>C~C>S        -> 'CIRCUMFERENCE~F>C~C>S       '  -3.88 acc 100%  identified
+  plant CIRCUMFERENCE~F>C~vowrot     -> 'CIRCUMFERENCE~F>C~vowrot    '  -3.92 acc  90%  identified
+
+  FLOOR = -4.03 (min over 11/12 identifiable composed keys)
+  weak decodes (identified, but <90% of plaintext): DIVINITY~vowrot~rev, DIVINITY~vowrot~vowrot
+  NOT COVERED (1): CIRCUMFERENCE~C>F~vowrot
+  -> a real break with those would be INVISIBLE to this run; no evidence either way.
+
+=== MATCHED CHANCE CEILING (13 trials): -4.17 ===
+  operating margin (floor - ceiling): +0.14 nats — §31 measured ~0.01 for this pipeline, i.e. almost none
+
+  17.jpg-19.jpg - 0.jpg-2.jpg    'BUFFERS~S>C~C>F           ' c+k  -4.41
+  20.jpg - 3.jpg-5.jpg           'DECEPTION~C>S~rev         ' c+k  -4.26
