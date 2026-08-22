@@ -1321,3 +1321,33 @@ that could have explained §3's uniform failure *without* an unbreakable pad. Th
 remaining explanation for why every keystream attack returns noise is the one §13
 named — a keyed pad whose key we do not have.
 `results/pagekey_{page,line}_2026-08-22.txt`.
+
+## 35. Closing two coverage gaps the audit exposed (§31 follow-ups)
+
+**§5 — self-referential running keys, with the key offset actually searched.**
+§31 showed §5's "exhausted in every form" claim rested on code that hardwired
+every key stream to offset 0 and had no control at all: ~26 of ~26,000 natural
+hypotheses, about 0.1%. `attack_selfkey.py` searches the offset — **832
+hypotheses per segment** (13 streams × 32 offsets × 2 signs) — with the floor and
+ceiling the original lacked. Result: **negative, now properly supported.**
+Detection floor **−3.81** (12/12 planted (stream, offset) pairs recovered),
+matched chance ceiling **−4.43** at the same search freedom, best real **−4.45** —
+0.64 below the floor and at/below the ceiling. The best decode
+(`BLBOUTTAREASOAYESEMPAENTAGROMEOONUAEIGH…`) is noise.
+
+A detail worth keeping: in calibration, solved-plaintext offsets 234 and 468 are
+**not identifiable** — they get recovered as offset 0, because any offset of an
+English key text looks English-ish and offset 0 wins the tie. Self-referential
+keys drawn from *English* are therefore intrinsically harder to localise than
+keys drawn from ciphertext-like streams, which recover exactly.
+
+**§3 — key-skip with a keystream offset bound that is not the alphabet size.**
+§31 found `attack_keyskip.py` looping `range(N)` for the key START OFFSET, i.e.
+using the 29-rune alphabet size as a keystream index bound; planted starts
+0/10/28/40 were found but 120 was missed, so §3's negative only ever covered
+offsets ≈0–50. Re-run with `--max-start 200`: still **negative** (best word-score
+**0.05**, where an English decode scores >0.3), and the selftest passes at 96%.
+Notably the search now picks winners at starts **31 and 104** — the latter beyond
+the old bound entirely — so the wider range was genuinely exercised and the
+extended coverage changes nothing.
+`results/{selfkey_offsets,keyskip_start200}_2026-08-22.txt`.

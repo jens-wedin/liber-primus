@@ -82,10 +82,13 @@ current REPORT.
 ### Not redos — genuinely open experiments (carried forward)
 ~~Per-page / per-line key resets~~ **done, §34 — decisive negative.** Remaining:
 running-key & word-key on the difference stream (§12 remainder); composed
-manglings (§8); Emerson / Rune-Poem key texts; extend `attack_keycrib` beyond key
-offset 0 (§31 — currently ~0.1% coverage); re-run `attack_keyskip` with the
-widened `--max-start 200` (§31: the old negative covered starts ~0-50 only);
-restore `keytext_cache/kjv.u8` so §6 is reproducible at all.
+manglings (§8); Emerson / Rune-Poem key texts; ~~extend `attack_keycrib` beyond key
+offset 0~~ **done §35 (`attack_selfkey.py`, 832 hyp/segment, negative)**; ~~re-run
+`attack_keyskip` with `--max-start 200`~~ **done §35 (still negative; winners now
+at starts 31/104, beyond the old bound)**; ~~restore `keytext_cache/kjv.u8`~~
+**done 2026-08-22 (Gutenberg #10, 3,007,380 runes; §6's exact numbers are not
+byte-reproducible — different edition — but the attack runs again, incl.
+reversed)**.
 
 ---
 

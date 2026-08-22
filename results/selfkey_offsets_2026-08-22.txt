@@ -8,3 +8,34 @@ head 60, beam 100, key-skip <= 2
   plant ('runes:17.jpg-19.jpg - ', 0 -> '('runes:17.jpg-19.jpg - ', 0'  -3.76 acc 100%  identified
   plant ('runes:17.jpg-19.jpg - ', 2 -> '('runes:17.jpg-19.jpg - ', 2'  -3.76 acc 100%  identified
   plant ('runes:17.jpg-19.jpg - ', 4 -> '('runes:17.jpg-19.jpg - ', 4'  -3.51 acc  95%  identified
+  plant ('runes:20.jpg - 3.jpg-5', 0 -> '('runes:20.jpg - 3.jpg-5', 0'  -3.81 acc  87%  identified (weak decode)
+  plant ('runes:20.jpg - 3.jpg-5', 2 -> '('runes:20.jpg - 3.jpg-5', 2'  -3.76 acc  85%  identified (weak decode)
+  plant ('runes:20.jpg - 3.jpg-5', 4 -> '('runes:20.jpg - 3.jpg-5', 4'  -3.58 acc 100%  identified
+  plant ('runes:23.jpg, 24.jpg -', 0 -> '('runes:23.jpg, 24.jpg -', 0'  -3.67 acc  98%  identified
+  plant ('runes:23.jpg, 24.jpg -', 1 -> '('runes:23.jpg, 24.jpg -', 1'  -3.74 acc  98%  identified
+  plant ('runes:23.jpg, 24.jpg -', 2 -> '('runes:23.jpg, 24.jpg -', 2'  -3.58 acc 100%  identified
+
+  FLOOR = -3.81 (min over 12/12 identifiable (stream, offset)s)
+  weak decodes (identified, but <90% of plaintext): ('solved-plaintext', 0), ('solved-plaintext', 58), ('runes:20.jpg - 3.jpg-5', 0), ('runes:20.jpg - 3.jpg-5', 21)
+
+=== MATCHED CHANCE CEILING (independent null, same freedom, 13 trials): -4.43 ===
+
+REAL unsolved segments (self-referential key + offset search):
+  17.jpg-19.jpg - 0.jpg-2.jpg  runes:56.jpg - 39.jpg  @   66 c+k  -4.56
+  20.jpg - 3.jpg-5.jpg         runes:44.jpg, 45.jpg,  @  264 c-k  -4.58
+  20.jpg - 3.jpg-5.jpg         runes:50.jpg, 51.jpg,  @  675 c-k  -4.45
+  23.jpg, 24.jpg - 6.jpg-7.jpg runes:57.jpg - 40.jpg  @ 2350 c-k  -4.67
+  25.jpg, 26.jpg, 27.jpg, 28.j runes:17.jpg-19.jpg -  @  616 c-k  -4.47
+  32.jpg, 33.jpg, 34.jpg, 35.j solved-plaintext       @ 1044 c+k  -4.55
+  40.jpg, 41.jpg, 42.jpg, 43.j runes:20.jpg - 3.jpg-5 @  588 c+k  -4.57
+  44.jpg, 45.jpg, 46.jpg, 47.j runes:32.jpg, 33.jpg,  @  885 c+k  -4.63
+  50.jpg - 33.jpg              runes:32.jpg, 33.jpg,  @  118 c+k  -4.52
+  50.jpg, 51.jpg, 52.jpg, 53.j runes:71.jpg - 54.jpg  @   99 c+k  -4.59
+  56.jpg - 39.jpg              runes:17.jpg-19.jpg -  @  176 c-k  -4.56
+  57.jpg - 40.jpg              runes:20.jpg - 3.jpg-5 @   63 c+k  -4.53
+  71.jpg - 54.jpg              runes:23.jpg, 24.jpg - @  110 c-k  -4.66
+
+best on 20.jpg - 3.jpg-5.jpg (key runes:50.jpg, 51.jpg,  @675)
+      BLBOUTTAREASOAYESEMPAENTAGROMEOONUAEIGHWRNGRULEAELREACEUOFFIDNGAGI
+  best real -4.45  vs  detection floor -3.81 (what a real break scores)  vs  matched chance ceiling -4.43
+  -> 0.64 BELOW the floor a genuine break produces and at/below the matched chance ceiling: NEGATIVE, with demonstrated power for 12/12 (stream, offset) plants.
