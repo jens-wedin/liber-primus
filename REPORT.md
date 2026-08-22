@@ -1232,6 +1232,18 @@ sits squarely inside that overfitting range and only 0.04 from the matched chanc
 ceiling (-3.89). The "floor" of -4.00 that triggered the verdict rests on a single
 sample and is *lower* than what wrong keys routinely achieve.
 
+**The decode settles it.** Decoding 71.jpg with the flagged key gives:
+
+    BUNTNATHOUSTANDEBURBONANAHMOTEA
+
+— bigram-greedy gibberish with teasing fragments (THOUSTAND, BURBON), precisely
+what CLAUDE.md's ground rules forbid presenting as a lead. And the decisive
+number: a genuine English string of the same length scores **-3.96**, while this
+gibberish scores **-3.85**. *The flagged "break" outscores real English.* At 30
+runes with 24,389 keys x 2 signs x key-skip, the trigram score simply cannot
+discriminate — which is the same intrinsic underpowerment §4 found for the
+key-text-free running-key attack, arriving from a different direction.
+
 **The fix.** `controls.verdict()` now applies a **coverage gate**: below 50%
 identifiability it refuses to declare a possible break and returns NO EVIDENCE,
 because a floor computed from a handful of survivors cannot separate signal from
