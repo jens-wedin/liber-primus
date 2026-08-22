@@ -80,9 +80,12 @@ choices. Then re-run the whole suite and **diff the conclusions** against the
 current REPORT.
 
 ### Not redos — genuinely open experiments (carried forward)
-Per-page / per-line key resets (§5.3, never tested — needs page-level splits);
+~~Per-page / per-line key resets~~ **done, §34 — decisive negative.** Remaining:
 running-key & word-key on the difference stream (§12 remainder); composed
-manglings (§8); Emerson / Rune-Poem key texts. See item 9 and P3 below.
+manglings (§8); Emerson / Rune-Poem key texts; extend `attack_keycrib` beyond key
+offset 0 (§31 — currently ~0.1% coverage); re-run `attack_keyskip` with the
+widened `--max-start 200` (§31: the old negative covered starts ~0-50 only);
+restore `keytext_cache/kjv.u8` so §6 is reproducible at all.
 
 ---
 
@@ -200,10 +203,15 @@ manglings (§8); Emerson / Rune-Poem key texts. See item 9 and P3 below.
   as a bespoke reading path, a per-page sub-square, or a coordinate/pointer set
   into the runes.
 
-### 9. Per-page / per-line key resets (still genuinely UNTESTED)
-- REPORT §5.3 flagged this and it was never run. Segments bundle several .jpg
-  pages, so it needs page-level splits first. Highest-value remaining rune-side
-  idea now that everything else is closed.
+### 9. Per-page / per-line key resets — **DONE 2026-08-22, decisive negative (§34)**
+- `attack_pagekey.py`. The page/line structure came from rtkd's transcription
+  (`%` page, `/` line), vendored for §23 — the blocker was solvable all along.
+  32 schedules (reset0 / reset_i / none x prime,totient,DIVINITY,FIRFUMFERENFE x
+  both signs x ±key-skip). **32/32 identifiable, floor −3.38 at 100% accuracy;
+  best real −6.46 (page) / −6.49 (line), ~3.1 BELOW the floor**, and the winning
+  mechanism on real text is the continuous baseline — resetting helps not at all.
+  Closes the last structural explanation for §3's failure that did not require an
+  unbreakable pad.
 
 ## P3 — low / opportunistic
 

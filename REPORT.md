@@ -1306,8 +1306,18 @@ English *exactly* — the ideal control. And the analysed sequence is **10,198
 runes**, long enough that the trigram score is a reliable statistic, unlike the
 30-rune regimes where §33 showed gibberish can outscore real English.
 
-The best real decode (`NEMPSFXYNWMTHXEOIAOMIEOOEOM…`) is pure noise, 3.08 below
-what any genuine schedule produces, and its winning mechanism is `none` — the
-continuous-pointer baseline — i.e. **resetting the key made things no better than
-not resetting it.** Per-page keying is ruled out.
-`results/pagekey_page_2026-08-22.txt`.
+**Per-LINE resets are equally dead.** The finer granularity (54 unsolved pages,
+**586 line units** of ~22 runes) gives the same picture: floor −3.38 at 32/32
+identifiable, matched ceiling −6.45 at L=12,797, best real **−6.49** — **3.10
+below the floor**.
+
+In both runs the winning mechanism on real text is `none`, the continuous-pointer
+baseline: **resetting the key helps not at all.** The best decodes
+(`NEMPSFXYNWMTHXEOIAOMIEOOEOM…`, `BJDIBOSMNYLFBTFUYOLGEUIAJEANGRSHM…`) are pure
+noise. Per-page and per-line keying are ruled out.
+
+This matters beyond one more negative: it closes the last structural hypothesis
+that could have explained §3's uniform failure *without* an unbreakable pad. The
+remaining explanation for why every keystream attack returns noise is the one §13
+named — a keyed pad whose key we do not have.
+`results/pagekey_{page,line}_2026-08-22.txt`.
