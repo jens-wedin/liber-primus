@@ -1186,9 +1186,26 @@ expected to produce (§31: the ceiling is a selection artefact that scales with
 key-text length), and ~0.4 BELOW the score a real break gives. The decodes read as
 gibberish (`SRISOODMRCYUPICALEFIRTEOEEAMNTECTIUTIUEARONELL`).
 
-Reversed Blake and reversed *Mabinogion* are running; KJV cannot be run at all
-until `keytext_cache/kjv.u8` is restored (§31).
+**All three cached texts, read backwards — all negative.** Each control passed
+(a key planted in the reversed text is recovered, e.g. Blake at 100% of its
+window, −3.50):
 
-Net: the strongest documented prior — the 2013 book-cipher key — is now tested in
-both reading directions and both signs, and is negative in all four combinations.
-`results/running_liberal_reversed_2026-08-21.txt`.
+| key text (reversed) | best decode | matched ceiling | vs floor (−3.54) |
+| --- | --- | --- | --- |
+| Liber AL | −3.95 | ~−4.13 | 0.41 below |
+| Blake | −4.00 | −4.01 | 0.46 below |
+| Mabinogion | **−3.81** | −3.92 | **0.27 below** |
+
+Every reversed reading lands within ~0.15 of its forward counterpart, so reading
+direction makes no difference — as expected once §31 established that these
+numbers are chance maxima of a top-200 offset scan rather than a property of the
+ciphertext. Reversed *Mabinogion* (−3.81) is the closest any book key has come to
+the detection floor and sits 0.11 above its own ceiling, but that excess is inside
+the ceiling's ~±0.15 sampling error and it is still 0.27 short of the score a
+genuine planted key produces — i.e. the narrowest margin so far, not a lead. KJV
+cannot be run in either direction until `keytext_cache/kjv.u8` is restored (§31).
+
+Net: the four documented candidate key texts are now covered in both reading
+directions × both signs, and are negative throughout — with the honest caveat that
+the scan reaches only ~14% of each segment (§31).
+`results/running_{liberal,blake,mabinogion}_reversed_2026-08-21.txt`.
