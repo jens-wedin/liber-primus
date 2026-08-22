@@ -1,0 +1,47 @@
+unsolved rtkd pages: 54; page units: 54; grid: 48 mechanisms
+English reference -3.38
+
+=== DETECTION FLOOR: plant each reset schedule, recover it, read off the score a real break gives ===
+  plant ('prime', 'reset0', -1, Fals -> '('prime', 'reset0', -1, Fals'  -3.38 acc 100%  identified
+  plant ('prime', 'reset0', -1, True -> '('prime', 'reset0', -1, True'  -3.38 acc 100%  identified
+  plant ('prime', 'reset0', 1, False -> '('prime', 'reset0', 1, False'  -3.38 acc 100%  identified
+  plant ('prime', 'reset0', 1, True) -> '('prime', 'reset0', 1, True)'  -3.38 acc 100%  identified
+  plant ('prime', 'reset_i', -1, Fal -> '('prime', 'reset_i', -1, Fal'  -3.38 acc 100%  identified
+  plant ('prime', 'reset_i', -1, Tru -> '('prime', 'reset_i', -1, Tru'  -3.38 acc 100%  identified
+  plant ('prime', 'reset_i', 1, Fals -> '('prime', 'reset_i', 1, Fals'  -3.38 acc 100%  identified
+  plant ('prime', 'reset_i', 1, True -> '('prime', 'reset_i', 1, True'  -3.38 acc 100%  identified
+  plant ('totient', 'reset0', -1, Fa -> '('totient', 'reset0', -1, Fa'  -3.38 acc 100%  identified
+  plant ('totient', 'reset0', -1, Tr -> '('totient', 'reset0', -1, Tr'  -3.38 acc 100%  identified
+  plant ('totient', 'reset0', 1, Fal -> '('totient', 'reset0', 1, Fal'  -3.38 acc 100%  identified
+  plant ('totient', 'reset0', 1, Tru -> '('totient', 'reset0', 1, Tru'  -3.38 acc 100%  identified
+  plant ('totient', 'reset_i', -1, F -> '('totient', 'reset_i', -1, F'  -3.38 acc 100%  identified
+  plant ('totient', 'reset_i', -1, T -> '('totient', 'reset_i', -1, T'  -3.38 acc 100%  identified
+  plant ('totient', 'reset_i', 1, Fa -> '('totient', 'reset_i', 1, Fa'  -3.38 acc 100%  identified
+  plant ('totient', 'reset_i', 1, Tr -> '('totient', 'reset_i', 1, Tr'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset0', -1, F -> '('DIVINITY', 'reset0', -1, F'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset0', -1, T -> '('DIVINITY', 'reset0', -1, T'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset0', 1, Fa -> '('DIVINITY', 'reset0', 1, Fa'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset0', 1, Tr -> '('DIVINITY', 'reset0', 1, Tr'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset_i', -1,  -> '('DIVINITY', 'reset_i', -1, '  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset_i', -1,  -> '('DIVINITY', 'reset_i', -1, '  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset_i', 1, F -> '('DIVINITY', 'reset_i', 1, F'  -3.38 acc 100%  identified
+  plant ('DIVINITY', 'reset_i', 1, T -> '('DIVINITY', 'reset_i', 1, T'  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset0',  -> '('FIRFUMFERENFE', 'reset0', '  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset0',  -> '('FIRFUMFERENFE', 'reset0', '  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset0',  -> '('FIRFUMFERENFE', 'reset0', '  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset0',  -> '('FIRFUMFERENFE', 'reset0', '  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset_i', -> '('FIRFUMFERENFE', 'reset_i','  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset_i', -> '('FIRFUMFERENFE', 'reset_i','  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset_i', -> '('FIRFUMFERENFE', 'reset_i','  -3.38 acc 100%  identified
+  plant ('FIRFUMFERENFE', 'reset_i', -> '('FIRFUMFERENFE', 'reset_i','  -3.38 acc 100%  identified
+
+  FLOOR = -3.38 (min over 32/32 identifiable reset schedules)
+
+=== MATCHED CHANCE CEILING (independent null, L=10198, 13 trials): -6.43 ===
+
+REAL unsolved text, per-page key resets:
+  best mechanism DIVINITY/none/c-k  trigram -6.46
+      NEMPSFXYNWMTHXEOIAOMIEOOEOMEGEOBECAOEAWSJIGSLECJMEADYMEAHAECOEWDIAIIEOHUASIT
+
+  best real -6.46  vs  detection floor -3.38 (what a real break scores)  vs  matched chance ceiling -6.43
+  -> 3.08 BELOW the floor a genuine break produces and at/below the matched chance ceiling: NEGATIVE, with demonstrated power for 32/32 reset schedules.

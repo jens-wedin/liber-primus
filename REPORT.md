@@ -1268,3 +1268,46 @@ buggy ranking) was wrong either way. The corrected position: L=2 is settled
 negative; L=3 and above are beyond this pipeline's resolving power, not ruled out.
 
 `results/shortbrute_len3_2026-08-21.txt`.
+
+## 34. Per-page key resets — a decisive negative (BACKLOG item 9)
+
+The last untested rune-side idea, flagged in §5.3 and never run because our
+vendored transcription bundles several .jpg pages per segment and carries no line
+marks. rtkd/iddqd's transcription — vendored for the §23 cross-check — has
+explicit `%` page and `/` line delimiters, so the structure was available after
+all: **72 pages carrying runes, 9–13 lines each of ~22 runes.**
+
+The hypothesis was the one structural variant that could explain §3's uniform
+failure *without* requiring an unbreakable pad: if the key pointer **resets at
+every page**, no whole-stream attack could ever work, however good the keystream
+guess, because the effective unknown is only one page long.
+
+`attack_pagekey.py` tests three schedules over the same key material, with no
+per-unit search freedom (which would merely overfit, per §33): `none` (one
+continuous pointer, = §3's baseline), `reset0` (pointer returns to K[0] at every
+boundary) and `reset_i` (unit *i* starts at K[i], a "page-numbered" key) — across
+prime, totient, DIVINITY and FIRFUMFERENFE streams, both signs, with and without
+the §4 key-skip. 32 mechanisms.
+
+**Result: negative, with the strongest evidence in the project.**
+
+| quantity | value |
+| --- | --- |
+| detection floor (planted schedules recovered) | **−3.38** at **100%** accuracy, **32/32 identifiable** |
+| matched chance ceiling (independent null, L=10,198) | −6.43 |
+| best real decode | **−6.46** |
+| margin below the floor | **3.08** |
+
+Three things make this the cleanest negative here. Coverage is **total** — every
+one of the 32 schedules is recovered when planted, so nothing is untested-by-
+omission. The floor sits exactly at the English reference (−3.38) because these
+decodes are deterministic with no beam freedom, so a correct schedule reproduces
+English *exactly* — the ideal control. And the analysed sequence is **10,198
+runes**, long enough that the trigram score is a reliable statistic, unlike the
+30-rune regimes where §33 showed gibberish can outscore real English.
+
+The best real decode (`NEMPSFXYNWMTHXEOIAOMIEOOEOM…`) is pure noise, 3.08 below
+what any genuine schedule produces, and its winning mechanism is `none` — the
+continuous-pointer baseline — i.e. **resetting the key made things no better than
+not resetting it.** Per-page keying is ruled out.
+`results/pagekey_page_2026-08-22.txt`.
