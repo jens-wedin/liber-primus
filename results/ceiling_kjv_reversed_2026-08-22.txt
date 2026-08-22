@@ -1,0 +1,17 @@
+matched ceiling for kjv-reversed (3,007,380 runes), 13 random ciphertexts of 200 runes
+  trial  1: -3.98
+  trial  2: -4.04
+  trial  3: -3.89
+  trial  4: -4.12
+  trial  5: -4.08
+  trial  6: -3.92
+  trial  7: -3.90
+  trial  8: -4.17
+  trial  9: -3.98
+  trial 10: -4.03
+  trial 11: -3.95
+  trial 12: -3.98
+  trial 13: -3.92
+
+  MATCHED CEILING (max of 13): -3.89
+  median -3.98, min -4.17

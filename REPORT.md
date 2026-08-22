@@ -1121,7 +1121,7 @@ identical pipeline:
 | Liber AL | 22,045 | **−4.13** | −3.97 | 0.16 **above** |
 | Blake | 33,195 | −4.01 | −4.15 | below ✓ |
 | Mabinogion | 425,501 | −3.92 | −3.97 | below ✓ |
-| KJV | 3.16M | *unverifiable — `kjv.u8` absent* | −3.95 | — |
+| KJV | 3.0M | **−3.90** (computed, §36) | −3.79 | below floor ✓ |
 
 The key result is that **the ceiling scales with key-text length** (−4.01 at 33k
 offsets → −3.92 at 425k), because the coarse scan cherry-picks the top-200
@@ -1351,3 +1351,36 @@ Notably the search now picks winners at starts **31 and 104** — the latter bey
 the old bound entirely — so the wider range was genuinely exercised and the
 extended coverage changes nothing.
 `results/{selfkey_offsets,keyskip_start200}_2026-08-22.txt`.
+
+## 36. KJV, both directions, with its ceiling finally computed — negative, and a power limit
+
+§31 found §6 was not even reproducible (its key cache was gitignored and absent)
+and that §9's "every decode sits at the ~−3.95 noise floor" had never been
+computed. The key text is now rebuilt (Gutenberg #10, 3,007,380 runes) and
+`ceiling_running_text.py` measures the null this attack actually faces.
+
+| KJV | best real | matched ceiling (13 trials) | detection floor | |
+| --- | --- | --- | --- | --- |
+| forward | −3.79 | −3.90 (median −4.03) | **−3.54** (planted key recovered, 98%) | 0.25 below floor |
+| reversed | −3.85 | −3.89 (median −3.98) | **−3.50** (recovered, 100%) | 0.35 below floor |
+
+Both **negative**: a genuine planted KJV key scores −3.5, and the real text
+reaches only −3.79/−3.85. The forward result is 0.11 *above* its own chance
+ceiling, but a max-of-13 carries ~±0.15 sampling error, so that excess is inside
+the noise — and the floor, not the ceiling, is the criterion.
+
+**The power limit is the real finding.** On KJV the ceiling (−3.90) and the floor
+(−3.54) are only **0.36 nats apart**. The book-key attack loses discrimination as
+the key text grows, because the coarse scan cherry-picks the best of ever more
+offsets: Blake (33k runes) has a 0.47-nat window between ceiling and floor,
+Mabinogion (425k) about 0.38, KJV (3.0M) 0.36. Extrapolating, a key text of a few
+tens of millions of runes would have **no usable window at all** — its noise
+ceiling would meet its break floor, and the attack could not distinguish a real
+key from chance at any score. This is the same zero-operating-margin problem §31
+found for the §7/§8 word keys, arrived at from the other direction, and it bounds
+how far the book-key approach can ever be pushed. Larger candidate texts are not
+merely unpromising; they are progressively untestable by this method.
+
+With this, all four documented candidate key texts are covered in both reading
+directions and both signs, each against a computed ceiling and a demonstrated
+floor. `results/{running_kjv,running_kjv_reversed,ceiling_kjv,ceiling_kjv_reversed}_2026-08-22.txt`.

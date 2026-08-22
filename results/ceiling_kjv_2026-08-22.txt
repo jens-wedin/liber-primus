@@ -1,0 +1,17 @@
+matched ceiling for kjv (3,007,380 runes), 13 random ciphertexts of 200 runes
+  trial  1: -4.12
+  trial  2: -4.06
+  trial  3: -4.03
+  trial  4: -4.01
+  trial  5: -4.03
+  trial  6: -4.03
+  trial  7: -4.10
+  trial  8: -4.01
+  trial  9: -4.07
+  trial 10: -3.90
+  trial 11: -4.08
+  trial 12: -4.01
+  trial 13: -4.00
+
+  MATCHED CEILING (max of 13): -3.90
+  median -4.03, min -4.12
