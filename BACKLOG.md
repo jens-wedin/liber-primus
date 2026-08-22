@@ -81,7 +81,9 @@ current REPORT.
 
 ### Not redos — genuinely open experiments (carried forward)
 ~~Per-page / per-line key resets~~ **done, §34 — decisive negative.** Remaining:
-running-key & word-key on the difference stream (§12 remainder); composed
+~~running-key & word-key on the difference stream (§12 remainder)~~ **done §38 —
+word keys + Rune Poem/Liber AL/KJV on d, all negative, closing the cumulative
+variant of both key families**; composed
 manglings (§8); ~~Emerson / Rune-Poem key texts~~ **done §37 — both negative;
 the Rune Poem is the strongest book-key negative (highest power, 0.50 below its
 floor)**; ~~extend `attack_keycrib` beyond key

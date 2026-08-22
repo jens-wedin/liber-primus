@@ -1424,3 +1424,40 @@ usable window at all. The productive move for book keys is *shorter, better
 motivated* texts — and the best-motivated short text available is now negative.
 `results/running_{runepoem,runepoem_reversed,emerson,emerson_reversed}_2026-08-22.txt`,
 `results/ceiling_{runepoem,emerson}_2026-08-22.txt`.
+
+## 38. §12's remainder closed — word keys and book keys on the difference stream
+
+§12 tested the cumulative/chained-cipher family in difference space,
+`d[i] = c[i] − c[i−1]` (if the cipher is cumulative, d *is* the message stream),
+covering keyless, repeating-key Vigenère ≤40 and prime/totient — all negative —
+and explicitly left two things open: *"a running-key text or word-key-with-skip on
+the difference stream."* Both are now done, with the controls §12 lacked entirely
+(§31 found it has no matched ceiling and its own controls never enable the
+no-repeat notch that defines the real data).
+
+| on `d = c[i] − c[i−1]` | key-text runes | floor | ceiling | best real | margin |
+| --- | --- | --- | --- | --- | --- |
+| Word keys (400 candidates) | — | −3.77 | −4.39 | −4.31 | **0.54 below floor** |
+| Rune Poem (OE) | 2,380 | −3.41 | −3.91 | −4.21 | **0.80 below** |
+| Liber AL | 22,045 | −3.41 | −4.08 | −4.02 | **0.60 below** |
+| KJV | 3,007,380 | −3.41 | −3.64 | −3.95 | **0.53 below** |
+
+**All negative**, every one below both its floor and its ceiling, with 12/12 word
+keys identifiable and every planted book key recovered.
+
+Why this closes more than four experiments: if the cipher were cumulative —
+`c[i] = c[i−1] + p[i] + k[i]` — then `d = p + k`, and *ordinary* key attacks must
+succeed on d. Negatives across both word keys and book keys therefore close the
+**cumulative variant of both families**, the same ones §6–§9 and §7/§8 closed on
+the raw stream. Together with §12's original keyless/Vigenère/prime results, the
+chained-cipher hypothesis is now covered in every form this toolkit can express.
+
+The power law of §36/§37 shows up here too, though less cleanly. KJV's ceiling on
+d is −3.64, plainly the highest of the three texts, leaving it the narrowest
+window (0.23 nats floor-to-ceiling) — so it is the **weakest** member of this set,
+not the strongest by virtue of being the largest. The two short texts (−3.91 and
+−4.08) differ by 0.17, which is inside a max-of-13's ~±0.15 sampling error, so
+they are not separable from each other; the size effect is visible at the extreme,
+not across every pair.
+
+`results/diffkeys_{words,books_runepoem,books_liberal,books_kjv}_2026-08-22.txt`.

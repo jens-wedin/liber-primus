@@ -1,0 +1,23 @@
+BOOK KEYS on the difference stream: liberal
+
+  floor control: planted offset 7348, recovered 7372 score -3.41, 100% of its window -> PASS
+  matched ceiling (13 trials): -4.08
+
+  17.jpg-19.jpg - 0.jpg-2.jpg    @   11046 c-k  -4.02
+  20.jpg - 3.jpg-5.jpg           @   21075 c-k  -4.24
+  20.jpg - 3.jpg-5.jpg           @   20854 c-k  -4.27
+  23.jpg, 24.jpg - 6.jpg-7.jpg   @    2451 c-k  -4.35
+  25.jpg, 26.jpg, 27.jpg, 28.jpg @    4154 c-k  -4.28
+  32.jpg, 33.jpg, 34.jpg, 35.jpg @   10325 c-k  -4.33
+  40.jpg, 41.jpg, 42.jpg, 43.jpg @   19161 c-k  -4.25
+  44.jpg, 45.jpg, 46.jpg, 47.jpg @    9434 c-k  -4.15
+  50.jpg - 33.jpg                @   18897 c+k  -4.28
+  50.jpg, 51.jpg, 52.jpg, 53.jpg @    4029 c+k  -4.18
+  56.jpg - 39.jpg                @    5938 c-k  -4.36
+  57.jpg - 40.jpg                @    6960 c-k  -4.25
+  71.jpg - 54.jpg                @   14144 c-k  -4.13
+
+best on 17.jpg-19.jpg - 0.jpg-2.jp (key offset 11046)
+      HUOCEDIEWERCEETALTHEAOMFFOXCUEALIXEXATHENGLUDCELL
+  best real -4.02  vs  detection floor -3.41 (what a real break scores)  vs  matched chance ceiling -4.08
+  -> 0.60 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 1/1 planted book key.
