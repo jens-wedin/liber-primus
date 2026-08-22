@@ -195,6 +195,22 @@ def verdict(best, floor, ceiling, n_covered=None, n_total=None,
     line = "  " + "  vs  ".join(out)
     if floor is None:
         return line + "\n  -> INCONCLUSIVE: no demonstrated power."
+
+    # COVERAGE GATE. `floor` is the min over hypotheses that self-recover; if
+    # almost none do, that minimum rests on a handful of samples AND the search
+    # is demonstrably fitting wrong hypotheses to planted data. Declaring a
+    # "possible break" from such a floor is a false positive — exactly what the
+    # L=3 short-key brute produced (1/10 identifiable, best real -3.85 vs a
+    # 1-sample floor of -4.00, while wrong keys won on planted text at -3.54 to
+    # -3.88). Below half coverage the honest verdict is NO EVIDENCE.
+    if n_covered is not None and n_total:
+        frac = n_covered / n_total
+        if frac < 0.5:
+            return (line + f"\n  -> INCONCLUSIVE / NO EVIDENCE: only "
+                    f"{n_covered}/{n_total} {label} are identifiable, so the "
+                    f"search fits WRONG hypotheses to planted text about as well "
+                    f"as the right one. This run cannot distinguish a real break "
+                    f"from overfitting — it is not a negative and not a lead.")
     if best >= floor:
         return line + "\n  -> AT/ABOVE the break floor: possible real break — INSPECT."
     cov = ""

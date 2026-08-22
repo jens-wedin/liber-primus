@@ -1043,8 +1043,11 @@ distractors, sign-mirror excluded, strict comparison), the true key ranks:
 | 4, 5, 6 | ~2 | **1.0** |
 
 At head 60 every length ranks 1.0. Consequences: the existing L=2 exhaustive brute
-is a **clean negative**, not an underpowered non-result; and the stated reason for
-skipping L=3 is void, so that brute is now worth running (in progress).
+is a **clean negative**, not an underpowered non-result; and the L=3 brute became
+worth running. **But see §33: this probe samples only 400 distractors, so it
+measures identifiability against 400 competitors, not against a full brute's
+24,389. Against the whole L=3 key space only 1 of 10 planted keys survives, so
+"short keys are identifiable" holds at L=2 and FAILS at L=3.**
 
 **A contaminated null (critical, §13).** `attack_prng.py` drew its chance ceiling
 from `LCG(700+d)` — the *same* Numerical Recipes LCG it brute-forces (`lcg_nr`),
@@ -1209,3 +1212,47 @@ Net: the four documented candidate key texts are now covered in both reading
 directions × both signs, and are negative throughout — with the honest caveat that
 the scan reaches only ~14% of each segment (§31).
 `results/running_{liberal,blake,mabinogion}_reversed_2026-08-21.txt`.
+
+
+## 33. The L=3 short-key brute — NO EVIDENCE, and a false positive from my own verdict rule
+
+The L=3 exhaustive brute (24,389 keys x 2 signs x key-skip) is the experiment §10
+declined to run and §30 unblocked. It completed after ~4 h of CPU. Its first
+printed verdict was **"AT/ABOVE the break floor: possible real break — INSPECT"**
+on segment 71.jpg (key 'WEEO', -3.85). That verdict is **wrong**, and the reason
+matters more than the result.
+
+**Why it is not a break.** The detection floor is the minimum score over
+hypotheses that *self-recover*, and at L=3 only **1 of 10** planted keys did. The
+other nine were beaten by a WRONG key, which won with scores of -3.54, -3.67,
+-3.71, -3.78, -3.81, -3.82, -3.82, -3.85 and -3.88. In other words: given 24,389
+keys, both signs, and key-skip freedom, this search fits *any* 30-rune text to
+about -3.8 — whether or not a real key is present. The real data's best (-3.85)
+sits squarely inside that overfitting range and only 0.04 from the matched chance
+ceiling (-3.89). The "floor" of -4.00 that triggered the verdict rests on a single
+sample and is *lower* than what wrong keys routinely achieve.
+
+**The fix.** `controls.verdict()` now applies a **coverage gate**: below 50%
+identifiability it refuses to declare a possible break and returns NO EVIDENCE,
+because a floor computed from a handful of survivors cannot separate signal from
+overfitting. Under the gate the L=3 run reads: *"only 1/10 planted short keys are
+identifiable… this run cannot distinguish a real break from overfitting — it is
+not a negative and not a lead."* That is the honest verdict.
+
+**This refines §30, which over-corrected.** §30 said short keys "ARE identifiable"
+and treated §10's underpowerment claim as simply refuted. The truth is
+size-dependent, and both earlier statements were partly wrong:
+
+| key length | competing keys | identifiable? | what the run yields |
+| --- | --- | --- | --- |
+| L=2 | 841 | yes (rank 1 of 841) | a **clean negative** |
+| L=3 | 24,389 | **no** (1/10 planted recovered) | **no evidence** |
+
+`probe_shortkey_id.py` samples only 400 distractors, so it measures
+identifiability against 400 competitors, not against a full brute's 24,389 — it
+therefore *overstates* identifiability for L>=3. So §10's original "underpowered"
+verdict was **right for L>=3 and wrong for L=2**, while its stated evidence (the
+buggy ranking) was wrong either way. The corrected position: L=2 is settled
+negative; L=3 and above are beyond this pipeline's resolving power, not ruled out.
+
+`results/shortbrute_len3_2026-08-21.txt`.
