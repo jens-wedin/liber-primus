@@ -1384,3 +1384,43 @@ merely unpromising; they are progressively untestable by this method.
 With this, all four documented candidate key texts are covered in both reading
 directions and both signs, each against a computed ceiling and a demonstrated
 floor. `results/{running_kjv,running_kjv_reversed,ceiling_kjv,ceiling_kjv_reversed}_2026-08-22.txt`.
+
+## 37. The Rune Poem and Emerson — negative, and §36's power law confirmed
+
+Two candidate key texts remained on the backlog. Both are now tested in both
+reading directions against a computed ceiling and a demonstrated floor.
+
+**The Anglo-Saxon Rune Poem** (Old English, 2,380 runes) is the most thematically
+apt key text in the whole project — a poem *about the 29 futhorc runes* the
+Gematria Primus is built from. It is also, per §36, the highest-power test
+available, because a short text gives the coarse scan few offsets to cherry-pick
+from. **Emerson's Essays** (407,123 runes, incl. *Self-Reliance*) is the other
+long-standing candidate, flagged in `docs/` as widely repeated but only
+secondary-sourced.
+
+| key text | runes | ceiling | floor | **window** | best fwd | best rev |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Rune Poem (OE)** | 2,380 | −4.21 | −3.50 | **0.71** | −4.00 | −4.17 |
+| Blake | 33,195 | −4.01 | −3.54 | 0.47 | −4.15 | −4.00 |
+| Emerson | 407,123 | −3.95 | −3.50 | 0.45 | −3.88 | −3.94 |
+| KJV | 3,007,380 | −3.90 | −3.54 | 0.36 | −3.79 | −3.85 |
+
+Both are **negative**: every decode falls below its text's detection floor — the
+Rune Poem by 0.50 forward and 0.67 reversed, Emerson by 0.38 and 0.44. Controls
+passed at 100% recovery in all four runs.
+
+**The power law §36 predicted is confirmed across two orders of magnitude.** The
+window between the noise ceiling and the break floor shrinks monotonically as the
+key text grows — 0.71 nats at 2.4k runes, 0.47 at 33k, 0.45 at 407k, 0.36 at 3.0M
+— because the scan keeps the best of ever more offsets. This makes the Rune Poem
+result the **strongest book-key negative in the project**: the most thematically
+motivated candidate, tested at the highest available discrimination, misses its
+floor by half a nat.
+
+It also settles the direction of travel for this family. More or bigger candidate
+texts buy less and less: each one is tested with less power than the last, and
+§36's extrapolation says a text of a few tens of millions of runes would have no
+usable window at all. The productive move for book keys is *shorter, better
+motivated* texts — and the best-motivated short text available is now negative.
+`results/running_{runepoem,runepoem_reversed,emerson,emerson_reversed}_2026-08-22.txt`,
+`results/ceiling_{runepoem,emerson}_2026-08-22.txt`.

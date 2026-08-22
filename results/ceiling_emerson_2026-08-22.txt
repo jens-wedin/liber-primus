@@ -1,0 +1,17 @@
+matched ceiling for emerson (407,123 runes), 13 random ciphertexts of 200 runes
+  trial  1: -4.14
+  trial  2: -4.09
+  trial  3: -3.95
+  trial  4: -4.06
+  trial  5: -4.01
+  trial  6: -4.19
+  trial  7: -4.18
+  trial  8: -4.21
+  trial  9: -4.13
+  trial 10: -4.15
+  trial 11: -4.22
+  trial 12: -4.18
+  trial 13: -3.98
+
+  MATCHED CEILING (max of 13): -3.95
+  median -4.14, min -4.22

@@ -10,3 +10,25 @@
       LADIFFETWNDLIDAESEANNOUDOESUPIPSMEANYMENGETHOUNIN
   20.jpg - 3.jpg-5.jpg                   c-k key@    1218 ctpos    0 trigram -4.38
       NDNGYEDIOTARELONEPNMUSTRORELLNEECRICHOEGREAFOLO
+  23.jpg, 24.jpg - 6.jpg-7.jpg           c+k key@    1715 ctpos    0 trigram -4.35
+      TDIOSITURAGCASMAUARACEPTUDCITIALAHUBMIAHETIMUC
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29.jpg c+k key@    1496 ctpos   48 trigram -4.30
+      SIATHLICLGAESTHOSUPPICTOOEXOTHNGERIADDALNGUMOTHERHST
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36.jpg c-k key@     343 ctpos   48 trigram -4.37
+      IAURENFITECTXTHDACETWEECCALAHHNGTIWELAROLNEYEW
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 23.jp c+k key@     115 ctpos    0 trigram -4.45
+      GRAESEEDEEREATHYJEFOSTSOODESSIADODUARTTEROEDRHALA
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48.jpg c+k key@    1856 ctpos   96 trigram -4.29
+      SSRUAGRAFECOLEUOLITUAIRLLEMMAEALTHREASCRIDWODEAIA
+  50.jpg - 33.jpg                        c+k key@     532 ctpos   48 trigram -4.46
+      ESBCLUGTHIMETHHMOREOGRECUBTDEBTRGURREOPICARTUG
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54.jpg c+k key@    1505 ctpos   72 trigram -4.47
+      AYEOBOUEBLERBUOETSHIAPISRCOCESYANHARAPSYCLUTEAR
+  56.jpg - 39.jpg                        c-k key@    1539 ctpos   72 trigram -4.39
+      SENSTACNGIIESSAURYTHIMBIAGIDNAOESJOGSINHEUTSEETHNG
+  57.jpg - 40.jpg                        c-k key@    1924 ctpos   48 trigram -4.28
+      EREPLEANYOULEJRATTHEILLIAATCNORHOLDHSCIUATINNGH
+  71.jpg - 54.jpg                        c+k key@    1154 ctpos   24 trigram -4.17
+      REFUCDCAGEAIPINCUNGSOMWYLUDIAXIELEGANGEAYSTRIORD
+
+  best runepoem_oe: trigram -4.00 on 20.jpg - 3.jpg-5.jpg — English ~-3.38, random ~-6.2 (a real hit lands near English)

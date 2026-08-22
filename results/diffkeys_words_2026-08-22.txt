@@ -1,0 +1,10 @@
+WORD KEYS on the difference stream: 284 keys, head 60, key-skip <= 2
+
+=== DETECTION FLOOR: plant each word key, recover it, read off the score a real break gives ===
+  plant DIVINITY                     -> 'DIVINITY                    '  -3.70 acc 100%  identified
+  plant CIRCUMFERENCE                -> 'CIRCUMFERENCE               '  -3.77 acc  98%  identified
+  plant FIRFUMFERENFE                -> 'FIRFUMFERENFE               '  -3.58 acc 100%  identified
+  plant INSTAR                       -> 'INSTAR                      '  -3.62 acc  97%  identified
+  plant MOBIUS                       -> 'MOBIUS                      '  -3.67 acc  98%  identified
+  plant CABAL                        -> 'CABAL                       '  -3.64 acc 100%  identified
+  plant TOTIENT                      -> 'TOTIENT                     '  -3.69 acc  93%  identified

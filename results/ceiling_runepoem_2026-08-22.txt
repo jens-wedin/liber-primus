@@ -1,0 +1,17 @@
+matched ceiling for runepoem_oe (2,380 runes), 13 random ciphertexts of 200 runes
+  trial  1: -4.35
+  trial  2: -4.21
+  trial  3: -4.37
+  trial  4: -4.29
+  trial  5: -4.33
+  trial  6: -4.21
+  trial  7: -4.21
+  trial  8: -4.36
+  trial  9: -4.41
+  trial 10: -4.37
+  trial 11: -4.38
+  trial 12: -4.38
+  trial 13: -4.35
+
+  MATCHED CEILING (max of 13): -4.21
+  median -4.35, min -4.41
