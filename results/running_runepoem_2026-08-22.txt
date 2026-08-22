@@ -1,0 +1,12 @@
+=== POSITIVE CONTROL: plant key text, try to recover ===
+  best window: ct pos 24, key offset 958 (planted 933), trigram -3.50, recovered 100% of that window
+  control: PASS (pipeline recovers a real key from this text)
+
+
+===== KEY TEXT: runepoem_oe (2,380 runes) =====
+  17.jpg-19.jpg - 0.jpg-2.jpg            c+k key@     672 ctpos   72 trigram -4.33
+      PEOPECUIBIREPORULBADAUTHEAEAREXAMSULIAOOCCESYNACT
+  20.jpg - 3.jpg-5.jpg                   c-k key@     191 ctpos   24 trigram -4.00
+      LADIFFETWNDLIDAESEANNOUDOESUPIPSMEANYMENGETHOUNIN
+  20.jpg - 3.jpg-5.jpg                   c-k key@    1218 ctpos    0 trigram -4.38
+      NDNGYEDIOTARELONEPNMUSTRORELLNEECRICHOEGREAFOLO
