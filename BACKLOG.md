@@ -181,7 +181,22 @@ scheme spikes it; flat closes the family cleanly. On a spike: dictionary search
 with restart semantics — a small change to `attack_vigenere_skip.py`.
 - Source: CryptoCrack "Interrupted Key" solver documentation.
 
-### N10. Gromark / lagged-Fibonacci mod-29 primer brute — MEDIUM
+### N10. Gromark / lagged-Fibonacci mod-29 primer brute — DONE, NEGATIVE (§42)
+**DONE 2026-08-23 (`attack_gromark.py`, REPORT §42).** Chain addition
+k[i]=k[i-L]+k[i-L+1] mod 29 through the key-skip beam. Two results:
+- **L=2 is Fibonacci mod 29, Pisano period 14** — all 841 primers period ≤14,
+  already covered by §3. Not new coverage (analytic, no run needed).
+- **L=3 (period 871, 24,388 primers) NEGATIVE.** Global stream, all primers ×
+  both signs: floor −3.79 (3/5 identifiable), ceiling −4.29, best real −4.20 —
+  0.41 below the floor, gibberish. Identifiability is partial and beam-invariant
+  (a probe at beams 40/80/150 gave the same result): low-entropy primers are not
+  identifiable at head 44, an intrinsic degeneracy.
+**Still open (both compute-driven, low prior):** per-segment (per-page primer)
+brute — only the global one-primer hypothesis was scored; and L≥4 primers / other
+lags. Each 24k-primer brute is ~5 min; the run uses checkpointed foreground
+slices because plain background jobs were reaped mid-run.
+
+Original entry:
 §13 covered machine PRNGs (LCG, xorshift, Mersenne, SHA-256). The
 pencil-and-paper family is untested: mod-29 lagged-Fibonacci chains from short
 primers — the ACA Gromark mechanism. 29⁵ ≈ 20.5M primers, cheap decrypt. Add as

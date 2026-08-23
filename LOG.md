@@ -986,3 +986,30 @@ The reproduction proves the lane is attackable (a low-entropy seed IS
 recoverable), so the §13 wall is now sharpened to SEED ENTROPY, not the derived-
 pad idea. High-entropy seeds and a true external pad stay out of reach.
 validate_solved 9/9. `results/derived_seed_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N10: Gromark / chain-addition primer family (§42)
+
+`attack_gromark.py`. Tests the by-hand keystream: short primer extended by chain
+addition k[i]=k[i-L]+k[i-L+1] mod 29, through the key-skip beam.
+
+Analytic reduction first: L=2 chain addition is Fibonacci mod 29, Pisano period
+14 — all 841 L=2 primers have period ≤14, already covered by §3. Only L=3
+(period 871, 24,388 of 24,389 primers) is new. So N10 = the L=3 family.
+
+Identifiability is partial and beam-invariant. A probe (5 plants, 1500
+distractors, beams 40/80/150) showed the true primer beaten by ~1/1500 on a
+low-entropy primer, 0 on the rest — SAME at every beam, so the degeneracy is the
+44-rune head length, not the search. The full-space floor: 3/5 planted primers
+rank #1 (floor −3.79); the 2 low-entropy plants are NOT COVERED.
+
+Result NEGATIVE (global stream, one primer, all 24,360 L=3 primers × 2 signs):
+floor −3.79, ceiling −4.29, best real −4.20 (primer (9,27,12)) — 0.41 below the
+floor, gibberish decode, 0.50-nat margin. Demonstrated power for 3/5 primers.
+
+Two coverage limits, both compute-driven: per-segment (per-page primer) brute
+skipped (global-only); L≥4 untested. Carried to BACKLOG N10.
+
+Harness lesson: plain background jobs were reaped ~25 min in (twice), so the run
+uses brute-level checkpointing (results/gromark_ckpt.json, gitignored scratch)
+driven as foreground timeout-slices that resume from cache. validate_solved 9/9.
+`results/gromark_2026-08-23.txt`.

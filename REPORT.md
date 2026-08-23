@@ -1601,3 +1601,58 @@ the §13 wall, now more sharply drawn: the wall is *seed entropy*, not the deriv
 pad idea. Extensions carried to N6/N10: a wider passphrase list, word+number
 combinations, and the pencil-and-paper PRNG family (Gromark / lagged-Fibonacci).
 `results/derived_seed_2026-08-23.txt`.
+
+## 42. The Gromark / chain-addition primer family — negative, and L=2 falls out analytically (N10)
+
+§13 covered machine PRNGs and §41 covered hash pads, but neither tested the
+keystream a puzzle-maker can compute **by hand**: the ACA Gromark, where a short
+numeric **primer** is extended by chain addition, `k[i] = k[i-L] + k[i-L+1]`
+mod 29. `attack_gromark.py` tests it through the key-skip beam.
+
+**Half the family is closed by arithmetic, not search.** L=2 chain addition IS
+the Fibonacci recurrence mod 29, whose Pisano period is 14. Measured: all 841
+L=2 primers give a keystream of period in {1, 7, 14} — every one is inside §3's
+period-≤40 scan, so L=2 is not new coverage. L=3 is different: 24,388 of 24,389
+primers give period **871** (only the all-equal primer is period 1). 871 exceeds
+any segment head, so within a segment an L=3 keystream is effectively aperiodic —
+genuinely uncovered. **So N10 reduces to exactly the L=3 primers.**
+
+**Identifiability is partial, and it is intrinsic — not a beam artifact.** §33
+warned that short keys under key-skip are barely identifiable. A probe planted
+five L=3 primers and swept the beam width: at beam 40, 80 and 150 the true primer
+is beaten by ≈1 of 1500 random distractors on the same low-entropy primer, and by
+0 on the others — **the same at every beam**. Widening the search does not help;
+the degeneracy is in the 44-rune head length, where a wrong period-871 primer can
+fit short English about as well as the right one. The detection floor confirms it
+against the full 24,360-primer space: **3 of 5 planted primers rank first**
+(floor −3.79); the two low-entropy plants are out-ranked by a different primer and
+are reported NOT COVERED — a real break using such a primer would be invisible.
+
+**The result — NEGATIVE.** Decoding the global concatenated unsolved stream (one
+primer for the whole book) over all 24,360 L=3 primers × both signs:
+
+| | score |
+| --- | --- |
+| detection floor (3/5 primers identifiable) | −3.79 |
+| matched chance ceiling (1 global trial) | −4.29 |
+| best real decode (primer (9,27,12)) | **−4.20** |
+
+The best real decode sits **0.41 below the floor** a genuine break produces, with
+a 0.50-nat floor-to-ceiling margin (clears the gate), and reads as gibberish
+(`AGUITNSFORPDADIAARCHAPAXCTUMADALLIFERCHNCNGERA`). The chain-addition family does
+not key the unsolved stream. Coverage is honest: **demonstrated power for 3/5
+primers**, so the negative binds the identifiable majority, not the low-entropy
+tail.
+
+**Coverage limits carried to BACKLOG N10.** Two, both from compute: (1) the
+per-segment (per-page primer) brute was skipped — only the global one-primer
+hypothesis was scored — because each 24k-primer brute is ~5 minutes and the run
+had to fit the harness's background-job limits (it runs as checkpointed
+foreground slices); (2) L≥4 primers (period grows further) and other lags are
+untested. Neither is high-prior given the global negative and the partial
+identifiability, but both are real gaps.
+
+**Engineering note.** `attack_gromark.py` checkpoints each full-space brute to
+`results/gromark_ckpt.json` and resumes, so a killed run loses at most the
+in-flight brute. The scratch cache is not archived; the run record is
+`results/gromark_2026-08-23.txt`.

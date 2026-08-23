@@ -4,3 +4,6 @@ keytext_cache/
 .kjv_src/
 .DS_Store
 data/pages/
+
+# N10 resume cache (scratch, reproducible)
+results/gromark_ckpt*.json

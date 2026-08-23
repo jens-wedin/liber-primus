@@ -102,7 +102,7 @@ favoured, not proven.
 ## Toolkit map
 
 - **Statistics/modeling:** `analyze_unsolved.py`, `doublet_sim.py`, `no_repeat_model.py`, `model_norepeat_mechanisms.py` (collision-resolution + residual-doublet discrimination, §11)
-- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling — RE-ROLL pads only), `attack_derived_seed.py` (derived hash-CTR seed + key-skip through the beam; reproduces Dukotah's control, §41/N6), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17), `attack_literal_f.py` (literal-ᚠ rule as a keystream interrupter — pointer HOLDS at a ciphertext ᚠ; §19/P1.1)
+- **Attacks:** `crib_drag.py`, `attack_autokey.py`, `attack_keyskip.py`, `attack_runningkey.py`, `attack_keycrib.py`, `attack_running_text.py` (book keys), `attack_vigenere_skip.py` (word key + skip; `--mangle` for coined keys), `attack_shortbrute.py` (very-short key brute + chance-ceiling control), `difference_space.py` (cumulative-cipher tests on `c[i]−c[i-1]`), `attack_prng.py` (seeded-PRNG / hash-pad brute vs chance ceiling — RE-ROLL pads only), `attack_derived_seed.py` (derived hash-CTR seed + key-skip through the beam; reproduces Dukotah's control, §41/N6), `attack_gromark.py` (Gromark/chain-addition mod-29 primer brute + key-skip beam; L=2 is Fibonacci ⇒ covered by §3, L=3 negative, §42/N10), `attack_magicsquare.py` (page-16/32 squares as additive keys, §16), `attack_magicsquare_interrupter.py` (page-16 square as a stride/gated/reset interrupter schedule, §17), `attack_literal_f.py` (literal-ᚠ rule as a keystream interrupter — pointer HOLDS at a ciphertext ᚠ; §19/P1.1)
 - **Gematria structure:** `verify_gp_sums.py` (reproduces the r/cicada 3301/1033 GP-sum runs on solved plaintext + a boundary-freedom base-rate control, §18), `analyze_fpositions.py` (ᚠ-position structural map vs Monte-Carlo null; §20/P1.2), `compare_transcriptions.py` (aligns our stream vs rtkd/iddqd's; the doublet-noise test, §23/P2.4), `analyze_squares.py` (squares read directly as a message vs a numerology ceiling, §24/P2.6), `gp_filter.py` (the §18 GP-sum signature detector + control — fails to discriminate, deflates §18, §25/P2.5), `attack_hints.py` (pre-LP2 "hints never used" numeric sequences as keys/primers via the key-skip beam, negative, §26/P3.7)
 - **Image content (not in the transcription, §15):** `data/pages/` (75 scans, gitignored — `bash fetch_pages.sh`), `results/page_glyph_catalogue_2026-08-20.txt` (per-page non-rune inventory), `data/code_pages.txt` (pages 66/67/68 — 256 codes, verified from scans §21) + `analyze_codepage.py` (loads all three pages; natural decodes) + `attack_codepages.py` (pad / index / self-cipher / permutation-table attacks, all negative §22)
 - **Probes/modeling:** `probe_shortkey_id.py` (short-key identifiability under key-skip)
@@ -168,7 +168,11 @@ Emerson/Rune Poem (§37) are all negative. Current open list:
    key-skip seed (100% vs rigid 56%), then rules out 116 thematic passphrases ×
    4 hash framings (floor −3.73, ceiling −4.18, best real −4.26). Audit closed:
    §13 is scoped to re-roll pads. The §13 wall is now SEED ENTROPY. Still open:
-   wider passphrases, word+number combos, and pencil-and-paper PRNGs (N10).
+   wider passphrases and word+number combos.
+   - ~~pencil-and-paper PRNGs (N10)~~ **DONE §42 — negative.** `attack_gromark.py`:
+     L=2 chain addition is Fibonacci mod 29 (period ≤14 ⇒ covered by §3); L=3
+     (period 871) negative (floor −3.79, best real −4.20, 3/5 identifiable).
+     Open: per-segment primer, L≥4.
 3. **N7 Dukotah ledger cross-diff** + soft-rejection vs uniform-resolution fit.
 4. **N8 keyless depth detection** by local alignment across page/line pairs.
 5. **N2 code→byte map** for pages 66–68 (finite, checkable), plus N9–N16.
