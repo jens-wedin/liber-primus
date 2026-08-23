@@ -264,7 +264,16 @@ test the count against a length-matched no-doublet (Smirnov) null. If
 significant, the offsets are Kasiski anchors and key-reuse loci — feed N8.
 - Source: uncovering-cicada.fandom.com/wiki/Frequency_Analysis_Unsolved_Pages.
 
-### N12. Non-additive two-variable cipher functions — MEDIUM
+### N12. Non-additive two-variable cipher functions — DONE, NEGATIVE (§48)
+**DONE 2026-08-23 (`attack_twovar.py`, REPORT §48).** The clean invertible
+non-additive family on a 29-prime alphabet is the AFFINE cipher c=a*p+k (pure
+multiplicative fails on ᚠ=0; XOR undefined on 29). a=1 additive (known); a=2..28
+multiplicative relabel the additive attacks missed, folded into the key-skip
+beam. NEGATIVE, well-powered: control recovers the planted multiplier a (floor
+−3.68, 4/4), ceiling −4.31, best real −4.46 (a=18) — 0.79 below the floor.
+Prime/totient + word keystreams, all a, both signs. Extends N3.
+
+### N12 (original note). Non-additive two-variable cipher functions — MEDIUM
 mortlach's `key-drag` and `lp-decrypter` search arbitrary f(p, k): XOR-style,
 multiplicative (p·k) mod 29, and lookup tables, each × interrupters × gematria
 rotations × transpositions. Our whole campaign is additive-only. Dukotah's D-04

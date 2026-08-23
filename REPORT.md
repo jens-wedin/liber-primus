@@ -1846,3 +1846,26 @@ reverse(U) −5.04, atbash(U) −5.24, atbash(reverse(U)) −5.08, solved-plaint
 is 0.97 below the floor a genuine break produces, with a 0.94-nat
 floor-to-ceiling margin. The inversion is closed: U is not a running-key pad over
 any of these texts or its own reflections. `results/padinvert_2026-08-23.txt`.
+
+## 48. Non-additive two-variable ciphers — the affine family, negative (N12 / D-04)
+
+The whole campaign assumes the cipher is additive, c = (p + k) mod 29. mortlach's
+key-drag and Dukotah's D-04 (run on only 3 of 55 pages) generalise it to an
+arbitrary two-variable function c = f(p, k). For a 29-**prime** alphabet the
+clean, invertible, non-additive family is the **affine** cipher: c = a·p + k,
+a ∈ 1..28, with p = inv(a)·(c − k). Every a is coprime to 29, so it inverts for
+every rune including ᚠ = 0 — where a pure multiplicative cipher c = p·k fails,
+because 0 is absorbing. (Bitwise XOR is not defined on 29 symbols; affine is the
+right generalisation.) a = 1 is the additive cipher already ruled out; a = 2..28
+is a multiplicative relabel of the plaintext the additive attacks could not see.
+`attack_twovar.py` folds the affine inverse into the key-skip beam.
+
+**NEGATIVE, well-powered.** The control recovers a planted affine + key-skip
+encryption including its multiplier a — floor −3.68 over 4/4 identifiable
+(keystream, a) plants at 91–100% accuracy — and the matched ceiling is −4.31.
+Across the prime and totient streams and the DIVINITY / FIRFUMFERENFE word keys,
+every multiplier a ∈ 1..28 and both signs, the best real decode is −4.46 (a = 18,
+FIRFUMFERENFE) — 0.79 below the floor a genuine break gives, with a 0.63-nat
+floor-to-ceiling margin. So the non-additive affine cipher over these keystreams
+does not key the runes either: generalising the cipher *function* fails the same
+way generalising the *key* did. `results/twovar_2026-08-23.txt`.

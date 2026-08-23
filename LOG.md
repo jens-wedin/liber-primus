@@ -1120,3 +1120,18 @@ ceiling −4.78; all real arms at/below chance (reverse −5.04, atbash −5.24,
 atbash(rev) −5.08, solved-plaintext −4.81, kjv/runepoem sanity −5.08/−5.20).
 Best real −4.81, 0.97 below the floor, 0.94-nat margin. The inversion is closed.
 No core change; validate_solved 9/9. `results/padinvert_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N12: non-additive affine two-variable cipher (§48)
+
+`attack_twovar.py`. Generalises c=(p+k) to the affine c=a*p+k, a in 1..28 (the
+clean invertible non-additive family on a 29-prime alphabet; pure multiplicative
+fails on 0, XOR undefined on 29). a=1 is additive (known); a=2..28 is a
+multiplicative relabel the additive attacks missed. Affine inverse folded into
+the key-skip beam.
+
+NEGATIVE, well-powered. Control recovers planted affine+skip incl. the multiplier
+a (floor −3.68, 4/4 at 91–100%); ceiling −4.31; best real −4.46 (a=18,
+FIRFUMFERENFE), 0.79 below the floor, 0.63-nat margin. Prime/totient + DIVINITY/
+FIRFUMFERENFE keystreams, all a, both signs. Generalising the cipher function
+fails like generalising the key did. No core change; validate_solved 9/9.
+`results/twovar_2026-08-23.txt`.
