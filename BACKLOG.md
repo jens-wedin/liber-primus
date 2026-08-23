@@ -128,7 +128,19 @@ noise, but `attack_running_text.py` confirms hits with the key-skip beam and
 its planted-skip control passes. The critique DOES apply to `attack_prng.py`
 (§13, direct-decode) — see N6.
 
-### N6. Derived-seed keystream through a skip-aware beam — HIGH PRIORITY
+### N6. Derived-seed keystream through a skip-aware beam — DONE, NEGATIVE (§41)
+**DONE 2026-08-23 (`attack_derived_seed.py`, REPORT §41).** Reproduction PASSES:
+a SHA-256-CTR keystream from `CICADA3301` under key-skip is beam-recovered at
+100% where rigid decode gets 56% — Dukotah's claim confirmed in our pipeline
+(class, not byte). Real run NEGATIVE and well-powered: 116 thematic passphrases ×
+4 hash framings × 2 signs, floor −3.73 (5/5 recover), ceiling −4.18, best real
+−4.26 (0.53 below the floor, at the ceiling). Audit (step b) resolved:
+`attack_prng.py` is scoped to re-roll pads, not buggy; the key-skip cell was
+genuinely untested and is now closed for LOW-entropy thematic seeds. The §13
+wall is sharpened to SEED ENTROPY. Extensions remain open: wider passphrases,
+word+number combos, and the pencil-and-paper PRNG family (see N10).
+
+Original entry:
 Dukotah planted a SHA-256 counter-mode keystream (seed `CICADA3301`) under an
 anti-repeat filter. Rigid decoding scored the correct seed at −6.835 — noise. A
 skip-aware beam recovered it at −4.170 with 98.9% character recovery. So the

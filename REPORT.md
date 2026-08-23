@@ -1542,3 +1542,62 @@ through `controls.py` so the coverage and margin gates apply. The pay-off is
 well-defined — an oracle scores 1.886 against a ~1.0 floor, one of the widest
 separations any hypothesis in this project offers.
 `results/interrupt29_2026-08-23.txt`.
+
+## 41. Derived-seed hash pad through the beam — negative, and it closes an audit gap (N6)
+
+External research (backlog N6) surfaced Dukotah/cicada3301's sharpest claim: a
+keystream *derived* from a short seed is not the §13 wall. They planted a
+SHA-256 counter-mode keystream from the passphrase `CICADA3301` under an
+anti-repeat filter; a rigid decoder scored the correct seed as noise, a
+skip-aware **beam** recovered it. That is a coverage gap this project never
+tested, and `attack_derived_seed.py` closes it.
+
+**The audit finding first (BACKLOG R4 / N6 step b).** `attack_prng.py` (§13) is
+not wrong — it is *scoped*. It decodes with a position-locked subtract
+(`p[i] = c[i] − K[i]`) and plants a **re-roll** pad, so its negative is valid
+for re-roll pads, where the keystream stays in lock-step with position. A
+**key-skip** derived pad desynchronises: every dodged doublet consumes an extra,
+invisible key value, and no position-locked subtract can realign. §13's own
+docstring says as much ("that case needs the beam"). So the key-skip × derived-
+seed cell was genuinely uncovered — not mis-tested, untested.
+
+**The reproduction (the gate).** Plant `CICADA3301` via SHA-256-CTR, key-skip
+encrypt 200 runes (3 hidden skips), decode two ways:
+
+| decode | score | plaintext recovered |
+| --- | --- | --- |
+| rigid position-locked (à la §13) | −4.91 | **56%** — desyncs at the first skip |
+| skip-aware beam | −3.56 | **100%** |
+
+This confirms Dukotah's claim in our own pipeline (a *class* reproduction, not a
+byte one — their exact counter framing is unpublished). A short, guessable seed
+driving a hash keystream **is** inside resolving power, through the beam. The gate
+passes, so the negative below is meaningful.
+
+**The real run — NEGATIVE, well-powered.** Seed space = 116 thematic passphrases
+(the Cicada vocabulary in three cases, plus notable strings and number strings —
+the kind §13's integer brute never covered as strings) × 4 hash-counter framings
+(SHA-256 colon/concat/bytes, SHA-512 colon) × 2 signs, decoded with the key-skip
+beam from start 0, per segment and globally.
+
+| | score |
+| --- | --- |
+| detection floor (5/5 planted seeds recover at 100%) | **−3.73** |
+| matched chance ceiling (14 trials) | −4.18 |
+| best real decode (`truth`, SHA-512-CTR, global) | **−4.26** |
+
+The best real decode sits **0.53 below the floor** a genuine break produces and
+**at the chance ceiling**, with a 0.45-nat floor-to-ceiling margin (clears the
+0.25 gate — the test can separate a break from noise). The winning global decode
+is gibberish (`LUMNIMASOETHEORUELANBIGNTHLAEAXIBLISFORRTEALTHCOHN`). So thematic-
+passphrase hash pads under key-skip are ruled out, control-validated, with
+demonstrated power for every planted seed.
+
+**What this does and does not close.** The reproduction proves the *lane* is real:
+a low-entropy seed IS recoverable, so this is not the unbreakable case. The
+negative rules out the low-entropy thematic seeds a puzzle-maker plausibly picks.
+It does **not** touch a high-entropy seed or a true external pad — those remain
+the §13 wall, now more sharply drawn: the wall is *seed entropy*, not the derived-
+pad idea. Extensions carried to N6/N10: a wider passphrase list, word+number
+combinations, and the pencil-and-paper PRNG family (Gromark / lagged-Fibonacci).
+`results/derived_seed_2026-08-23.txt`.

@@ -956,3 +956,33 @@ Headlines:
 
 Backlog: N1, N2, N5 updated; N6–N17 added. No experiment ran; no REPORT
 section. validate_solved untouched.
+
+### 2026-08-23 (cont.) — N6: derived-seed hash pad through the beam (§41)
+
+`attack_derived_seed.py`. Closes the key-skip × derived-seed cell that §13 left
+open.
+
+Audit first (N6 step b): `attack_prng.py` is scoped, not buggy. It decodes with
+a position-locked subtract and plants a re-roll pad, so §13 is valid for re-roll
+pads only. A key-skip derived pad desyncs and needs the beam — untested until
+now.
+
+Reproduction (the gate): plant CICADA3301 via SHA-256-CTR, key-skip 200 runes
+(3 skips). Rigid decode −4.91 / 56% (desyncs); beam decode −3.56 / 100%. PASS —
+reproduces Dukotah's claim in our pipeline (class reproduction, not byte).
+
+Real run — NEGATIVE, well-powered. 116 thematic passphrases × 4 hash framings ×
+2 signs, beam-decoded per segment + global. Floor −3.73 (5/5 seeds recover at
+100%), ceiling −4.18, best real −4.26 (seed 'truth', global) — 0.53 below the
+floor and at the ceiling, 0.45-nat margin. Global decode is gibberish. Rules out
+low-entropy thematic hash-pad seeds under key-skip.
+
+Caught and fixed a ceiling bug before trusting the run: the matched_ceiling call
+passed extra=head*(skip+1)+16, which drew 192-rune nulls instead of 44 —
+length-mismatched (biases the ceiling low) and 4x slower. brute() makes its own
+keystream, so extra=0. Re-ran clean.
+
+The reproduction proves the lane is attackable (a low-entropy seed IS
+recoverable), so the §13 wall is now sharpened to SEED ENTROPY, not the derived-
+pad idea. High-entropy seeds and a true external pad stay out of reach.
+validate_solved 9/9. `results/derived_seed_2026-08-23.txt`.
