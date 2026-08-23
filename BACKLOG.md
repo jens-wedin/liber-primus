@@ -153,7 +153,28 @@ decode**. Steps: (a) reproduce Dukotah's planted control first; (b) audit
 with `controls.py` floors. This is the concrete bridge across the §13 wall.
 - Source: github.com/Dukotah/cicada3301 (README-verified; not yet reproduced).
 
-### N7. Dukotah ledger cross-diff + soft-rejection model — HIGH, CHEAP
+### N7. Dukotah ledger cross-diff + soft-rejection model — DONE (§44)
+**DONE 2026-08-23 (REPORT §44, `results/dukotah_ledger_diff_2026-08-23.md`).**
+Same object to 0.07% (first 24 indices + first 10 page lengths match; 12,947 vs
+12,956, hashes differ — the §23 delta). Ledger diff: B-21/R12-C1/R12-D2
+independently confirm §13/§12/§28; imported negatives B-05 (pp49-51 as PRF/RC4
+seed → keystream) and R12-A1 (CicadaOS pad); B-16 shows OUR beam-validated keytext
+negatives stand where theirs don't; their B-04 = our N6. **Soft-rejection
+reconciled:** fitted p_keep = 86/(12934/29) = 0.193 ≈ their 0.18, orthogonal to
+§11's uniform resolution, reframing the 86 doublets as the filter's acceptance
+LEAK (signal, per §23). New lane surfaced: **N18 / F-01 (below)**. Neither-ran
+lanes map to our N9 (C-02), N12 (D-04), N6 extensions (B-08/B-02), D-03 (Z340
+homophonic).
+
+### N18. F-01 — LP2-as-pad inversion (from Dukotah's ledger) — MEDIUM
+The unsolved 12,956-rune stream may be KEY MATERIAL, not a message. Use it (fwd /
+rev, ±, atbash) as a running key against candidate plaintexts and the solved
+pages. Neither project has run it. Genuinely new: every attack so far treats the
+stream as ciphertext to decrypt, not as a pad to apply. Control: plant a known
+text enciphered under the stream-as-key, recover it; route through `controls.py`.
+Source: Dukotah ledger F-01.
+
+### N7 (original note). Dukotah ledger cross-diff + soft-rejection model — HIGH, CHEAP
 Dukotah ships `LEDGER.json` (57 hypotheses: 21 never-run, 18 open),
 `PROBLEM.json` (ciphertext pinned by SHA-256), `verify_solution.py`, and
 plant-and-recover benchmarks. Do: confirm we attack the same ciphertext object;

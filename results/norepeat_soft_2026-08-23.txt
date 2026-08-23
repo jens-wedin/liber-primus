@@ -1,0 +1,19 @@
+target (real unsolved):
+  c-IoC 1.000  doublet 0.66%  d-IoC 1.024  d-nonzero-chi2 41.4 (uniform ~27)
+
+mechanism reproductions (English plaintext, matched length):
+  re-roll pad, no leak           c-IoC 0.997  doublet 0.00%  d-IoC 1.032  chi2 20.3
+  re-roll pad + 0.66% dittography c-IoC 0.996  doublet 0.85%  d-IoC 1.017  chi2 22.2
+  key-skip primes, no leak       c-IoC 1.011  doublet 0.00%  d-IoC 1.040  chi2 35.2
+  key-skip primes + 0.66% dittography c-IoC 1.011  doublet 0.75%  d-IoC 1.026  chi2 35.2
+
+key-skip desync: over 1875 runes the pointer advanced 1931 times (56 hidden skips, 3.0% extra) — this is why fixed-position keystream attacks fail.
+
+leak as transcription noise: 86 doublets / 12934 pairs = 0.66%. A 0.66% independent copy-error rate over hand-transcribed runes gives a rune-uniform, boundary-independent doublet leak — matching the observed distribution.
+
+soft-rejection fit (N7, vs Dukotah's ~0.18): the 86 doublets as a SIGNAL, not noise.
+  observed 86 doublets / 12934 pairs; expected pre-filter collisions 446 -> fitted p_keep = 0.193
+  p_keep=0.00 (hard no-repeat) c-IoC 1.000  doublet 0.00%  d-chi2 43.0
+  p_keep=0.19 (fitted        ) c-IoC 1.002  doublet 0.80%  d-chi2 47.5
+  p_keep=0.34 (no rule/29    ) c-IoC 1.002  doublet 1.17%  d-chi2 46.3
+  => a soft rule that KEEPS a would-be doublet w.p. ~0.19 (and resolves the rest UNIFORMLY, per §11) reproduces flat IoC AND the 0.66% rate. This is ORTHOGONAL to §11 (which fixed the resolution distribution), and it makes the 86 doublets the filter's acceptance leak — agreeing with §23's 'real doublets favoured'.

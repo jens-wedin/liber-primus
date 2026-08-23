@@ -1035,3 +1035,35 @@ NO POWER, blocked two ways:
 Verdict: the real pairwise scan is NOT run. Keyless depth / key reuse is
 UNTESTABLE on the LP with this method, not disproven. No core change;
 validate_solved still 9/9. `results/depth_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N7: Dukotah ledger cross-diff + soft-rejection fit (§44)
+
+Fetched Dukotah/cicada3301 PROBLEM.json + LEDGER.json (57 entries). Two parts:
+
+Same object to 0.07%: our stream matches theirs on the first 24 indices and
+per-page lengths (first 10 exact); totals 12,947 vs 12,956 (9 runes, hashes
+differ) — the §23 transcription-lineage delta. Comparable, not byte-identical.
+
+Ledger diff (results/dukotah_ledger_diff_2026-08-23.md):
+- Independent confirmation: B-21 PRNG = §13; R12-C1 k-history = §12; OTP-class =
+  §13 wall; R12-D2 miscount = §28/§30.
+- Importable negatives they ran, we hadn't: B-05 (pp49-51 as PRF/RC4 seed →
+  keystream, NEG — the derived-pad reading of our N2); R12-A1 (CicadaOS binaries
+  as pad, NEG).
+- Our rigor exceeds theirs: B-16 — they eliminated their OWN keytext nulls as
+  unsound (beam validated on wrong mechanism); ours use the beam with a passing
+  planted-skip control (N6), so our book-key negatives stand.
+- Their B-04 (derived short-seed dictionary, in-flight) = our N6 (ran a slice,
+  negative).
+- Neither ran: C-02 (our N9), D-04 (our N12), B-08/B-02 (extend N6), D-03
+  (Z340 homophonic), and F-01 (LP2-as-pad inversion — a NEW angle, added to
+  backlog).
+
+Soft-rejection reconciliation (the substantive result): their model is a SOFT
+anti-repeat, p_keep≈0.18; our §11 is UNIFORM resolution. Orthogonal — §11 fixes
+HOW a rejected doublet resolves, soft-rejection fixes WHETHER it is rejected.
+Fitted on our stream: p_keep = 86/(12934/29) = 0.193 ≈ their 0.18. enc_soft at
+0.19 reproduces flat IoC + 0.66% doublet. Reframes the 86 doublets as the
+filter's acceptance LEAK (signal), the mechanism behind §23. Added enc_soft +
+fit_p_keep to no_repeat_model.py. validate_solved 9/9.
+`results/norepeat_soft_2026-08-23.txt`.

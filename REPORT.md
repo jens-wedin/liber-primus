@@ -1692,3 +1692,67 @@ across pages or lines is **untestable** on the Liber Primus with this method —
 disproven. The units are less than half the length the weak kappa signal needs,
 and the key-skip desync independently caps usable alignment an order of magnitude
 below that. `results/depth_2026-08-23.txt`.
+
+## 44. Cross-diff with Dukotah/cicada3301, and the soft-rejection reconciliation (N7)
+
+Dukotah/cicada3301 is a parallel, agent-driven rigor project that reached our
+central finding independently. N7 does two things with it: confirm we attack the
+same object and diff coverage, then reconcile its no-repeat model with §11.
+
+**Same object, to 0.07%.** Their `PROBLEM.json` pins the ciphertext by SHA-256.
+Our unsolved stream matches theirs on the **first 24 indices** and on the
+**per-page lengths (first 10 exact: 262, 266, 201, …)**. Totals differ by 9 runes
+(ours 12,947 vs theirs 12,956) and the hashes differ, so by their own strict
+exact-hash criterion we are "not the same object" — but the delta is 0.07%, the
+same transcription-lineage difference our §23 measured against rtkd. The numbers
+are comparable, not byte-identical. Their ledger holds 57 entries (21 never-run,
+18 open, 3 negative, 2 eliminated, 10 partially-run). Full diff:
+`results/dukotah_ledger_diff_2026-08-23.md`.
+
+**Independent confirmation of our negatives.** Their seeded-PRNG elimination
+(B-21) is our §13; their k-history-feedback/autokey negative (R12-C1) contains
+our §12; their OTP-class verdict is our §13 wall; their miscounted-statistic
+elimination (R12-D2) is the defect class our §28/§30 audits caught. Two projects,
+same conclusions.
+
+**Negatives we can import (they ran, we had not).** B-05: the pp49-51 256-byte
+payload as a **PRF seed** expanded into a runic keystream (RC4 / AES-CTR /
+SHA-counter / HMAC-DRBG) — NEGATIVE; this is the derived-pad reading of our N2
+code pages, now tested. R12-A1: the CicadaOS binaries as the pad — NEGATIVE.
+
+**Where our rigor exceeds theirs (B-16).** They *eliminated their own keytext
+nulls* as unsound, because their beam decoder was validated against the key-skip
+mechanism while their Campaigns X/XI pinned a different mechanism. We checked the
+same risk in N6: `attack_running_text.py` confirms with the key-skip beam and its
+planted-skip control passes, so our KJV / Crowley / Mabinogion / Blake negatives
+(§6, §9, §36) **stand where theirs do not**.
+
+**Their B-04 is our N6.** "Derived short-seed keystream dictionary" is exactly the
+lane §41 opened; we ran a slice (thematic passphrase hash-CTR seeds, NEGATIVE,
+floor −3.73). Theirs stays in-flight.
+
+**Lanes neither project has run** (candidate next work): C-02 line/word/page-initial
+uniformity (our N9); D-04 non-additive ciphertext-feedback beyond 3 pages (our
+N12); B-08 seeds >2³² and nonzero keystream offset (extends N6); B-02 keystream
+offset ≠ 0; D-03 homophonic-downward annealing (the Z340 method); and **F-01, a
+genuinely new angle — LP2-as-pad inversion: treat the 12,956-rune stream as key
+material, not a message, and run it (fwd/rev, ±, atbash) as a running key against
+other texts.** F-01 is added to the backlog.
+
+**The soft-rejection reconciliation (the substantive result).** Their model calls
+the no-repeat a **soft** anti-repeat filter, ~83% suppression, p_keep ≈ 0.18. Our
+§11 found the resolution **uniform**. These are not rivals — they answer different
+questions. §11 fixed *how* a rejected doublet is resolved (a uniform other value,
+not a deterministic bump). Soft rejection fixes *whether* a would-be doublet is
+rejected at all. They compose. Fitting the acceptance probability on our stream
+(`no_repeat_model.fit_p_keep`):
+
+    p_keep = 86 observed doublets / (12,934 pairs / 29 expected collisions) = 0.193
+
+— matching their ~0.18. A simulation of `enc_soft` at p_keep = 0.19 reproduces
+both a flat IoC (~1.00) and the 0.66% doublet rate; p_keep = 0 gives 0 doublets,
+p_keep = 0.34 overshoots to ~1.2%. **This reframes the 86 residual doublets as the
+filter's acceptance leak — signal, not transcription noise** — which is the
+mechanism behind §23's "real doublets favoured, not noise". §11 stays correct on
+the resolution distribution; N7 adds the acceptance rate on top of it.
+`results/norepeat_soft_2026-08-23.txt`.

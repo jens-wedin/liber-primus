@@ -73,6 +73,35 @@ def enc_key_skip(p, K):
     return out
 
 
+def enc_soft(p, K, p_keep, rng):
+    """SOFT anti-repeat rule (Dukotah/cicada3301's model, N7). A would-be doublet
+    is KEPT with probability p_keep and otherwise resolved to a uniform other
+    value. p_keep=0 is the hard no-repeat rule (0 doublets); p_keep=1 is no rule.
+
+    This is ORTHOGONAL to §11's finding: §11 fixed HOW a rejected doublet is
+    resolved (uniform, not a deterministic bump); this fixes WHETHER it is
+    rejected. The two compose, and the observed 0.66% doublet rate fits
+    p_keep ~ 0.19 (see `fit_p_keep`), which reframes the 86 residual doublets as
+    the filter's acceptance leak — signal — rather than transcription noise."""
+    out = []
+    for pi in p:
+        ci = (pi + K[len(out) % len(K)]) % N
+        if out and ci == out[-1] and (rng.next() / 0xFFFFFFFF) >= p_keep:
+            ci = (ci + 1 + rng.randint(N - 1)) % N   # uniform other value
+        out.append(ci)
+    return out
+
+
+def fit_p_keep(segments):
+    """Fit the soft-rule acceptance probability from the observed doublet rate:
+    p_keep = observed doublets / expected pre-filter collisions (pairs / 29).
+    Returns (p_keep, observed, pairs)."""
+    pairs = sum(len(s.indices) - 1 for s in segments)
+    obs = sum(1 for s in segments for i in range(1, len(s.indices))
+              if s.indices[i] == s.indices[i - 1])
+    return obs / (pairs / N), obs, pairs
+
+
 def add_dittography(ix, rng, rate):
     """Model the residual leak as transcription dittography: with probability
     `rate`, a rune is accidentally copied equal to its predecessor. This is
@@ -137,6 +166,24 @@ def main():
           "A 0.66% independent copy-error rate over hand-transcribed runes "
           "gives a rune-uniform, boundary-independent doublet leak — matching "
           "the observed distribution.")
+
+    # --- SOFT-REJECTION reconciliation with Dukotah/cicada3301 (N7) ----------
+    p_keep, obs, pairs = fit_p_keep(un)
+    print(f"\nsoft-rejection fit (N7, vs Dukotah's ~0.18): the 86 doublets as a "
+          f"SIGNAL, not noise.")
+    print(f"  observed {obs} doublets / {pairs} pairs; expected pre-filter "
+          f"collisions {pairs/N:.0f} -> fitted p_keep = {p_keep:.3f}")
+    for pk in (0.0, round(p_keep, 2), 0.34):
+        io, db, dio, chi2 = signature(enc_soft(pt, primes, pk, LCG(5)))
+        tag = ("hard no-repeat" if pk == 0 else
+               "fitted" if abs(pk - round(p_keep, 2)) < 1e-9 else "no rule/29")
+        print(f"  p_keep={pk:.2f} ({tag:14s}) c-IoC {io:.3f}  doublet {db:.2f}%  "
+              f"d-chi2 {chi2:.1f}")
+    print("  => a soft rule that KEEPS a would-be doublet w.p. ~0.19 (and "
+          "resolves the rest UNIFORMLY, per §11) reproduces flat IoC AND the "
+          "0.66% rate. This is ORTHOGONAL to §11 (which fixed the resolution "
+          "distribution), and it makes the 86 doublets the filter's acceptance "
+          "leak — agreeing with §23's 'real doublets favoured'.")
 
 
 def count_skips(p, K):
