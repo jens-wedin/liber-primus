@@ -47,6 +47,14 @@ flips up to 3 interrupt bits at once.
   one of the widest separations any hypothesis here offers.
 - Source: github.com/relikd/LiberPrayground (verified 3-0 by the research pass;
   repo not independently inspected by me).
+- **UPDATE 2026-08-23 (sweep 2, verified from the raw db files):** relikd's
+  `db/` directory ships the FINISHED search — ~20,100 rows of IoC per (section,
+  interrupt rune, key length 1–32), objectives `db_high` and `db_norm`. The
+  unsolved sections top out at db_norm 0.55–0.63 (English = 1.0). The solved
+  control pages score 0.99–1.00. So the full 29-rune interrupter × polyalphabetic
+  sweep is ALREADY a large independent negative. **Download `db/` and query it
+  before building our ~38 h search.** Our remaining edge is the `controls.py`
+  gating and any search past their first-20-occurrences bound.
 
 ### N2. The code pages are a 256-BYTE STRING, not a cipher object — HIGH PRIORITY
 **Artifact verified firsthand.** `rtkd/iddqd`'s `byte-strings/byte-strings`
@@ -68,6 +76,13 @@ code pages (§21).
   forms; SHA-256 likewise.
 - Source: github.com/rtkd/iddqd `byte-strings/byte-strings` (fetched and counted
   by me, 2026-08-23).
+- **UPDATE 2026-08-23 (sweep 2):** provenance re-confirmed — the file labels
+  String 4 "Matrix from pages 49-51 converted to hexadecimal" beside the three
+  hidden-service hashes. Dukotah flags **6 contested bytes** at indices 25, 175,
+  182, 199, 215, 237 (their ledger A-04) — resolve them from our scans (see
+  N14). Their B-05 ran a 6-statistic battery on a SHA-256-CTR keystream seeded
+  by this block and could NOT separate it from the real stream. The derived-pad
+  reading of the code pages stays live (see N6).
 
 ### N3. mortlach's enumerable key-transform space — MEDIUM
 Defines an interrupter *operationally*: any rune whose every plaintext occurrence
@@ -93,12 +108,141 @@ released May 2014, of which 2 were solved immediately** and the rest resist. No
 claimed or verified partial break of any other page. This matches our own ledger
 and is useful mainly as a negative datapoint: a decade of collective effort has
 produced no partial break either. (Verified 2-1.)
+- **UPDATE 2026-08-23 (sweep 2):** still true through Aug 2026. The
+  CicadaSolvers quickstart (Apr 2025) confirms LP2 = 2 of 58 solved. No DEF CON
+  32/33 talk exists. The 2025 solve claims (a "Full Translation" repo,
+  "Anarchy = 0", an "outguess everywhere" wiki entry) are creative writing,
+  philosophy, or contradicted by the wiki's own JFIF analysis.
 
-### Not yet harvested
-The research run died before covering: OutGuess/steganography sweeps of the 75
-page images, the deep-web SHA-512 hunt's current status, the "hints never used"
-archive, and any post-2017 academic work. Re-running the sweep would likely add
-to this section.
+### Second sweep, 2026-08-23 (N6–N17)
+
+A second four-lane sweep ran to completion: status 2023–2026, steganography and
+hashes, solver tooling, academic methods. The condensed reports with all URLs
+are archived at `results/external_research_2026-08-23_sweep2.md`. The first
+sweep's "not yet harvested" list is now covered. Everything below is deduped
+against N1–N5 and the ruled-out ledger.
+
+One critique from outside was checked against our code and does NOT apply to
+the key-text battery: Dukotah claims rigid decoders score correct keys as
+noise, but `attack_running_text.py` confirms hits with the key-skip beam and
+its planted-skip control passes. The critique DOES apply to `attack_prng.py`
+(§13, direct-decode) — see N6.
+
+### N6. Derived-seed keystream through a skip-aware beam — HIGH PRIORITY
+Dukotah planted a SHA-256 counter-mode keystream (seed `CICADA3301`) under an
+anti-repeat filter. Rigid decoding scored the correct seed at −6.835 — noise. A
+skip-aware beam recovered it at −4.170 with 98.9% character recovery. So the
+derived-seed lane is inside resolving power, but only with a beam. Our §13
+battery is direct-decode, integer seeds 0–20k, re-roll semantics. The untested
+cell: **thematic passphrase seeds × hash counter-mode generators × beam
+decode**. Steps: (a) reproduce Dukotah's planted control first; (b) audit
+`attack_prng.py`'s decode for the re-roll desync ambiguity (folds into R4);
+(c) run the passphrase dictionary (Cicada vocab + mangles) through the beam
+with `controls.py` floors. This is the concrete bridge across the §13 wall.
+- Source: github.com/Dukotah/cicada3301 (README-verified; not yet reproduced).
+
+### N7. Dukotah ledger cross-diff + soft-rejection model — HIGH, CHEAP
+Dukotah ships `LEDGER.json` (57 hypotheses: 21 never-run, 18 open),
+`PROBLEM.json` (ciphertext pinned by SHA-256), `verify_solution.py`, and
+plant-and-recover benchmarks. Do: confirm we attack the same ciphertext object;
+diff their ledger against our coverage; import anything neither project ran.
+Also reconcile mechanisms: they model the no-repeat as SOFT rejection sampling
+(p_keep≈0.18, 86 doublets = leak-through). Our §11 found uniform collision
+resolution. Fit both on our stream in `model_norepeat_mechanisms.py` — the two
+models predict different key-consumption rates, which sets beam width for every
+skip attack.
+
+### N8. Keyless depth detection via local alignment — MEDIUM-HIGH
+Smith-Waterman-style local alignment between candidate depth pairs (page and
+line splits): match when c1[i] == c2[j], gap penalty calibrated to the ~3% skip
+rate. This detects a shared keystream DESPITE desync — Banburismus updated for
+an irregular pointer, per the Lorenz/Tunny lesson. It is keyless, so it
+complements §34, which tested specific reset schedules rather than pairwise
+depth. Control: plant two segments sharing a key with 3% skips; null from
+shuffled pairs via `controls.py`.
+
+### N9. Word-position IoC diagnostic + word-synchronized keys — MEDIUM
+The ACA "Interrupted Key" cipher restarts the keyword at word divisions, and LP
+marks word divisions. Diagnostic first (an afternoon): IoC of runes grouped by
+position-within-word, also within line and page. Any word-synchronized periodic
+scheme spikes it; flat closes the family cleanly. On a spike: dictionary search
+with restart semantics — a small change to `attack_vigenere_skip.py`.
+- Source: CryptoCrack "Interrupted Key" solver documentation.
+
+### N10. Gromark / lagged-Fibonacci mod-29 primer brute — MEDIUM
+§13 covered machine PRNGs (LCG, xorshift, Mersenne, SHA-256). The
+pencil-and-paper family is untested: mod-29 lagged-Fibonacci chains from short
+primers — the ACA Gromark mechanism. 29⁵ ≈ 20.5M primers, cheap decrypt. Add as
+one more generator in `attack_prng.py`, decoded per N6.
+
+### N11. Long-repeat mining vs a Smirnov null — MEDIUM, HOURS
+The wiki lists 5 repeated multi-rune ciphertext sequences book-wide (ᛞᛄᚢᛒᛖᛁ at
+6555 & 12950; ᛒᛗᚱᚾᛗ at 5448 & 12001; gaps 1031–6533). A true 7-rune repeat in
+a uniform stream has p≈0.5%. Mine ALL maximal repeats in our transcription and
+test the count against a length-matched no-doublet (Smirnov) null. If
+significant, the offsets are Kasiski anchors and key-reuse loci — feed N8.
+- Source: uncovering-cicada.fandom.com/wiki/Frequency_Analysis_Unsolved_Pages.
+
+### N12. Non-additive two-variable cipher functions — MEDIUM
+mortlach's `key-drag` and `lp-decrypter` search arbitrary f(p, k): XOR-style,
+multiplicative (p·k) mod 29, and lookup tables, each × interrupters × gematria
+rotations × transpositions. Our whole campaign is additive-only. Dukotah's D-04
+(non-additive ciphertext-feedback sweep) ran on 3 of 55 pages. Extends N3.
+- Sources: github.com/mortlach/key-drag, github.com/cicada-solvers/lp-decrypter.
+
+### N13. Close the steg front with our own controls — MEDIUM, CHEAP
+Verified externally (sweep 2, first-hand): rtkd's outguess run over all 75
+pages yields only known 2014 clues on the intro pages and null garbage on the
+runic pages. Recompression destroys outguess payloads, so only original onion7
+JPGs are valid targets. Do locally: (a) provenance gate — hash our 75 scans and
+parse the JFIF density fields (outguess fingerprint: unit unknown, density
+1×1), cross-check `krisyotam/cicada3301` `original-onion7/`; (b) reproduce the
+outguess negative with a planted-embed control; (c) post-EOI tail scan +
+DCT-χ² test. Also settles the low-credibility 2025 "outguess everywhere" claim.
+- Sources: github.com/rtkd/iddqd `lp_outguessed/`;
+  uncovering-cicada.fandom.com/wiki/Outguess_detection_visual_analysis;
+  github.com/krisyotam/cicada3301.
+
+### N14. String 4 → deep-web-hash battery; fix the 6 contested bytes — LOW-MED
+Run our verified pages-66-68 codes and String 4 through the community harness
+`cicada-solvers/Cicada-DWH-HashcatAttempts` (SHA-512, Streebog, more); check
+their `results/` first for prior coverage. Separately, resolve Dukotah's 6
+contested byte indices (25, 175, 182, 199, 215, 237) from our scans — direct
+input to N2's code→byte map problem.
+
+### N15. Least-tried unused-hints numerics as seeds — LOW
+The two `p7amjopgric7dfdi.onion` cookie values (167=6941f7…, 761=7bc1e7…) and
+the 128-digit 2012 P.S. number, used as (a) PRNG seeds in the N6 pipeline,
+(b) autokey primers, (c) index streams mod 29. §26 covered the prime and
+whitespace hints; these three are the least-tried items on the wiki list.
+- Source: uncovering-cicada.fandom.com/wiki/Possible_hints_never_used.
+
+### N16. Doublet-suppressing keystream families — LOW
+Old wiki lead: integer sequences with near-constant first differences (e.g.
+OEIS A061474) suppress doublets when used as stream keys. Systematize: search
+keystreams whose first differences mod 29 avoid doublet-producing residues,
+gated on reproducing ~86 residual doublets. `cadrypt` ships
+`mod29_oeis_sequences` as ready candidate keystreams.
+- Sources: oeis.org/A061474; github.com/localavaster/cadrypt.
+
+### N17. Publish the cryptodiagnosis — HIGH EXTERNAL VALUE, not an attack
+No peer-reviewed cryptanalysis of the Liber Primus exists. Bean's
+"Cryptodiagnosis of Kryptos K4" (HistoCrypt) is the exact precedent: a
+publishable diagnosis of an unsolved cipher. Our doublet/key-skip model plus
+the control-validated elimination ledger fits Cryptologia or HistoCrypt.
+Publication recruits the community that could supply the external key material
+the code pages appear to need.
+
+### Reusable external assets (sweep 2)
+- relikd `LiberPrayground/db/` — the finished interrupter sweep (see N1).
+- mortlach `runeglish-language-model-transition-probabilty-matrices` — an
+  independent scoring model to cross-check our wordfreq LM.
+- Dukotah `LEDGER.json` + `PROBLEM.json` + `benchmark/` (see N7).
+- `krisyotam/cicada3301` `original-onion7/` — 61 raw files, provenance-cleanest
+  image set (see N13).
+- `cadrypt` `mod29_oeis_sequences` (see N16).
+- Watch: `mortlach/RuneDecrypterPrime` (pushed 2026-08-23, README stub, assets
+  in GitHub Releases — recheck periodically).
 
 ---
 

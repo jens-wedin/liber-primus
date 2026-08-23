@@ -926,3 +926,33 @@ matched ceiling and its controls never enable the no-repeat notch (margin shrink
 Sound: parse/gematria (independent reparse matches), validate_solved 9/9,
 language_model (independent reimplementation matches to 1e-15), english_plaintext
 has no ciphertext leakage, §11's permutation statistic correctly constructed.
+
+### 2026-08-23 — External research sweep 2 (backlog N6–N17)
+
+Four parallel research agents ran to completion: solve status 2023–2026,
+steganography and hashes, solver tooling, academic methods. The first sweep
+(N1–N5) lost 30 of 98 agents; this one covered every planned lane. Condensed
+reports with all URLs: `results/external_research_2026-08-23_sweep2.md`.
+
+Headlines:
+- LP2 stays 2 of 58 solved. No credible break exists through Aug 2026.
+- The doublet finding is now independently confirmed three times: the wiki's
+  per-chapter table, Dukotah/cicada3301, and relikd's InterruptDB negative.
+- relikd's `db/` ships the FINISHED 29-rune interrupter sweep as data. The
+  unsolved sections top out at db_norm 0.55–0.63; solved controls hit
+  0.99–1.00. That de-risks N1: query the db, skip the ~38 h rebuild.
+- Dukotah/cicada3301 gives the sharpest current verdict: "OTP-class" with one
+  open lane — a short-seed DERIVED keystream. Their planted control recovers a
+  SHA-256-CTR seed by beam (−4.170) where rigid decode reads noise (−6.835).
+- I checked their rigid-decoder critique against our code. It does NOT hit the
+  key-text battery: `attack_running_text.py` confirms with the key-skip beam,
+  and its planted-skip control passes. It DOES hit `attack_prng.py` (§13,
+  direct-decode) — audit queued as N6, folded into R4.
+- The steg front is closed externally: rtkd's outguess corpus holds only known
+  2014 clues plus null garbage on the runic pages. N13 reproduces this with
+  our own controls.
+- No academic cryptanalysis of the LP exists. Bean's K4 cryptodiagnosis is the
+  publication precedent (N17).
+
+Backlog: N1, N2, N5 updated; N6–N17 added. No experiment ran; no REPORT
+section. validate_solved untouched.

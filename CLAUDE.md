@@ -157,17 +157,29 @@ never-audited §3–§13 scripts) is the remaining item.
 
 ### What is actually still open (new experiments)
 
-1. **Per-page / per-line key resets** (REPORT §5.3) — genuinely never tested.
-   Segments bundle several .jpg pages, so this needs page-level splits first.
-   Highest-value remaining rune-side idea.
-2. **Running-key / word-key on the DIFFERENCE stream** (§12 remainder).
-3. **Composed manglings** (§8), Emerson / Rune-Poem key texts (low prior).
-4. **External routes**: the code pages need a key or community context; the
-   AN END deep-web hash (§27) is an OSINT hunt, not cryptanalysis.
+The 2026-08-22/23 sessions closed the old list: per-page/per-line resets (§34),
+the difference-stream key families (§38), composed manglings (§39), and
+Emerson/Rune Poem (§37) are all negative. Current open list:
+
+1. **N1 interrupt-subset search** (§40 started) — power analysis done; the
+   attack itself is still to build. relikd's finished `db/` is a shortcut.
+2. **N6 derived-seed beam lane** — Dukotah's planted control shows a hash-CTR
+   seed IS recoverable by beam. §13 was direct-decode; audit it (R4) and run
+   passphrase seeds × hash generators × beam.
+3. **N7 Dukotah ledger cross-diff** + soft-rejection vs uniform-resolution fit.
+4. **N8 keyless depth detection** by local alignment across page/line pairs.
+5. **N2 code→byte map** for pages 66–68 (finite, checkable), plus N9–N16.
+6. **External routes**: the AN END deep-web hash (§27) is an OSINT hunt; N17
+   (publish the cryptodiagnosis) recruits the community.
+
+A second external-research sweep (2026-08-23) added backlog **N6–N17**; the
+condensed reports live at `results/external_research_2026-08-23_sweep2.md`.
 
 Out of reach for the RUNIC stream: a **keyed CSPRNG re-roll pad** (`c = p + K`,
-unbreakable without the seed, §13) — the likely wall. The numeric/code content is
-the way *around* it, and it is behind its own keyed pad.
+unbreakable without the seed, §13) — the likely wall. But note N6: a SHORT-seed
+derived pad is finite and beam-attackable; only a true external pad is out of
+reach. The numeric/code content is the way *around* the wall, and it is behind
+its own keyed pad.
 
 NB — two standing methodology lessons, learned the hard way this session:
 - **Calibrate the decision threshold, don't assume it.** Plant the hypothesis,
