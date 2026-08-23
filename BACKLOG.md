@@ -11,6 +11,85 @@ key" readings closed), §18 (the literal-ᚠ GP-sum steganography layer on solve
 pages), and the Uncovering-Cicada wiki sweep (independent replication of §4;
 untried leads surfaced).
 
+## N — FROM EXTERNAL RESEARCH (2026-08-23)
+
+A deep-research sweep of the solver community. **Caveat: the run was cut short by
+a session limit — 30 of 98 agents failed, including the synthesis step — so this
+is a partial harvest, not an exhaustive survey.** Five claims came back
+adversarially verified; I re-verified N2's artifact myself. Everything here is
+outside the project's existing ruled-out list.
+
+### N1. Interrupter over ALL 29 runes, not just ᚠ  — HIGH PRIORITY
+§19 tested the literal-ᚠ interrupter and §17 tested square-driven schedules. Both
+assumed the interrupter is **ᚠ**. relikd's *LiberPrayground* (InterruptDB)
+generalises it: precompute best-interrupt sets and IoC for **all 29 candidate
+interrupt runes**, all pages, key lengths ≤32, using the first 20 interrupt
+occurrences (~1.4e10 ops, ~38 h, shipped as a database). It makes a 2^66
+interrupt space tractable with a sequential look-ahead and a genetic search that
+flips up to 3 interrupt bits at once.
+- **Why it matters here:** this is a direct generalisation of the key-skip /
+  desynchronisation model that §4 says the data demands, and the assumption it
+  drops (interrupter = ᚠ) is exactly the one this project never questioned.
+- **Do:** implement the all-29-runes interrupt search; route it through
+  `controls.py` (detection floor + matched ceiling + the coverage/margin gates),
+  since §33/§39 showed this regime produces false "possible break" flags.
+- Source: github.com/relikd/LiberPrayground (verified 3-0 by the research pass;
+  repo not independently inspected by me).
+
+### N2. The code pages are a 256-BYTE STRING, not a cipher object — HIGH PRIORITY
+**Artifact verified firsthand.** `rtkd/iddqd`'s `byte-strings/byte-strings`
+contains FOUR hex strings of **exactly 256 bytes each**. Strings 1–3 are the known
+3301 byte strings, each annotated with the Tor hidden service it corresponds to.
+**String 4 is "Matrix from pages 49-51 converted to hexadecimal"** — and pages
+49–51 in unsolved-image numbering are full-set pages **66–68**, i.e. precisely our
+code pages (§21).
+- This gives §21's "256 = 2⁸" observation a *purpose*: the code pages are a
+  256-byte object of the same class as byte strings that yielded hidden services —
+  not a key or pad, which §22 ruled out independently.
+- **Open problem (bounded and concrete):** our `d*62+b62` map does NOT reproduce
+  their bytes — only 2–5 of 256 positions agree under any page ordering tried. So
+  either our value map, the reading order, or one of the two transcriptions
+  differs. **Deriving the correct code→byte map is a finite, checkable task**, and
+  a second independent rendering of the same pages exists to check against.
+- Already tested and negative: SHA-512 of String 4 (and of Strings 1–3) does not
+  equal the "AN END" target hash, in raw, lower-hex-ascii and upper-hex-ascii
+  forms; SHA-256 likewise.
+- Source: github.com/rtkd/iddqd `byte-strings/byte-strings` (fetched and counted
+  by me, 2026-08-23).
+
+### N3. mortlach's enumerable key-transform space — MEDIUM
+Defines an interrupter *operationally*: any rune whose every plaintext occurrence
+coincides with the same rune at the same ciphertext position (the literal-ᚠ rule
+generalised), strips those positions, then searches **28×28 gematria rotation
+pairs** with an atbash direction flag plus **L2R/R2L plaintext transposition** —
+order 10³–10⁴ combinations per cipher function, i.e. enumerable rather than a key
+brute force.
+- **Not in our ruled-out list:** we have never tested rune-order transposition, nor
+  systematic gematria rotation pairs.
+- Source: github.com/mortlach/Liber-Primus-Rune-Decrypting (verified 3-0).
+
+### N4. Alternating coprime alphabets ("modulo cipher") — LOW
+Alphabet of length 3 alternating with one of length 4 → effective period 24.
+relikd tested this under **both** interrupt semantics (interrupt pauses the
+alternation vs pauses key rotation within an alphabet), mod 2 and mod 3, over 2²⁰
+interrupt combinations, and reports a clean negative (no subgroup with notable
+IoC). Worth only cheap independent confirmation. (Verified 2-1.)
+
+### N5. Community consensus — no one else has broken it either
+DEF CON 31 (2023), CicadaSolvers: LP1 = **17 solved rune pages**; LP2 = **58 pages
+released May 2014, of which 2 were solved immediately** and the rest resist. No
+claimed or verified partial break of any other page. This matches our own ledger
+and is useful mainly as a negative datapoint: a decade of collective effort has
+produced no partial break either. (Verified 2-1.)
+
+### Not yet harvested
+The research run died before covering: OutGuess/steganography sweeps of the 75
+page images, the deep-web SHA-512 hunt's current status, the "hints never used"
+archive, and any post-2017 academic work. Re-running the sweep would likely add
+to this section.
+
+---
+
 ## R — RE-DO BACKLOG (opened 2026-08-21 by the §28 self-audit)
 
 **STATUS 2026-08-21: R1, R2, R3 and R5 are DONE (§29). R4 in progress.**
