@@ -1013,3 +1013,25 @@ Harness lesson: plain background jobs were reaped ~25 min in (twice), so the run
 uses brute-level checkpointing (results/gromark_ckpt.json, gitignored scratch)
 driven as foreground timeout-slices that resume from cache. validate_solved 9/9.
 `results/gromark_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N8: keyless depth detection, a power analysis (§43)
+
+`attack_depth.py`. Depth = keystream reuse: c_A−c_B=p_A−p_B cancels the key, so
+two in-depth units are detectable without it via the English difference
+distribution. Key-skip desyncs the pointers, so Smith-Waterman local alignment
+(gaps=skips) is used. Written as a power analysis (like §40): measure power
+before scanning real pairs, because a null from a powerless instrument is not a
+negative (§28).
+
+NO POWER, blocked two ways:
+- Signal weak: English kappa 0.062 vs 0.034. A desync-free coincidence test
+  separates depth from independent pairs only at L≈600 (L=120/300 overlap,
+  600/1200 separable) — this is also the positive control that the scorer works.
+- Desync kills it: SW on planted key-skip depth vs independent pairs OVERLAPS at
+  every L (300,600) and gap (−0.5,−1,−2). A coherent aligned run lasts ~17 runes.
+- Real units too short anyway: 54 pages 66–277 (median 263), 586 lines 3–26 —
+  none ≥600.
+
+Verdict: the real pairwise scan is NOT run. Keyless depth / key reuse is
+UNTESTABLE on the LP with this method, not disproven. No core change;
+validate_solved still 9/9. `results/depth_2026-08-23.txt`.

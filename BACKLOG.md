@@ -164,7 +164,21 @@ resolution. Fit both on our stream in `model_norepeat_mechanisms.py` — the two
 models predict different key-consumption rates, which sets beam width for every
 skip attack.
 
-### N8. Keyless depth detection via local alignment — MEDIUM-HIGH
+### N8. Keyless depth detection via local alignment — DONE, NO POWER (§43)
+**DONE 2026-08-23 (`attack_depth.py`, REPORT §43) — a power analysis, not a
+scan.** The scorer works (positive control: rigid depth separates at L≥600), but
+the method has NO POWER at LP scales, blocked two independent ways:
+- The kappa signal is weak (English 0.062 vs 0.034), so even a desync-free test
+  needs ~600 aligned runes; the key-skip desync caps a coherent aligned run near
+  ~17 runes, so SW local alignment of planted depth OVERLAPS independent pairs at
+  every length and gap.
+- The real units are too short regardless: 54 pages 66–277 (median 263), 586
+  lines 3–26 — none ≥600.
+The real pairwise scan is NOT run (a null from a powerless instrument is not a
+negative, §28). Keyless depth / key reuse is UNTESTABLE with this method, not
+disproven. A longer-unit or stacked-depth variant would need external data.
+
+Original idea:
 Smith-Waterman-style local alignment between candidate depth pairs (page and
 line splits): match when c1[i] == c2[j], gap penalty calibrated to the ~3% skip
 rate. This detects a shared keystream DESPITE desync — Banburismus updated for

@@ -1,0 +1,31 @@
+English coincidence kappa = 0.0619  vs random 0.0345  (the whole depth signal is this ~1.8x excess)
+
+=== (A) DETECTABILITY CEILING: rigid depth (shared key, NO skip) ===
+    coincidence kappa, depth vs independent, 12 trials each
+    L= 120: depth 0.0417  indep 0.0333  overlap
+    L= 300: depth 0.0564  indep 0.0400  overlap
+    L= 600: depth 0.0639  indep 0.0376  SEPARABLE
+    L=1200: depth 0.0651  indep 0.0342  SEPARABLE
+    -> even with NO desync, depth needs ~600 aligned runes to show.
+
+=== (B) THE REAL HYPOTHESIS: key-skip depth via SW local alignment ===
+    depth (shared key, independent skips) vs independent, 8 trials
+    L=300 gap=-0.5: depth  22.3 (min 21.3)  indep  20.6 (max 24.0)  OVERLAP
+    L=300 gap=-1.0: depth  12.5 (min 10.9)  indep  11.3 (max 14.6)  OVERLAP
+    L=300 gap=-2.0: depth   8.0 (min 6.4)  indep   7.0 (max 8.8)  OVERLAP
+    L=600 gap=-0.5: depth  43.6 (min 41.4)  indep  41.1 (max 44.5)  OVERLAP
+    L=600 gap=-1.0: depth  22.5 (min 19.4)  indep  20.2 (max 22.2)  OVERLAP
+    L=600 gap=-2.0: depth  10.8 (min 9.7)  indep  10.1 (max 11.7)  OVERLAP
+    -> the desync destroys detectability at every length and gap.
+
+=== (C) REAL UNSOLVED UNIT LENGTHS vs the ~600-rune floor ===
+    page: 54 units, min 66 median 263 max 277; none >= 600
+    line: 586 units, min 3 median 22 max 26; none >= 600
+
+=== VERDICT: NO POWER — the real scan is NOT run ===
+Depth detection needs ~600 aligned runes (kappa is a weak ~1.8x signal);
+the longest unsolved page is 277 and the key-skip desync caps a coherent
+aligned run near ~17 runes. Planted depth is indistinguishable from
+independent pairs (B), so a scan of real pairs would be a null from a
+powerless instrument — not a negative (§28). Keyless depth / keystream
+reuse is UNTESTABLE on the Liber Primus with this method, not disproven.

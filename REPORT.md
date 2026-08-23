@@ -1656,3 +1656,39 @@ identifiability, but both are real gaps.
 `results/gromark_ckpt.json` and resumes, so a killed run loses at most the
 in-flight brute. The scratch cache is not archived; the run record is
 `results/gromark_2026-08-23.txt`.
+
+## 43. Keyless depth detection — a power analysis, NO POWER at LP scales (N8)
+
+If two units reuse the same keystream, `c_A − c_B = p_A − p_B` cancels the key,
+so depth is detectable WITHOUT knowing it: the per-position difference follows
+the English difference distribution, peaked at 0 (the coincidence rate kappa).
+The key-skip desync shifts the two pointers apart, so `attack_depth.py` uses
+Smith-Waterman local alignment (gaps = key-skips) to recover aligned stretches —
+Banburismus for an irregular pointer. Following §40, it is written as a **power
+analysis**: measure whether the method detects depth it is SHOWN before scanning
+real pairs, because a null from a powerless instrument is not a negative (§28).
+
+**It has no power at Liber Primus scales, blocked two independent ways.**
+
+*The signal is weak.* English coincidence kappa is 0.062 vs 0.034 random — a
+~1.8× excess, and that excess is the whole signal. A desync-free coincidence test
+(the detectability ceiling) separates depth from independent pairs only at
+**L ≈ 600 aligned runes**: L=120 and L=300 overlap, L=600 and L=1200 separate.
+This doubles as the positive control — the scorer *does* work, given enough
+aligned text.
+
+*The desync destroys alignment.* Under key-skip each unit dodges its own
+doublets, so a coherent aligned run lasts ~1/(2·0.03) ≈ 17 runes — far below 600.
+SW local alignment of planted depth (shared key, independent skips) scores no
+higher than independent pairs at **every length (300, 600) and every gap penalty
+(−0.5, −1.0, −2.0)** — always OVERLAP.
+
+*The real units are too short anyway.* The 54 unsolved pages run 66–277 runes
+(median 263); the 586 lines run 3–26. **None reach 600**, so even the desync-free
+ceiling is out of reach before the desync is considered.
+
+**Verdict: the real pairwise scan is NOT run.** Keyless depth / keystream reuse
+across pages or lines is **untestable** on the Liber Primus with this method — not
+disproven. The units are less than half the length the weak kappa signal needs,
+and the key-skip desync independently caps usable alignment an order of magnitude
+below that. `results/depth_2026-08-23.txt`.
