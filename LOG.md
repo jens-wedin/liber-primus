@@ -1104,3 +1104,19 @@ segmentations disagree, each explained by its own edge artifact. With §45's wea
 split-half, the line-initial skew is a segmentation/transcription artifact, not a
 cipher signal — §4 uniformity stands. read4.json staged in download/ (gitignored,
 1.7MB). validate_solved 9/9. `results/line_init_n19_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N18: LP2-as-pad inversion (§47, F-01)
+
+`attack_padinvert.py`. Inverts the frame: U as KEY material, not ciphertext.
+P = C − U (position-locked) for candidate texts C, best-window English scan.
+
+Framed by a guarantee: U is uniform (§4), so U − C is uniform for any C
+INDEPENDENT of U; §6/§9 showed U independent of the 5 book texts, so those arms
+are a formality. A folded pad would force U palindromic (it is not). Novel arms:
+self-folds (U vs reverse/atbash(U)) and U vs solved plaintext.
+
+NEGATIVE, control-validated. Planted English window recovered (floor −3.84);
+ceiling −4.78; all real arms at/below chance (reverse −5.04, atbash −5.24,
+atbash(rev) −5.08, solved-plaintext −4.81, kjv/runepoem sanity −5.08/−5.20).
+Best real −4.81, 0.97 below the floor, 0.94-nat margin. The inversion is closed.
+No core change; validate_solved 9/9. `results/padinvert_2026-08-23.txt`.

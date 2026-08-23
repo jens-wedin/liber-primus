@@ -166,13 +166,14 @@ LEAK (signal, per §23). New lane surfaced: **N18 / F-01 (below)**. Neither-ran
 lanes map to our N9 (C-02), N12 (D-04), N6 extensions (B-08/B-02), D-03 (Z340
 homophonic).
 
-### N18. F-01 — LP2-as-pad inversion (from Dukotah's ledger) — MEDIUM
-The unsolved 12,956-rune stream may be KEY MATERIAL, not a message. Use it (fwd /
-rev, ±, atbash) as a running key against candidate plaintexts and the solved
-pages. Neither project has run it. Genuinely new: every attack so far treats the
-stream as ciphertext to decrypt, not as a pad to apply. Control: plant a known
-text enciphered under the stream-as-key, recover it; route through `controls.py`.
-Source: Dukotah ledger F-01.
+### N18. F-01 — LP2-as-pad inversion (from Dukotah's ledger) — DONE, NEGATIVE (§47)
+**DONE 2026-08-23 (`attack_padinvert.py`, REPORT §47).** U as key material, not
+ciphertext: P = C − U (position-locked) for candidate C, best-window English
+scan. Closed by uniformity + control: U is uniform (§4) so U − C is gibberish for
+any C independent of U (the 5 book texts, per §6/§9); a folded pad would force U
+palindromic (it is not). Novel arms — self-folds (reverse/atbash(U)) and solved
+plaintext — all at/below chance. Floor −3.84, ceiling −4.78, best real −4.81
+(0.97 below floor, 0.94-nat margin). The inversion is closed.
 
 ### N7 (original note). Dukotah ledger cross-diff + soft-rejection model — HIGH, CHEAP
 Dukotah ships `LEDGER.json` (57 hypotheses: 21 never-run, 18 open),

@@ -1,0 +1,24 @@
+unsolved stream U: 12947 runes
+
+=== DETECTION FLOOR: plant an English window, confirm the scan finds it ===
+  plant@2000: best window -3.84 at 100 (FOUND the English window)
+  plant@6000: best window -3.10 at 100 (FOUND the English window)
+  plant@0: best window -3.49 at 99 (FOUND the English window)
+  FLOOR = -3.84
+
+=== MATCHED CHANCE CEILING (6 arms, len 12947): -4.78 ===
+
+=== REAL: U as a pad against each candidate (best window, both signs, offsets) ===
+  U vs reverse(U)             best-window -5.04
+  U vs atbash(U)              best-window -5.24
+  U vs atbash(reverse(U))     best-window -5.08
+  U vs solved-plaintext       best-window -4.81
+  U vs runepoem_oe (sanity)   best-window -5.20
+  U vs kjv (sanity)           best-window -5.08
+
+  best real -4.81  vs  detection floor -3.84 (what a real break scores)  vs  matched chance ceiling -4.78
+  -> 0.97 BELOW the floor a genuine break produces and at/below the matched chance ceiling: NEGATIVE, with demonstrated power for 3/3 arms.
+
+note: U is statistically uniform (§4), so U minus any INDEPENDENT text is
+uniform by construction — the external arms are a formality. A folded pad
+would force U to be a palindrome, which it is not. The inversion is closed.

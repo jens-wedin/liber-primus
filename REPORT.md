@@ -1821,3 +1821,28 @@ effect. With §45's weak split-half replication, the line-initial skew is a
 **segmentation/transcription artifact**, not a property of the cipher — so §4's
 uniformity stands, now checked at line boundaries against two segmentations.
 `results/line_init_n19_2026-08-23.txt` (data: Dukotah `read4.json`, gitignored).
+
+## 47. LP2-as-pad inversion — negative, and closed by uniformity (N18 / F-01)
+
+Every attack treats the unsolved stream U as ciphertext. Dukotah's F-01 inverts
+it: U may be **key material** — a running-key pad — so for some text C the
+plaintext is P = C − U (position-locked; a pad applies cleanly, no key-skip).
+`attack_padinvert.py` tests U (forward / reversed / atbash) against candidate
+texts and looks for English by a best-window n-gram scan.
+
+**A theoretical guarantee frames it.** §4 measured U as uniform (IoC 1.000), and
+subtracting a uniform, independent stream from anything stays uniform — so U − C
+is gibberish for every C independent of U. §6/§9 already showed U is independent
+of KJV / Rune Poem / Liber AL / Mabinogion / Blake, so those arms are a
+formality. The only arms uniformity does not settle in advance are the
+self-folds (U vs reverse(U) / atbash(U)) and U vs the solved plaintext — and a
+folded pad would force U to be a palindrome, which it is not.
+
+**The run confirms it — NEGATIVE, control-validated.** A planted English window
+in an otherwise-random difference stream is recovered by the same scan (floor
+−3.84); the matched ceiling is −4.78. Every real arm sits at or below chance:
+reverse(U) −5.04, atbash(U) −5.24, atbash(reverse(U)) −5.08, solved-plaintext
+−4.81, and the KJV / Rune Poem sanity arms −5.08 / −5.20. The best real (−4.81)
+is 0.97 below the floor a genuine break produces, with a 0.94-nat
+floor-to-ceiling margin. The inversion is closed: U is not a running-key pad over
+any of these texts or its own reflections. `results/padinvert_2026-08-23.txt`.
