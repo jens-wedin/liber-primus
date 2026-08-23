@@ -314,7 +314,15 @@ the 128-digit 2012 P.S. number, used as (a) PRNG seeds in the N6 pipeline,
 whitespace hints; these three are the least-tried items on the wiki list.
 - Source: uncovering-cicada.fandom.com/wiki/Possible_hints_never_used.
 
-### N16. Doublet-suppressing keystream families — LOW
+### N16. Doublet-suppressing keystream families — DONE, NEGATIVE (§50)
+**DONE 2026-08-23 (`attack_oeis.py`, REPORT §50).** REFUTED in principle: a
+no-output-rule doublet-suppressing keystream leaves English difference structure
+in Δc (nonzero-Δc chi2 295.6 for a constant-Δk key vs real 41.4 ~uniform); uniform
+Δc + 0.66% notch ⟹ output rule (§4). NEGATIVE in practice: 16 OEIS/arithmetic
+sequences (Fibonacci … partition, arith d) through the key-skip beam — control
+4/4 (floor −3.80), ceiling −4.47, best real −4.44. They don't key the runes.
+
+### N16 (original note). Doublet-suppressing keystream families — LOW
 Old wiki lead: integer sequences with near-constant first differences (e.g.
 OEIS A061474) suppress doublets when used as stream keys. Systematize: search
 keystreams whose first differences mod 29 avoid doublet-producing residues,

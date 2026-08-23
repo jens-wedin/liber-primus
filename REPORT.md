@@ -1890,3 +1890,27 @@ factor (6395 = 5·1279, 6553 prime, 1031 prime, 4992 = 2⁷·3·13), so there is
 Kasiski key period, and the gap-as-key-period test is vacuous. This mines all
 repeats rather than five, calibrates them against a matched Smirnov null, and
 confirms §4's uniformity from a new direction. `results/repeats_2026-08-23.txt`.
+
+## 50. Doublet-suppressing keystreams — refuted in principle, negative in practice (N16)
+
+A wiki lead holds that an integer sequence with near-constant first differences,
+used as a stream key, could suppress the ciphertext doublets without any output
+rule. `attack_oeis.py` settles it two ways.
+
+**Refuted in principle.** With c = p + k position-locked, the ciphertext first
+difference is Δc = Δp + Δk. A constant-difference key (Δk = d) makes Δc the
+English difference distribution shifted — strongly non-uniform. The real stream
+is the opposite: its non-zero differences are uniform (chi2 41.4 on df 27, p≈0.04,
+matching §4) with a notch at 0. Measured side by side: English under an arithmetic
+key gives a non-zero-Δc chi2 of 295.6 and a 3.58% doublet rate, nothing like the
+real 41.4 / 0.66%. No fixed keystream on English yields both a uniform Δc and the
+0.66% notch — that pairing is the fingerprint of an output-stage no-repeat rule.
+
+**Negative in practice.** The output-rule-consistent version — run these
+sequences as keystreams through the key-skip beam — is a well-powered negative.
+Sixteen keystreams (Fibonacci, Lucas, tribonacci, Pell, triangular, squares,
+pentagonal, powers of 2 and 3, Catalan, factorial, partition, and arithmetic
+progressions d = 1,2,3,7), both signs, with the control recovering 4/4 planted
+sequences (floor −3.80). The matched ceiling is −4.47 and the best real decode is
+−4.44 (triangular) — 0.64 below the floor. The OEIS / arithmetic keystream
+families do not key the runes. `results/oeis_2026-08-23.txt`.

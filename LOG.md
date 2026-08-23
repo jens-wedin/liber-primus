@@ -1148,3 +1148,17 @@ elevated z=2.71 but p=0.11; k≥7 empty. Gaps share no factor (6395=5·1279, 655
 prime, 1031 prime, 4992=2^7·3·13) → no Kasiski period, gap-as-key-period vacuous.
 Mines all repeats vs the ~5 eyeballed, confirms §4 from a new angle. No core
 change; validate_solved 9/9. `results/repeats_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N16: doublet-suppressing keystreams (§50)
+
+`attack_oeis.py`. Two parts. REFUTED in principle: a no-output-rule
+doublet-suppressing keystream would leave English difference structure in Δc; a
+constant-Δk key on English gives nonzero-Δc chi2 295.6 / doublet 3.58% vs the
+real 41.4 (df27, ~uniform) / 0.66%. Uniform Δc + 0.66% notch ⟹ output rule (§4).
+
+NEGATIVE in practice: 16 sequences (Fibonacci, Lucas, tribonacci, Pell,
+triangular, squares, pentagonal, pow2/3, Catalan, factorial, partition, arith
+d=1,2,3,7) through the key-skip beam. Control 4/4 (floor −3.80), ceiling −4.47,
+best real −4.44 (triangular) — 0.64 below the floor. OEIS/arithmetic keystreams
+don't key the runes. No core change; validate_solved 9/9.
+`results/oeis_2026-08-23.txt`.

@@ -1,0 +1,38 @@
+=== why a doublet-suppressing keystream (no output rule) is refuted ===
+  REAL unsolved stream:          nonzero-Δc chi2   41.4 (uniform, df 27)  doublet 0.66%
+  English + arithmetic key Δk=1:  nonzero-Δc chi2  295.6 (NON-uniform)      doublet 3.58%
+  The real Δc is uniform on its non-zero values with a notch at 0; a fixed
+  keystream on English instead makes Δc carry the English difference structure.
+  Only an output-stage no-repeat rule gives uniform Δc AND a 0.66% notch (§4),
+  so the brute below runs these sequences WITH the key-skip, not as a bare pad.
+
+keystream sequences (16): fibonacci, lucas, tribonacci, pell, triangular, squares, pentagonal, pow2, pow3, catalan, factorial, partition, arith_d1, arith_d2, arith_d3, arith_d7
+
+=== DETECTION FLOOR: plant each sequence key, recover it, read off the score a real break gives ===
+  plant fibonacci                    -> 'fibonacci                   '  -3.80 acc  91%  identified
+  plant catalan                      -> 'catalan                     '  -3.62 acc  91%  identified
+  plant arith_d7                     -> 'arith_d7                    '  -3.65 acc 100%  identified
+  plant pow2                         -> 'pow2                        '  -3.73 acc 100%  identified
+
+  FLOOR = -3.80 (min over 4/4 identifiable sequence keys)
+
+=== MATCHED CHANCE CEILING (13 trials): -4.47 ===
+
+=== REAL unsolved segments (best sequence key + key-skip) ===
+  17.jpg-19.jpg - 0.jpg-2.jpg    arith_d1     c+k -4.83
+  20.jpg - 3.jpg-5.jpg           partition    c-k -4.81
+  20.jpg - 3.jpg-5.jpg           triangular   c+k -4.44
+  23.jpg, 24.jpg - 6.jpg-7.jpg   arith_d7     c-k -4.59
+  25.jpg, 26.jpg, 27.jpg, 28.jpg pell         c+k -4.78
+  32.jpg, 33.jpg, 34.jpg, 35.jpg triangular   c-k -4.77
+  40.jpg, 41.jpg, 42.jpg, 43.jpg pow2         c-k -4.75
+  44.jpg, 45.jpg, 46.jpg, 47.jpg arith_d7     c+k -4.84
+  50.jpg - 33.jpg                pow2         c+k -4.67
+  50.jpg, 51.jpg, 52.jpg, 53.jpg triangular   c-k -4.66
+  56.jpg - 39.jpg                pell         c+k -4.75
+  57.jpg - 40.jpg                pell         c+k -4.78
+  71.jpg - 54.jpg                fibonacci    c-k -4.79
+
+best real: triangular on 20.jpg - 3.jpg-5.jpg
+  best real -4.44  vs  detection floor -3.80 (what a real break scores)  vs  matched chance ceiling -4.47
+  -> 0.64 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 4/4 sequence keys.
