@@ -1756,3 +1756,40 @@ filter's acceptance leak — signal, not transcription noise** — which is the
 mechanism behind §23's "real doublets favoured, not noise". §11 stays correct on
 the resolution distribution; N7 adds the acceptance rate on top of it.
 `results/norepeat_soft_2026-08-23.txt`.
+
+## 45. Structural-position uniformity — word/page clean negative, a line-initial anomaly (N9)
+
+A keyless diagnostic (Dukotah's never-run C-02 too): group the ciphertext runes
+by structural position and test each group for non-uniformity. The global stream
+is uniform (§4), but that is marginal — a word-synchronised key (the ACA
+Interrupted-Key cipher restarts the keyword at each word division, which LP marks)
+or an imposed acrostic ("forcing") would skew the initial-position runes while the
+medial runes compensate. `attack_wordpos.py`; power is proven by a planted
+control (a word-reset encryption lights up word-initials at IoC 1.66 / z 105; a
+continuous key leaves them flat at z 2.2).
+
+**Primary result — CLEAN NEGATIVE (well-powered).** word-initial (n=2898),
+every within-word position, word-final and page-initial are all uniform
+(|z| < 1.4). So there is **no word- or page-synchronised key and no word/page
+acrostic** — the ACA Interrupted-Key family and the word/page forcing reading are
+closed, extending §4's uniformity to the conditional (per-position) case.
+
+**A genuine anomaly, deliberately not overclaimed — line-initial.** The first
+rune of each line is non-uniform: IoC 1.092, z = 7.19, surviving Bonferroni,
+over-representing EA/P/D and under-representing R/N/I. It is sharply localised to
+position 1 (z 7.19 → 1.90 → 0.18 at positions 1/2/3), so it is not a
+periodic-wrapping smear, and the rtkd line segmentation is validated by the
+solved pages, whose line-initials show sensible English structure (C/A/W, z 3.68 —
+plaintext leaking through the plain-gematria pages).
+
+But it does **not** survive the project's own scrutiny as a break: it fails to
+replicate cleanly (split-half z 2.25 vs 5.53, where a homogeneous effect would
+give ~5.1 each); the per-page test is underpowered (~11 lines/page, mean z 0.04),
+so no within-page line-initial rule is demonstrated; and it correlates only weakly
+with the solved line-initial distribution (0.36). The aggregate z is real, but its
+**source is unresolved** — a cipher signal, a line-wrapping regularity, or a
+pooling artifact are all still open. Per the project's ground rules this is logged
+as an anomaly, **not a lead**, and carried to the backlog (N19): it needs an
+independent line segmentation (from the page images or a second line-marked
+transcription) to confirm before any decode of line-initials is worth running.
+`results/wordpos_2026-08-23.txt`.

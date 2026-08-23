@@ -1,0 +1,30 @@
+=== CONTROLS: the test must FIRE on a word-reset, stay FLAT on a continuous key ===
+  word-RESET key  : word-init n=1185 IoC 1.664 chi2z 104.99  FIRES
+  continuous key  : word-init n=1185 IoC 1.014 chi2z   2.18  flat
+  (a word-synchronised key makes word-initials non-uniform; a continuous key does not — so the diagnostic has power)
+
+=== REAL unsolved stream, by structural position ===
+--- word / line / page position classes ---
+  word-init   n= 2898  IoC 0.998  chi2z  -0.78  p=0.783 (Bonf x9)
+  word-2      n= 2811  IoC 0.998  chi2z  -0.87  p=0.807 (Bonf x9)
+  word-3      n= 2361  IoC 0.996  chi2z  -1.35  p=0.911 (Bonf x9)
+  word-4      n= 1641  IoC 0.994  chi2z  -1.28  p=0.899 (Bonf x9)
+  word-5      n= 1131  IoC 1.005  chi2z   0.69  p=0.247 (Bonf x9)
+  word-6      n=  815  IoC 0.998  chi2z  -0.24  p=0.594 (Bonf x9)
+  word-final  n= 2811  IoC 1.000  chi2z   0.19  p=0.426 (Bonf x9)
+  line-init   n=  586  IoC 1.092  chi2z   7.19  p=0.000 (Bonf x9)  <-- non-uniform
+  page-init   n=   54  IoC 1.034  chi2z   n/a   p=0.381 (MC) (Bonf x9)
+
+PRIMARY VERDICT (N9 / C-02 word & page hypotheses): CLEAN NEGATIVE — word-initial, every within-word position, word-final and page-initial are all UNIFORM (controls prove power). No word/page-synchronised key (ACA Interrupted-Key) and no word/page acrostic/forcing. Extends §4 to the conditional case.
+
+=== FOLLOW-UP: is the line-initial flag a real signal? ===
+  localisation by line position (a wrapping artifact would smear):
+    line-pos 1: chi2z +7.19
+    line-pos 2: chi2z +1.90
+    line-pos 3: chi2z +0.18
+    line-pos 4: chi2z -0.89
+  solved line-init: n=165 chi2z +3.68 (English plaintext leaking through — validates the segmentation)
+  unsolved line-init: n=586 chi2z +7.19; split-half +2.25 / +5.53 (should be ~equal if homogeneous)
+  per-page line-init chi2z: mean +0.04 max +3.05 over 48 pages (~11 lines/page — UNDERPOWERED, cannot confirm a within-page rule)
+  => the aggregate z is real but does NOT replicate cleanly and has no within-page power. Source unresolved (cipher signal vs line-wrapping / pooling artifact). NOT a break — needs an independent line segmentation to confirm.
+

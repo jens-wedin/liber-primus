@@ -1067,3 +1067,24 @@ Fitted on our stream: p_keep = 86/(12934/29) = 0.193 ≈ their 0.18. enc_soft at
 filter's acceptance LEAK (signal), the mechanism behind §23. Added enc_soft +
 fit_p_keep to no_repeat_model.py. validate_solved 9/9.
 `results/norepeat_soft_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N9: structural-position uniformity (§45)
+
+`attack_wordpos.py`. Group ciphertext runes by structural position, test each
+for non-uniformity. Controls pass: a planted word-reset key lights up
+word-initials (IoC 1.66, z 105); a continuous key stays flat (z 2.2).
+
+PRIMARY: CLEAN NEGATIVE, well-powered. word-initial (n=2898), every within-word
+position, word-final, page-initial all uniform (|z|<1.4). No word/page-
+synchronised key (ACA Interrupted-Key) and no word/page acrostic. Extends §4 to
+the conditional case.
+
+ANOMALY (not overclaimed): line-initial is non-uniform — IoC 1.092, z 7.19,
+survives Bonferroni, localised to position 1 (7.19→1.90→0.18). rtkd segmentation
+validated (solved line-inits show English, z 3.68). BUT it fails project
+scrutiny as a break: split-half 2.25/5.53 (homogeneous would be ~5.1 each),
+per-page underpowered (~11 lines/page, mean z 0.04), weak corr with solved
+line-init (0.36). Source unresolved (cipher signal vs line-wrapping/pooling
+artifact). Logged as anomaly, NOT a lead; carried to backlog N19 (needs an
+independent line segmentation). No core change; validate_solved 9/9.
+`results/wordpos_2026-08-23.txt`.

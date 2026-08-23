@@ -208,7 +208,26 @@ complements §34, which tested specific reset schedules rather than pairwise
 depth. Control: plant two segments sharing a key with 3% skips; null from
 shuffled pairs via `controls.py`.
 
-### N9. Word-position IoC diagnostic + word-synchronized keys — MEDIUM
+### N9. Word-position IoC diagnostic + word-synchronized keys — DONE (§45)
+**DONE 2026-08-23 (`attack_wordpos.py`, REPORT §45; = Dukotah C-02).** Controls
+pass (word-reset lights word-initials z 105; continuous key flat). PRIMARY CLEAN
+NEGATIVE: word-initial (n=2898), all within-word positions, word-final, page-
+initial UNIFORM — no word/page-synchronised key (ACA Interrupted-Key) and no
+word/page acrostic. ANOMALY (not a break): line-initial non-uniform (z 7.19,
+localised to position 1) but does not replicate (split-half 2.25/5.53), per-page
+underpowered, weak corr with solved line-init — source unresolved → N19.
+
+### N19. Line-initial anomaly — confirm with an independent line segmentation — MEDIUM
+§45 found unsolved line-initial runes non-uniform (z 7.19, EA/P/D over, R/N/I
+under), sharply localised to line position 1, but it fails to replicate cleanly
+and the per-page test is underpowered. The rtkd `/` line marks are the only line
+segmentation we have. Get a SECOND, independent line segmentation (from the page
+images, or another line-marked transcription) and re-test. If it survives:
+attempt to decode the line-initials (are they an acrostic, or p_initial+K[0] for a
+line-reset key?). If it does not: it was an rtkd line-marking / pooling artifact.
+Cheap once a second segmentation exists. Source: §45.
+
+### N9 (original note). Word-position IoC diagnostic + word-synchronized keys — MEDIUM
 The ACA "Interrupted Key" cipher restarts the keyword at word divisions, and LP
 marks word divisions. Diagnostic first (an afternoon): IoC of runes grouped by
 position-within-word, also within line and page. Any word-synchronized periodic
