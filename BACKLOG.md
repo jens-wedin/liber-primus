@@ -30,9 +30,21 @@ flips up to 3 interrupt bits at once.
 - **Why it matters here:** this is a direct generalisation of the key-skip /
   desynchronisation model that §4 says the data demands, and the assumption it
   drops (interrupter = ᚠ) is exactly the one this project never questioned.
-- **Do:** implement the all-29-runes interrupt search; route it through
-  `controls.py` (detection floor + matched ceiling + the coverage/margin gates),
-  since §33/§39 showed this regime produces false "possible break" flags.
+- **STARTED 2026-08-23 (§40, `attack_interrupt29.py`) — power analysis done, the
+  attack itself still to build.** Measured: with an interrupt **oracle** the mean
+  per-slot IoC is **1.886** (English ≈1.74) versus ~1.0 for noise, so the
+  hypothesis is cleanly detectable in principle. The obstacle is quantified:
+  **63% of ciphertext runes equal to the interrupt rune are coincidental**, not
+  real interrupts, and each false skip desynchronises everything after it —
+  collapsing 1.886 to 1.201. The naive all-occurrences version therefore has NO
+  power and its control fails (0/6 planted pairs recovered), so it reports NO
+  EVIDENCE rather than a negative.
+- **Do next:** the interrupt **SUBSET** search (relikd's sequential look-ahead +
+  genetic bit-flipping, first ~20 occurrences per page, ~1.4e10 ops / ~38 h).
+  Score by per-slot IoC with the >=25-rune slot minimum in `attack_interrupt29.py`,
+  and route through `controls.py` so the coverage and margin gates apply. The
+  pay-off is unusually well defined: an oracle scores 1.886 against a ~1.0 floor,
+  one of the widest separations any hypothesis here offers.
 - Source: github.com/relikd/LiberPrayground (verified 3-0 by the research pass;
   repo not independently inspected by me).
 

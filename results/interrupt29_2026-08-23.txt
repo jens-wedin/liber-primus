@@ -1,0 +1,53 @@
+interrupt-rune search: 29 candidate runes x key lengths 2-16 = 435 hypotheses per segment
+scoring: mean per-slot IoC (English ~1.7, flat ~1.0)
+
+=== POWER ANALYSIS: is this hypothesis detectable at all? ===
+  rune   L  perfect   naive  true int  occurrences  coincidental
+    20  10    1.875   1.252        36           81           56%
+     8   7    1.903   1.181        54          102           47%
+    21  10    1.829   1.158         9           49           82%
+    17   6    1.900   1.170        17           60           72%
+    22   6    1.851   1.137         0           21          100%
+     1   4    1.956   1.307        60           75           20%
+
+  mean with an interrupt ORACLE : 1.886  (English ~1.74 — so the statistic works)
+  mean treating ALL occurrences : 1.201  (flat ~1.0 — no signal)
+  because 63% of ciphertext occurrences of the interrupt rune are COINCIDENTAL,
+  not real interrupts. Each false skip desynchronises every later position.
+
+  => the hypothesis IS detectable, but only by searching interrupt
+     SUBSETS (relikd: first 20 occurrences, ~1.4e10 ops, ~38 h).
+     The naive all-occurrences approximation below has NO power, and
+     its control duly fails — reported, not hidden.
+
+=== DETECTION FLOOR: plant each (interrupt rune, key length), recover it, read off the score a real break gives ===
+  plant (20, 10)                     -> '(26, 10)                    '   1.38 acc 100%  NOT IDENTIFIABLE
+  plant (8, 7)                       -> '(16, 15)                    '   1.27 acc 100%  NOT IDENTIFIABLE
+  plant (21, 10)                     -> '(10, 6)                     '   1.21 acc 100%  NOT IDENTIFIABLE
+  plant (17, 6)                      -> '(12, 12)                    '   1.32 acc 100%  NOT IDENTIFIABLE
+  plant (22, 6)                      -> '(24, 9)                     '   1.18 acc 100%  NOT IDENTIFIABLE
+  plant (1, 4)                       -> '(9, 16)                     '   1.41 acc 100%  NOT IDENTIFIABLE
+  !! NOTHING self-recovered — the pipeline has no demonstrated power here; any 'negative' would be meaningless.
+  NOT COVERED (6): (20, 10), (8, 7), (21, 10), (17, 6), (22, 6), (1, 4)
+  -> a real break with those would be INVISIBLE to this run; no evidence either way.
+
+=== MATCHED CHANCE CEILING (13 trials, L=1200): 1.127 ===
+
+REAL unsolved segments:
+  17.jpg-19.jpg - 0.jpg-2.jpg    interrupt J   keylen 16  slot-IoC 1.116
+  20.jpg - 3.jpg-5.jpg           interrupt M   keylen  4  slot-IoC 1.275
+  20.jpg - 3.jpg-5.jpg           interrupt F   keylen 15  slot-IoC 1.196
+  23.jpg, 24.jpg - 6.jpg-7.jpg   interrupt R   keylen 13  slot-IoC 1.287
+  25.jpg, 26.jpg, 27.jpg, 28.jpg interrupt B   keylen  9  slot-IoC 1.088
+  32.jpg, 33.jpg, 34.jpg, 35.jpg interrupt Y   keylen 13  slot-IoC 1.080
+  40.jpg, 41.jpg, 42.jpg, 43.jpg interrupt M   keylen 13  slot-IoC 1.097
+  44.jpg, 45.jpg, 46.jpg, 47.jpg interrupt G   keylen 14  slot-IoC 1.101
+  50.jpg - 33.jpg                interrupt EA  keylen  3  slot-IoC 1.313
+  50.jpg, 51.jpg, 52.jpg, 53.jpg interrupt G   keylen 16  slot-IoC 1.083
+  56.jpg - 39.jpg                interrupt J   keylen  4  slot-IoC 1.337
+  57.jpg - 40.jpg                interrupt D   keylen 11  slot-IoC 1.060
+  71.jpg - 54.jpg                interrupt EA  keylen  9  slot-IoC 1.141
+
+best on 56.jpg - 39.jpg (interrupt J, keylen 4)
+  best real 1.34  vs  matched chance ceiling 1.13
+  -> INCONCLUSIVE: no demonstrated power.

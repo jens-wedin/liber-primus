@@ -1496,3 +1496,49 @@ the search is too flexible at this length to distinguish a coined key from noise
 Ruling them out would need a longer head or a tighter key space, and the §31
 measurement says the whole word-key family shares this limit.
 `results/mangle2_2026-08-22.txt`.
+
+## 40. The interrupt rune generalised to all 29 — why it is hard, quantified (N1)
+
+External research surfaced relikd's *LiberPrayground*, which drops an assumption
+this project never questioned: §17 and §19 both took the interrupter to be **ᚠ**.
+It could be any of the 29 runes. `attack_interrupt29.py` builds that test — and
+the useful result is not a verdict but a **power analysis**.
+
+Why it is not already covered: §2's periodic-IoC scan tested key periods 1–40 and
+found nothing, but an interrupter is exactly what *masks* periodicity — every
+interrupt shifts all later positions into different key slots, so a perfectly
+periodic key looks aperiodic. The scan has to be redone once per candidate rune.
+
+The statistic works. Grouping ciphertext by key slot should give English-like
+per-slot IoC when the (rune, key length) is right. Planting known (interrupt rune,
+key) pairs and grouping by the **true** slot recorded at encryption time:
+
+| | mean slot-IoC |
+| --- | --- |
+| with an interrupt **oracle** | **1.886** (English ≈ 1.74) |
+| treating **all** occurrences as interrupts | 1.201 (flat ≈ 1.0) |
+
+So the hypothesis is detectable *in principle* — an oracle separates it cleanly
+from noise. **The obstacle is ambiguity, and it is severe: on average 63% of
+ciphertext runes equal to the interrupt rune are COINCIDENTAL**, not real
+interrupts (in one trial, 21 occurrences of which 0 were real). Every false skip
+desynchronises every later position, which collapses 1.886 to 1.201 — no signal.
+
+This is the literal-ᚠ ambiguity §19 documented, generalised and now measured. It
+is why the interrupt hypothesis needs a search over interrupt **subsets** rather
+than a rune guess: relikd reduces a 2⁶⁶ space with a sequential look-ahead and a
+genetic search flipping up to 3 interrupt bits at once, budgeting the first 20
+occurrences per page — ~1.4×10¹⁰ operations, ~38 hours, shipped as a database.
+
+**The naive all-occurrences approximation therefore has no power, and its control
+says so**: 0 of 6 planted pairs are recovered, so `detection_floor` returns no
+floor and the run reports NO EVIDENCE rather than a negative. That is the correct
+outcome — this project has now twice been saved from banking an unearned negative
+by the same machinery (§33, §39), and here it refuses to bank one at all.
+
+**What a real implementation needs** (carried to BACKLOG N1): the subset search,
+scored by per-slot IoC with the ≥25-rune slot minimum this file uses, and run
+through `controls.py` so the coverage and margin gates apply. The pay-off is
+well-defined — an oracle scores 1.886 against a ~1.0 floor, one of the widest
+separations any hypothesis in this project offers.
+`results/interrupt29_2026-08-23.txt`.
