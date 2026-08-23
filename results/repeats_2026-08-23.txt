@@ -1,0 +1,23 @@
+unsolved stream: 12947 runes
+
+self-check: miner finds a planted repeat; Smirnov null is doublet-free
+
+  k    real  null mean  null sd       z
+  5       6       4.72     2.18    0.59  p=0.339
+  6       1       0.11     0.33    2.71  p=0.113
+  7       0       0.00     0.06   -0.06  p=1.000
+  8       0       0.00     0.00    0.00  p=1.000
+  9       0       0.00     0.00    0.00  p=1.000
+ 10       0       0.00     0.00    0.00  p=1.000
+ 11       0       0.00     0.00    0.00  p=1.000
+ 12       0       0.00     0.00    0.00  p=1.000
+
+longest exact repeats in the real stream:
+  len 6: DJUBEI           at [6546, 12941]  gaps [6395] factors [[5, 1279]]
+  len 5: BMRNM            at [5439, 11992]  gaps [6553] factors [[6553]]
+  len 5: DJUBE            at [6546, 12941]  gaps [6395] factors [[5, 1279]]
+  len 5: JUBEI            at [6547, 12942]  gaps [6395] factors [[5, 1279]]
+  len 5: OUNWM            at [6976, 8007]  gaps [1031] factors [[1031]]
+  len 5: OFLOENG          at [7384, 12376]  gaps [4992] factors [[2, 2, 2, 2, 2, 2, 2, 3, 13]]
+
+VERDICT: exact repeats sit at the Smirnov null at every length — coincidental, not structure. There are no Kasiski anchors, so the gap-as-key-period test is vacuous. Consistent with §4's uniformity, and it explains the community's ~5 eyeballed repeats as chance.

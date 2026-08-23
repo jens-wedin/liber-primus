@@ -1135,3 +1135,16 @@ FIRFUMFERENFE), 0.79 below the floor, 0.63-nat margin. Prime/totient + DIVINITY/
 FIRFUMFERENFE keystreams, all a, both signs. Generalising the cipher function
 fails like generalising the key did. No core change; validate_solved 9/9.
 `results/twovar_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N11: long exact repeats vs a Smirnov null (§49)
+
+`attack_repeats.py`. Mine every exact ciphertext repeat, calibrate against a
+SMIRNOV null (uniform, no adjacent repeats — the right null; iid would
+over-count). Statistic: distinct k-grams occurring ≥2 times, real vs 300 nulls.
+
+NEGATIVE — coincidental. No length beats the null: k=5 6 vs mean 4.72 (p=0.34);
+the one 6-gram (DJUBEI at 6546/12941 — the community's eyeballed repeat) mildly
+elevated z=2.71 but p=0.11; k≥7 empty. Gaps share no factor (6395=5·1279, 6553
+prime, 1031 prime, 4992=2^7·3·13) → no Kasiski period, gap-as-key-period vacuous.
+Mines all repeats vs the ~5 eyeballed, confirms §4 from a new angle. No core
+change; validate_solved 9/9. `results/repeats_2026-08-23.txt`.

@@ -256,7 +256,14 @@ pencil-and-paper family is untested: mod-29 lagged-Fibonacci chains from short
 primers — the ACA Gromark mechanism. 29⁵ ≈ 20.5M primers, cheap decrypt. Add as
 one more generator in `attack_prng.py`, decoded per N6.
 
-### N11. Long-repeat mining vs a Smirnov null — MEDIUM, HOURS
+### N11. Long-repeat mining vs a Smirnov null — DONE, NEGATIVE (§49)
+**DONE 2026-08-23 (`attack_repeats.py`, REPORT §49).** Mined every exact repeat
+vs a Smirnov null (300 draws). NEGATIVE: no length beats the null (k=5 6 vs 4.72,
+p=0.34; the one 6-gram DJUBEI mildly elevated z=2.71 but p=0.11; k≥7 empty). Gaps
+share no factor → no Kasiski period, gap-as-key-period vacuous. The community's ~5
+eyeballed repeats are chance; §4 confirmed from a new angle.
+
+### N11 (original note). Long-repeat mining vs a Smirnov null — MEDIUM, HOURS
 The wiki lists 5 repeated multi-rune ciphertext sequences book-wide (ᛞᛄᚢᛒᛖᛁ at
 6555 & 12950; ᛒᛗᚱᚾᛗ at 5448 & 12001; gaps 1031–6533). A true 7-rune repeat in
 a uniform stream has p≈0.5%. Mine ALL maximal repeats in our transcription and

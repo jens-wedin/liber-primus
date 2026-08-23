@@ -1869,3 +1869,24 @@ FIRFUMFERENFE) — 0.79 below the floor a genuine break gives, with a 0.63-nat
 floor-to-ceiling margin. So the non-additive affine cipher over these keystreams
 does not key the runes either: generalising the cipher *function* fails the same
 way generalising the *key* did. `results/twovar_2026-08-23.txt`.
+
+## 49. Long exact repeats vs a Smirnov null — coincidental, no Kasiski anchors (N11)
+
+A repeating- or running-key cipher leaks repeated ciphertext whose gaps are
+multiples of the key period (Kasiski). The community eyeballed ~5 multi-rune
+repeats book-wide; `attack_repeats.py` mines EVERY exact repeat and calibrates
+against the right null. The null matters: the real stream is uniform but almost
+never repeats an adjacent rune, so an iid-uniform null would over-count short
+repeats — the correct null is a **Smirnov** sequence (uniform, no adjacent
+equal). The statistic is the count of distinct k-grams occurring twice or more,
+computed identically on the real stream and on 300 Smirnov nulls.
+
+**NEGATIVE — the repeats are chance.** No length exceeds the null: k=5 gives 6
+observed vs a null mean of 4.72 (p=0.34); the single 6-gram repeat is mildly
+elevated (z=2.71) but does not survive (p=0.11); k≥7 is empty in both. The one
+6-gram is DJUBEI at positions 6546 and 12941 — the community's own eyeballed
+repeat, here shown to be coincidental. The longest repeats' gaps share no common
+factor (6395 = 5·1279, 6553 prime, 1031 prime, 4992 = 2⁷·3·13), so there is no
+Kasiski key period, and the gap-as-key-period test is vacuous. This mines all
+repeats rather than five, calibrates them against a matched Smirnov null, and
+confirms §4's uniformity from a new direction. `results/repeats_2026-08-23.txt`.
