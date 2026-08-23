@@ -217,15 +217,14 @@ word/page acrostic. ANOMALY (not a break): line-initial non-uniform (z 7.19,
 localised to position 1) but does not replicate (split-half 2.25/5.53), per-page
 underpowered, weak corr with solved line-init — source unresolved → N19.
 
-### N19. Line-initial anomaly — confirm with an independent line segmentation — MEDIUM
-§45 found unsolved line-initial runes non-uniform (z 7.19, EA/P/D over, R/N/I
-under), sharply localised to line position 1, but it fails to replicate cleanly
-and the per-page test is underpowered. The rtkd `/` line marks are the only line
-segmentation we have. Get a SECOND, independent line segmentation (from the page
-images, or another line-marked transcription) and re-test. If it survives:
-attempt to decode the line-initials (are they an acrostic, or p_initial+K[0] for a
-line-reset key?). If it does not: it was an rtkd line-marking / pooling artifact.
-Cheap once a second segmentation exists. Source: §45.
+### N19. Line-initial anomaly — confirm with an independent line segmentation — DONE, ARTIFACT (§46)
+**DONE 2026-08-23 (`analyze_line_init.py`, REPORT §46).** Tested §45's line-initial
+skew against Dukotah's read4.json — a from-image VISION segmentation independent
+of rtkd's `/` marks. Does NOT survive as a cipher signal: the vision interior is
+flat, but BOTH edges are skewed toward the default class cls 0 (edge-
+misclassification), and the two sources disagree on the pattern (rtkd asymmetric
+initial-only; vision symmetric both-edge). With §45's weak split-half, the
+line-initial skew is a segmentation/transcription ARTIFACT. §4 uniformity stands.
 
 ### N9 (original note). Word-position IoC diagnostic + word-synchronized keys — MEDIUM
 The ACA "Interrupted Key" cipher restarts the keyword at word divisions, and LP

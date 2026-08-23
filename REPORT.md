@@ -1793,3 +1793,31 @@ as an anomaly, **not a lead**, and carried to the backlog (N19): it needs an
 independent line segmentation (from the page images or a second line-marked
 transcription) to confirm before any decode of line-initials is worth running.
 `results/wordpos_2026-08-23.txt`.
+
+## 46. The line-initial anomaly resolved — a segmentation artifact (N19)
+
+§45's line-initial skew rested on rtkd's `/` line marks alone. N19 tests it
+against a segmentation that does not share them: Dukotah/cicada3301's `read4.json`,
+a from-the-page-images **vision** transcription (per glyph: page, band/line, x,
+classified rune). A real cipher effect must survive a second, independent
+segmentation. Chi-square uniformity is invariant under relabeling, so the vision
+classes (29 rune classes, no separators) are tested directly, and vision
+misclassification only pushes toward uniform — so a real skew would still show.
+
+**It does not survive as a cipher signal.** In the vision read the line INTERIOR
+is flat (z +2.83 vs uniform), but **both** line edges are strongly skewed —
+line-initial z +38, line-final z +36 vs uniform, +20 each against the vision
+transcription's own (non-uniform) marginal — and the line-initial is dominated by
+the single most-common class (cls 0: 89 observed vs 31 expected, ~3×). A
+**symmetric both-edge** skew toward the default class is the signature of vision
+**edge-misclassification** at the page margins, not a cipher property.
+
+**And the two sources disagree on the pattern.** rtkd is **asymmetric** —
+line-initial skewed (z 7.19), line-final flat (z −0.01). The vision read is
+**symmetric** — both edges skewed. Two independent segmentations that disagree,
+each explained by its own source's line-edge artifact (rtkd's human `/`
+placement, the vision classifier's margin errors), do not corroborate a real
+effect. With §45's weak split-half replication, the line-initial skew is a
+**segmentation/transcription artifact**, not a property of the cipher — so §4's
+uniformity stands, now checked at line boundaries against two segmentations.
+`results/line_init_n19_2026-08-23.txt` (data: Dukotah `read4.json`, gitignored).

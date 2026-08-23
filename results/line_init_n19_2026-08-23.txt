@@ -1,0 +1,18 @@
+=== N19: line-initial anomaly vs an INDEPENDENT (vision) segmentation ===
+source: Dukotah read4.json — 56 pages, 591 bands(lines), 29 rune classes, 13381 glyphs
+
+read4 (vision) chi2z, vs UNIFORM and vs read4's own MARGINAL:
+  line-initial n=  591  vs-uniform +38.33  vs-marginal +20.22
+  line-final   n=  591  vs-uniform +35.72  vs-marginal +20.13
+  interior     n=11026  vs-uniform  +2.83  vs-marginal  +3.51
+  line-initial is dominated by the most-common class (cls 0: 89 obs vs 31 exp) — the edge-misclassification tell.
+
+Contrast with rtkd (§45, human `/` marks):
+  line-initial z +7.19 (skewed)   line-final z -0.01 (FLAT)  -> ASYMMETRIC
+  vision read: both edges skewed              -> SYMMETRIC (margin artifact)
+
+VERDICT: the anomaly does NOT survive an independent segmentation as a cipher signal.
+The vision interior is flat; both vision edges are skewed toward the default class
+(edge-misclassification), and the two sources disagree on the pattern. With §45's
+weak split-half replication, the line-initial skew is a SEGMENTATION/TRANSCRIPTION
+ARTIFACT, not a property of the cipher. §4's uniformity stands.

@@ -7,3 +7,6 @@ data/pages/
 
 # N10 resume cache (scratch, reproducible)
 results/gromark_ckpt*.json
+
+# N19: Dukotah vision transcription (external, 1.7MB — fetch on demand)
+download/dukotah_read4_vision.json

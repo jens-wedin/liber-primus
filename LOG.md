@@ -1088,3 +1088,19 @@ line-init (0.36). Source unresolved (cipher signal vs line-wrapping/pooling
 artifact). Logged as anomaly, NOT a lead; carried to backlog N19 (needs an
 independent line segmentation). No core change; validate_solved 9/9.
 `results/wordpos_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N19: line-initial anomaly resolved as artifact (§46)
+
+`analyze_line_init.py`. Tested the §45 anomaly against an INDEPENDENT
+segmentation: Dukotah's read4.json, a vision (from-image) transcription with
+per-glyph page/band/x/class. chi2 is relabeling-invariant, so vision classes are
+tested directly; vision noise only pushes toward uniform.
+
+RESOLVED as artifact. Vision interior flat (z +2.83); both edges skewed
+(line-init +38, line-final +36 vs uniform; +20 each vs its own marginal),
+dominated by the default class cls 0 (89 vs 31) — edge-misclassification. rtkd is
+asymmetric (init 7.19, final −0.01); vision is symmetric (both edges). The two
+segmentations disagree, each explained by its own edge artifact. With §45's weak
+split-half, the line-initial skew is a segmentation/transcription artifact, not a
+cipher signal — §4 uniformity stands. read4.json staged in download/ (gitignored,
+1.7MB). validate_solved 9/9. `results/line_init_n19_2026-08-23.txt`.
