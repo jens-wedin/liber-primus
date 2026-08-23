@@ -307,7 +307,14 @@ their `results/` first for prior coverage. Separately, resolve Dukotah's 6
 contested byte indices (25, 175, 182, 199, 215, 237) from our scans — direct
 input to N2's code→byte map problem.
 
-### N15. Least-tried unused-hints numerics as seeds — LOW
+### N15. Least-tried unused-hints numerics as seeds — DONE, NEGATIVE (§51)
+**DONE 2026-08-23 (`attack_hintseeds.py`, REPORT §51).** Cookies 167/761 (256-bit
+hex) + the 128-digit 2012 P.S. number as keystreams: digits/bytes mod 29 (key-skip
+beam, offset scan), SHA-256-CTR seeds, and leading-digit autokey primers. NEGATIVE,
+well-powered: control 4/4 (floor −3.95), ceiling −4.46, best real −4.32 (ps.bytes),
+0.37 below the floor. Confirms §26 for the exact values.
+
+### N15 (original note). Least-tried unused-hints numerics as seeds — LOW
 The two `p7amjopgric7dfdi.onion` cookie values (167=6941f7…, 761=7bc1e7…) and
 the 128-digit 2012 P.S. number, used as (a) PRNG seeds in the N6 pipeline,
 (b) autokey primers, (c) index streams mod 29. §26 covered the prime and

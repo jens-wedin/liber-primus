@@ -1,0 +1,36 @@
+hint keystreams (9): c167.hexdigits, c167.bytes, c167.sha_ctr, c761.hexdigits, c761.bytes, c761.sha_ctr, ps.decdigits, ps.bytes, ps.sha_ctr
+offsets [0, 8, 16, 32], both signs, key-skip max 2
+
+refs: English trigram -3.38
+
+=== DETECTION FLOOR: plant each hint keystream, recover it, read off the score a real break gives ===
+  plant c167.hexdigits               -> 'c167.hexdigits              '  -3.86 acc  95%  identified
+  plant c761.bytes                   -> 'c761.bytes                  '  -3.95 acc  98%  identified
+  plant ps.decdigits                 -> 'ps.decdigits                '  -3.86 acc  98%  identified
+  plant c167.sha_ctr                 -> 'c167.sha_ctr                '  -3.67 acc  98%  identified
+
+  FLOOR = -3.95 (min over 4/4 identifiable hint keystreams)
+
+=== MATCHED CHANCE CEILING (13 trials): -4.46 ===
+
+=== REAL: keystream arm (digits / bytes / hash-CTR + key-skip) ===
+  17.jpg-19.jpg - 0.jpg-2.jpg    ps.bytes         off16 c+k -4.32
+  20.jpg - 3.jpg-5.jpg           c761.sha_ctr     off32 c-k -4.81
+  20.jpg - 3.jpg-5.jpg           ps.sha_ctr       off32 c+k -4.86
+  23.jpg, 24.jpg - 6.jpg-7.jpg   c761.sha_ctr     off16 c+k -4.74
+  25.jpg, 26.jpg, 27.jpg, 28.jpg ps.decdigits     off 0 c+k -4.65
+  32.jpg, 33.jpg, 34.jpg, 35.jpg ps.sha_ctr       off 8 c-k -4.73
+  40.jpg, 41.jpg, 42.jpg, 43.jpg c167.hexdigits   off 0 c-k -4.67
+  44.jpg, 45.jpg, 46.jpg, 47.jpg c167.bytes       off 0 c-k -4.65
+  50.jpg - 33.jpg                c167.hexdigits   off32 c+k -4.76
+  50.jpg, 51.jpg, 52.jpg, 53.jpg c167.sha_ctr     off32 c-k -4.55
+  56.jpg - 39.jpg                c761.hexdigits   off 0 c-k -4.70
+  57.jpg - 40.jpg                ps.sha_ctr       off32 c+k -4.55
+  71.jpg - 54.jpg                c761.sha_ctr     off 8 c+k -4.70
+  best keystream arm: ps.bytes on 17.jpg-19.jpg - 0.jpg-2.jpg (-4.32)
+
+=== REAL: autokey-primer arm (leading digits, position-locked) ===
+  best autokey arm: c167.p5/pt on 71.jpg - 54.jpg (-4.70)
+
+  best real -4.32  vs  detection floor -3.95 (what a real break scores)  vs  matched chance ceiling -4.46
+  -> 0.37 BELOW the floor a genuine break produces: NEGATIVE, with demonstrated power for 4/4 hint keystreams.

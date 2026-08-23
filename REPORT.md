@@ -1914,3 +1914,22 @@ progressions d = 1,2,3,7), both signs, with the control recovering 4/4 planted
 sequences (floor −3.80). The matched ceiling is −4.47 and the best real decode is
 −4.44 (triangular) — 0.64 below the floor. The OEIS / arithmetic keystream
 families do not key the runes. `results/oeis_2026-08-23.txt`.
+
+## 51. Unused-hint numerics as keystream material — negative (N15)
+
+Three numbers Cicada published before LP2 and never consumed: the onion cookies
+167 = 6941f7…0e6 and 761 = 7bc1e7…ae5 (256-bit hex) and the 2012 P.S. number
+(128 decimal digits). §26 tested the cookies as the small integers 167/761 and
+was negative; N6 tested thematic passphrase seeds. `attack_hintseeds.py` tests
+these specific long values as keystream material, three ways, control-validated:
+the hex/decimal digits and raw bytes reduced mod 29 as key-skip keystreams
+(offset-scanned); the values as SHA-256-CTR seeds through the beam (the N6
+construction); and their leading digits as short autokey primers.
+
+**NEGATIVE, well-powered.** The control recovers 4/4 planted hint keystreams at
+95–98% (floor −3.95); the matched ceiling is −4.46. The best real decode is −4.32
+(the P.S. number's bytes, keystream arm) and the autokey arm reaches only −4.70 —
+both below the floor a genuine break gives (by 0.37 and more), with a 0.51-nat
+floor-to-ceiling margin. The pre-LP2 hint numerics do not key the runes, as
+digits, bytes, hash-CTR seeds, or autokey primers — confirming §26 and extending
+it to the exact cookie-hash and P.S. values. `results/hintseeds_2026-08-23.txt`.

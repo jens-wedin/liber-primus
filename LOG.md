@@ -1162,3 +1162,15 @@ d=1,2,3,7) through the key-skip beam. Control 4/4 (floor −3.80), ceiling −4.
 best real −4.44 (triangular) — 0.64 below the floor. OEIS/arithmetic keystreams
 don't key the runes. No core change; validate_solved 9/9.
 `results/oeis_2026-08-23.txt`.
+
+### 2026-08-23 (cont.) — N15: unused-hint numerics as keystreams (§51)
+
+`attack_hintseeds.py`. The onion cookies 167/761 (256-bit hex) and the 128-digit
+2012 P.S. number, as keystream material: digits/bytes mod 29 (key-skip beam,
+offset scan), SHA-256-CTR seeds (N6 construction), and leading-digit autokey
+primers. Distinct from §26 (small numbers 167/761) and N6 (passphrases).
+
+NEGATIVE, well-powered. Control 4/4 at 95–98% (floor −3.95); ceiling −4.46; best
+keystream arm −4.32 (ps.bytes), autokey arm −4.70; best real 0.37 below the floor.
+Pre-LP2 hint numerics don't key the runes — confirms §26 for the exact values.
+No core change; validate_solved 9/9. `results/hintseeds_2026-08-23.txt`.
