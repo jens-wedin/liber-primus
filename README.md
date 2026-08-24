@@ -94,7 +94,26 @@ Gematria Primus, is a 29-rune Anglo-Saxon futhorc where each rune carries an
 English letter or digraph and an ascending prime. A decade of collective effort,
 this toolkit included, has broken no page beyond the two solved in 2014.
 
-## Layout
+## Repository layout
+
+The Python lives under `src/`, grouped by role:
+
+- **`src/core/`** — shared libraries (`gematria`, `parse_lp`, `ciphers`,
+  `controls`, `language_model`, `keytexts`, `no_repeat_model`, …).
+- **`src/attacks/`** — every `attack_*` (and `crib_drag`).
+- **`src/analysis/`** — diagnostics, probes, and modelling (`analyze_*`,
+  `compare_transcriptions`, `difference_space`, `model_norepeat_mechanisms`, …).
+- **`validate_solved.py`** stays at the repo root (the canonical check).
+- Non-code: `data/` (transcription, code pages, images), `docs/` (background),
+  `download/` (public-domain key texts + research briefings), `results/` (dated
+  run archives).
+
+**Run scripts from the repo root**, so the `data/` and `results/` paths resolve —
+e.g. `python3 src/attacks/attack_running_text.py`. Each script self-adds the
+`src/` subfolders to its path, so the flat imports work regardless of which
+folder a module sits in. `python3 validate_solved.py` works unchanged.
+
+## Layout of the modules
 
 | File | Purpose |
 | --- | --- |
@@ -141,30 +160,30 @@ this toolkit included, has broken no page beyond the two solved in 2014.
 ## Usage
 
 ```bash
-cd liber-primus
-python3 parse_lp.py          # segment inventory
-python3 validate_solved.py   # should print 9/9 checks passed
-python3 analyze_unsolved.py  # statistics + simple-attack battery
-python3 attack_autokey.py    # autokey brute force (a few minutes)
+cd liber-primus                        # always run from the repo root
+python3 src/core/parse_lp.py           # segment inventory
+python3 validate_solved.py             # should print 9/9 checks passed
+python3 src/analysis/analyze_unsolved.py   # statistics + simple-attack battery
+python3 src/attacks/attack_autokey.py      # autokey brute force (a few minutes)
 ```
 
 Most scripts need only the Python 3 standard library. The n-gram model
-(`language_model.py`, and the `--order` paths of the beam attacks) needs
-`wordfreq`, and `attack_running_text.py` also needs `numpy` —
-`pip install -r requirements.txt`. Models are cached under `model_cache/`
-(gitignored) and rebuild in ~3s on first use.
+(`src/core/language_model.py`, and the `--order` paths of the beam attacks) needs
+`wordfreq`, and `src/attacks/attack_running_text.py` also needs `numpy` —
+`pip install -r requirements.txt`. Models are cached under
+`src/core/model_cache/` (gitignored) and rebuild in ~3s on first use.
 
 The KJV key stream for `attack_running_text.py` is built once from the
 `bible-kjv` npm package (Project Gutenberg is often network-blocked):
 
 ```bash
-npm pack bible-kjv && tar xzf bible-kjv-*.tgz          # gives package/dist/
-python3 keytexts.py --build-kjv package/dist           # caches keytext_cache/kjv.u8
-python3 attack_running_text.py --key kjv               # runs the attack + control
+npm pack bible-kjv && tar xzf bible-kjv-*.tgz               # gives package/dist/
+python3 src/core/keytexts.py --build-kjv package/dist       # caches src/core/keytext_cache/kjv.u8
+python3 src/attacks/attack_running_text.py --key kjv        # runs the attack + control
 ```
 
 Any other candidate key text works too:
-`python3 keytexts.py --add-textfile mybook.txt mybook` then
+`python3 src/core/keytexts.py --add-textfile mybook.txt mybook` then
 `--key mybook`. The public-domain texts Cicada is documented to have used or
 referenced (Crowley's *Liber AL*, the *Mabinogion*, Blake) are vendored under
 `download/` — all tested and ruled out (see [REPORT.md](REPORT.md) §9).

@@ -8,6 +8,15 @@ Decryption of ᚠ is ambiguous (it is either a literal F or a normally
 encrypted rune), so encryption is the deterministic direction.
 """
 
+# --- path bootstrap: add src/ subfolders so flat imports resolve ---
+import os as _os, sys as _sys
+_SRC = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "src")
+for _d in ("core", "attacks", "analysis"):
+    _p = _os.path.join(_SRC, _d)
+    if _p not in _sys.path:
+        _sys.path.insert(0, _p)
+# --- end path bootstrap ---
+
 import ciphers as c
 import gematria as g
 from parse_lp import parse
