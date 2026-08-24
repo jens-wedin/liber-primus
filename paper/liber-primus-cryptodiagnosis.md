@@ -68,8 +68,7 @@ The paper makes three contributions. First, a precise statistical
 characterisation of the unsolved stream and a generative model for its one
 anomaly. Second, a control-validation methodology — a *detection floor* and a
 *matched ceiling* — that guards an elimination against both false negatives and
-false positives, with two worked examples of each failure mode caught in our own
-early work. Third, a broad, reproducible elimination ledger, cross-validated
+false positives, with each failure mode caught in our own early work. Third, a broad, reproducible elimination ledger, cross-validated
 against two independent projects.
 
 ## 2. The corpus and its provenance
@@ -357,19 +356,75 @@ verification), and the `attack_*` scripts (the elimination ledger), each routed
 through `controls.py`. A pytest suite pins the invariants and the positive
 controls.
 
-## References (to complete for submission)
+## References
 
-1. R. Bean. Cryptodiagnosis of Kryptos K4. *HistoCrypt*.
-2. D. Oranchak, S. Blake, J. Van Eycke. The Solution of the Zodiac Killer's
-   340-Character Cipher. arXiv:2403.17350.
-3. G. Lasry. A Methodology for the Cryptanalysis of Classical Ciphers with Search
-   Metaheuristics. Kassel University Press.
-4. C. E. Shannon. Communication Theory of Secrecy Systems. *Bell System Technical
-   Journal*, 1949.
-5. Uncovering Cicada wiki; CicadaSolvers quickstart briefing.
-6. Community and independent toolkits: `scream314/cicada3301`, `rtkd/iddqd`,
-   `relikd/LiberPrayground`, `Dukotah/cicada3301`.
-7. R. Speer et al. wordfreq (n-gram frequency data).
+Peer-reviewed sources:
 
-*(Full bibliographic details and the Gematria Primus table to be added for the
-camera-ready version.)*
+1. C. E. Shannon. Communication Theory of Secrecy Systems. *Bell System Technical
+   Journal*, 28(4):656–715, 1949.
+2. R. Bean. A cryptodiagnosis of Kryptos K4. *Proceedings of the International
+   Conference on Historical Cryptology (HistoCrypt)*. Linköping University
+   Electronic Press. [volume and page numbers to confirm at camera-ready.]
+3. D. Oranchak, S. Blake, J. Van Eycke. The Solution of the Zodiac Killer's
+   340-Character Cipher (Z340). arXiv:2403.17350, 2024.
+4. G. Lasry. *A Methodology for the Cryptanalysis of Classical Ciphers with Search
+   Metaheuristics*. Kassel University Press, 2018.
+
+Software and data:
+
+5. R. Speer. *wordfreq* (word- and n-gram-frequency data for the English language
+   model). Zenodo software release. [DOI to add at camera-ready.]
+6. J. Wedin. *Liber Primus cryptanalysis toolkit*.
+   <https://github.com/jens-wedin/liber-primus>, 2026. All statistics, the
+   elimination ledger, and the tests in this paper are reproduced here.
+
+Community and independent-project sources:
+
+7. Transcriptions and archives: `scream314/cicada3301` (the primary rune
+   transcription); `rtkd/iddqd` (the cross-check transcription and the "byte
+   strings" rendering of the code pages); `krisyotam/cicada3301` (provenance-tiered
+   image archive).
+8. Independent solver projects reaching the same central finding:
+   `relikd/LiberPrayground` (the InterruptDB, the interrupter and modulo sweeps);
+   `Dukotah/cicada3301` (a parallel control-validated project; the soft-rejection
+   fit and the elimination ledger cross-check).
+9. Reference material: the Uncovering Cicada wiki
+   (<https://uncovering-cicada.fandom.com>); the CicadaSolvers quickstart briefing
+   (<https://www.cicadasolvers.com/quickstart/>); the *Cicada 3301* entry,
+   *Wikipedia*.
+
+*(Two bibliographic specifics — the HistoCrypt volume/pages for [2] and the
+Zenodo DOI for [5] — are flagged above and will be resolved for the camera-ready
+version; they are not invented here.)*
+
+---
+
+## Appendix A. Gematria Primus
+
+The 29-rune alphabet, in its canonical order. Each rune maps to one English
+letter or digraph and to the nth prime in ascending order. Index i is the value
+used for the modular arithmetic in the body (c = p + k mod 29).
+
+| i | rune | letter | prime | i | rune | letter | prime |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0  | ᚠ | F  | 2  | 15 | ᛋ | S  | 53  |
+| 1  | ᚢ | U  | 3  | 16 | ᛏ | T  | 59  |
+| 2  | ᚦ | TH | 5  | 17 | ᛒ | B  | 61  |
+| 3  | ᚩ | O  | 7  | 18 | ᛖ | E  | 67  |
+| 4  | ᚱ | R  | 11 | 19 | ᛗ | M  | 71  |
+| 5  | ᚳ | C  | 13 | 20 | ᛚ | L  | 73  |
+| 6  | ᚷ | G  | 17 | 21 | ᛝ | NG | 79  |
+| 7  | ᚹ | W  | 19 | 22 | ᛟ | OE | 83  |
+| 8  | ᚻ | H  | 23 | 23 | ᛞ | D  | 89  |
+| 9  | ᚾ | N  | 29 | 24 | ᚪ | A  | 97  |
+| 10 | ᛁ | I  | 31 | 25 | ᚫ | AE | 101 |
+| 11 | ᛄ | J  | 37 | 26 | ᚣ | Y  | 103 |
+| 12 | ᛇ | EO | 41 | 27 | ᛡ | IA | 107 |
+| 13 | ᛈ | P  | 43 | 28 | ᛠ | EA | 109 |
+| 14 | ᛉ | X  | 47 |    |   |    |     |
+
+Transliteration is per word: the digraphs (TH, EO, NG, OE, AE, IA, EA) are
+recognised inside a word but never across a word boundary, and the reductions
+K → C, V → U, Q → CW apply. Atbash is the order-reversal i ↦ 28 − i. The prime
+column is the basis of the "Gematria sum" numerology on the solved pages; it plays
+no role in the elimination results of this paper.
