@@ -25,23 +25,18 @@ with a corrupt/concatenated mirror file. Fetch page 05 from an independent sourc
 copy is clean, it is a scream314 artifact (close); if it also carries the blob,
 carve and characterise it. Cheap once the independent image is local.
 
-### N14. Code→byte map + the deep-web-hash battery — LOW-MED. **OSINT / external.**
-Two linked sub-tasks on the pages-66–68 / pp49-51 256-byte object:
-- **Derive the correct code→byte map (was N2).** rtkd's `byte-strings` file
-  labels String 4 "Matrix from pages 49-51 converted to hexadecimal" — 256 bytes,
-  the same class of object as the byte strings that yielded hidden services. Our
-  `d*62+b62` map reproduces only 2–5 of 256 positions, so our value map, reading
-  order, or one transcription differs. Finite and checkable against a second
-  independent rendering. Also resolve Dukotah's **6 contested bytes** (indices 25,
-  175, 182, 199, 215, 237) from our scans.
-- **Hash battery.** Run our verified codes and String 4 through the community
-  harness `cicada-solvers/Cicada-DWH-HashcatAttempts` (SHA-512, Streebog, …);
-  check their `results/` first for prior coverage. Note §22 already ruled out
-  pad/index/self-cipher/table for the code pages, and Dukotah's B-05 could not
-  separate a SHA-256-CTR keystream seeded by this block from the real stream — so
-  the derived-pad reading stays live but is the §13 wall (see N6).
-- Sources: `rtkd/iddqd` `byte-strings/byte-strings`;
-  `cicada-solvers/Cicada-DWH-HashcatAttempts`.
+### N14. Deep-web-hash battery on the verified String-4 bytes — LOW-MED. **OSINT / external.**
+The code→byte map half is **DONE (§53)** — see the DONE table. What remains is the
+OSINT hash hunt: run the now-verified 256 bytes (and their hex/ASCII renderings)
+through the community harness `cicada-solvers/Cicada-DWH-HashcatAttempts`
+(SHA-512, Streebog, …), checking their `results/` first for prior coverage. Low
+prior — §22 ruled out pad/index/table for these bytes and Dukotah's B-05 could
+not separate a keystream derived from the block from the real stream, so the
+derived-pad reading is the §13 wall. Still resolve Dukotah's other 5 contested
+byte indices (175, 182, 199, 215, 237) from the scans — §53 already resolved
+index 25 (`3l → 3I`).
+- Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
+  `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
 ### N3. Transposition + systematic gematria-rotation space — MEDIUM.
 mortlach's enumerable space, never tested here: strip operationally-defined
@@ -106,6 +101,7 @@ the cited § in REPORT.md.
 | N18 | LP2-as-pad inversion (F-01) | NEGATIVE, closed by uniformity | §47 |
 | N19 | Line-initial anomaly vs independent segmentation | segmentation/transcription ARTIFACT | §46 |
 | N13 | Steg provenance gate on the 75 scans | runic scans are 400-DPI re-saves (steg-dead) | §52 |
+| N14a | Code→byte map for pages 66–68 | **SOLVED** — reproduces rtkd's String 4 256/256 (map + 3 l/I fixes) | §53 |
 
 ---
 

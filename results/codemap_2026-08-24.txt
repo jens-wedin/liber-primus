@@ -1,0 +1,14 @@
+our codes: 256  |  String 4: 256 bytes
+
+1. SAME OBJECT — repetition pattern (order 66,67,68 row-major):
+   codes canonical == String4 canonical: True
+   distinct: codes 161, bytes 161
+
+2. MAP byte = digit*60 + base62(0-9A-Za-z), as transcribed: 253/256 exact
+   mismatches: [(25, '3l'), (90, '3l'), (246, '3l')]  (all '3l'; want '3I' = byte 198)
+2. MAP byte = digit*60 + base62(0-9A-Za-z), with 3l -> 3I: 256/256 exact
+
+VERDICT: with the l/I correction the code pages reproduce rtkd's String 4
+byte-for-byte (256/256 CONFIRMED). The code->byte map is closed and the
+transcription is verified against an independent rendering. §22 already ruled
+out pad/index/table for these bytes; the derived-pad reading stays the §13 wall.

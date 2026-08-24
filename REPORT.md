@@ -1961,3 +1961,38 @@ signature of a corrupt / concatenated file in the scream314 mirror, not a Cicada
 payload; it is flagged for an independent-copy check (N20), not treated as a
 finding. The steg front is closed for our material. `results/steg_2026-08-24.txt`,
 `results/steg_hashes_2026-08-24.txt`.
+
+## 53. The code→byte map, derived — pages 66–68 ARE rtkd's String 4 (N14)
+
+rtkd/iddqd's `byte-strings` file carries "String 4 — Matrix from pages 49-51
+converted to hexadecimal", 256 bytes, and full-set pages 49–51 are our code pages
+66–68 (§21/N2). Our old `d*62+b62` map matched only 4 of 256, so the code→byte map
+was unknown. `attack_codemap.py` derives it — the campaign's first outright
+*positive* result, a solved sub-problem rather than a break.
+
+**Same object, natural order.** Our 256 codes, read in page order 66, 67, 68 each
+row-major, have the EXACT repetition pattern of String 4: both are 161 distinct
+values with an identical frequency-of-frequency multiset (92 singletons, 49 twice,
+14 thrice, 6 four times). That is not chance, so a bijective code→byte map exists,
+and the ordering is the obvious one.
+
+**The map.** `byte = digit × 60 + base62(char)`, with the base-62 alphabet
+`0-9 A-Z a-z` (digits, then upper, then lower — the digit is the high part, owning
+byte band [60d, 60d+59]). It reproduces String 4 at **253/256**. All three misses
+are the same code, `3l` (lowercase L), which should be `3I` (capital I):
+3·60 + index('I') = 198, exactly String 4's byte, versus 227 for `3l`. That is the
+l/I ambiguity `data/code_pages.txt` had flagged, and the first of the three (global
+position 25) is one of **Dukotah's six independently-flagged contested bytes**.
+With `3l → 3I` corrected in the transcription (now applied), our codes reproduce
+String 4 **256/256**.
+
+**What this settles and what it does not.** It confirms the code pages are the
+256-byte object of the same class as the byte strings that yielded hidden
+services, verifies our transcription byte-for-byte against an independent
+rendering (fixing three real errors, and resolving one contested byte in
+Dukotah's favour), and closes the map-derivation half of N14. It does not decode
+the bytes: §22 already ruled out reading them as a pad, an index, or a lookup
+table, and Dukotah's B-05 could not separate a keystream derived from this block
+from the real stream — so the bytes remain behind the §13 keyed-pad wall. The
+open remainder of N14 is the OSINT hash battery on the now-verified bytes.
+`results/codemap_2026-08-24.txt`; target vendored at `data/rtkd_string4.hex`.

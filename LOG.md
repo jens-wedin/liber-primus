@@ -1194,3 +1194,22 @@ file, not a payload. Flagged for independent-copy check (N20).
 
 Steg front closed for our material. No core change; validate_solved 9/9.
 `results/steg_2026-08-24.txt`, `results/steg_hashes_2026-08-24.txt`.
+
+### 2026-08-24 — N14: code→byte map derived, String 4 reproduced (§53)
+
+`attack_codemap.py`. The campaign's first POSITIVE (a solved sub-problem). Our
+256 codes (pages 66,67,68 row-major) reproduce rtkd's independent 256-byte
+String 4:
+- Same object: exact repetition-pattern match (161 distinct, identical
+  freq-of-freq multiset 92/49/14/6).
+- Map: byte = digit*60 + base62(char), alphabet 0-9A-Za-z. 253/256 as-transcribed.
+- The 3 misses are all `3l` (lowercase L) → should be `3I` (capital I): byte 198
+  not 227. l/I ambiguity; global pos 25 is one of Dukotah's 6 contested bytes.
+  Corrected in data/code_pages.txt → 256/256.
+
+Settles the map-derivation half of N14 and verifies the code-page transcription
+byte-for-byte against an independent rendering (3 l/I fixes, 1 contested byte
+resolved). Does NOT decode the bytes (§22 ruled out pad/index/table; Dukotah B-05
+couldn't separate a derived keystream — §13 wall). Remainder: the OSINT hash
+battery. String 4 vendored at data/rtkd_string4.hex. validate_solved 9/9.
+`results/codemap_2026-08-24.txt`.
