@@ -1,13 +1,74 @@
 # Liber Primus toolkit
 
-Cryptanalysis tooling for the unsolved sections of Cicada 3301's *Liber
-Primus*, working from the rune transcription in
+A control-validated cryptanalysis toolkit for the **unsolved sections** of
+Cicada 3301's *Liber Primus* — the runic pages that a decade of community effort
+has not broken. It works from the rune transcription in
 [scream314/cicada3301](https://github.com/scream314/cicada3301/blob/master/liber_primus.md)
-(vendored at `data/liber_primus.md`).
+(vendored at `data/liber_primus.md`): 25 parsed segments, ~15,750 runes, of which
+~12,956 are unsolved across 13 segments. Every solved page is reproduced by the
+toolkit, which is the proof the cipher model is correct.
 
-Findings so far are in [REPORT.md](REPORT.md). A one-page visual overview is
-published at **<https://jens-wedin.github.io/liber-primus/>** (source in
-`index.html`).
+- **Findings:** [REPORT.md](REPORT.md) (numbered §1–§52).
+- **Blow-by-blow log:** [LOG.md](LOG.md).
+- **What to run next:** [BACKLOG.md](BACKLOG.md) (organised by status).
+- **One-page visual overview:** <https://jens-wedin.github.io/liber-primus/>
+  (source in `index.html`).
+- **Orientation for contributors (human or model):** [CLAUDE.md](CLAUDE.md).
+
+## Purpose
+
+Attack the unsolved runes, honestly. Two rules govern everything here:
+
+1. **Every claim is control-validated.** No result is trusted until a *positive
+   control* passes first — encrypt known English with the hypothesised scheme,
+   then recover it through the same pipeline. Several early "results" were caught
+   as pipeline bugs this way. Detection floors and matched chance ceilings
+   (`controls.py`) are the default, not an afterthought.
+2. **Be honest about negatives and coverage.** Most attacks return nothing; the
+   value is a *narrowed hypothesis space*, not a break. A clean negative with a
+   control beats a flashy maybe, and "no evidence" (an underpowered test) is
+   reported as distinct from "ruled out".
+
+## Status — unsolved, but sharply characterised
+
+The unsolved ciphertext is, statistically, a **uniform random stream with one
+constraint: adjacent runes are almost never equal** (doublet rate 0.66% vs 3.45%
+at random — a ~17σ deficiency). This is a pure lag-1 effect. It rules out
+substitution and every periodic or independent keystream, and points to an
+output-stage **no-repeat rule** — a key-skip that advances the key pointer to
+dodge a would-be doublet, desynchronising the stream ~3% and defeating every
+fixed-position attack. The rule is **soft**: it keeps a would-be doublet about
+one time in five (p_keep ≈ 0.19), which reproduces the exact 0.66% rate.
+
+Ruled out, all control-validated: substitution/shifts/atbash; repeating-key
+Vigenère; prime/totient keystreams; autokey; running keys (KJV, Crowley's *Liber
+AL*, the *Mabinogion*, Blake, Emerson, the Anglo-Saxon Rune Poem); short and
+coined/mangled word keys; affine (non-additive) ciphers; the difference-space
+cumulative family; seeded-PRNG, derived-seed hash, Gromark and OEIS keystreams;
+magic squares as key/interrupter/message; the code pages as pad/index/table;
+per-page and per-line key resets; the literal-ᚠ interrupter; LP2-as-pad
+inversion; and the pre-2014 hint numerics. The residual doublets are real
+(reproduced by a second transcription), not copy-noise.
+
+The likely wall is a **high-entropy or external keyed pad** (`c = p + K`),
+unbreakable without the key — sharpened to *seed entropy*, since a short-seed
+derived pad is finite and beam-recoverable but low-entropy thematic seeds are
+ruled out. The numeric/image content (code pages 66–68) is the way *around* the
+wall, and it sits behind its own keyed pad.
+
+## History
+
+The project began as a side-experiment inside a design-system repository and now
+lives on its own. The campaign ran in waves: the core cipher model and the
+statistical central finding; a self-audit (§28–§31) that caught and fixed defect
+*classes* in the earlier work and produced the shared `controls.py`; then two
+external-research sweeps of the solver community (2026-08) that seeded a numbered
+backlog (N1–N20). Those items were worked through one by one, and the results
+were **cross-validated against a parallel project** (Dukotah/cicada3301), which
+reached the same central finding independently — the two ledgers agree on every
+shared negative, and the soft-rejection rate (p_keep ≈ 0.19) was fitted by both.
+No page beyond the two solved in 2014 has been broken, by this toolkit or anyone
+else.
 
 ## Layout
 
@@ -35,6 +96,20 @@ published at **<https://jens-wedin.github.io/liber-primus/>** (source in
 | `probe_shortkey_id.py` | Measures how identifiable a length-L key is under key-skip (ranks a planted key against random ones). |
 | `difference_space.py` | Tests the cumulative/chained-cipher family on the first-difference stream `c[i]−c[i-1]` (keyless, repeating-key Vigenère, prime/totient), with planted controls. |
 | `attack_prng.py` | Seeded-PRNG / hash-pad brute (LCG/xorshift/Mersenne/SHA-of-counter over small + thematic seeds) for the re-roll hypothesis, judged against a random-text chance ceiling. |
+| `controls.py` | **The shared statistical spine** — detection floor (plant → recover → read the score a real break gives), matched chance ceiling, and the verdict renderer. Every attack routes through it. `--selftest` proves the helpers. |
+| `solved_text.py` | Verified solved-page plaintexts + `full_plaintext()` (use this, not `english_plaintext()`, for anything about ᚠ or Gematria sums). |
+| `attack_derived_seed.py` | Derived hash-CTR keystream from a short seed + key-skip, through the beam (reproduces a parallel project's control; §41/N6). |
+| `attack_gromark.py` | Gromark / chain-addition mod-29 primer brute + key-skip beam (L=2 is Fibonacci, covered by §3; L=3 negative; §42/N10). |
+| `attack_twovar.py` | Non-additive **affine** cipher `c = a·p + k`, every multiplier, through the key-skip beam (§48/N12). |
+| `attack_depth.py` | Keyless depth detection by Smith-Waterman local alignment — a power analysis (no power at LP unit lengths; §43/N8). |
+| `attack_wordpos.py` | Structural-position uniformity diagnostic (word/line/page initials) — the ACA Interrupted-Key / acrostic test (§45/N9). |
+| `analyze_line_init.py` | Checks the §45 line-initial anomaly against an independent vision segmentation — resolved as a transcription artifact (§46/N19). |
+| `attack_repeats.py` | Mines every exact ciphertext repeat vs a Smirnov null (Kasiski; §49/N11). |
+| `attack_oeis.py` | OEIS-mod-29 + arithmetic keystreams via the key-skip beam, and the refutation of a no-output-rule doublet-suppressing key (§50/N16). |
+| `attack_hintseeds.py` | Unused-hint numerics (onion cookies, the 2012 P.S. number) as keystreams / hash seeds / autokey primers (§51/N15). |
+| `attack_padinvert.py` | LP2-as-pad inversion — the stream as a running key against candidate texts and its own reflections (§47/N18). |
+| `attack_steg.py` | JFIF-density steg provenance gate + appended-data scan on the page scans (§52/N13). |
+| `attack_magicsquare.py`, `attack_magicsquare_interrupter.py`, `attack_literal_f.py`, `attack_codepages.py`, `attack_pagekey.py`, `attack_selfkey.py`, `attack_difference_keys.py`, `attack_mangle2.py`, `attack_interrupt29.py` | The image/numeric and structural fronts — squares, code pages, per-page resets, composed manglings, the 29-rune interrupter power analysis. See [CLAUDE.md](CLAUDE.md) for the full annotated map. |
 | `download/` | Candidate key texts (Liber AL, Mabinogion, Blake — public domain) + the research briefing, with provenance. |
 | `docs/` | Background briefing on Cicada 3301, the runes, and the ciphers. |
 | `results/` | Archived run outputs, dated. |
