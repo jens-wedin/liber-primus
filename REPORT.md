@@ -2055,3 +2055,38 @@ is solvable. This confirms §40's power analysis and closes N1 without our own
 38-hour rebuild — the assumption this project never questioned (interrupter = ᚠ)
 is dropped, and the generalisation is negative, on independent evidence.
 `results/interruptdb_2026-08-24.txt` (data: relikd `db/`, gitignored).
+
+## 56. The alternating-alphabet "modulo cipher", verified from relikd's DB (N4)
+
+relikd also tested whether the cipher alternates between coprime-length alphabets
+(a length-3 alphabet interleaved with a length-4 one repeats only every 24 runes,
+defeating fixed-key frequency analysis). The sweep splits the text into mod-2 and
+mod-3 subgroups and finds the best interrupt set + key length per subgroup, over
+2²⁰ combinations, under two interrupt semantics (variants a and b). `analyze_interruptdb.py`
+verifies the result firsthand from the 20 `db_*_mod_*` files.
+
+At first glance the modulo scores look HIGHER than the main sweep — the best
+per-unsolved-section db_norm is 0.93 (p3-7) and db_high IoC reaches 1.99, versus
+0.55–0.63 / ~1.5 for the plain interrupter (§55). **But that is length and
+multiplicity inflation, not signal.** IoC is measured per key-slot — a subgroup
+divided by the key length — which for long keys is a very short sequence, and the
+max over 2²⁰ trials at that length runs far above the observed value: a uniform
+random stream reaches IoC 2.6 at length 40, 5.6 at length 20, and 7.5 at length
+12 over 200k draws alone. The observed 1.99 sits comfortably inside that ceiling.
+db_norm, which imposes a ≥25-rune slot floor, keeps the best unsolved score at
+0.93 — still below English's 1.0. relikd's own note records that no solution fits
+both subgroups of a modulo.
+
+So the alternating-alphabet "modulo cipher" is a confirmed **negative**. It is a
+weaker verification than N1 — relikd did not include the solved control pages in
+the modulo sweep, so there is no bullseye — but the chance-ceiling argument is
+decisive and it agrees with §55 and §4. `results/interruptdb_2026-08-24.txt`.
+
+**Robustness note (found while running N4).** The N4 code was the first part of
+`analyze_interruptdb.py` to import a project module (`controls`), and it failed —
+exposing a latent bug the `src/` restructure introduced: the automatic path
+bootstrap had been injected *inside* three modules' docstrings (the inserter
+matched a docstring line beginning "from …"), so it was dead text. Fixed in
+`analyze_interruptdb.py`, `language_model.py` and `attack_codepages.py` (the last
+genuinely failed to run standalone), and a `tests/test_bootstrap.py` guard now
+asserts every bootstrap is live.

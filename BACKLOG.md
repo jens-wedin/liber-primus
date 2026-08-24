@@ -38,11 +38,6 @@ index 25 (`3l → 3I`).
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
-### N4. Alternating coprime alphabets ("modulo cipher") — LOW / optional.
-Alphabet length 3 alternating with length 4 → effective period 24. relikd tested
-this under both interrupt semantics, mod 2 and 3, over 2²⁰ interrupt combos, and
-reports a clean negative. Worth only cheap independent confirmation.
-
 ### N10-ext. Gromark, remaining cells — LOW, compute-driven.
 §42 closed L=3 chain-addition (global, negative) and showed L=2 is Fibonacci
 (covered by §3). Untested: the per-segment (per-page primer) L=3 brute, and L≥4
@@ -81,6 +76,7 @@ the cited § in REPORT.md.
 | N14a | Code→byte map for pages 66–68 | **SOLVED** — reproduces rtkd's String 4 256/256 (map + 3 l/I fixes) | §53 |
 | N3  | mortlach transform space (orientation) | NEGATIVE; rest of the space collapses to covered ground | §54 |
 | N1  | 29-rune interrupter (relikd's finished DB) | NEGATIVE; unsolved at floor, solved recover — verified firsthand | §55 |
+| N4  | modulo / alternating-alphabet (relikd DB) | NEGATIVE; higher scores are short-slot inflation | §56 |
 
 ---
 

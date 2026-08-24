@@ -1,14 +1,6 @@
 """Deeper attacks on the 256 verified code-page codes (BACKLOG P1.3 remainder).
 
 §21 established: 256 = 2^8 codes (pages 67/68/66), digit(0-4)+base-62, verified
-# --- path bootstrap: keep flat imports working across src/ subfolders ---
-import os as _os, sys as _sys
-_SRC = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-for _d in ("core", "attacks", "analysis"):
-    _p = _os.path.join(_SRC, _d)
-    if _p not in _sys.path:
-        _sys.path.insert(0, _p)
-# --- end path bootstrap ---
 
 from the scans, high-entropy, and no *natural numeric decode* reads English or
 keys the runes. This goes past the natural decodes and tests the three
@@ -28,6 +20,15 @@ key (the §13 wall), so the realistic yield is a clean bound + any structure fou
 
 Usage: python3 attack_codepages.py
 """
+
+# --- path bootstrap: keep flat imports working across src/ subfolders ---
+import os as _os, sys as _sys
+_SRC = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+for _d in ("core", "attacks", "analysis"):
+    _p = _os.path.join(_SRC, _d)
+    if _p not in _sys.path:
+        _sys.path.insert(0, _p)
+# --- end path bootstrap ---
 
 import string
 from collections import Counter

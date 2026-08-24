@@ -2,14 +2,6 @@
 
 The bigram model used earlier was trained on ~1,875 runes of solved plaintext
 — far too little for trigrams (29^3 ~ 24k cells). This builds a proper model
-# --- path bootstrap: keep flat imports working across src/ subfolders ---
-import os as _os, sys as _sys
-_SRC = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
-for _d in ("core", "attacks", "analysis"):
-    _p = _os.path.join(_SRC, _d)
-    if _p not in _sys.path:
-        _sys.path.insert(0, _p)
-# --- end path bootstrap ---
 
 from a large English base: the `wordfreq` 50k-word English frequency list,
 each word transliterated to rune indices with Cicada's conventions and its
@@ -24,6 +16,15 @@ exactly what a beam search needs.
 Cache: the counts are built once and pickled to model_cache/ so downstream
 attacks start instantly.
 """
+
+# --- path bootstrap: keep flat imports working across src/ subfolders ---
+import os as _os, sys as _sys
+_SRC = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+for _d in ("core", "attacks", "analysis"):
+    _p = _os.path.join(_SRC, _d)
+    if _p not in _sys.path:
+        _sys.path.insert(0, _p)
+# --- end path bootstrap ---
 
 import math
 import os

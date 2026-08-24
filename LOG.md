@@ -1242,3 +1242,19 @@ bullseye that proves power. The 29-rune interrupter sweep does not lift the
 unsolved LP out of the floor. Confirms §40, closes N1 without our own rebuild.
 db staged gitignored in download/relikd_interruptdb/. No core change;
 validate_solved 9/9. `results/interruptdb_2026-08-24.txt`.
+
+### 2026-08-24 (cont.) — N4: modulo (alternating-alphabet) sweep verified (§56)
+
+Extended `analyze_interruptdb.py` to the 20 db_*_mod_* files. Modulo scores look
+higher than the main sweep (unsolved db_norm up to 0.93, db_high IoC up to 1.99)
+but that's length/multiplicity inflation: IoC is measured per key-slot
+(subgroup/keylen = very short), and random IoC at those lengths reaches 2.6 (L=40)
+to 7.5 (L=12) over 200k draws — the 1.99 sits inside it. db_norm's ≥25-rune floor
+caps the unsolved best at 0.93 < English. relikd: no solution fits both subgroups.
+Confirmed NEGATIVE, weaker than N1 (mod sweep omits solved controls).
+
+Robustness bug found + fixed: the src/ restructure's shim-inserter had injected
+the path bootstrap INSIDE three docstrings (matched a "from …" prose line), so it
+was dead — attack_codepages.py failed to run standalone. Fixed
+analyze_interruptdb/language_model/attack_codepages; added tests/test_bootstrap.py
+guarding every bootstrap is live. Fast suite 27 passed; validate_solved 9/9.

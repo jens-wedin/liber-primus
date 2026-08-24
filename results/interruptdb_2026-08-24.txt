@@ -32,3 +32,28 @@ VERDICT: the full 29-rune interrupter × polyalphabetic sweep (key lengths 1-32)
 recovers every solved page but leaves every unsolved section at the random floor.
 A large, powered, INDEPENDENT negative, verified from relikd's raw db — it
 confirms §40 and closes N1 without our own 38-hour rebuild.
+
+=== N4: relikd's MODULO (alternating-alphabet) sweep, verified firsthand ===
+best per unsolved section, across a/b × mod-2/3 × subgroups:
+  p0-2       db_norm 0.841   db_high IoC 1.892
+  p15-22     db_norm 0.809   db_high IoC 1.957
+  p23-26     db_norm 0.749   db_high IoC 1.523
+  p27-32     db_norm 0.795   db_high IoC 1.928
+  p3-7       db_norm 0.934   db_high IoC 1.986
+  p33-39     db_norm 0.703   db_high IoC 1.546
+  p40-53     db_norm 0.761   db_high IoC 1.683
+  p54-55     db_norm 0.785   db_high IoC 1.849
+  p8-14      db_norm 0.784   db_high IoC 1.614
+  -> unsolved db_norm best: 0.934 (still < English 1.0)
+
+random IoC ceiling at short per-key-slot lengths (200k draws each):
+  L=12: max random IoC 7.47
+  L=20: max random IoC 5.65
+  L=40: max random IoC 2.60
+  -> the observed db_high IoC (~1.99) sits INSIDE the chance ceiling for short
+     slots; db_norm's >=25-rune floor keeps the unsolved best below English.
+
+VERDICT (N4): the alternating-alphabet 'modulo cipher' is a confirmed NEGATIVE —
+its higher-looking scores are length/multiplicity inflation, and relikd's own
+note records that no solution fits both subgroups. Weaker than N1 (the mod sweep
+omits the solved controls), but consistent with it and with §4.
