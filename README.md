@@ -94,6 +94,22 @@ Gematria Primus, is a 29-rune Anglo-Saxon futhorc where each rune carries an
 English letter or digraph and an ascending prime. A decade of collective effort,
 this toolkit included, has broken no page beyond the two solved in 2014.
 
+## Tests
+
+A pytest suite in `tests/` pins the invariants the whole toolkit rests on — the
+Gematria bijections, cipher round-trips, the canonical parse counts, the null's
+independence in `controls`, the key-skip / soft-rule mechanics, English > random,
+the N14 code→byte map, and `validate_solved` 9/9. Run it from the repo root:
+
+```bash
+pip install pytest
+python3 -m pytest          # ~5s, should be all green
+python3 validate_solved.py # the ground-truth check, 9/9
+```
+
+New work follows TDD: write the failing test first, then the minimal code to
+pass (see the Testing section of `CLAUDE.md`).
+
 ## Repository layout
 
 The Python lives under `src/`, grouped by role:

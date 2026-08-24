@@ -13,3 +13,4 @@ download/dukotah_read4_vision.json
 
 # N1: relikd LiberPrayground InterruptDB (external, ~1.7MB — fetch on demand)
 download/relikd_interruptdb/
+.pytest_cache/

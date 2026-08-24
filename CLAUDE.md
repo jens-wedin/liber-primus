@@ -28,6 +28,29 @@ its own at `github.com/jens-wedin/liber-primus`.
   emits English-looking fragments from *random* input has no power.
 - **Reproduce solved pages after any change to core code** (`python3
   validate_solved.py` → must print 9/9).
+- **Run the tests: `python3 -m pytest` (from the repo root) → must be green.**
+  See the Testing section below.
+
+## Testing & TDD
+
+`tests/` holds a pytest suite (`pip install pytest`, run `python3 -m pytest` from
+the repo root). It is the robustness backbone: a **regression layer** pins the
+invariants everything rests on — the 29-rune Gematria bijections, the cipher
+round-trips, the parse split (the canonical 12,947 unsolved runes), the null's
+independence in `controls`, the key-skip/soft-rule mechanics, English > random,
+the N14 code→byte map (256/256), and `validate_solved` 9/9 run as a subprocess.
+
+**Workflow going forward — TDD (RED → GREEN → REFACTOR):**
+- New behaviour or a bug fix → write the failing test FIRST, watch it fail for
+  the right reason, then write the minimal code to pass. No production code
+  without a failing test first.
+- Existing code → add characterisation/regression tests that lock in current
+  behaviour (they pass now; their job is to fail loudly on a future regression).
+- A bug becomes a test: reproduce it as a failing test, then fix. (This is how
+  the `enc_key_skip` constant-key infinite-loop guard was added — the test
+  witnessed the hang, the guard made it raise.)
+- Keep the suite fast and green; run it before every commit alongside
+  `validate_solved.py`.
 
 ## Verified cipher conventions (proven in `validate_solved.py`)
 

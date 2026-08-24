@@ -70,14 +70,24 @@ def enc_reroll(p, rng):
 
 
 def enc_key_skip(p, K):
-    """Fixed keystream K, pointer advances an extra step to dodge a doublet."""
+    """Fixed keystream K, pointer advances an extra step to dodge a doublet.
+
+    Raises ValueError on a degenerate keystream (e.g. a constant key) where no
+    advance can avoid the doublet — otherwise the while loop would spin forever.
+    A real keystream resolves in one or two advances.
+    """
     out, j = [], 0
     for pi in p:
         ci = (pi + K[j % len(K)]) % N
         j += 1
+        tries = 0
         while out and ci == out[-1]:
             ci = (pi + K[j % len(K)]) % N
             j += 1
+            tries += 1
+            if tries > len(K):
+                raise ValueError("keystream cannot avoid a doublet "
+                                 "(degenerate/constant key)")
         out.append(ci)
     return out
 
