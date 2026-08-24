@@ -5,8 +5,8 @@
 % (free, Google Noto). Install it, or change \runefont below to any runic font.
 % Before submission, replace \documentclass with the HistoCrypt author-kit class
 % (Linkoping Electronic Conference Proceedings); the body needs no other change.
-% Not compile-tested by the author's tooling (no TeX engine was available); the
-% structure is balanced and the specials are escaped, but review on first build.
+% Compiles clean with Tectonic (XeTeX) 0.17 + Noto Sans Runic, no overfull boxes.
+% Build:  tectonic liber-primus-cryptodiagnosis.tex
 % ---------------------------------------------------------------------------
 \documentclass[11pt]{article}
 \usepackage{fontspec}
@@ -14,9 +14,17 @@
 \usepackage{booktabs}
 \usepackage{newunicodechar}
 \usepackage[colorlinks=true,urlcolor=blue,linkcolor=black]{hyperref}
+\usepackage{xurl}
+\emergencystretch=2em
 \usepackage{parskip}
 
-\newfontfamily\runefont{Noto Sans Runic}
+% Use a runic font for the rune glyphs if one is installed; otherwise fall back
+% to the main font (runes may not display, but the document still compiles).
+\IfFontExistsTF{Noto Sans Runic}
+  {\newfontfamily\runefont{Noto Sans Runic}}
+  {\IfFontExistsTF{Segoe UI Historic}
+     {\newfontfamily\runefont{Segoe UI Historic}}
+     {\newcommand{\runefont}{}}}
 
 % Gematria Primus rune codepoints -> the runic font.
 \newunicodechar{ᚠ}{{\runefont ᚠ}}
@@ -229,7 +237,7 @@ The contribution is the narrowed hypothesis space and the control-validation met
 
 \section{Data and code availability}
 
-All data, scripts, and per-section results are at <https://github.com/jens-wedin/liber-primus>. The statistical claims are reproduced by \texttt{validate\_solved.py} (the solved-page checks), \texttt{no\_repeat\_model.py} (the mechanism and the p\_keep fit), \texttt{analyze\_interruptdb.py} (the relikd verification), and the \texttt{attack\_*} scripts (the elimination ledger), each routed through \texttt{controls.py}. A pytest suite pins the invariants and the positive controls.
+All data, scripts, and per-section results are at \url{https://github.com/jens-wedin/liber-primus}. The statistical claims are reproduced by \texttt{validate\_solved.py} (the solved-page checks), \texttt{no\_repeat\_model.py} (the mechanism and the p\_keep fit), \texttt{analyze\_interruptdb.py} (the relikd verification), and the \texttt{attack\_*} scripts (the elimination ledger), each routed through \texttt{controls.py}. A pytest suite pins the invariants and the positive controls.
 
 
 \section{References}
@@ -249,7 +257,7 @@ Software and data:
 
 \begin{enumerate}
 \item R. Speer. rspeer/wordfreq (v3.0). Zenodo, 2022. DOI: 10.5281/zenodo.7199437.
-\item J. Wedin. \emph{Liber Primus cryptanalysis toolkit}. <https://github.com/jens-wedin/liber-primus>, 2026. All statistics, the elimination ledger, and the tests in this paper are reproduced here.
+\item J. Wedin. \emph{Liber Primus cryptanalysis toolkit}. \url{https://github.com/jens-wedin/liber-primus}, 2026. All statistics, the elimination ledger, and the tests in this paper are reproduced here.
 \end{enumerate}
 
 Community and independent-project sources:
@@ -258,7 +266,7 @@ Community and independent-project sources:
 \begin{enumerate}
 \item Transcriptions and archives: \texttt{scream314/cicada3301} (the primary rune transcription); \texttt{rtkd/iddqd} (the cross-check transcription and the "byte strings" rendering of the code pages); \texttt{krisyotam/cicada3301} (provenance-tiered image archive).
 \item Independent solver projects reaching the same central finding: \texttt{relikd/LiberPrayground} (the InterruptDB, the interrupter and modulo sweeps); \texttt{Dukotah/cicada3301} (a parallel control-validated project; the soft-rejection fit and the elimination ledger cross-check).
-\item Reference material: the Uncovering Cicada wiki (<https://uncovering-cicada.fandom.com>); the CicadaSolvers quickstart briefing (<https://www.cicadasolvers.com/quickstart/>); the \emph{Cicada 3301} entry, \emph{Wikipedia}.
+\item Reference material: the Uncovering Cicada wiki (\url{https://uncovering-cicada.fandom.com}); the CicadaSolvers quickstart briefing (\url{https://www.cicadasolvers.com/quickstart/}); the \emph{Cicada 3301} entry, \emph{Wikipedia}.
 \end{enumerate}
 
 \section{Acknowledgements}
