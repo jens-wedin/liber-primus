@@ -17,22 +17,13 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 Ordered by how actionable they are here. The first two need external inputs; the
 rest are runnable but lower-prior than the eleven already closed this campaign.
 
-### N13. Close the steg front with our own controls — MEDIUM. **Blocked: needs the page images.**
-Verified externally (sweep 2, first-hand): rtkd's outguess run over all 75 pages
-yields only known 2014 clues on the intro pages and null garbage on the runic
-pages, and recompression destroys outguess payloads, so only the original onion7
-JPGs are valid targets. Reproduce it locally, with controls:
-- **Prerequisite:** `bash fetch_pages.sh` to download the 75 scans into
-  `data/pages/` (gitignored).
-- (a) provenance gate — hash our 75 scans, parse the JFIF density fields (the
-  outguess fingerprint is density-unit *unknown*, X/Y density `1×1`), and
-  cross-check against `krisyotam/cicada3301` `original-onion7/`;
-- (b) reproduce the outguess negative with a planted-embed positive control;
-- (c) post-EOI (`FFD9`) tail scan + a DCT-χ² histogram test.
-- Also settles the low-credibility 2025 "outguess everywhere" wiki claim.
-- Sources: `rtkd/iddqd` `lp_outguessed/`;
-  uncovering-cicada.fandom.com/wiki/Outguess_detection_visual_analysis;
-  `krisyotam/cicada3301`.
+### N20. Verify the 05.jpg appended blob against an independent copy — LOW
+§52 found 72,700 bytes appended after a complete image on scream314's 05.jpg (no
+file header, entropy 6.90, ends mid-SOI, on a 400-DPI re-save) — most consistent
+with a corrupt/concatenated mirror file. Fetch page 05 from an independent source
+(`rtkd/iddqd` or `krisyotam/cicada3301` `original-onion7/`) and compare: if their
+copy is clean, it is a scream314 artifact (close); if it also carries the blob,
+carve and characterise it. Cheap once the independent image is local.
 
 ### N14. Code→byte map + the deep-web-hash battery — LOW-MED. **OSINT / external.**
 Two linked sub-tasks on the pages-66–68 / pp49-51 256-byte object:
@@ -114,6 +105,7 @@ the cited § in REPORT.md.
 | N16 | Doublet-suppressing keystreams (OEIS/arith) | REFUTED in principle + NEGATIVE | §50 |
 | N18 | LP2-as-pad inversion (F-01) | NEGATIVE, closed by uniformity | §47 |
 | N19 | Line-initial anomaly vs independent segmentation | segmentation/transcription ARTIFACT | §46 |
+| N13 | Steg provenance gate on the 75 scans | runic scans are 400-DPI re-saves (steg-dead) | §52 |
 
 ---
 

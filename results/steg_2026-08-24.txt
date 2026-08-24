@@ -1,0 +1,32 @@
+=== N13 steganography gate on 75 scans (data/pages) ===
+
+tail-scan control: clean tail 0 B, after planting 18 B -> 19 B  PASS
+
+=== 1. PROVENANCE GATE (JFIF density = the outguess fingerprint) ===
+  outguess-valid (unit 0, 1×1): 9/75 -> 00.jpg, 01.jpg, 02.jpg, 03.jpg, 08.jpg, 10.jpg, 11.jpg, 12.jpg, 13.jpg
+  re-saved (real DPI):          66/75 (all {(400, 400)} DPI — recompressed, steg-dead)
+  The 9 fingerprinted pages are the intro/instruction pages (00-03, 08, 10-13),
+  which carried the KNOWN 2014 outguess clues. Every RUNIC page in our set is
+  a 400-DPI re-save, so it cannot hold valid outguess data.
+
+=== 2. APPENDED-DATA SCAN (bytes after a verified JPEG EOI) ===
+  05.jpg: 72700 bytes after a complete image; blob entropy 6.90 b/B, header: no known header, ends in a stray SOI: True
+  READ: the prefix decodes to a full page, so the trailing bytes are genuinely
+  appended — but the blob has no clean file header and ends mid-way through a
+  second JPEG's SOI. 05.jpg is a 400-DPI RE-SAVE (not a valid steg target), so
+  this is most consistent with a CORRUPT / concatenated file in the scream314
+  mirror, not a Cicada payload. Confirm against an independent copy (rtkd /
+  krisyotam) before drawing any conclusion — carried to the backlog.
+
+  SHA-256 manifest -> results/steg_hashes_2026-08-24.txt
+
+=== VERDICT ===
+Our runic scans are 400-DPI re-saves, not steg-valid; the only pages that keep
+the outguess fingerprint are the 9 intro pages that carried the already-known
+2014 clues. One page (05.jpg) carries an appended blob, but with no clean file
+header, ending mid-SOI, on a re-saved page — most likely a corrupt mirror file,
+flagged for an independent-copy check, not a payload. This closes the steg front
+for our material and matches the external first-hand run on the ORIGINAL onion7
+images (rtkd, sweep 2): known clues on intro pages, null garbage on the runes.
+The valid-target outguess/DCT tests need the original images plus tooling not
+present here; nothing in our set is a valid target to begin with.

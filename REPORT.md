@@ -1933,3 +1933,31 @@ both below the floor a genuine break gives (by 0.37 and more), with a 0.51-nat
 floor-to-ceiling margin. The pre-LP2 hint numerics do not key the runes, as
 digits, bytes, hash-CTR seeds, or autokey primers — confirming §26 and extending
 it to the exact cookie-hash and P.S. values. `results/hintseeds_2026-08-23.txt`.
+
+## 52. Steganography provenance gate — our runic scans are steg-dead (N13)
+
+The external sweep verified first-hand that outguess on the ORIGINAL onion7
+images yields only known 2014 clues on the intro pages and null garbage on the
+runes, and that recompression destroys any outguess payload (it lives in
+quantised DCT coefficients). The outguess binary and a DCT-coefficient library
+are absent here, so `attack_steg.py` settles the one question we can answer
+locally and decisively: **are our downloaded scans even valid steg targets?**
+
+**Provenance gate — no.** The JFIF APP0 density field is the outguess fingerprint
+(genuine output: density unit *unknown*, X/Y 1×1; any re-save stamps a real DPI).
+Of our 75 scream314 scans, **9 keep the fingerprint and 66 are 400-DPI re-saves**
+— and the 9 are exactly the intro/instruction pages (00–03, 08, 10–13) that
+carried the known 2014 clues. **Every runic page in our set is a 400-DPI re-save,
+so it cannot hold valid outguess data.** Testing them locally is moot; this both
+matches the external negative and explains it. A SHA-256 manifest of all 75 is
+archived for provenance.
+
+**Appended-data scan — one artifact, not a payload.** A post-EOI scan (verified:
+the prefix must decode to a complete image, so the FFD9 is a real end marker, not
+a coincidental byte pair) flags only 05.jpg — 72,700 bytes after a complete page.
+But the blob has no clean file header, is 6.90 bits/byte, and ends mid-way
+through a second JPEG's SOI, and 05.jpg is itself a 400-DPI re-save. That is the
+signature of a corrupt / concatenated file in the scream314 mirror, not a Cicada
+payload; it is flagged for an independent-copy check (N20), not treated as a
+finding. The steg front is closed for our material. `results/steg_2026-08-24.txt`,
+`results/steg_hashes_2026-08-24.txt`.

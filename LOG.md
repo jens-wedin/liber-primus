@@ -1174,3 +1174,23 @@ NEGATIVE, well-powered. Control 4/4 at 95–98% (floor −3.95); ceiling −4.46
 keystream arm −4.32 (ps.bytes), autokey arm −4.70; best real 0.37 below the floor.
 Pre-LP2 hint numerics don't key the runes — confirms §26 for the exact values.
 No core change; validate_solved 9/9. `results/hintseeds_2026-08-23.txt`.
+
+### 2026-08-24 — N13: steganography provenance gate (§52)
+
+`attack_steg.py` on the 75 page scans (data/pages, gitignored; re-fetched — 9
+outguess-fingerprint + 66 re-saved already on disk). outguess binary + DCT
+library absent, so the local, decisive question: are our scans valid steg
+targets?
+
+PROVENANCE GATE — no. JFIF density is the outguess fingerprint (unit 0, 1×1). 9/75
+keep it — exactly the intro pages 00-03/08/10-13 that carried the known 2014
+clues; 66/75 are 400-DPI re-saves. ALL runic pages are re-saves → steg-dead.
+Matches and explains the external negative. SHA-256 manifest archived.
+
+APPENDED-DATA SCAN — one artifact. Verified post-EOI (prefix must decode to a
+full image). Only 05.jpg: 72,700 bytes after a complete page, but no file header,
+entropy 6.90, ends mid-SOI, on a 400-DPI re-save → corrupt/concatenated mirror
+file, not a payload. Flagged for independent-copy check (N20).
+
+Steg front closed for our material. No core change; validate_solved 9/9.
+`results/steg_2026-08-24.txt`, `results/steg_hashes_2026-08-24.txt`.
