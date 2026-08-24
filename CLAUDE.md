@@ -145,68 +145,48 @@ test; vacuous controls; nulls that weren't the real battery). No headline
 negative was overturned, but read §28 before trusting any margin quoted in
 §17–§27.
 
-### Do this first: the RE-DO backlog (BACKLOG.md § R) — R1/R2/R3/R5 DONE, R4 open
+### The RE-DO backlog (§28 self-audit) — ALL DONE (R1–R5)
 
-The §28 audit found defect *classes*, and the pre-session work was never audited.
-`BACKLOG.md` opens with an **R section** listing what must be re-done before any
-new attack is worth running. Highest priority, with proof rather than suspicion:
-**`attack_magicsquare.py` (§16) would report a real break as negative** — its own
-planted control recovers at −3.90, below its own −3.88 "near-English" threshold.
-`analyze_codepage.py` (§21) and `attack_literal_f.py` (§19) share the rule.
-The fix everywhere is an empirical **detection floor** (plant → recover → use that
-score), plus trial- and length-matched ceilings — now implemented once in
-`controls.py`. **R1/R2/R3/R5 are done (§29) and every recalibrated negative held**,
-with two previously-hidden coverage gaps now reported. R4 (auditing the
-never-audited §3–§13 scripts) is the remaining item.
+The §28 audit found defect *classes* — e.g. a "near-English" verdict rule that
+would report a real break as negative (`attack_magicsquare.py`'s own control
+recovered below its own threshold), under-powered ceilings, and a null drawn from
+the generator being brute-forced. The fix everywhere is an empirical **detection
+floor** (plant → recover → use that score) plus trial- and length-matched
+ceilings, implemented once in `controls.py`. **R1/R2/R3/R5 are done (§29)** and
+every recalibrated negative held; **R4 is done too** — §30 (R4a, the statistical
+core) and §31 (R4b, the attack scripts) audited the never-audited pre-session
+work: three negatives were weakened, none overturned, and two coverage claims
+were corrected. Read §28–§31 before trusting any margin quoted in §17–§27.
 
-### What is actually still open (new experiments)
+### What is actually still open (see BACKLOG.md, organised by status)
 
-The 2026-08-22/23 sessions closed the old list: per-page/per-line resets (§34),
-the difference-stream key families (§38), composed manglings (§39), and
-Emerson/Rune Poem (§37) are all negative. Current open list:
+Through §51 the campaign closed eleven external-research items (N5–N12, N15, N16,
+N18, N19) plus the older R/P backlogs — all control-validated negatives, no-power
+findings, or resolved artifacts. `BACKLOG.md` is now organised by status; the
+DONE table there lists each with its §. **Still open**, in rough priority:
 
-1. **N1 interrupt-subset search** (§40 started) — power analysis done; the
-   attack itself is still to build. relikd's finished `db/` is a shortcut.
-2. ~~**N6 derived-seed beam lane**~~ **DONE §41 — negative, well-powered.**
-   `attack_derived_seed.py` reproduces Dukotah's beam-recovery of a hash-CTR
-   key-skip seed (100% vs rigid 56%), then rules out 116 thematic passphrases ×
-   4 hash framings (floor −3.73, ceiling −4.18, best real −4.26). Audit closed:
-   §13 is scoped to re-roll pads. The §13 wall is now SEED ENTROPY. Still open:
-   wider passphrases and word+number combos.
-   - ~~pencil-and-paper PRNGs (N10)~~ **DONE §42 — negative.** `attack_gromark.py`:
-     L=2 chain addition is Fibonacci mod 29 (period ≤14 ⇒ covered by §3); L=3
-     (period 871) negative (floor −3.79, best real −4.20, 3/5 identifiable).
-     Open: per-segment primer, L≥4.
-3. ~~**N7 Dukotah ledger cross-diff**~~ **DONE §44.** Same object to 0.07%;
-   imported negatives B-05 (pp49-51 as PRF seed) + R12-A1; our beam-validated
-   keytext negatives stand where theirs don't (B-16). Soft-rejection reconciled:
-   fitted p_keep=0.193 ≈ their 0.18, orthogonal to §11, so the 86 doublets are
-   the filter's acceptance LEAK (signal, per §23). New lane N18 (F-01, LP2-as-pad
-   inversion).
-4. ~~**N8 keyless depth detection**~~ **DONE §43 — no power.** `attack_depth.py`:
-   depth needs ~600 aligned runes, LP pages are ≤277 and the desync caps
-   alignment near ~17; power analysis says untestable, so the scan is not run.
-5. **N2 code→byte map** for pages 66–68 (finite, checkable), plus N11–N16.
-   ~~N9~~ done §45 (word/page uniform). ~~N19~~ done §46 — the line-initial
-   anomaly is a transcription artifact (fails on Dukotah's independent vision
-   segmentation), §4 uniformity stands. ~~N18~~ done §47 — LP2-as-pad inversion
-   negative, closed by uniformity. ~~N12~~ done §48 — non-additive affine cipher
-   negative. ~~N11~~ done §49 — long repeats coincidental (Smirnov null).
-   ~~N16~~ done §50 — doublet-suppressing keystreams refuted + negative.
-   ~~N15~~ done §51 — unused-hint numerics don't key the runes.
-   Remaining N-list: N13 (steg controls, needs page images), N14 (code→byte /
-   deep-web hash), N17 (publish).
-6. **External routes**: the AN END deep-web hash (§27) is an OSINT hunt; N17
-   (publish the cryptodiagnosis) recruits the community.
+- **N13 — steg controls** (blocked: needs `bash fetch_pages.sh` for the 75 scans).
+  Provenance-gate + reproduce the outguess negative with a control + tail/DCT-χ².
+- **N14 — code→byte map + deep-web-hash battery** (OSINT/external). Derive the
+  pages-66–68 → 256-byte map to match rtkd's String 4; fix Dukotah's 6 contested
+  bytes; run the community hash harness. Absorbs the old N2.
+- **N3 — transposition + gematria-rotation space** (mortlach). Rune-order
+  transposition and systematic rotation pairs — genuinely untested here.
+- **N1 — interrupt-subset search.** §40 power analysis done; relikd's finished
+  `db/` is a large independent NEGATIVE and a shortcut — query it before building.
+- **N4 — alternating coprime alphabets** (relikd-negative; cheap confirm only).
+- **N10-ext — Gromark per-segment / L≥4** (low prior, compute-driven).
+- **N17 — publish the cryptodiagnosis** (write-up + post; Bean K4 precedent).
 
-A second external-research sweep (2026-08-23) added backlog **N6–N17**; the
-condensed reports live at `results/external_research_2026-08-23_sweep2.md`.
+A second external-research sweep (2026-08-23) added N6–N17; condensed reports at
+`results/external_research_2026-08-23_sweep2.md`.
 
 Out of reach for the RUNIC stream: a **keyed CSPRNG re-roll pad** (`c = p + K`,
-unbreakable without the seed, §13) — the likely wall. But note N6: a SHORT-seed
-derived pad is finite and beam-attackable; only a true external pad is out of
-reach. The numeric/code content is the way *around* the wall, and it is behind
-its own keyed pad.
+unbreakable without the seed, §13) — the likely wall. N6 (§41) sharpened it: a
+SHORT-seed derived pad is finite and beam-attackable, so the wall is specifically
+SEED ENTROPY and low-entropy thematic seeds are ruled out; only a high-entropy or
+true external pad is out of reach. The numeric/code content (N13/N14) is the way
+*around* the wall, and it sits behind its own keyed pad.
 
 NB — two standing methodology lessons, learned the hard way this session:
 - **Calibrate the decision threshold, don't assume it.** Plant the hypothesis,
