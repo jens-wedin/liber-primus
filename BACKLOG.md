@@ -49,29 +49,6 @@ derived from the block from the real stream, so the derived-pad reading is the
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
-### N21. Two more candidate running-key texts — Cypherpunk DONE, Agrippa open.
-From the two Cicada talks digested 2026-08-24 (`download/cicada talk 1.md`,
-`cicada talk 2.md`). Two named texts are NOT in the ruled-out running-key list
-(KJV, Crowley's *Liber AL vel Legis*, the *Mabinogion*, Blake, Emerson, the Rune
-Poem; §6/§9):
-- **Eric Hughes, *A Cypherpunk's Manifesto* (1993)** — **DONE 2026-08-24, NEGATIVE
-  (§57).** Control PASSES both directions; best real −4.18 fwd / −4.14 rev vs
-  English −3.38, random −6.2. Ran whole text, both signs, and reversed. Closed.
-- **William Gibson, *Agrippa: A Book of the Dead* (1992)** — STILL OPEN, the self-
-  erasing poem. Lower prior (it belongs to the 2012 book-code stage, not LP2), but
-  a real named text worth a cheap pass, same method as the Manifesto.
-Method: add each to `keytexts.py`, run `attack_running_text.py` — whole text,
-every offset, BOTH signs, and **`--reverse`** (the untested reversed-key arm from
-§31, high prior since Cicada uses reversed gematria on solved pages 06-09).
-Control-validated through `controls.py` like every other key text. Cheap; both
-texts are small, so no running-key power wall. NB the uniformity finding predicts
-a negative, but these are the two documented candidate texts we have not run.
-- Also considered and set aside: a classic **book code** (line:column index into a
-  source text; named in `cicada talk 2.md` for the 2012 path). Structurally a poor
-  fit for LP2 — one rune is a single value in 0..28, too small to be a line:column
-  index without grouping, and the lag-1 no-repeat is not a book-code signature. No
-  item; recorded here so it is not re-proposed.
-
 ### N10-ext. Gromark, remaining cells — LOW, compute-driven.
 §42 closed L=3 chain-addition (global, negative) and showed L=2 is Fibonacci
 (covered by §3). Untested: the per-segment (per-page primer) L=3 brute, and L≥4
@@ -117,6 +94,13 @@ the cited § in REPORT.md.
 | N3  | mortlach transform space (orientation) | NEGATIVE; rest of the space collapses to covered ground | §54 |
 | N1  | 29-rune interrupter (relikd's finished DB) | NEGATIVE; unsolved at floor, solved recover — verified firsthand | §55 |
 | N4  | modulo / alternating-alphabet (relikd DB) | NEGATIVE; higher scores are short-slot inflation | §56 |
+| N21 | Cypherpunk Manifesto + Gibson's Agrippa as running keys | NEGATIVE both texts, both signs + reversed; controls PASS | §57 |
+
+**Set aside (not an item), recorded so it is not re-proposed:** a classic **book
+code** (line:column index into a source text; named in `download/cicada talk 2.md`
+for the 2012 path). Structurally a poor fit for LP2 — one rune is a single value in
+0..28, too small to be a line:column index without grouping, and the lag-1
+no-repeat is not a book-code signature.
 
 ---
 

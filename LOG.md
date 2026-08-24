@@ -1336,3 +1336,17 @@ No code change; suite unaffected.
   fragments. REPORT §57; `results/n21_cypherpunk_2026-08-24.txt`.
 - BACKLOG N21: Cypherpunk closed; Gibson's *Agrippa* remains (low prior). Landing
   page updated. Gibson's Agrippa not run this step.
+
+## 2026-08-24 — Session cont.: N21 Agrippa running key — negative; N21 closed
+
+- Ran the second N21 text: William Gibson's *Agrippa: A Book of the Dead* (1992),
+  fetched from eastfamily.org (full poem, "I hesitated"…"in the mechanism."),
+  transliterated to 7,102 runes, cached as `keytext_cache/agrippa.u8`.
+- `attack_running_text.py --key agrippa` and `--reverse`: whole text, every
+  offset, both signs, plus reversed key.
+- **NEGATIVE, control-validated.** Control PASSES both ways (98%/−3.56 fwd,
+  100%/−3.41 rev). Best real −4.10 fwd (pp.17-19) / −4.14 rev (p.50) vs English
+  −3.38, random −6.2. REPORT §57; `results/n21_agrippa_2026-08-24.txt`.
+- **N21 closed** (both candidate texts negative). Moved to the DONE table; the
+  book-code idea is recorded as set-aside (structurally a poor fit for LP2).
+  Landing page updated with both rows.

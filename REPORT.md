@@ -2122,3 +2122,12 @@ and random ≈ −6.2: both sit on the random side, ~0.8 nat below English, and 
 fragments are bigram-greedy gibberish. The Manifesto does not key the runes, in
 either direction. This is the expected result under the uniformity finding, and
 it closes the higher-prior of the two N21 texts. `results/n21_cypherpunk_2026-08-24.txt`.
+
+The second N21 text, **William Gibson's *Agrippa: A Book of the Dead* (1992)**, the
+self-erasing poem named in `cicada talk 2.md` (lower prior — it belongs to the 2012
+book-code stage), was run the same way (7,102 runes, whole text, every offset, both
+signs, and reversed). Same result: control PASSES both directions (recovers a
+planted key at 98%/−3.56 forward, 100%/−3.41 reversed); best real −4.10 forward
+(pp.17-19) and −4.14 reversed (p.50), both on the random side. **NEGATIVE,
+control-validated.** This closes N21: neither documented candidate text keys the
+runes. `results/n21_agrippa_2026-08-24.txt`.
