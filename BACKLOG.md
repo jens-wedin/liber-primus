@@ -38,20 +38,6 @@ index 25 (`3l → 3I`).
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
-### N1. Interrupt-subset search over all 29 runes — MEDIUM (de-risked to negative).
-§40 built the power analysis (`attack_interrupt29.py`): with an interrupt
-**oracle** the per-slot IoC is 1.886 (English ≈1.74) vs ~1.0 noise — cleanly
-detectable in principle — but 63% of ciphertext runes equal to the interrupt rune
-are coincidental, and each false skip desyncs the rest, collapsing 1.886→1.201.
-The naive all-occurrences version has no power (control fails), so it reports NO
-EVIDENCE. The real attack (relikd's sequential look-ahead + genetic bit-flipping,
-first ~20 occurrences/page) is unbuilt.
-- **Shortcut / de-risk:** relikd's `LiberPrayground/db/` ships the FINISHED 29-rune
-  × key-length-1–32 sweep as data — unsolved sections top out at db_norm 0.55–0.63
-  vs 0.99–1.00 for solved controls. So the full sweep is ALREADY a large
-  independent NEGATIVE. Query the `db/` before rebuilding; our only edge would be
-  `controls.py` gating and searching past their first-20-occurrence bound.
-
 ### N4. Alternating coprime alphabets ("modulo cipher") — LOW / optional.
 Alphabet length 3 alternating with length 4 → effective period 24. relikd tested
 this under both interrupt semantics, mod 2 and 3, over 2²⁰ interrupt combos, and
@@ -94,6 +80,7 @@ the cited § in REPORT.md.
 | N13 | Steg provenance gate on the 75 scans | runic scans are 400-DPI re-saves (steg-dead) | §52 |
 | N14a | Code→byte map for pages 66–68 | **SOLVED** — reproduces rtkd's String 4 256/256 (map + 3 l/I fixes) | §53 |
 | N3  | mortlach transform space (orientation) | NEGATIVE; rest of the space collapses to covered ground | §54 |
+| N1  | 29-rune interrupter (relikd's finished DB) | NEGATIVE; unsolved at floor, solved recover — verified firsthand | §55 |
 
 ---
 

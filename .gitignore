@@ -10,3 +10,6 @@ results/gromark_ckpt*.json
 
 # N19: Dukotah vision transcription (external, 1.7MB — fetch on demand)
 download/dukotah_read4_vision.json
+
+# N1: relikd LiberPrayground InterruptDB (external, ~1.7MB — fetch on demand)
+download/relikd_interruptdb/

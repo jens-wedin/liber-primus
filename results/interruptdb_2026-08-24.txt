@@ -1,0 +1,34 @@
+=== relikd InterruptDB — best score per section (verified firsthand) ===
+(db_norm: English ≈ 1.0; db_high: IoC, English ≈ 1.74, random ≈ 1.0)
+
+GENUINELY UNSOLVED sections:
+  p0-2         db_norm 0.603   db_high IoC 1.510
+  p15-22       db_norm 0.574   db_high IoC 1.499
+  p23-26       db_norm 0.552   db_high IoC 1.505
+  p27-32       db_norm 0.595   db_high IoC 1.563
+  p3-7         db_norm 0.634   db_high IoC 1.683
+  p33-39       db_norm 0.570   db_high IoC 1.593
+  p40-53       db_norm 0.600   db_high IoC 1.532
+  p54-55       db_norm 0.582   db_high IoC 1.712
+  p56_an_end   db_norm 0.587   db_high IoC 2.900
+  p57_parable  db_norm 0.997   db_high IoC 5.577
+  p8-14        db_norm 0.612   db_high IoC 1.507
+  -> unsolved db_norm range: 0.552 .. 0.634  (far below English 1.0)
+
+SOLVED control sections (the method must recover these):
+  0_koan_1             db_norm 0.999   db_high IoC 5.306
+  0_loss_of_divinity   db_norm 1.000   db_high IoC 4.833
+  0_warning            db_norm 1.000   db_high IoC 4.667
+  0_welcome            db_norm 0.902   db_high IoC 2.163
+  0_wisdom             db_norm 0.989   db_high IoC 3.248
+  jpg107-167           db_norm 0.809   db_high IoC 2.211
+  jpg229               db_norm 0.995   db_high IoC 7.250
+  -> solved db_norm range: 0.809 .. 1.000
+
+BULLSEYE: p57_parable (the one solved LP2 page in the unsolved numbering) scores db_norm 0.997 — where a SOLVED page belongs — while
+the truly-unsolved pages beside it top out near 0.6.
+
+VERDICT: the full 29-rune interrupter × polyalphabetic sweep (key lengths 1-32)
+recovers every solved page but leaves every unsolved section at the random floor.
+A large, powered, INDEPENDENT negative, verified from relikd's raw db — it
+confirms §40 and closes N1 without our own 38-hour rebuild.

@@ -2025,3 +2025,33 @@ matched ceiling is −4.54; the best real decode is −4.61 (atbash + DIVINITY),
 0.79 below the floor and at/below chance, and the winning-orientation tally is
 flat noise. Reorienting the ciphertext does not key the runes, and the rest of
 mortlach's space reduces to attacks already run. `results/transpose_2026-08-24.txt`.
+
+## 55. The 29-rune interrupter, verified from relikd's finished DB — negative (N1)
+
+§40 built the power analysis for a generalised interrupter (any of the 29 runes,
+not just ᚠ): an interrupt *oracle* gives a per-slot IoC of 1.886 vs ~1.0 noise,
+so the hypothesis is detectable in principle — but 63% of ciphertext runes equal
+to the interrupt rune are coincidental, and each false skip desyncs the rest,
+collapsing the signal to 1.201. The real attack is an interrupt-SUBSET search
+over key lengths 1–32 (relikd's sequential look-ahead + genetic bit-flipping,
+first ~20 occurrences per page, ~1.4×10¹⁰ ops, ~38 h). relikd ran exactly that
+and ships the result as a database, so rather than rebuild it,
+`analyze_interruptdb.py` **verifies relikd's finished result firsthand** from the
+raw `db/` files.
+
+It is a large, powered, independent NEGATIVE:
+
+- The search **recovers every solved control page** near English (db_norm
+  0.81–1.00; db_high IoC up to 7.25) — so it has power.
+- Every **genuinely-unsolved section tops out at db_norm 0.55–0.63** (best IoC
+  ~1.5 against English's ~1.74) — the random floor.
+- The bullseye control is **`p57_parable`, the one solved LP2 page that sits in
+  the unsolved numbering: it scores db_norm 0.997** — exactly where a solved page
+  belongs — while the truly-unsolved pages beside it sit near 0.6.
+
+So the full 29-rune interrupter × polyalphabetic-key sweep does not lift the
+unsolved Liber Primus out of the floor, while it cleanly recovers everything that
+is solvable. This confirms §40's power analysis and closes N1 without our own
+38-hour rebuild — the assumption this project never questioned (interrupter = ᚠ)
+is dropped, and the generalisation is negative, on independent evidence.
+`results/interruptdb_2026-08-24.txt` (data: relikd `db/`, gitignored).

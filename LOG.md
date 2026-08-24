@@ -1227,3 +1227,18 @@ ceiling −4.54, best real −4.61 (atbash+DIVINITY) — 0.79 below the floor,
 at/below chance, flat orientation tally. Reorienting the ciphertext doesn't key
 the runes; the rest of mortlach's space is already covered. No core change;
 validate_solved 9/9. `results/transpose_2026-08-24.txt`.
+
+### 2026-08-24 (cont.) — N1: 29-rune interrupter verified from relikd's DB (§55)
+
+`analyze_interruptdb.py`. §40 did the power analysis; relikd already ran the
+~38h interrupt-subset search (all 29 interrupt runes × key lengths 1-32, genetic
+bit-flipping) and ships it as a db. Verified firsthand from the raw db/ files
+rather than rebuilding.
+
+Large powered INDEPENDENT negative: unsolved sections top out at db_norm 0.55-
+0.63 (IoC ~1.5 vs English 1.74); solved control pages recover at 0.81-1.00; and
+p57_parable (the one solved LP2 page in the unsolved numbering) scores 0.997 — a
+bullseye that proves power. The 29-rune interrupter sweep does not lift the
+unsolved LP out of the floor. Confirms §40, closes N1 without our own rebuild.
+db staged gitignored in download/relikd_interruptdb/. No core change;
+validate_solved 9/9. `results/interruptdb_2026-08-24.txt`.
