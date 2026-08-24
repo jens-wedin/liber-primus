@@ -47,3 +47,49 @@ def test_running_text_control_recovers_a_planted_book_key(model):
     assert art.positive_control(Karr, model, T,
                                 scan_head=28, step=24, conf_len=44,
                                 top=200, beam=200, max_skip=2) is True
+
+
+@pytest.mark.slow
+def test_vigenere_skip_control_recovers_a_planted_word_key(model):
+    import attack_vigenere_skip as vs
+    keys = vs.load_key_words(400, 4, 16)
+    assert vs.positive_control(keys, model, head=30, beam=100, max_skip=2) is True
+
+
+@pytest.mark.slow
+def test_shortbrute_floor_recovers_planted_short_keys(model):
+    import attack_shortbrute as sb
+    floor, covered, uncovered, rows = sb.short_key_floor(
+        2, 2, model, head=30, beam=100, max_skip=2, samples=5)
+    assert floor is not None            # at least one planted L=2 key self-recovers
+    assert len(covered) >= 1
+
+
+@pytest.mark.slow
+def test_prng_control_recovers_a_planted_reroll_seed(model):
+    import attack_prng
+    from doublet_sim import english_plaintext
+    from parse_lp import parse
+    segs = parse("data/liber_primus.md")
+    pt = english_plaintext(segs)
+    eng = model.score_sequence(pt[:400])
+    assert attack_prng.positive_control(model, pt[:120], eng, set(range(50))) is True
+
+
+@pytest.mark.slow
+def test_autokey_control_recovers_a_planted_autokey(model):
+    import attack_autokey
+    from parse_lp import parse
+    dist = attack_autokey.english_rune_distribution(parse("data/liber_primus.md"))
+    assert attack_autokey.positive_control(dist) is True
+
+
+@pytest.mark.slow
+def test_difference_space_controls_recover_cumulative_ciphers(model):
+    import difference_space as ds
+    from doublet_sim import english_plaintext
+    from parse_lp import parse
+    pt = english_plaintext(parse("data/liber_primus.md"))
+    eng = model.score_sequence(pt[:400])
+    assert ds.control_vigenere(model, pt[:1200], eng, 40) is True
+    assert ds.control_prime(model, pt[:1200], eng) is True
