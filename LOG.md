@@ -1269,3 +1269,17 @@ floor + matched ceiling + coverage/margin gates), the full elimination ledger
 (§3-§56 distilled), cross-validation vs relikd + Dukotah, the code-page map, and
 the unicity/seed-entropy wall. Draft, not camera-ready — references and the GP
 table still to complete. No code change; suite unaffected.
+
+### 2026-08-24 (cont.) — N17: paper finalised for HistoCrypt (citations + LaTeX)
+
+Venue chosen: HistoCrypt. Filled the two flagged citations from the web — Bean's
+K4 cryptodiagnosis (HistoCrypt 2021, LiU ECP vol. 183, pp. 25-33,
+doi:10.3384/ecp183153) and wordfreq (Speer 2022, doi:10.5281/zenodo.7199437);
+set the author (Jens Wedin, independent researcher) and added an Acknowledgements
+section crediting scream314/rtkd (transcriptions) and relikd/Dukotah
+(cross-validation). Generated a self-contained XeLaTeX version
+(paper/liber-primus-cryptodiagnosis.tex): rune glyphs via \runefont +
+newunicodechar, math symbols mapped, GP table + references ported. Balanced
+(braces 240/240, begin/end 8/8); NOT compile-tested (no TeX engine available) —
+flagged in the file. Swap in the HistoCrypt author-kit class before submission.
+No code change; suite unaffected.

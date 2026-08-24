@@ -1,13 +1,15 @@
 # A Cryptodiagnosis of Cicada 3301's Unsolved *Liber Primus*
 
-**Draft — prepared for submission to *Cryptologia* / HistoCrypt.**
-Author: Jens Wedin. Toolkit and data: <https://github.com/jens-wedin/liber-primus>.
+**Draft — prepared for submission to HistoCrypt (International Conference on
+Historical Cryptology).**
+Author: Jens Wedin (independent researcher).
+Correspondence and data: <https://github.com/jens-wedin/liber-primus>.
 
 > This is a working draft. It follows the *cryptodiagnosis* genre — a systematic
 > statistical characterisation of an unsolved cipher and a control-validated
-> elimination of cipher classes, rather than a claimed solution — after R. Bean,
-> "Cryptodiagnosis of Kryptos K4" (HistoCrypt). Every number here is reproduced
-> by the cited script in the repository; section tags (§n) point to `REPORT.md`.
+> elimination of cipher classes, rather than a claimed solution — after Bean's
+> cryptodiagnosis of Kryptos K4 [2]. Every number here is reproduced by the cited
+> script in the repository; section tags (§n) point to `REPORT.md`.
 
 ---
 
@@ -362,9 +364,10 @@ Peer-reviewed sources:
 
 1. C. E. Shannon. Communication Theory of Secrecy Systems. *Bell System Technical
    Journal*, 28(4):656–715, 1949.
-2. R. Bean. A cryptodiagnosis of Kryptos K4. *Proceedings of the International
-   Conference on Historical Cryptology (HistoCrypt)*. Linköping University
-   Electronic Press. [volume and page numbers to confirm at camera-ready.]
+2. R. Bean. Cryptodiagnosis of "Kryptos K4". In *Proceedings of the 4th
+   International Conference on Historical Cryptology (HistoCrypt 2021)*, Linköping
+   Electronic Conference Proceedings, vol. 183, pp. 25–33. Linköping University
+   Electronic Press, 2021. DOI: 10.3384/ecp183153.
 3. D. Oranchak, S. Blake, J. Van Eycke. The Solution of the Zodiac Killer's
    340-Character Cipher (Z340). arXiv:2403.17350, 2024.
 4. G. Lasry. *A Methodology for the Cryptanalysis of Classical Ciphers with Search
@@ -372,8 +375,7 @@ Peer-reviewed sources:
 
 Software and data:
 
-5. R. Speer. *wordfreq* (word- and n-gram-frequency data for the English language
-   model). Zenodo software release. [DOI to add at camera-ready.]
+5. R. Speer. rspeer/wordfreq (v3.0). Zenodo, 2022. DOI: 10.5281/zenodo.7199437.
 6. J. Wedin. *Liber Primus cryptanalysis toolkit*.
    <https://github.com/jens-wedin/liber-primus>, 2026. All statistics, the
    elimination ledger, and the tests in this paper are reproduced here.
@@ -393,9 +395,18 @@ Community and independent-project sources:
    (<https://www.cicadasolvers.com/quickstart/>); the *Cicada 3301* entry,
    *Wikipedia*.
 
-*(Two bibliographic specifics — the HistoCrypt volume/pages for [2] and the
-Zenodo DOI for [5] — are flagged above and will be resolved for the camera-ready
-version; they are not invented here.)*
+## Acknowledgements
+
+This diagnosis stands on a decade of open community work. I thank the maintainers
+of the transcriptions this paper depends on — `scream314` (the primary rune
+transcription) and `rtkd` (the independent cross-check and the byte-string
+rendering of the code pages) — and the CicadaSolvers and Uncovering Cicada
+communities for the frequency analysis and the puzzle history. Two independent
+solver projects were essential to the cross-validation in §7: `relikd`'s
+*LiberPrayground*, whose finished InterruptDB let me verify the interrupter and
+modulo families without a 38-hour rebuild, and `Dukotah`'s *cicada3301*, whose
+control-validated ledger and soft-rejection fit corroborate the central finding
+on the same ciphertext object. Any errors are my own.
 
 ---
 
