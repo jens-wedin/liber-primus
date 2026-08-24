@@ -49,17 +49,17 @@ derived from the block from the real stream, so the derived-pad reading is the
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
-### N21. Two more candidate running-key texts — LOW-MED, runnable now.
+### N21. Two more candidate running-key texts — Cypherpunk DONE, Agrippa open.
 From the two Cicada talks digested 2026-08-24 (`download/cicada talk 1.md`,
 `cicada talk 2.md`). Two named texts are NOT in the ruled-out running-key list
 (KJV, Crowley's *Liber AL vel Legis*, the *Mabinogion*, Blake, Emerson, the Rune
 Poem; §6/§9):
-- **Eric Hughes, *A Cypherpunk's Manifesto* (1993)** — the talk names it as a text
-  Cicada "seems to have been inspired by." Best prior of the two: short, on-theme
-  (crypto-anarchy), freely distributable. HIGHER priority.
-- **William Gibson, *Agrippa: A Book of the Dead* (1992)** — the self-erasing
-  poem. Lower prior (it belongs to the 2012 book-code stage, not LP2), but a real
-  named text worth a cheap pass.
+- **Eric Hughes, *A Cypherpunk's Manifesto* (1993)** — **DONE 2026-08-24, NEGATIVE
+  (§57).** Control PASSES both directions; best real −4.18 fwd / −4.14 rev vs
+  English −3.38, random −6.2. Ran whole text, both signs, and reversed. Closed.
+- **William Gibson, *Agrippa: A Book of the Dead* (1992)** — STILL OPEN, the self-
+  erasing poem. Lower prior (it belongs to the 2012 book-code stage, not LP2), but
+  a real named text worth a cheap pass, same method as the Manifesto.
 Method: add each to `keytexts.py`, run `attack_running_text.py` — whole text,
 every offset, BOTH signs, and **`--reverse`** (the untested reversed-key arm from
 §31, high prior since Cicada uses reversed gematria on solved pages 06-09).

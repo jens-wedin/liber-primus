@@ -1323,3 +1323,16 @@ No code change; suite unaffected.
     ᚠ interrupters; ᚠ-skip is a routine puzzle feature.
 - The transcripts are third-party talk/video content, so they stay in `download/`
   and are NOT committed. No code changed; no run this step.
+
+## 2026-08-24 — Session cont.: N21 Cypherpunk Manifesto running key — negative
+
+- Ran the higher-prior N21 text: Eric Hughes' *A Cypherpunk's Manifesto* (1993),
+  fetched, transliterated to 4,035 runes, cached as `keytext_cache/cypherpunk.u8`.
+- `attack_running_text.py --key cypherpunk` and `--reverse`: whole text, every
+  offset, both signs, plus the reversed key text.
+- **NEGATIVE, control-validated.** Control PASSES both ways (plant recovers at
+  84%/−3.39 fwd, 100%/−3.58 rev). Best real −4.18 fwd (pp.32-36) / −4.14 rev
+  (pp.44-48) vs English −3.38, random −6.2 — both on the random side, gibberish
+  fragments. REPORT §57; `results/n21_cypherpunk_2026-08-24.txt`.
+- BACKLOG N21: Cypherpunk closed; Gibson's *Agrippa* remains (low prior). Landing
+  page updated. Gibson's Agrippa not run this step.

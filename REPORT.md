@@ -2104,3 +2104,21 @@ matched a docstring line beginning "from …"), so it was dead text. Fixed in
 `analyze_interruptdb.py`, `language_model.py` and `attack_codepages.py` (the last
 genuinely failed to run standalone), and a `tests/test_bootstrap.py` guard now
 asserts every bootstrap is live.
+
+## 57. Cypherpunk Manifesto as a running key — negative (N21)
+
+The DEF CON 31 CicadaSolvers talk (`download/cicada talk 1.md`) names Eric Hughes'
+*A Cypherpunk's Manifesto* (1993) as a text Cicada "seems to have been inspired
+by." It was not in the ruled-out running-key list (§6/§9), so `attack_running_text.py`
+tested it as a running key against every unsolved segment — whole text, every
+offset, both signs (c±k), and the reversed key text (the §31 reversed-key arm,
+high prior since Cicada uses reversed gematria on solved pages 06-09).
+
+**NEGATIVE, control-validated.** The positive control PASSES both directions — the
+pipeline recovers a key planted in the Manifesto at 84% (forward, trigram −3.39)
+and 100% (reversed, −3.58), so the test has power. The best real decode is −4.18
+forward (pages 32-36) and −4.14 reversed (pages 44-48), against English ≈ −3.38
+and random ≈ −6.2: both sit on the random side, ~0.8 nat below English, and the
+fragments are bigram-greedy gibberish. The Manifesto does not key the runes, in
+either direction. This is the expected result under the uniformity finding, and
+it closes the higher-prior of the two N21 texts. `results/n21_cypherpunk_2026-08-24.txt`.
