@@ -1258,3 +1258,14 @@ the path bootstrap INSIDE three docstrings (matched a "from …" prose line), so
 was dead — attack_codepages.py failed to run standalone. Fixed
 analyze_interruptdb/language_model/attack_codepages; added tests/test_bootstrap.py
 guarding every bootstrap is live. Fast suite 27 passed; validate_solved 9/9.
+
+### 2026-08-24 (cont.) — N17: cryptodiagnosis paper draft
+
+`paper/liber-primus-cryptodiagnosis.md`. First full draft of the publishable
+cryptodiagnosis (Cryptologia / HistoCrypt), in the Bean-K4 genre: abstract,
+corpus + provenance, verified conventions, the central lag-1 finding + soft-
+rejection model (p_keep≈0.19), the control-validation methodology (detection
+floor + matched ceiling + coverage/margin gates), the full elimination ledger
+(§3-§56 distilled), cross-validation vs relikd + Dukotah, the code-page map, and
+the unicity/seed-entropy wall. Draft, not camera-ready — references and the GP
+table still to complete. No code change; suite unaffected.

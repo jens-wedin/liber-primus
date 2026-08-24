@@ -44,7 +44,10 @@ index 25 (`3l → 3I`).
 primers / other lags. Low prior given the global negative and the partial
 identifiability at head 44.
 
-### N17. Publish the cryptodiagnosis — HIGH EXTERNAL VALUE. **Write-up + post, not an attack.**
+### N17. Publish the cryptodiagnosis — DRAFT WRITTEN (§ paper/). **Write-up + post, not an attack.**
+**DRAFT 2026-08-24 (`paper/liber-primus-cryptodiagnosis.md`).** Full first draft in
+the Bean-K4 cryptodiagnosis genre. Remaining: complete references + GP table,
+adapt to the venue's LaTeX template, and submit. Below is the original note.
 No peer-reviewed cryptanalysis of the Liber Primus exists; Bean's "Cryptodiagnosis
 of Kryptos K4" (HistoCrypt) is the exact precedent. Our doublet / key-skip model,
 the soft-rejection fit (p_keep≈0.19, §44), and the control-validated elimination
