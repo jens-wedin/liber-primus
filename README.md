@@ -56,19 +56,43 @@ derived pad is finite and beam-recoverable but low-entropy thematic seeds are
 ruled out. The numeric/image content (code pages 66–68) is the way *around* the
 wall, and it sits behind its own keyed pad.
 
-## History
+## History — Cicada 3301
 
-The project began as a side-experiment inside a design-system repository and now
-lives on its own. The campaign ran in waves: the core cipher model and the
-statistical central finding; a self-audit (§28–§31) that caught and fixed defect
-*classes* in the earlier work and produced the shared `controls.py`; then two
-external-research sweeps of the solver community (2026-08) that seeded a numbered
-backlog (N1–N20). Those items were worked through one by one, and the results
-were **cross-validated against a parallel project** (Dukotah/cicada3301), which
-reached the same central finding independently — the two ledgers agree on every
-shared negative, and the soft-rejection rate (p_keep ≈ 0.19) was fitted by both.
-No page beyond the two solved in 2014 has been broken, by this toolkit or anyone
-else.
+*Cicada 3301* is the signature on three sets of public cryptographic puzzles,
+each posted on or around **4 January** of **2012, 2013, and 2014**, plus a
+handful of later signed messages. The stated aim was to *"recruit intelligent
+individuals."* The group's identity and purpose have never been verified;
+guesses range from an intelligence-agency recruiting tool to a cypherpunk
+collective, an alternate-reality game, or a hoax — none confirmed. What follows
+is the verified skeleton (see [docs/cicada-3301-background.md](docs/cicada-3301-background.md)
+for sources).
+
+- **2012** — The first puzzle appears on 4chan's /x/ board: *"We are looking for
+  highly intelligent individuals."* The chain runs OutGuess steganography → a
+  Caesar cipher → Reddit → **book ciphers** (the *Mabinogion*; Gibson's
+  *Agrippa*) → a prime-number image → a phone number → `845145127.com` →
+  **physical QR-code posters in ~14 cities worldwide** → a Tor site that
+  collected email addresses. It ended with *"we have found the individuals we
+  sought."*
+- **2013** — A new, **PGP-signed** image opens the second round (signature
+  verification becomes the anti-hoax rule). The chain uses a book cipher keyed to
+  **Crowley's *Liber AL vel Legis***, an MP3 — *"The Instar Emergence"* — that
+  XORs with Twitter data to yield the **Gematria Primus** rune table, and a
+  bootable **"CicadaOS"** Linux image.
+- **2014** — The third round leads to the **Liber Primus**, a ~74-page codex
+  written entirely in Gematria Primus runes; the pages are released as JPEGs in
+  a May 2014 file dump. This is the book this toolkit attacks.
+- **2015–2017** — No new puzzle in 2015. Later Twitter messages follow (the
+  6 Jan 2016 *"Liber Primus is the way"*). The **last verified PGP-signed
+  message is ~29 April 2017**: *"Beware false paths…"* Nothing has been verified
+  since.
+
+**The Liber Primus is mostly unsolved.** Community summaries split it into **LP1
+(17 pages, all solved)** and **LP2 (58 pages, only 2 solved — `56.jpg` and
+`57.jpg`)**, leaving **56 pages unsolved** — the target here. The alphabet,
+Gematria Primus, is a 29-rune Anglo-Saxon futhorc where each rune carries an
+English letter or digraph and an ascending prime. A decade of collective effort,
+this toolkit included, has broken no page beyond the two solved in 2014.
 
 ## Layout
 
