@@ -1,0 +1,63 @@
+hint-derived keys (11):
+  ws2012                     len  18: FTHOCWJPUUTHJFWFCFOTH
+  ws2013                     len   6: COTHTHOC
+  ws2014                     len  11: THOCWJPBDFTHH
+  ws2015                     len   5: COTHCW
+  cookie_digits              len   6: UGWWGU
+  cookies_mod29              len   2: OEW
+  missing_primes(=primes@20) len 180: SNGAETHIXTLOEYJSNGDRGEOEOEEACW
+  prime@167                  len 154: JDIARGTEACWBMAEXELAUWSNGIALOEO
+  prime@761                  len 154: WPNGIAIXLOEEAONJNGDITWJDHWPRHY
+  tot@167                    len 154: IOEYOCSBDRGTEAPBMDFGXLYMNGTHIL
+  tot@761                    len 154: GEOLYNPMNGIATHHILOENSGIOEWGEOO
+
+=== DETECTION FLOOR: plant each hint key, recover it, read off the score a real break gives ===
+  plant ws2012                       -> 'ws2012                      '  -3.83 acc  70%  identified (weak decode)
+  plant ws2013                       -> 'ws2013                      '  -3.97 acc  93%  identified
+  plant ws2014                       -> 'ws2014                      '  -3.81 acc  90%  identified
+  plant ws2015                       -> 'ws2015                      '  -3.82 acc  97%  identified
+  plant cookie_digits                -> 'cookie_digits               '  -3.88 acc 100%  identified
+  plant cookies_mod29                -> 'cookies_mod29               '  -3.37 acc  57%  identified (weak decode)
+  plant missing_primes(=primes@20)   -> 'missing_primes(=primes@20)  '  -3.71 acc  93%  identified
+  plant prime@167                    -> 'prime@167                   '  -4.00 acc 100%  identified
+  plant prime@761                    -> 'prime@761                   '  -3.99 acc  97%  identified
+  plant tot@167                      -> 'tot@167                     '  -4.00 acc 100%  identified
+  plant tot@761                      -> 'tot@761                     '  -3.99 acc  97%  identified
+
+  FLOOR = -4.00 (min over 11/11 identifiable hint keys)
+  weak decodes (identified, but <90% of plaintext): ws2012, cookies_mod29
+
+=== CHANCE CEILING (max over 13 random texts, matched to the 13 real segments): -4.35 ===
+
+REAL unsolved segments (hint keys + key-skip):
+  17.jpg-19.jpg - 0.jpg-2.jpg    key 'missing_primes(=primes@20)' c+k  -4.38
+  20.jpg - 3.jpg-5.jpg           key 'ws2012                    ' c-k  -4.81
+  20.jpg - 3.jpg-5.jpg           key 'ws2012                    ' c-k  -4.70
+  23.jpg, 24.jpg - 6.jpg-7.jpg   key 'tot@761                   ' c-k  -4.57
+  25.jpg, 26.jpg, 27.jpg, 28.jpg key 'tot@167                   ' c+k  -4.72
+  32.jpg, 33.jpg, 34.jpg, 35.jpg key 'tot@167                   ' c-k  -4.68
+  40.jpg, 41.jpg, 42.jpg, 43.jpg key 'tot@167                   ' c-k  -4.91
+  44.jpg, 45.jpg, 46.jpg, 47.jpg key 'prime@167                 ' c-k  -4.92
+  50.jpg - 33.jpg                key 'missing_primes(=primes@20)' c+k  -4.78
+  50.jpg, 51.jpg, 52.jpg, 53.jpg key 'tot@167                   ' c+k  -4.77
+  56.jpg - 39.jpg                key 'tot@761                   ' c-k  -4.76
+  57.jpg - 40.jpg                key 'missing_primes(=primes@20)' c+k  -4.86
+  71.jpg - 54.jpg                key 'ws2012                    ' c-k  -4.72
+
+best on 17.jpg-19.jpg - 0.jpg-2.jp (key 'missing_primes(=primes@20)')
+  best real -4.38  vs  detection floor -4.00 (what a real break scores)  vs  matched chance ceiling -4.35
+  -> 0.38 BELOW the floor a genuine break produces and at/below the matched chance ceiling: NEGATIVE, with demonstrated power for 11/11 hint keys.
+
+=== wisdom / folly (2013 ISO /tmp) characterization ===
+Source: scream314/cicada3301 assets/2013/cicados/tmp/{wisdom,folly}
+folly:  3368 bytes, type "data" (binary), high-entropy, not text
+wisdom: 3368 bytes, type "data" (binary), identical content to folly
+Verdict: NOT a running-key text (not English). The only remaining reading is an
+arbitrary 3368-byte binary pad, which is the documented high-entropy-pad wall
+(REPORT §13) with a near-zero prior (2013 ISO, wrong puzzle/year). Not pursued.
+
+=== 2012 P.S. "3-row matrix / 90-degree rotation" hint ===
+This is a claim about the 128-digit NUMBER (rotated it shows 3301/1033), i.e.
+numerology on the digits, not an operation on the rune stream. The number itself
+is already tested as keystream/seed/primer (N15, REPORT §51). Not applicable to
+the ciphertext.

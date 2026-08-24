@@ -74,7 +74,7 @@ the cited § in REPORT.md.
 | N10 | Gromark / chain-addition primers | L=2 = Fibonacci (covered); L=3 NEGATIVE | §42 |
 | N11 | Long exact repeats vs a Smirnov null | coincidental, no Kasiski anchors | §49 |
 | N12 | Non-additive affine cipher (all multipliers) | NEGATIVE, well-powered | §48 |
-| N15 | Unused-hint numerics as keystreams/seeds/primers | NEGATIVE; confirms §26 for exact values | §51 |
+| N15 | Unused-hint numerics as keystreams/seeds/primers | NEGATIVE; the full `hints_never_used.md` page now closed (2013/2015 whitespace added; wisdom/folly = high-entropy binary, not text) | §51 |
 | N16 | Doublet-suppressing keystreams (OEIS/arith) | REFUTED in principle + NEGATIVE | §50 |
 | N18 | LP2-as-pad inversion (F-01) | NEGATIVE, closed by uniformity | §47 |
 | N19 | Line-initial anomaly vs independent segmentation | segmentation/transcription ARTIFACT | §46 |

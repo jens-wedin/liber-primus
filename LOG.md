@@ -1283,3 +1283,22 @@ newunicodechar, math symbols mapped, GP table + references ported. Balanced
 (braces 240/240, begin/end 8/8); NOT compile-tested (no TeX engine available) —
 flagged in the file. Swap in the HistoCrypt author-kit class before submission.
 No code change; suite unaffected.
+
+## 2026-08-24 — Session cont.: close the whole `hints_never_used.md` page
+
+- The user pointed at scream314's `hints_never_used.md`. Most of it was already
+  closed: the 2012 P.S. number and the cookie hex payloads by N15/§51
+  (`attack_hintseeds.py`), and the 2012/2014 whitespace, cookies 167/761, and
+  the missing-primes list by N26/§26 (`attack_hints.py`; the missing primes are
+  `prime_stream[20:200]`, already in §3).
+- Two whitespace sequences were missing from `attack_hints.py`: 2013 'hello'
+  `5,3,2,2,3,5` and 2015 Planned Parenthood `5,3,2,5,7`. Added both. Re-run:
+  11/11 hint keys identifiable (the two new ones self-recover at 93%/97%); best
+  real −4.38 vs floor −4.00 vs ceiling −4.35. **NEGATIVE, with power.**
+- Characterized the two non-keystream page items: the "3-row matrix / 90°
+  rotation" is numerology on the 128-digit number (already tested as a
+  keystream/seed/primer); `wisdom`/`folly` (2013 ISO) are 3368 bytes of
+  identical high-entropy binary (`data`, not text) — not a running-key text, only
+  the arbitrary-binary-pad reading remains (§13 wall, near-zero prior). Not run.
+- `validate_solved` 9/9; fast pytest 27 passed. Archive:
+  `results/hints_never_used_2026-08-24.txt`. REPORT §51 addendum.

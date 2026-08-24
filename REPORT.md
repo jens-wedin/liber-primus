@@ -978,7 +978,7 @@ re-run through the floor; all negatives hold, and each now states its coverage:
 | 16 | `attack_magicsquare.py` | −3.95 | −4.23 | 0.27 below | 8/9 (`sq16_rev` NOT COVERED) |
 | 21 | `analyze_codepage.py` | −4.00 | −4.33 | 0.33 below | 4/4 |
 | 19 | `attack_literal_f.py` | −3.65 | −4.81 | 1.17 below | 33/34 |
-| 26 | `attack_hints.py` | −4.00 | −4.38 | 0.38 below | 9/9 |
+| 26 | `attack_hints.py` | −4.00 | −4.38 | 0.38 below | 11/11 (+2013/2015 whitespace, §51 addendum) |
 
 §16 is the one proven broken in §28 — its own planted control scored −3.90
 against its own −3.88 threshold. Recalibrated, its negative stands. §19's default
@@ -1933,6 +1933,20 @@ both below the floor a genuine break gives (by 0.37 and more), with a 0.51-nat
 floor-to-ceiling margin. The pre-LP2 hint numerics do not key the runes, as
 digits, bytes, hash-CTR seeds, or autokey primers — confirming §26 and extending
 it to the exact cookie-hash and P.S. values. `results/hintseeds_2026-08-23.txt`.
+
+**Addendum (2026-08-24) — the whole `hints_never_used.md` page is now closed.**
+A re-read of scream314's `hints_never_used.md` surfaced two whitespace sequences
+`attack_hints.py` (§26) had not carried: the 2013 'hello' telnet run `5,3,2,2,3,5`
+and the 2015 Planned Parenthood run `5,3,2,5,7`. Both are now in the key set. The
+control identifies all 11/11 hint keys (the two new ones self-recover at 93% and
+97%); the best real decode is −4.38, below the −4.00 detection floor and at/below
+the −4.35 matched ceiling. **NEGATIVE, with power.** Two page items are not
+rune-cipher operations: the "3-row matrix / 90° rotation" note is numerology on
+the 128-digit number (which is already tested as keystream/seed/primer above),
+and the 2013-ISO `wisdom`/`folly` files are 3368 bytes of identical high-entropy
+binary (`type "data"`, not text), so they are not a running-key candidate — only
+the arbitrary-binary-pad reading remains, which is the §13 wall at a near-zero
+prior (wrong puzzle/year). `results/hints_never_used_2026-08-24.txt`.
 
 ## 52. Steganography provenance gate — our runic scans are steg-dead (N13)
 

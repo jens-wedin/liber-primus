@@ -3,7 +3,9 @@
 Uncovering-Cicada's "Possible hints never used" collects numeric sequences from
 the 2012-2015 puzzles that were never applied to Liber Primus:
   - 2012 OutGuess (vjuNp.jpg) whitespace: 0,2,3,5,7,11,13,1,1,2,11,0,7,0,5,0,3,2
+  - 2013 'hello' telnet whitespace:       5,3,2,2,3,5
   - 2014 message.txt.asc whitespace:     2,3,5,7,11,13,17,23,29,31,37 (skips 19)
+  - 2015 Planned Parenthood whitespace:   5,3,2,5,7
   - cookies of p7amjopgric7dfdi.onion:   167, 761 (an emirp pair)
   - "missing primes on telnet": the primes the printed list skips between 71 and
     1229, i.e. 73..1223. NB this set is *mathematically* the standard prime
@@ -80,7 +82,9 @@ def build_keys(head, max_skip):
             keys.append((name, ix))
 
     add("ws2012", [0, 2, 3, 5, 7, 11, 13, 1, 1, 2, 11, 0, 7, 0, 5, 0, 3, 2])
+    add("ws2013", [5, 3, 2, 2, 3, 5])
     add("ws2014", [2, 3, 5, 7, 11, 13, 17, 23, 29, 31, 37])
+    add("ws2015", [5, 3, 2, 5, 7])
     add("cookie_digits", [1, 6, 7, 7, 6, 1])
     add("cookies_mod29", [167, 761])
     # == prime_stream[20:200]; kept for completeness, not independent of §3
