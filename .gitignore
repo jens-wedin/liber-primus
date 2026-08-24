@@ -20,3 +20,6 @@ paper/*.pdf
 paper/*.aux
 paper/*.log
 paper/*.out
+
+# HistoCrypt author-kit archive (the extracted .sty/.bst are committed under paper/)
+docs/histocrypt.zip
