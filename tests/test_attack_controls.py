@@ -42,7 +42,12 @@ def test_derived_seed_control_reproduces_the_hash_ctr_recovery(model):
 def test_running_text_control_recovers_a_planted_book_key(model):
     import attack_running_text as art
     import keytexts
-    Karr = np.array(keytexts.get("runepoem_oe"), dtype=np.int16)
+    try:
+        key_runes = keytexts.get("runepoem_oe")
+    except FileNotFoundError:
+        pytest.skip("runepoem_oe key text not cached "
+                    "(build it: keytexts.py --add-textfile download/rune_poem.txt)")
+    Karr = np.array(key_runes, dtype=np.int16)
     T = art.trigram_table(model)
     assert art.positive_control(Karr, model, T,
                                 scan_head=28, step=24, conf_len=44,

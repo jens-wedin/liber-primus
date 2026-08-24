@@ -1,5 +1,7 @@
 # Liber Primus toolkit
 
+[![tests](https://github.com/jens-wedin/liber-primus/actions/workflows/tests.yml/badge.svg)](https://github.com/jens-wedin/liber-primus/actions/workflows/tests.yml)
+
 A control-validated cryptanalysis toolkit for the **unsolved sections** of
 Cicada 3301's *Liber Primus* — the runic pages that a decade of community effort
 has not broken. It works from the rune transcription in
@@ -113,8 +115,10 @@ key-skip, derived-seed, running-text, vigenère-skip, short-brute, PRNG, autokey
 and difference-space each recover a *planted* hypothesis through their own
 pipeline. Run both before committing (`python3 -m pytest -m ""` runs all).
 
-New work follows TDD: write the failing test first, then the minimal code to
-pass (see the Testing section of `CLAUDE.md`).
+CI (GitHub Actions, `.github/workflows/tests.yml`) runs the fast suite +
+`validate_solved` on every push and pull request, and the full slow control suite
+weekly (and on manual dispatch). New work follows TDD: write the failing test
+first, then the minimal code to pass (see the Testing section of `CLAUDE.md`).
 
 ## Repository layout
 

@@ -1,0 +1,54 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  schedule:
+    # weekly, Monday 04:17 UTC — runs the slow positive-control suite
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  fast:
+    name: fast invariant suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      # the wordfreq n-gram model builds on first use; cache it between runs
+      - name: cache the built n-gram model
+        uses: actions/cache@v4
+        with:
+          path: src/core/model_cache
+          key: model-${{ hashFiles('src/core/language_model.py', 'requirements.txt') }}
+      - run: pip install -r requirements.txt
+      - name: fast suite (invariants; slow controls deselected)
+        run: python3 -m pytest -q
+      - name: solved pages reproduce (9/9)
+        run: python3 validate_solved.py
+
+  slow:
+    name: slow positive-control suite
+    # only on the schedule and on manual dispatch — the controls run the real
+    # beam pipelines (~3 min)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: cache the built n-gram model
+        uses: actions/cache@v4
+        with:
+          path: src/core/model_cache
+          key: model-${{ hashFiles('src/core/language_model.py', 'requirements.txt') }}
+      - run: pip install -r requirements.txt
+      - name: full suite (invariants + plant-and-recover controls)
+        run: python3 -m pytest -m "" -q
+      - name: solved pages reproduce (9/9)
+        run: python3 validate_solved.py
