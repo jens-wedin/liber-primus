@@ -103,9 +103,14 @@ the N14 code→byte map, and `validate_solved` 9/9. Run it from the repo root:
 
 ```bash
 pip install pytest
-python3 -m pytest          # ~5s, should be all green
+python3 -m pytest          # ~5s fast invariant suite, all green
+python3 -m pytest -m slow  # ~60s plant-and-recover positive controls
 python3 validate_solved.py # the ground-truth check, 9/9
 ```
+
+The slow suite runs the positive controls that back every power claim — the
+key-skip, derived-seed and running-text pipelines each recover a *planted*
+hypothesis. Run both before committing (`python3 -m pytest -m ""` runs all).
 
 New work follows TDD: write the failing test first, then the minimal code to
 pass (see the Testing section of `CLAUDE.md`).

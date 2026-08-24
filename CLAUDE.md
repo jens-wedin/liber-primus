@@ -34,11 +34,19 @@ its own at `github.com/jens-wedin/liber-primus`.
 ## Testing & TDD
 
 `tests/` holds a pytest suite (`pip install pytest`, run `python3 -m pytest` from
-the repo root). It is the robustness backbone: a **regression layer** pins the
-invariants everything rests on — the 29-rune Gematria bijections, the cipher
-round-trips, the parse split (the canonical 12,947 unsolved runes), the null's
-independence in `controls`, the key-skip/soft-rule mechanics, English > random,
-the N14 code→byte map (256/256), and `validate_solved` 9/9 run as a subprocess.
+the repo root). It is the robustness backbone in two layers:
+
+- **Fast invariant suite (default, ~5s):** pins the invariants everything rests
+  on — the 29-rune Gematria bijections, the cipher round-trips, the parse split
+  (the canonical 12,947 unsolved runes), the null's independence in `controls`,
+  the key-skip/soft-rule mechanics, English > random, the N14 code→byte map
+  (256/256), and `validate_solved` 9/9 run as a subprocess. `python3 -m pytest`.
+- **Slow control suite (`-m slow`, ~60s):** the plant-and-recover POSITIVE
+  CONTROLS that back every power claim — `attack_keyskip`, `attack_derived_seed`
+  and `attack_running_text` each recover a planted hypothesis through their own
+  beam pipeline. `python3 -m pytest -m slow`.
+
+**Run both before committing** (`python3 -m pytest -m ""` runs everything).
 
 **Workflow going forward — TDD (RED → GREEN → REFACTOR):**
 - New behaviour or a bug fix → write the failing test FIRST, watch it fail for
