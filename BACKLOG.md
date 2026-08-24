@@ -38,15 +38,6 @@ index 25 (`3l → 3I`).
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
 
-### N3. Transposition + systematic gematria-rotation space — MEDIUM.
-mortlach's enumerable space, never tested here: strip operationally-defined
-interrupt runes, then search **28×28 gematria rotation pairs** × atbash flag ×
-**L2R/R2L plaintext transposition** — ~10³–10⁴ combinations per cipher function,
-enumerable rather than a key brute. **We have never tested rune-order
-transposition nor systematic gematria rotation pairs.** Route through
-`controls.py`. Overlaps Dukotah's D-04.
-- Source: `mortlach/Liber-Primus-Rune-Decrypting`.
-
 ### N1. Interrupt-subset search over all 29 runes — MEDIUM (de-risked to negative).
 §40 built the power analysis (`attack_interrupt29.py`): with an interrupt
 **oracle** the per-slot IoC is 1.886 (English ≈1.74) vs ~1.0 noise — cleanly
@@ -102,6 +93,7 @@ the cited § in REPORT.md.
 | N19 | Line-initial anomaly vs independent segmentation | segmentation/transcription ARTIFACT | §46 |
 | N13 | Steg provenance gate on the 75 scans | runic scans are 400-DPI re-saves (steg-dead) | §52 |
 | N14a | Code→byte map for pages 66–68 | **SOLVED** — reproduces rtkd's String 4 256/256 (map + 3 l/I fixes) | §53 |
+| N3  | mortlach transform space (orientation) | NEGATIVE; rest of the space collapses to covered ground | §54 |
 
 ---
 

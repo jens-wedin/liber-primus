@@ -1996,3 +1996,32 @@ table, and Dukotah's B-05 could not separate a keystream derived from this block
 from the real stream — so the bytes remain behind the §13 keyed-pad wall. The
 open remainder of N14 is the OSINT hash battery on the now-verified bytes.
 `results/codemap_2026-08-24.txt`; target vendored at `data/rtkd_string4.hex`.
+
+## 54. mortlach's transform space — orientation search, negative (N3)
+
+mortlach's enumerable space is {interrupter} × {gematria rotation} × {atbash} ×
+{L2R/R2L transposition} × {cipher function}. Most of it collapses onto covered
+ground, and the collapse is the first half of the result:
+
+- A **gematria rotation** (a monoalphabetic shift of the 29-ring) is absorbed
+  into the additive key for an index-space cipher — nothing beyond §3/§48.
+- **Atbash** (i → 28−i) is the affine multiplier a = 28, already swept in §48/N12.
+- **"L2R/R2L transposition" is a reading direction, not an arbitrary reordering.**
+  Arbitrary rune transposition is *un-searchable* for the Liber Primus: it
+  preserves unigram frequencies and our bigrams are flat (§4), so there is no
+  statistical handle to find the right permutation — the exact opposite of
+  Zodiac Z340, whose period-19 bigram spike is what revealed its transposition.
+
+So the only genuinely new, testable dimension is the ciphertext **orientation**,
+a high-prior variant (Cicada uses reversed gematria on solved pages) that our
+attacks had only ever applied to the key texts (§32/§36), never to the
+ciphertext. `attack_transpose.py` runs the prime/totient/word-key + key-skip beam
+on the ciphertext in each of the four involutive orientations — forward,
+reversed, atbash, atbash-reversed.
+
+**NEGATIVE, well-powered.** The control recovers a planted keystream under each
+orientation at 100% (floor −3.82), so the test has power for all four. The
+matched ceiling is −4.54; the best real decode is −4.61 (atbash + DIVINITY),
+0.79 below the floor and at/below chance, and the winning-orientation tally is
+flat noise. Reorienting the ciphertext does not key the runes, and the rest of
+mortlach's space reduces to attacks already run. `results/transpose_2026-08-24.txt`.

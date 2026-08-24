@@ -1213,3 +1213,17 @@ resolved). Does NOT decode the bytes (§22 ruled out pad/index/table; Dukotah B-
 couldn't separate a derived keystream — §13 wall). Remainder: the OSINT hash
 battery. String 4 vendored at data/rtkd_string4.hex. validate_solved 9/9.
 `results/codemap_2026-08-24.txt`.
+
+### 2026-08-24 (cont.) — N3: mortlach's transform space, orientation search (§54)
+
+`attack_transpose.py`. mortlach's {interrupter}×{gematria rotation}×{atbash}×
+{L2R/R2L}×{cipher} mostly collapses: rotation is absorbed into the additive key;
+atbash is the §48 affine a=28; arbitrary transposition is un-searchable (flat
+bigrams give no handle, §4 — unlike Z340). Only ciphertext ORIENTATION is new:
+run the keystream + key-skip beam on fwd/rev/atbash/atbash-rev.
+
+NEGATIVE, well-powered: control recovers all 4 orientations at 100% (floor −3.82),
+ceiling −4.54, best real −4.61 (atbash+DIVINITY) — 0.79 below the floor,
+at/below chance, flat orientation tally. Reorienting the ciphertext doesn't key
+the runes; the rest of mortlach's space is already covered. No core change;
+validate_solved 9/9. `results/transpose_2026-08-24.txt`.
