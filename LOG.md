@@ -1302,3 +1302,24 @@ No code change; suite unaffected.
   the arbitrary-binary-pad reading remains (§13 wall, near-zero prior). Not run.
 - `validate_solved` 9/9; fast pytest 27 passed. Archive:
   `results/hints_never_used_2026-08-24.txt`. REPORT §51 addendum.
+
+## 2026-08-24 — Session cont.: digest two Cicada talks → backlog
+
+- The user added two talk transcripts to `download/` and asked for leads: a DEF
+  CON 31 CicadaSolvers talk (`cicada talk 1.md`) and a Nostalgia Nerd documentary
+  (`cicada talk 2.md`). Digested both by subagent (raw text kept out of context).
+- Talk 2 is about the 2012 pre-runic puzzle only — zero mentions of runes /
+  Gematria / Liber Primus. No LP2 lead.
+- Talk 1 is ~90% community/narrative but yields three actionable items, added to
+  `BACKLOG.md`:
+  - **N21 (new):** two candidate running-key texts not yet run — Eric Hughes'
+    *A Cypherpunk's Manifesto* (higher prior, on-theme) and Gibson's *Agrippa*
+    (lower prior, 2012 stage). Runnable now via `attack_running_text.py` incl.
+    `--reverse`.
+  - **N14 refined:** the deep-web hash is NOT confirmed SHA-512 (widen to a
+    512-bit battery); the onion path is exhausted (Northeastern "honions" → the
+    target is unindexed clearnet); a "3301 hash alarm" extension exists.
+  - First-party confirmations (not new): solved page 56 = prime running key with
+    ᚠ interrupters; ᚠ-skip is a routine puzzle feature.
+- The transcripts are third-party talk/video content, so they stay in `download/`
+  and are NOT committed. No code changed; no run this step.

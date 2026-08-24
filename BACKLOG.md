@@ -28,15 +28,49 @@ carve and characterise it. Cheap once the independent image is local.
 ### N14. Deep-web-hash battery on the verified String-4 bytes — LOW-MED. **OSINT / external.**
 The code→byte map half is **DONE (§53)** — see the DONE table. What remains is the
 OSINT hash hunt: run the now-verified 256 bytes (and their hex/ASCII renderings)
-through the community harness `cicada-solvers/Cicada-DWH-HashcatAttempts`
-(SHA-512, Streebog, …), checking their `results/` first for prior coverage. Low
-prior — §22 ruled out pad/index/table for these bytes and Dukotah's B-05 could
-not separate a keystream derived from the block from the real stream, so the
-derived-pad reading is the §13 wall. Still resolve Dukotah's other 5 contested
-byte indices (175, 182, 199, 215, 237) from the scans — §53 already resolved
-index 25 (`3l → 3I`).
+through the community harness `cicada-solvers/Cicada-DWH-HashcatAttempts`,
+checking their `results/` first for prior coverage. Low prior — §22 ruled out
+pad/index/table for these bytes and Dukotah's B-05 could not separate a keystream
+derived from the block from the real stream, so the derived-pad reading is the
+§13 wall. Still resolve Dukotah's other 5 contested byte indices (175, 182, 199,
+215, 237) from the scans — §53 already resolved index 25 (`3l → 3I`).
+- **Refinements from the DEF CON 31 CicadaSolvers talk (`download/cicada talk 1.md`,
+  2026-08-24):**
+  - The hash algorithm is **NOT confirmed SHA-512** — the pages never define it.
+    Widen to a 512-bit battery: SHA-512, SHA3-512, Whirlpool, BLAKE2b-512,
+    Streebog-512, SHA-512/256, plus the SHA-384/SHA-256 variants for completeness.
+  - The **onion path is a documented dead end**: Northeastern's "honions" (a 2017
+    Tor broadcast vuln) hashed ~90% of live hidden services, indexed or not, with
+    no match — so the target almost certainly is NOT a then-live `.onion`. The
+    community now reads "deep web" as **unindexed clearnet**, which reframes the
+    hunt as a page-content search, not an address enumeration.
+  - Tooling exists: a **"3301 hash alarm"** browser extension auto-hashes every
+    visited page and flags a match — an external artifact for the clearnet search.
 - Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
   `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
+
+### N21. Two more candidate running-key texts — LOW-MED, runnable now.
+From the two Cicada talks digested 2026-08-24 (`download/cicada talk 1.md`,
+`cicada talk 2.md`). Two named texts are NOT in the ruled-out running-key list
+(KJV, Crowley's *Liber AL vel Legis*, the *Mabinogion*, Blake, Emerson, the Rune
+Poem; §6/§9):
+- **Eric Hughes, *A Cypherpunk's Manifesto* (1993)** — the talk names it as a text
+  Cicada "seems to have been inspired by." Best prior of the two: short, on-theme
+  (crypto-anarchy), freely distributable. HIGHER priority.
+- **William Gibson, *Agrippa: A Book of the Dead* (1992)** — the self-erasing
+  poem. Lower prior (it belongs to the 2012 book-code stage, not LP2), but a real
+  named text worth a cheap pass.
+Method: add each to `keytexts.py`, run `attack_running_text.py` — whole text,
+every offset, BOTH signs, and **`--reverse`** (the untested reversed-key arm from
+§31, high prior since Cicada uses reversed gematria on solved pages 06-09).
+Control-validated through `controls.py` like every other key text. Cheap; both
+texts are small, so no running-key power wall. NB the uniformity finding predicts
+a negative, but these are the two documented candidate texts we have not run.
+- Also considered and set aside: a classic **book code** (line:column index into a
+  source text; named in `cicada talk 2.md` for the 2012 path). Structurally a poor
+  fit for LP2 — one rune is a single value in 0..28, too small to be a line:column
+  index without grouping, and the lag-1 no-repeat is not a book-code signature. No
+  item; recorded here so it is not re-proposed.
 
 ### N10-ext. Gromark, remaining cells — LOW, compute-driven.
 §42 closed L=3 chain-addition (global, negative) and showed L=2 is Fibonacci
