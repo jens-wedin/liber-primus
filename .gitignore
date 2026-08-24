@@ -15,8 +15,11 @@ download/dukotah_read4_vision.json
 download/relikd_interruptdb/
 .pytest_cache/
 
-# LaTeX build artifacts (the paper source is committed; the PDF is generated)
+# LaTeX build artifacts. The two deliverable PDFs are committed so the README
+# and the landing page can link them; aux/log/out and any other PDF are ignored.
 paper/*.pdf
+!paper/liber-primus-cryptodiagnosis.pdf
+!paper/liber-primus-cryptodiagnosis-histocrypt.pdf
 paper/*.aux
 paper/*.log
 paper/*.out

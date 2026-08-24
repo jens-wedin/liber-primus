@@ -16,8 +16,12 @@ toolkit, which is the proof the cipher model is correct.
 - **One-page visual overview:** <https://jens-wedin.github.io/liber-primus/>
   (source in `index.html`).
 - **Orientation for contributors (human or model):** [CLAUDE.md](CLAUDE.md).
-- **Paper draft (cryptodiagnosis):**
-  [paper/liber-primus-cryptodiagnosis.md](paper/liber-primus-cryptodiagnosis.md).
+- **Paper (cryptodiagnosis):**
+  [read the PDF](paper/liber-primus-cryptodiagnosis.pdf) (single-column), or the
+  [HistoCrypt submission PDF](paper/liber-primus-cryptodiagnosis-histocrypt.pdf)
+  (two-column). Source:
+  [Markdown](paper/liber-primus-cryptodiagnosis.md),
+  [LaTeX](paper/liber-primus-cryptodiagnosis.tex).
 
 ## Purpose
 
