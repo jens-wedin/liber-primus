@@ -50,11 +50,14 @@ ADDENDUM (2026-08-25) — battery extended + community cross-check
 ---------------------------------------------------------------
 - WHIRLPOOL (via openssl legacy provider, control whirlpool("abc") OK): tested all
   12 String-4 renderings vs the target. NO MATCH.
-- STREEBOG-512: no local tool (openssl lacks it; pygost not installable offline).
-  Near-zero prior (a GOST hash for a 2014 anglophone puzzle); deferred to the
-  community harness, which runs it. So 4 of the 5 community 512-bit algorithms
-  (sha512, sha3-512, blake2b-512, whirlpool) are now tested on String-4 locally,
-  all NEGATIVE; streebog is the only one not run here.
+- STREEBOG-512 (GOST R 34.11-2012): tested via the `gostcrypto` pip package
+  (pure Python; `pip install gostcrypto`). Validated first against the empty-string
+  known-answer test (8e945da2…c1c1a8a) — PASS — so it is correct for natural-order
+  byte inputs. All 12 renderings tested (digest and byte-reversed forms) vs the
+  target. NO MATCH. [The earlier "not installable" was specific to the `pygost`
+  package name, not the algorithm; `gostcrypto` installs fine.]
+- So ALL 5 community 512-bit algorithms (sha512, sha3-512, blake2b-512, whirlpool,
+  streebog-512) are now tested on String-4 locally, every one NEGATIVE.
 - COMMUNITY CROSS-CHECK: cicada-solvers/Cicada-DWH-HashcatAttempts. Its target
   (`deepwebhash`) is byte-identical to ours (36367763…c2a8b4). Its methodology is
   a PREIMAGE brute over masks (allbytes len 1-5, IPv4, US phones) under all 5

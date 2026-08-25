@@ -1401,3 +1401,12 @@ No code change; suite unaffected.
 - CONCLUSION: N14's runnable part is exhausted. The residual (find the unknown
   deep-web page that hashes to the target) is an unbounded external search, not
   brute-forceable (§27). REPORT §59 addendum. No code changed.
+
+## 2026-08-25 — Session cont.: N14 — Streebog-512 completed (negative)
+
+- Closed the last hash: Streebog-512 (GOST R 34.11-2012) via the `gostcrypto` pip
+  package (pure Python; the earlier "not installable" was pygost-specific).
+  Validated against the empty-string KAT (PASS), then tested all 12 String-4
+  renderings vs the target — NO MATCH. All 5 community 512-bit algorithms
+  (sha512/sha3-512/blake2b/whirlpool/streebog) now tested locally, all negative.
+  REPORT §59 addendum updated. No code changed.
