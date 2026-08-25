@@ -1,0 +1,33 @@
+N20 — Verify the 05.jpg appended blob against an independent copy
+================================================================
+Question (from §52): scream314's liber-primus-complete/05.jpg carries a large
+block of data after the first complete image. Is it a Cicada payload or a
+scream314-specific corruption artifact? Test: fetch the same page from an
+independent, UNMODIFIED archive and compare.
+
+Independent source: krisyotam/cicada3301
+  archives/cijhho/2014/Liber Primus/A drop box of all unmodified files/2014onion7/5.jpg
+  (0-indexed; page index 5 == scream314 05.jpg; both decode to 2400x3600.)
+
+Marker / trailing-data comparison
+---------------------------------
+scream314 05.jpg : 673,066 bytes | dims 2400x3600
+  SOI (ffd8) count 10 ; EOI (ffd9) count 7
+  first EOI at 336,353 ; trailing after it: 336,713 bytes (entropy 7.12)
+  file ENDS with e0 ff d8 ff  <-- NOT ffd9: truncated mid-marker (corrupt)
+  blob is concatenated JPEG fragments, some byte-reversed (tail shows "FIFJ"
+  = "JFIF" reversed, and a reversed SOI) + ASCII-ish runs -> mangled mirror data
+
+krisyotam onion7 5.jpg : 667,716 bytes | dims 2400x3600   [INDEPENDENT, UNMODIFIED]
+  SOI count 1 ; EOI count 1 (at the very end, 0xa3042)
+  trailing after first EOI: 0 bytes (entropy 0.00)
+  file ENDS with ff d9  <-- clean single JPEG, no appended data
+
+Verdict
+-------
+CLOSED — scream314 corruption artifact. The independent unmodified copy of the
+same page is a clean single JPEG with ZERO trailing data. scream314's 05.jpg is a
+structurally damaged file (multiple concatenated/reversed JPEG fragments, and it
+is itself truncated mid-marker at EOF). There is no hidden Cicada payload to
+carve; the "appended blob" is filesystem/mirror corruption specific to the
+scream314 copy. Confirms §52's leading hypothesis.

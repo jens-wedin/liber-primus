@@ -14,16 +14,8 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 
 ## OPEN — still to run
 
-Ordered by how actionable they are here. The first two need external inputs; the
-rest are runnable but lower-prior than the eleven already closed this campaign.
-
-### N20. Verify the 05.jpg appended blob against an independent copy — LOW
-§52 found 72,700 bytes appended after a complete image on scream314's 05.jpg (no
-file header, entropy 6.90, ends mid-SOI, on a 400-DPI re-save) — most consistent
-with a corrupt/concatenated mirror file. Fetch page 05 from an independent source
-(`rtkd/iddqd` or `krisyotam/cicada3301` `original-onion7/`) and compare: if their
-copy is clean, it is a scream314 artifact (close); if it also carries the blob,
-carve and characterise it. Cheap once the independent image is local.
+Three items remain. N14 needs external OSINT and N17 needs the author to submit;
+N10-ext is runnable but low-prior. Everything else this campaign is closed.
 
 ### N14. Deep-web-hash battery on the verified String-4 bytes — LOW-MED. **OSINT / external.**
 The code→byte map half is **DONE (§53)** — see the DONE table. What remains is the
@@ -95,6 +87,7 @@ the cited § in REPORT.md.
 | N1  | 29-rune interrupter (relikd's finished DB) | NEGATIVE; unsolved at floor, solved recover — verified firsthand | §55 |
 | N4  | modulo / alternating-alphabet (relikd DB) | NEGATIVE; higher scores are short-slot inflation | §56 |
 | N21 | Cypherpunk Manifesto + Gibson's Agrippa as running keys | NEGATIVE both texts, both signs + reversed; controls PASS | §57 |
+| N20 | 05.jpg appended blob vs an independent copy | scream314 CORRUPTION ARTIFACT; independent onion7 copy is clean | §58 |
 
 **Set aside (not an item), recorded so it is not re-proposed:** a classic **book
 code** (line:column index into a source text; named in `download/cicada talk 2.md`

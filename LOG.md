@@ -1350,3 +1350,15 @@ No code change; suite unaffected.
 - **N21 closed** (both candidate texts negative). Moved to the DONE table; the
   book-code idea is recorded as set-aside (structurally a poor fit for LP2).
   Landing page updated with both rows.
+
+## 2026-08-25 — Session cont.: N20 — 05.jpg blob is a scream314 artifact (closed)
+
+- §52 flagged a large appended block on scream314's `liber-primus-complete/05.jpg`.
+  N20 tested it against an independent unmodified copy: krisyotam/cicada3301
+  `2014onion7/5.jpg` (page index 5; both 2400×3600).
+- Decisive: the independent copy is a CLEAN single JPEG (1 SOI, 1 EOI at EOF, 0
+  trailing bytes, ends ffd9). scream314's 05.jpg has 10 SOI / 7 EOI, 336,713
+  trailing bytes (entropy 7.12; concatenated + byte-reversed JPEG fragments) and
+  ends mid-marker (e0 ff d8 ff), i.e. truncated.
+- **CLOSED — scream314 corruption artifact, no Cicada payload.** REPORT §58;
+  `results/n20_05jpg_provenance_2026-08-25.txt`. Confirms §52. No code changed.

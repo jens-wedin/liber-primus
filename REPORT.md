@@ -2131,3 +2131,25 @@ planted key at 98%/−3.56 forward, 100%/−3.41 reversed); best real −4.10 fo
 (pp.17-19) and −4.14 reversed (p.50), both on the random side. **NEGATIVE,
 control-validated.** This closes N21: neither documented candidate text keys the
 runes. `results/n21_agrippa_2026-08-24.txt`.
+
+## 58. The 05.jpg appended blob is a scream314 corruption artifact (N20)
+
+§52's appended-data scan flagged one page: scream314's
+`liber-primus-complete/05.jpg` carries a large block after its first complete
+image. N20 tests whether that block is a Cicada payload or a copy-specific
+artifact by comparing an independent, UNMODIFIED copy of the same page.
+
+The independent copy is krisyotam/cicada3301's `2014onion7/5.jpg` (its "drop box
+of all unmodified files"; page index 5 = scream314 05.jpg — both decode to
+2400×3600). The comparison is decisive: the unmodified copy is a **clean single
+JPEG** — 1 SOI, 1 EOI at the very end, **zero** bytes after it, ends `ffd9`.
+scream314's 05.jpg has **10 SOI / 7 EOI**, 336,713 bytes after its first EOI
+(entropy 7.12 — concatenated JPEG fragments, some stored byte-reversed, so its
+tail reads `…FIFJ…ffd8ff` = a reversed "JFIF" + SOI), and the file **ends
+mid-marker** (`e0 ff d8 ff`, not `ffd9`), i.e. it is truncated.
+
+**CLOSED — scream314 corruption artifact, not Cicada content.** The blob is
+mirror/filesystem corruption specific to the scream314 file; the independent
+copy carries no appended data. There is nothing to carve. This confirms §52's
+leading hypothesis and removes the last image-provenance loose end.
+`results/n20_05jpg_provenance_2026-08-25.txt`.
