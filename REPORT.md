@@ -2208,3 +2208,32 @@ Engineering note: the primer brute is now parallelised across cores
 result and the checkpoint cache are worker-count-independent — an ~8× speedup
 that turned a ~3-hour serial run into ~20 minutes without changing the verdict.
 `results/n10ext_gromark_persegment_2026-08-25.txt`.
+
+## 61. Digraphic Hill cipher (2×2 over GF(29)) — negative, two ways (N22)
+
+An independent Swedish paper (`download/Kryptografiska Metoder …`) — which
+otherwise reproduces our statistics exactly (12,956 runes, 86 doublets, IoC
+0.999) — proposes a 2×2 Hill cipher on rune pairs as the mechanism, claiming it
+"explains the doublet suppression." This is the one classical cipher class the
+campaign had not tested (§48 is the affine, 1×1, cipher). Closed two ways.
+
+**Structural — the paper's mechanism is refuted.** A 2×2 Hill on non-overlapping
+blocks {2k, 2k+1} can only suppress doublets *within* a block; adjacencies
+*between* blocks are independent and stay at 1/29. So Hill predicts a position-
+parity asymmetry. Splitting our 86 doublets by parity gives **44 within / 42
+between** (0.680% vs 0.650%) — perfectly symmetric (z = +0.21). A planted-Hill
+control with within-block suppression shows the sharp signature the test is built
+to catch (within 0.000%, between 3.526%), so the test has power. The suppression
+is a **global lag-1 rule, not a within-block effect** — Hill does not explain it.
+
+**Brute — the base-cipher reading is a well-powered negative.** The Hill key is
+four numbers, so all **682,080** invertible matrices are searchable. `attack_hill.py`
+decrypts each segment head under every matrix and scores it, floor/ceiling gated.
+The test is strongly powered: 5/5 planted matrices recover at 100% accuracy,
+detection floor **−3.53** (near English −3.38). Matched 13-trial ceiling −4.66.
+Best real decode **−4.50** (gibberish) — 0.97 below the floor a real Hill break
+gives. **NEGATIVE.** The only unfalsified residual is "Hill + an output no-repeat
+rule," which a fixed-position brute cannot see — but that is the same key-skip
+desync wall that defeats every fixed-position attack (the central finding), and
+the structural test already shows the doublet suppression is not Hill's doing.
+`results/n22_hill_2026-08-25.txt`.

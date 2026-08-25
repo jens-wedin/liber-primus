@@ -1428,3 +1428,17 @@ No code change; suite unaffected.
 - The paper's other models are already closed: totient/φ(f(i)) & Fibonacci-prime
   (§3, §50), autokey feedback (§3), magic-square transposition (§16/§17/§24) —
   recorded under "Set aside". The paper (.md/.pdf) is third-party, left uncommitted.
+
+## 2026-08-25 — Session cont.: N22 — digraphic Hill cipher, negative two ways
+
+- Structural doublet-parity test: real 86 doublets split 44 within-block / 42
+  between-block (symmetric, z=+0.21); planted-Hill control shows within 0.0% /
+  between 3.53% (test has power). REFUTES the paper's "Hill explains doublets".
+- Control-validated brute (new attack_hill.py, TDD): all 682,080 invertible 2×2
+  matrices, fixed position. Well-powered — floor -3.53 (5/5 matrices identifiable
+  at 100%, near English -3.38), ceiling -4.66, best real -4.50 -> NEGATIVE.
+- Residual "Hill + key-skip" is the same fixed-position desync wall (central
+  finding); structural test already shows the suppression is global, not Hill's.
+- New src/attacks/attack_hill.py + tests/test_hill.py (round-trip, singular
+  reject, brute-recovers-planted [slow]). Fast suite 30 passed; validate 9/9.
+  REPORT §61; results/n22_hill_2026-08-25.txt. N22 -> DONE.

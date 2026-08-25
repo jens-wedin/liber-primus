@@ -14,35 +14,14 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 
 ## OPEN — still to run
 
-Two runnable items (N22, N23) were added 2026-08-25 from an independent Swedish
-research paper (`download/Kryptografiska Metoder för Cicada 3301.md/.pdf`). The
-paper otherwise cross-validates our work exactly (same 12,956 runes, 86 doublets,
-IoC 0.999, same solved-page mechanisms). Its other models are already closed here:
-totient/φ(f(i)) and Fibonacci-prime keystreams (§3, §50), autokey feedback (§3),
-magic-square transposition (§16/§17/§24) — see "Set aside" below. Two are new.
-Beyond them, N14's residual is **external OSINT** and N17 needs the **author to
-submit**.
-
-### N22. Digraphic Hill cipher — 2×2 invertible matrix over GF(29). NEW, MEDIUM.
-The paper's headline model: rune pairs enciphered blockwise as
-`(C_{2i-1}, C_{2i})ᵀ ≡ [[a,b],[c,d]]·(P_{2i-1}, P_{2i})ᵀ (mod 29)`, det = ad−bc ≠ 0.
-This is the one classical cipher class we have NOT tested — §48 is the AFFINE
-(1×1) cipher; a 2×2 Hill on digraphs is genuinely new. The paper claims Hill
-"explains the doublet suppression," but that is mathematically weak: a fixed Hill
-matrix cannot forbid `C_{2i-1}=C_{2i}` for all plaintext pairs without going
-singular, and it leaves ACROSS-pair doublets (`C_{2i}=C_{2i+1}`) at the full 1/29
-rate — so a pure Hill predicts a position-PARITY signature in the doublets that
-our uniform 86-doublet, all-positions deficiency does not show. Test two ways,
-both control-validated:
-1. **Structural (cheap, decisive first):** split the 86 residual doublets by
-   position parity (even vs odd boundary). Hill predicts within-pair doublets
-   suppressed, across-pair normal. Uniform across parity ⇒ Hill refuted as the
-   mechanism before any brute.
-2. **Brute (if step 1 survives):** the ~682,080 invertible 2×2 matrices over
-   GF(29) (= (29²−1)(29²−29)), decrypt each on a segment head, score by the
-   trigram LM, with a planted-Hill positive control + matched ceiling through
-   `controls.py`. Add a key-skip / literal-ᚠ variant since the anomaly needs an
-   output rule regardless of the underlying cipher.
+One runnable item (N23) remains from the 2026-08-25 Swedish-paper digest
+(`download/Kryptografiska Metoder för Cicada 3301.md/.pdf`); its sibling **N22
+(digraphic Hill cipher) is DONE — §61, negative two ways**. The paper otherwise
+cross-validates our work exactly (same 12,956 runes, 86 doublets, IoC 0.999, same
+solved-page mechanisms). Its other models are already closed here: totient/φ(f(i))
+and Fibonacci-prime keystreams (§3, §50), autokey feedback (§3), magic-square
+transposition (§16/§17/§24) — see "Set aside" below. Beyond N23, N14's residual is
+**external OSINT** and N17 needs the **author to submit**.
 
 ### N23. Geometric / topological transpositions — "shed the circumference" + Möbius. NEW, LOW-MED.
 Two concrete page-layout reading-order transforms the paper reads off the page-4
@@ -121,6 +100,7 @@ the cited § in REPORT.md.
 | N20 | 05.jpg appended blob vs an independent copy | scream314 CORRUPTION ARTIFACT; independent onion7 copy is clean | §58 |
 | N14b | Hash battery on String-4 + Dukotah's 6 contested bytes | hash battery NEGATIVE (132 combos); all 6 bytes RESOLVED (agree rtkd 256/256) | §59 |
 | N10-ext | Gromark per-segment (per-page primer) L=3 brute | NEGATIVE; best real −4.17 vs floor −3.79, ceiling −4.14 | §60 |
+| N22 | Digraphic Hill cipher (2×2 over GF(29)) | NEGATIVE two ways: doublets symmetric by parity (refutes mechanism) + well-powered brute (floor −3.53, best real −4.50) | §61 |
 
 **Set aside (not items), recorded so they are not re-proposed:**
 - A classic **book code** (line:column index into a source text; named in
