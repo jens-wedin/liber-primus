@@ -45,3 +45,24 @@ the page that hashes to the target. §27 documents it as a Tor/clearnet OSINT hu
 out of scope for this toolkit; the community runs it (Cicada-DWH-HashcatAttempts,
 3301-hash-alarm). The talk-1 refinement: algorithm unconfirmed (512-bit battery),
 onion path exhausted -> unindexed clearnet.
+
+ADDENDUM (2026-08-25) — battery extended + community cross-check
+---------------------------------------------------------------
+- WHIRLPOOL (via openssl legacy provider, control whirlpool("abc") OK): tested all
+  12 String-4 renderings vs the target. NO MATCH.
+- STREEBOG-512: no local tool (openssl lacks it; pygost not installable offline).
+  Near-zero prior (a GOST hash for a 2014 anglophone puzzle); deferred to the
+  community harness, which runs it. So 4 of the 5 community 512-bit algorithms
+  (sha512, sha3-512, blake2b-512, whirlpool) are now tested on String-4 locally,
+  all NEGATIVE; streebog is the only one not run here.
+- COMMUNITY CROSS-CHECK: cicada-solvers/Cicada-DWH-HashcatAttempts. Its target
+  (`deepwebhash`) is byte-identical to ours (36367763…c2a8b4). Its methodology is
+  a PREIMAGE brute over masks (allbytes len 1-5, IPv4, US phones) under all 5
+  algorithms — logged in results/, no preimage found. It never tests a specific
+  candidate string, so our String-4 tests are complementary; both are negative.
+
+CONCLUSION. The runnable, in-reach part of N14 is exhausted: String-4 does not
+hash to the AN-END target under 4/5 512-bit algorithms and 12 renderings, and the
+community's preimage brute is negative. The true residual — finding the unknown
+deep-web page that hashes to the target — is an UNBOUNDED external search, not
+brute-forceable without the page (§27). It stays out of scope for this toolkit.

@@ -2182,7 +2182,9 @@ independent transcriptions (ours + rtkd) concur; no scan disagreement remains.
 Tor/clearnet OSINT hunt, out of scope for this toolkit (§27); the community runs
 it. The algorithm is unconfirmed (a 512-bit battery, not just SHA-512) and the
 onion path is exhausted (Northeastern "honions" → unindexed clearnet).
-`results/n14_local_2026-08-25.txt`.
+`results/n14_local_2026-08-25.txt`. 
+
+**Addendum (2026-08-25) — battery extended, residual confirmed external.** Whirlpool (openssl legacy, control OK) over all 12 renderings is also NEGATIVE, so 4 of the community's 5 512-bit algorithms (sha512, sha3-512, blake2b, whirlpool) are now tested on String-4 locally, all negative; Streebog has no local tool and near-zero prior (deferred to the community harness). The community harness `Cicada-DWH-HashcatAttempts` carries the identical target hash and brute-forces masks (allbytes 1-5, IPv4, phones) under all 5 algorithms with no preimage found — complementary to our candidate test, both negative. The runnable part of N14 is exhausted; the residual (the unknown deep-web page) is an unbounded external search, out of scope (§27). `results/n14_local_2026-08-25.txt`.
 
 ## 60. Gromark per-segment (per-page primer) L=3 brute — negative (N10-ext)
 

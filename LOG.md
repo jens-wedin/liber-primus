@@ -1388,3 +1388,16 @@ No code change; suite unaffected.
   survived reaper windows by checkpoint-resume (9 -> 25 -> 33 brutes).
 - Fast suite 28 passed (+1); validate_solved 9/9.
   `results/n10ext_gromark_persegment_2026-08-25.txt`.
+
+## 2026-08-25 — Session cont.: N14 — battery extended (Whirlpool) + community check
+
+- Extended the String-4 hash battery: Whirlpool (openssl legacy, control OK) over
+  all 12 renderings — NO MATCH. 4/5 community 512-bit algorithms now tested locally
+  (sha512/sha3-512/blake2b §59 + whirlpool), all negative. Streebog: no local tool,
+  near-zero prior, deferred to the community harness.
+- Cross-checked cicada-solvers/Cicada-DWH-HashcatAttempts: its target hash is
+  byte-identical to ours; it brute-forces masks (allbytes/IPv4/phones) under all 5
+  algorithms, no preimage found. Complementary; both negative.
+- CONCLUSION: N14's runnable part is exhausted. The residual (find the unknown
+  deep-web page that hashes to the target) is an unbounded external search, not
+  brute-forceable (§27). REPORT §59 addendum. No code changed.
