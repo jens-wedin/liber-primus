@@ -1,0 +1,48 @@
+period analysis (chain addition mod 29):
+  L=2: 841 primers, periods [1, 7, 14] -> 841 (100%) have period<=40 (covered by §3)
+  L=3: 24389 primers, periods [1, 871] -> 1 (0%) have period<=40 (covered by §3)
+  => L=2 is entirely covered by §3; only L=3 (period 871) is new.
+
+key space: 24360 L=3 chain-addition primers x 2 signs, key-skip max 2, head 44, beam 50
+(resuming from results/gromark_ckpt.json: 25 brutes already cached)
+
+refs: English trigram -3.38, random -6.41
+
+workers: 8 (parallel brute; result identical to serial)
+
+=== DETECTION FLOOR: plant each primer, recover it, read off the score a real break gives ===
+  plant (8, 4, 0)                    -> '(8, 4, 0)                   '  -3.79 acc  59%  identified (weak decode)
+  plant (17, 1, 16)                  -> '(12, 28, 13)                '  -3.67 acc  95%  NOT IDENTIFIABLE
+  plant (12, 15, 8)                  -> '(12, 15, 8)                 '  -3.72 acc  98%  identified
+  plant (17, 6, 17)                  -> '(12, 23, 12)                '  -3.59 acc  84%  NOT IDENTIFIABLE
+  plant (11, 0, 27)                  -> '(11, 0, 27)                 '  -3.65 acc 100%  identified
+
+  FLOOR = -3.79 (min over 3/5 identifiable primers)
+  weak decodes (identified, but <90% of plaintext): (8, 4, 0)
+  NOT COVERED (2): (17, 1, 16), (17, 6, 17)
+  -> a real break with those would be INVISIBLE to this run; no evidence either way.
+
+=== MATCHED CHANCE CEILING (14 trials): -4.14 ===
+
+=== REAL: global keystream (one primer, whole stream) ===
+  best primer (9, 27, 12) c+k score -4.20
+    AGUITNSFORPDADIAARCHAPAXCTUMADALLIFERCHNCNGERA
+
+=== REAL: per-segment keystream (each page its own primer) ===
+  17.jpg-19.jpg - 0.jpg-2.jpg        primer (9, 27, 12)    c+k -4.20
+  20.jpg - 3.jpg-5.jpg               primer (12, 18, 12)   c+k -4.34
+  20.jpg - 3.jpg-5.jpg               primer (12, 18, 12)   c+k -4.34
+  23.jpg, 24.jpg - 6.jpg-7.jpg       primer (11, 19, 25)   c+k -4.26
+  25.jpg, 26.jpg, 27.jpg, 28.jpg, 29 primer (11, 14, 1)    c-k -4.35
+  32.jpg, 33.jpg, 34.jpg, 35.jpg, 36 primer (10, 14, 10)   c+k -4.23
+  40.jpg, 41.jpg, 42.jpg, 43.jpg - 2 primer (4, 23, 3)     c+k -4.32
+  44.jpg, 45.jpg, 46.jpg, 47.jpg, 48 primer (5, 2, 0)      c+k -4.21
+  50.jpg - 33.jpg                    primer (7, 8, 19)     c-k -4.28
+  50.jpg, 51.jpg, 52.jpg, 53.jpg, 54 primer (9, 25, 5)     c+k -4.40
+  56.jpg - 39.jpg                    primer (4, 4, 11)     c-k -4.18
+  57.jpg - 40.jpg                    primer (0, 7, 23)     c+k -4.17
+  71.jpg - 54.jpg                    primer (14, 12, 4)    c-k -4.29
+
+  best real -4.17  vs  detection floor -3.79 (what a real break scores)  vs  matched chance ceiling -4.14
+  -> 0.38 BELOW the floor a genuine break produces and at/below the matched chance ceiling: NEGATIVE, with demonstrated power for 3/5 primers.
+EXITCODE=0

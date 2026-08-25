@@ -2183,3 +2183,26 @@ Tor/clearnet OSINT hunt, out of scope for this toolkit (§27); the community run
 it. The algorithm is unconfirmed (a 512-bit battery, not just SHA-512) and the
 onion path is exhausted (Northeastern "honions" → unindexed clearnet).
 `results/n14_local_2026-08-25.txt`.
+
+## 60. Gromark per-segment (per-page primer) L=3 brute — negative (N10-ext)
+
+§42 closed the Gromark family on the GLOBAL stream (one primer for the whole
+book). N10-ext tests the remaining cell: a per-PAGE primer, in case Cicada reset
+the chain-addition primer at each page. Each of the 13 unsolved segments gets its
+own full brute over all 24,360 L=3 primers × both signs, key-skip beam, head 44.
+
+**NEGATIVE, control-validated.** Detection floor −3.79 (3/5 planted primers
+identifiable — the 2 non-identifiable are reported NOT COVERED, no evidence
+either way; 60% coverage clears the gate). Matched 14-trial ceiling −4.14. Best
+real decode −4.17 (page 57; every per-segment score is −4.17…−4.40, the global
+−4.20) — 0.38 below the floor a genuine break gives and at/below the chance
+ceiling. A per-page primer does not key the runes any more than the global one.
+With §42 (global L=3), §3 (L=2 = Fibonacci, covered), this closes the
+hand-computable chain-addition family for the reachable primer lengths.
+
+Engineering note: the primer brute is now parallelised across cores
+(`brute_best(..., workers=N)`), guarded by a test that pins parallel == serial
+(`tests/test_gromark_parallel.py`). Per-primer scores are deterministic, so the
+result and the checkpoint cache are worker-count-independent — an ~8× speedup
+that turned a ~3-hour serial run into ~20 minutes without changing the verdict.
+`results/n10ext_gromark_persegment_2026-08-25.txt`.

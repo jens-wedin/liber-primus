@@ -1374,3 +1374,17 @@ No code change; suite unaffected.
   256/256 and sit on pp.67/68 (§21 scan-verified code-by-code). All resolved.
 - Residual is external only: the deep-web preimage OSINT hunt (§27). REPORT §59;
   `results/n14_local_2026-08-25.txt`. No code changed.
+
+## 2026-08-25 — Session cont.: N10-ext — per-segment Gromark L=3, negative
+
+- Ran the per-PAGE-primer L=3 Gromark brute (the cell §42 left open). Each of 13
+  segments brute-forced over all 24,360 primers x 2 signs, key-skip beam, head 44.
+- **NEGATIVE, control-validated.** Floor −3.79 (3/5 identifiable, 60% coverage),
+  ceiling −4.14 (14 trials), best real −4.17 (global −4.20). 0.38 below the floor,
+  at/below the ceiling. Matches §42's global negative. REPORT §60.
+- Engineering: parallelised the primer brute (brute_best workers=N) via TDD —
+  tests/test_gromark_parallel.py pins parallel==serial (deterministic per-primer
+  scores keep the checkpoint cache valid). ~8x speedup (~3h -> ~20 min). The run
+  survived reaper windows by checkpoint-resume (9 -> 25 -> 33 brutes).
+- Fast suite 28 passed (+1); validate_solved 9/9.
+  `results/n10ext_gromark_persegment_2026-08-25.txt`.

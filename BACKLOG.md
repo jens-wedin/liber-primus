@@ -14,8 +14,9 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 
 ## OPEN — still to run
 
-Three items remain. N14 needs external OSINT and N17 needs the author to submit;
-N10-ext is runnable but low-prior. Everything else this campaign is closed.
+Two items remain, neither runnable-to-a-result here: N14's local halves are
+closed (§59) and only its **external OSINT** residual is left, and N17 needs the
+**author to submit**. Every in-reach experiment this campaign is now closed.
 
 ### N14. Deep-web-hash hunt — LOCAL halves DONE (§59); only the external OSINT remains.
 The three tractable parts are now closed:
@@ -36,12 +37,6 @@ by the community (`Cicada-DWH-HashcatAttempts`, `3301-hash-alarm`). The algorith
 is unconfirmed (a 512-bit battery, not just SHA-512) and the onion path is a dead
 end (Northeastern "honions" → unindexed clearnet). This is the §13 wall's numeric
 sibling: the bytes behave as key material behind their own pad (§22, Dukotah B-05).
-
-### N10-ext. Gromark, remaining cells — LOW, compute-driven.
-§42 closed L=3 chain-addition (global, negative) and showed L=2 is Fibonacci
-(covered by §3). Untested: the per-segment (per-page primer) L=3 brute, and L≥4
-primers / other lags. Low prior given the global negative and the partial
-identifiability at head 44.
 
 ### N17. Publish the cryptodiagnosis — DRAFT + VENUE TYPESET (§ paper/). **Write-up + post, not an attack.**
 **DRAFT 2026-08-24.** Full draft in the Bean-K4 cryptodiagnosis genre. References
@@ -85,12 +80,17 @@ the cited § in REPORT.md.
 | N21 | Cypherpunk Manifesto + Gibson's Agrippa as running keys | NEGATIVE both texts, both signs + reversed; controls PASS | §57 |
 | N20 | 05.jpg appended blob vs an independent copy | scream314 CORRUPTION ARTIFACT; independent onion7 copy is clean | §58 |
 | N14b | Hash battery on String-4 + Dukotah's 6 contested bytes | hash battery NEGATIVE (132 combos); all 6 bytes RESOLVED (agree rtkd 256/256) | §59 |
+| N10-ext | Gromark per-segment (per-page primer) L=3 brute | NEGATIVE; best real −4.17 vs floor −3.79, ceiling −4.14 | §60 |
 
-**Set aside (not an item), recorded so it is not re-proposed:** a classic **book
-code** (line:column index into a source text; named in `download/cicada talk 2.md`
-for the 2012 path). Structurally a poor fit for LP2 — one rune is a single value in
-0..28, too small to be a line:column index without grouping, and the lag-1
-no-repeat is not a book-code signature.
+**Set aside (not items), recorded so they are not re-proposed:**
+- A classic **book code** (line:column index into a source text; named in
+  `download/cicada talk 2.md` for the 2012 path). Structurally a poor fit for LP2
+  — one rune is a single value in 0..28, too small to be a line:column index
+  without grouping, and the lag-1 no-repeat is not a book-code signature.
+- **Gromark L≥4 primers / other lags.** L=3 is closed global (§42) and
+  per-segment (§60), both negative; L=2 is Fibonacci (§3). L=4 is 707,281 primers
+  (~29× the L=3 cost per brute) for a negligible-prior extension of an
+  already-negative family with no identifiability advantage. Not pursued.
 
 ---
 

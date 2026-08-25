@@ -101,12 +101,53 @@ def confirm(chead, primer, model, sign, beam, max_skip):
     return sc / max(1, len(chead) - 1), dec
 
 
-def brute_best(cidx, model, head, beam, max_skip):
-    """Best (norm-score, primer, sign, decode) over all L=3 primers, both
-    signs, decoded with the key-skip beam from start 0."""
-    chead = cidx[:head]
+# --- parallel worker (module-level so it pickles under multiprocessing spawn) -
+_WORKER_MODEL = None
+
+
+def _worker_init(order):
+    global _WORKER_MODEL
+    _WORKER_MODEL = get_model(order)
+
+
+def _worker_score(task):
+    """Score one primer over both signs; return the better (bl, primer, sign,
+    dec). Mirrors the serial inner loop exactly (sign -1 tried first)."""
+    primer, chead, beam, max_skip = task
     best = None
-    for p in primers():
+    for sign in (-1, +1):
+        bl, dec = confirm(list(chead), primer, _WORKER_MODEL, sign, beam, max_skip)
+        if best is None or bl > best[0]:
+            best = (bl, tuple(primer), sign, dec)
+    return best
+
+
+def brute_best(cidx, model, head, beam, max_skip, primer_list=None, workers=1,
+               order=3):
+    """Best (norm-score, primer, sign, decode) over the L=3 primers, both signs,
+    decoded with the key-skip beam from start 0.
+
+    primer_list: primers to test (default: all non-degenerate L=3 primers).
+    workers>1 parallelises the primer loop across processes. The result is
+    identical to serial — per-primer scores are deterministic and ties break by
+    list order — so the checkpoint cache (keyed by ciphertext only) stays valid
+    regardless of worker count. `order` seeds each worker's language model.
+    """
+    chead = cidx[:head]
+    plist = list(primer_list) if primer_list is not None else list(primers())
+    if workers and workers > 1:
+        import multiprocessing as mp
+        tasks = [(p, tuple(chead), beam, max_skip) for p in plist]
+        chunk = max(1, len(tasks) // (workers * 8))
+        with mp.Pool(workers, initializer=_worker_init, initargs=(order,)) as pool:
+            results = pool.map(_worker_score, tasks, chunksize=chunk)
+        best = None
+        for r in results:            # keep FIRST max, matching serial's strict >
+            if best is None or r[0] > best[0]:
+                best = r
+        return best
+    best = None
+    for p in plist:
         for sign in (-1, +1):
             bl, dec = confirm(chead, p, model, sign, beam, max_skip)
             if best is None or bl > best[0]:
@@ -130,13 +171,15 @@ def _load_ckpt():
     return {}
 
 
-def cached_brute(key, cidx, model, head, beam, max_skip, ckpt):
+def cached_brute(key, cidx, model, head, beam, max_skip, ckpt, workers=1, order=3):
     """brute_best, memoised to CKPT by `key`. Stores the decode as rune indices
-    (json-safe, and accuracy needs the exact indices — latin is not invertible)."""
+    (json-safe, and accuracy needs the exact indices — latin is not invertible).
+    `workers` only speeds the compute; the cached result is worker-count-independent."""
     if key in ckpt:
         r = ckpt[key]
         return r["score"], tuple(r["primer"]), r["sign"], r["decode"]
-    bl, p, sign, dec = brute_best(cidx, model, head, beam, max_skip)
+    bl, p, sign, dec = brute_best(cidx, model, head, beam, max_skip,
+                                  workers=workers, order=order)
     ckpt[key] = {"score": bl, "primer": list(p), "sign": sign, "decode": list(dec)}
     with open(CKPT, "w") as f:
         json.dump(ckpt, f)
@@ -145,7 +188,7 @@ def cached_brute(key, cidx, model, head, beam, max_skip, ckpt):
 
 # --- detection floor ---------------------------------------------------------
 
-def gromark_floor(model, head, beam, max_skip, ckpt, samples=5):
+def gromark_floor(model, head, beam, max_skip, ckpt, samples=5, workers=1, order=3):
     segs = parse("data/liber_primus.md")
     pt = english_plaintext(segs)[:head]
     rng = LCG(20260823)
@@ -163,7 +206,7 @@ def gromark_floor(model, head, beam, max_skip, ckpt, samples=5):
 
     def recover(ct):
         bl, p, sign, dec = cached_brute(state["key"], ct, model, head, beam,
-                                        max_skip, ckpt)
+                                        max_skip, ckpt, workers=workers, order=order)
         m = min(len(dec), len(pt))
         acc = sum(1 for a, b in zip(dec[:m], pt[:m]) if a == b) / m
         return bl, p, acc
@@ -193,6 +236,9 @@ def main():
     ap.add_argument("--beam", type=int, default=50)
     ap.add_argument("--max-skip", type=int, default=2)
     ap.add_argument("--order", type=int, default=3)
+    ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 2),
+                    help="parallel processes for the primer brute (result is "
+                         "identical to serial; only faster). Default: cores-2.")
     ap.add_argument("--periods", action="store_true",
                     help="print the period analysis and exit")
     ap.add_argument("--global-only", action="store_true",
@@ -223,8 +269,10 @@ def main():
     rnd = model.score_sequence([rng.randint(N) for _ in range(400)])
     print(f"refs: English trigram {eng:.2f}, random {rnd:.2f}\n")
 
+    print(f"workers: {args.workers} (parallel brute; result identical to serial)\n")
     floor, cov, unc, _ = gromark_floor(model, args.head, args.beam,
-                                       args.max_skip, ckpt)
+                                       args.max_skip, ckpt,
+                                       workers=args.workers, order=args.order)
 
     # matched ceiling: independent null, one trial per real run. With
     # --global-only the real run is a single trial (the global stream).
@@ -233,7 +281,8 @@ def main():
 
     def ceil_score(ct):
         bl = cached_brute(f"ceil:{cstate['t']}", ct, model, args.head,
-                          args.beam, args.max_skip, ckpt)[0]
+                          args.beam, args.max_skip, ckpt,
+                          workers=args.workers, order=args.order)[0]
         cstate["t"] += 1
         return bl
     ceil = matched_ceiling(ceil_score, args.head, trials=n_trials, seed=6100)
@@ -242,7 +291,8 @@ def main():
     # GLOBAL: one primer for the whole concatenated unsolved stream
     glob = [i for s in unsolved for i in s.indices][:args.head]
     gbl, gp, gsign, gdec = cached_brute("global", glob, model, args.head,
-                                        args.beam, args.max_skip, ckpt)
+                                        args.beam, args.max_skip, ckpt,
+                                        workers=args.workers, order=args.order)
     print("=== REAL: global keystream (one primer, whole stream) ===")
     print(f"  best primer {gp} {'c-k' if gsign<0 else 'c+k'} score {gbl:.2f}")
     print(f"    {g.indices_to_latin(gdec)[:100]}\n")
@@ -253,7 +303,8 @@ def main():
         for s in unsolved:
             bl, p, sign, dec = cached_brute(f"seg:{s.section}", s.indices, model,
                                             args.head, args.beam, args.max_skip,
-                                            ckpt)
+                                            ckpt, workers=args.workers,
+                                            order=args.order)
             overall = max(overall, bl)
             print(f"  {s.section[:34]:34s} primer {str(p):14s} "
                   f"{'c-k' if sign<0 else 'c+k'} {bl:.2f}")

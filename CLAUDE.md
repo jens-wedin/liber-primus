@@ -212,8 +212,10 @@ DONE table there lists each with its §. **Still open**, in rough priority:
   all 6 of Dukotah's contested byte indices (§59: 25 via §53, plus 175/182/199/
   215/237 — all agree with rtkd). Only the **external OSINT preimage hunt** remains
   (find the page that hashes to the target; §27, out of scope for this toolkit).
-- **N10-ext — Gromark per-segment / L≥4** (low prior, compute-driven).
 - **N17 — publish the cryptodiagnosis** (write-up + post; Bean K4 precedent).
+- **N10-ext — CLOSED (§60):** the per-segment (per-page primer) L=3 Gromark brute
+  is negative (best real −4.17 vs floor −3.79); L≥4 set aside (compute-prohibitive,
+  negligible prior). The primer brute is now parallelised (`brute_best workers=N`).
 - **N20 — CLOSED (§58):** the 05.jpg appended blob is a scream314 corruption
   artifact; the independent krisyotam onion7 copy of the same page is a clean JPEG.
 
