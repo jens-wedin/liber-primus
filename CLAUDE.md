@@ -205,14 +205,17 @@ N18, N19) plus the older R/P backlogs — all control-validated negatives, no-po
 findings, or resolved artifacts. `BACKLOG.md` is now organised by status; the
 DONE table there lists each with its §. **Still open**, in rough priority:
 
-- **N14 — deep-web-hash battery** (OSINT/external). The code→byte map half is
-  DONE (§53: `byte = digit*60 + base62(0-9A-Za-z)`, page order 66,67,68 row-major,
-  reproduces rtkd's String 4 256/256 after fixing 3 l/I errors). What remains is
-  the hash hunt on the verified bytes + Dukotah's other 5 contested indices.
+- **N14 — deep-web-hash hunt.** The LOCAL halves are DONE: the code→byte map
+  (§53: `byte = digit*60 + base62(0-9A-Za-z)`, page order 66,67,68 row-major,
+  reproduces rtkd's String 4 256/256 after the 3l→3I fix); the hash battery on the
+  verified bytes (§59: 132 renderings×algos, NEGATIVE vs the AN-END target); and
+  all 6 of Dukotah's contested byte indices (§59: 25 via §53, plus 175/182/199/
+  215/237 — all agree with rtkd). Only the **external OSINT preimage hunt** remains
+  (find the page that hashes to the target; §27, out of scope for this toolkit).
 - **N10-ext — Gromark per-segment / L≥4** (low prior, compute-driven).
-- **N20 — verify the 05.jpg appended blob** against an independent copy (low;
-  §52 flagged it as a probable corrupt-mirror artifact).
 - **N17 — publish the cryptodiagnosis** (write-up + post; Bean K4 precedent).
+- **N20 — CLOSED (§58):** the 05.jpg appended blob is a scream314 corruption
+  artifact; the independent krisyotam onion7 copy of the same page is a clean JPEG.
 
 N13 (steg provenance gate) is done — §52: our runic scans are 400-DPI re-saves
 (steg-dead); only the 9 intro pages keep the outguess fingerprint.

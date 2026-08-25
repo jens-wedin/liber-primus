@@ -1,0 +1,47 @@
+N14 — Deep-web-hash battery + Dukotah's contested byte indices (LOCAL halves)
+=============================================================================
+The code->byte map is DONE (§53): our codes reproduce rtkd/iddqd's 256-byte
+"String 4" 256/256 (page order 66,67,68 row-major, byte = digit*60 +
+base62[0-9A-Za-z], after the 3l->3I fix). Two in-reach follow-ups closed here.
+
+(a) HASH BATTERY on String-4 vs the "AN END" deep-web target
+------------------------------------------------------------
+Target (from the solved AN-END page, §27, a 512-bit SHA-512):
+  36367763ab73783c7af284446c59466b4cd653239a311cb7116d4618dee09a84
+  25893dc7500b464fdaf1672d7bef5e891c6e2274568926a49fb4f45132c2a8b4
+
+Tested 12 renderings of String-4 (raw 256 bytes; reversed; lower/upper hex,
+spaced and with/without trailing newline; base64; the code_pages.txt file raw
+and whitespace-normalized) x 11 hash algorithms (sha512, sha3_512, blake2b,
+sha384, sha512_256, sha256, sha3_256, sm3, ripemd160, sha1, md5) = 132 hashes.
+Control: sha512("abc") matches the known vector (hashlib functioning).
+
+RESULT: NO MATCH in any of the 132 (rendering x algo) combinations. String-4
+does not hash to the AN-END target. Whirlpool / Streebog-512 are absent from this
+OpenSSL build and untested locally; they are covered by the community harness
+cicada-solvers/Cicada-DWH-HashcatAttempts. Low prior confirmed (Cicada said "a
+page," String-4 is a byte matrix); this is the expected negative.
+
+(b) DUKOTAH'S 6 CONTESTED BYTE INDICES — all resolved
+-----------------------------------------------------
+Dukotah independently flagged 6 bytes as uncertain in the pp.49-51 hex: indices
+25, 175, 182, 199, 215, 237. §53 resolved 25 (3l->3I, byte 198). The other 5,
+read via attack_codemap's verified map, agree with rtkd byte-for-byte:
+
+  index  code  byte  page(local#)  ambiguity
+   175    0I    18   p67(#95)      I vs l vs 1
+   182    2l   167   p67(#102)     l vs I vs 1
+   199    0l    47   p68(#15)      l vs I vs 1
+   215    1O    84   p68(#31)      O vs 0
+   237    0W    32   p68(#53)      upper/lower case
+
+All five are the classic OCR-ambiguous glyphs. Our independent transcription and
+rtkd's agree (256/256), and all five sit on pages 67/68 — the pages §21 re-read
+code-by-code from the scans with explicit case / l-I-O / O-0 attention. RESOLVED:
+two independent transcriptions concur; no scan disagreement remains.
+
+RESIDUAL (external, not runnable here): the actual deep-web preimage hunt — find
+the page that hashes to the target. §27 documents it as a Tor/clearnet OSINT hunt
+out of scope for this toolkit; the community runs it (Cicada-DWH-HashcatAttempts,
+3301-hash-alarm). The talk-1 refinement: algorithm unconfirmed (512-bit battery),
+onion path exhausted -> unindexed clearnet.

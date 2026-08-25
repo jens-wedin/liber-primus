@@ -1362,3 +1362,15 @@ No code change; suite unaffected.
   ends mid-marker (e0 ff d8 ff), i.e. truncated.
 - **CLOSED — scream314 corruption artifact, no Cicada payload.** REPORT §58;
   `results/n20_05jpg_provenance_2026-08-25.txt`. Confirms §52. No code changed.
+
+## 2026-08-25 — Session cont.: N14 local halves — hash battery + contested bytes
+
+- Hash battery on the verified String-4 (256 bytes) vs the AN-END 512-bit target
+  (§27): 12 renderings x 11 algorithms = 132 hashes, sha512("abc") control OK.
+  NO MATCH. String-4 does not hash to the deep-web target. Whirlpool/Streebog
+  absent locally (community harness covers them). Low prior confirmed.
+- Dukotah's 6 contested byte indices: §53 resolved 25; the other five
+  (175 0I=18, 182 2l=167, 199 0l=47, 215 1O=84, 237 0W=32) agree with rtkd
+  256/256 and sit on pp.67/68 (§21 scan-verified code-by-code). All resolved.
+- Residual is external only: the deep-web preimage OSINT hunt (§27). REPORT §59;
+  `results/n14_local_2026-08-25.txt`. No code changed.

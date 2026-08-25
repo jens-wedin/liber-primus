@@ -2153,3 +2153,33 @@ mirror/filesystem corruption specific to the scream314 file; the independent
 copy carries no appended data. There is nothing to carve. This confirms §52's
 leading hypothesis and removes the last image-provenance loose end.
 `results/n20_05jpg_provenance_2026-08-25.txt`.
+
+## 59. Deep-web-hash battery + Dukotah's contested bytes — the local N14 halves
+
+The code→byte map is settled (§53): our codes reproduce rtkd's 256-byte "String 4"
+256/256. N14's two in-reach follow-ups are now closed; the preimage hunt itself
+stays external (§27).
+
+**(a) Hash battery — negative.** The solved "AN END" page names a 512-bit target
+(§27). We hashed String-4 in 12 renderings (raw bytes; reversed; lower/upper hex,
+spaced and ±newline; base64; the code-page file raw and normalized) under 11
+algorithms (sha512, sha3\_512, blake2b, sha384, sha512\_256, sha256, sha3\_256,
+sm3, ripemd160, sha1, md5) — 132 combinations, with a `sha512("abc")` control
+confirming the battery. **No match.** String-4 does not hash to the target.
+Whirlpool/Streebog-512 are absent from this OpenSSL build (covered by the
+community harness `Cicada-DWH-HashcatAttempts`). Low prior confirmed — Cicada says
+"a page," and String-4 is a byte matrix, not a page.
+
+**(b) The 6 contested byte indices — all resolved.** Dukotah independently flagged
+6 bytes as uncertain (25, 175, 182, 199, 215, 237); §53 resolved 25. The other
+five, read through the verified map, agree with rtkd byte-for-byte: 175 `0I`=18,
+182 `2l`=167, 199 `0l`=47, 215 `1O`=84, 237 `0W`=32. All five are the classic
+OCR-ambiguous glyphs (I/l/1, O/0, case), all on pages 67/68 — the pages §21
+re-read code-by-code from the scans with explicit case and l-I-O attention. Two
+independent transcriptions (ours + rtkd) concur; no scan disagreement remains.
+
+**Residual (external only).** Finding the page that hashes to the target is a
+Tor/clearnet OSINT hunt, out of scope for this toolkit (§27); the community runs
+it. The algorithm is unconfirmed (a 512-bit battery, not just SHA-512) and the
+onion path is exhausted (Northeastern "honions" → unindexed clearnet).
+`results/n14_local_2026-08-25.txt`.

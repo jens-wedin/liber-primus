@@ -17,29 +17,25 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 Three items remain. N14 needs external OSINT and N17 needs the author to submit;
 N10-ext is runnable but low-prior. Everything else this campaign is closed.
 
-### N14. Deep-web-hash battery on the verified String-4 bytes — LOW-MED. **OSINT / external.**
-The code→byte map half is **DONE (§53)** — see the DONE table. What remains is the
-OSINT hash hunt: run the now-verified 256 bytes (and their hex/ASCII renderings)
-through the community harness `cicada-solvers/Cicada-DWH-HashcatAttempts`,
-checking their `results/` first for prior coverage. Low prior — §22 ruled out
-pad/index/table for these bytes and Dukotah's B-05 could not separate a keystream
-derived from the block from the real stream, so the derived-pad reading is the
-§13 wall. Still resolve Dukotah's other 5 contested byte indices (175, 182, 199,
-215, 237) from the scans — §53 already resolved index 25 (`3l → 3I`).
-- **Refinements from the DEF CON 31 CicadaSolvers talk (`download/cicada talk 1.md`,
-  2026-08-24):**
-  - The hash algorithm is **NOT confirmed SHA-512** — the pages never define it.
-    Widen to a 512-bit battery: SHA-512, SHA3-512, Whirlpool, BLAKE2b-512,
-    Streebog-512, SHA-512/256, plus the SHA-384/SHA-256 variants for completeness.
-  - The **onion path is a documented dead end**: Northeastern's "honions" (a 2017
-    Tor broadcast vuln) hashed ~90% of live hidden services, indexed or not, with
-    no match — so the target almost certainly is NOT a then-live `.onion`. The
-    community now reads "deep web" as **unindexed clearnet**, which reframes the
-    hunt as a page-content search, not an address enumeration.
-  - Tooling exists: a **"3301 hash alarm"** browser extension auto-hashes every
-    visited page and flags a match — an external artifact for the clearnet search.
-- Sources: `rtkd/iddqd` `byte-strings/byte-strings` (vendored as
-  `data/rtkd_string4.hex`); `cicada-solvers/Cicada-DWH-HashcatAttempts`.
+### N14. Deep-web-hash hunt — LOCAL halves DONE (§59); only the external OSINT remains.
+The three tractable parts are now closed:
+- **Code→byte map — DONE (§53):** our codes reproduce rtkd's 256-byte "String 4"
+  256/256.
+- **Hash battery on String-4 — DONE (§59), NEGATIVE:** 12 renderings × 11
+  algorithms = 132 hashes vs the AN-END 512-bit target (§27); no match. Whirlpool
+  and Streebog-512 are absent from the local OpenSSL build (the community harness
+  `cicada-solvers/Cicada-DWH-HashcatAttempts` covers them). Low prior confirmed —
+  Cicada says "a page," String-4 is a byte matrix.
+- **Dukotah's 6 contested byte indices — DONE (§59), RESOLVED:** §53 fixed 25; the
+  other five (175 `0I`=18, 182 `2l`=167, 199 `0l`=47, 215 `1O`=84, 237 `0W`=32)
+  agree with rtkd 256/256 and sit on pp.67/68 (§21 scan-verified code-by-code).
+
+**Residual — external only, not runnable here.** Finding the page that hashes to
+the target is a Tor/clearnet OSINT hunt, out of scope for this toolkit (§27), run
+by the community (`Cicada-DWH-HashcatAttempts`, `3301-hash-alarm`). The algorithm
+is unconfirmed (a 512-bit battery, not just SHA-512) and the onion path is a dead
+end (Northeastern "honions" → unindexed clearnet). This is the §13 wall's numeric
+sibling: the bytes behave as key material behind their own pad (§22, Dukotah B-05).
 
 ### N10-ext. Gromark, remaining cells — LOW, compute-driven.
 §42 closed L=3 chain-addition (global, negative) and showed L=2 is Fibonacci
@@ -88,6 +84,7 @@ the cited § in REPORT.md.
 | N4  | modulo / alternating-alphabet (relikd DB) | NEGATIVE; higher scores are short-slot inflation | §56 |
 | N21 | Cypherpunk Manifesto + Gibson's Agrippa as running keys | NEGATIVE both texts, both signs + reversed; controls PASS | §57 |
 | N20 | 05.jpg appended blob vs an independent copy | scream314 CORRUPTION ARTIFACT; independent onion7 copy is clean | §58 |
+| N14b | Hash battery on String-4 + Dukotah's 6 contested bytes | hash battery NEGATIVE (132 combos); all 6 bytes RESOLVED (agree rtkd 256/256) | §59 |
 
 **Set aside (not an item), recorded so it is not re-proposed:** a classic **book
 code** (line:column index into a source text; named in `download/cicada talk 2.md`
