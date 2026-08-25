@@ -1410,3 +1410,21 @@ No code change; suite unaffected.
   renderings vs the target — NO MATCH. All 5 community 512-bit algorithms
   (sha512/sha3-512/blake2b/whirlpool/streebog) now tested locally, all negative.
   REPORT §59 addendum updated. No code changed.
+
+## 2026-08-25 — Session cont.: digest a Swedish research paper → N22, N23
+
+- The user supplied "Kryptografiska Metoder för Cicada 3301" (.md + .pdf) in
+  download/. Read it (PDF for the formula images). It cross-validates our work
+  exactly: same 12,956 runes, 86 doublets, IoC 0.999, same solved-page mechanisms
+  (Atbash+shift Koan, Vigenère-minus, F-skip, FIRFUMFERENFE).
+- Two genuinely-NEW testable ideas added to BACKLOG.md:
+  - **N22 — digraphic Hill cipher** (2×2 invertible matrix over GF(29) on rune
+    pairs). The one classical cipher class we hadn't tested (§48 is affine 1×1).
+    Its "explains doublets" claim is mathematically weak (predicts a position-parity
+    doublet signature we don't see), so test structurally first (doublet parity),
+    then brute the ~682k invertible 2×2 matrices with a control.
+  - **N23 — geometric transposes** ("shed the circumference" border-peel; Möbius
+    half-twist), specific fixed page-layout transforms, testable via the beam.
+- The paper's other models are already closed: totient/φ(f(i)) & Fibonacci-prime
+  (§3, §50), autokey feedback (§3), magic-square transposition (§16/§17/§24) —
+  recorded under "Set aside". The paper (.md/.pdf) is third-party, left uncommitted.
