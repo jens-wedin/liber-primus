@@ -14,28 +14,13 @@ lives in REPORT.md at the cited § and in LOG.md by date.
 
 ## OPEN — still to run
 
-One runnable item (N23) remains from the 2026-08-25 Swedish-paper digest
-(`download/Kryptografiska Metoder för Cicada 3301.md/.pdf`); its sibling **N22
-(digraphic Hill cipher) is DONE — §61, negative two ways**. The paper otherwise
-cross-validates our work exactly (same 12,956 runes, 86 doublets, IoC 0.999, same
-solved-page mechanisms). Its other models are already closed here: totient/φ(f(i))
-and Fibonacci-prime keystreams (§3, §50), autokey feedback (§3), magic-square
-transposition (§16/§17/§24) — see "Set aside" below. Beyond N23, N14's residual is
-**external OSINT** and N17 needs the **author to submit**.
-
-### N23. Geometric / topological transpositions — "shed the circumference" + Möbius. NEW, LOW-MED.
-Two concrete page-layout reading-order transforms the paper reads off the page-4
-imagery (MOBIUS, AETHEREAL BUFFERS, OBSCURA; "shed our circumference"):
-- **Circumference peel:** treat each page's runes as a 2D grid and strip the outer
-  frame concentrically, decrypting the inner core first (or read border-inward).
-- **Möbius half-twist:** permute the 2D rune matrix by an inversion+mirror
-  (half-twist) before decryption.
-These are SPECIFIC fixed transforms, so — unlike the generic transposition space
-(un-searchable on flat bigrams, §54) — each is directly testable: apply the
-transform, then run the existing key-skip beam + a planted control. Needs the
-per-page 2D rune grid (reconstruct from the scans / line structure). Low-med prior
-(transposition preserves unigrams, and our bigrams are flat), but cheap per
-transform and genuinely untested.
+The 2026-08-25 Swedish-paper digest is fully worked through: both new ideas are
+DONE — **N22 (digraphic Hill cipher, §61)** and **N23 (geometric transposes,
+§62)**, both negative. The paper (`download/Kryptografiska Metoder för Cicada
+3301.md/.pdf`) otherwise cross-validates our work exactly and its other models
+were already closed (§3/§50/§16/§17/§24 — see "Set aside"). What remains: N14's
+residual is **external OSINT** and N17 needs the **author to submit** — neither
+runnable to a result here.
 
 ### N14. Deep-web-hash hunt — LOCAL halves DONE (§59); only the external OSINT remains.
 The three tractable parts are now closed:
@@ -101,6 +86,7 @@ the cited § in REPORT.md.
 | N14b | Hash battery on String-4 + Dukotah's 6 contested bytes | hash battery NEGATIVE (132 combos); all 6 bytes RESOLVED (agree rtkd 256/256) | §59 |
 | N10-ext | Gromark per-segment (per-page primer) L=3 brute | NEGATIVE; best real −4.17 vs floor −3.79, ceiling −4.14 | §60 |
 | N22 | Digraphic Hill cipher (2×2 over GF(29)) | NEGATIVE two ways: doublets symmetric by parity (refutes mechanism) + well-powered brute (floor −3.53, best real −4.50) | §61 |
+| N23 | Geometric reading-order transposes (peel / Möbius) | NEGATIVE; row-major carries the no-repeat signal (0.665%), every transpose degrades it (control PASS) | §62 |
 
 **Set aside (not items), recorded so they are not re-proposed:**
 - A classic **book code** (line:column index into a source text; named in

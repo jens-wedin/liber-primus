@@ -2237,3 +2237,34 @@ rule," which a fixed-position brute cannot see — but that is the same key-skip
 desync wall that defeats every fixed-position attack (the central finding), and
 the structural test already shows the doublet suppression is not Hill's doing.
 `results/n22_hill_2026-08-25.txt`.
+
+## 62. Geometric reading-order transposes — negative (N23)
+
+The Swedish paper reads the page-4 imagery (MOBIUS, AETHEREAL BUFFERS, OBSCURA;
+"shed our circumference") as a directive to re-order the runes geometrically — a
+concentric "circumference peel" or a Möbius half-twist — before decryption. No
+brute is needed: the campaign's central finding is itself the discriminator.
+
+The stream's one structure is the lag-1 no-repeat deficiency (doublets 0.66% vs
+3.45%). A no-repeat rule suppresses equal *adjacent* outputs, so the deficiency
+lives in the cipher's true output order and nowhere else. `analyze_readorder.py`
+lays each page out as a grid (rows = physical lines) and measures the doublet rate
+under each candidate reading order; the lowest-rate order is the cipher order.
+
+**Row-major (the transcription order) wins, decisively.** Doublet rate by order:
+row-major 0.665%, reverse-rows 0.673%, rot180/Möbius 0.665% (these preserve
+horizontal adjacency), boustrophedon 0.696%, **peel outer→in 0.897%, peel in→out
+0.920%** (raised — the peel scrambles the signal at ring boundaries), and
+**column-major 3.185% ≈ random** (vertical adjacency is not the suppressed one).
+Every geometric transpose either leaves the signal untouched or degrades it toward
+random; none reveals a stronger structure. IoC stays 1.000 throughout, as a
+permutation of a uniform stream must. The no-repeat rule therefore runs in the
+as-transcribed horizontal order — the "circumference peel" and Möbius twist are
+not a missing reading-order layer.
+
+**Power (planted control).** A stream whose doublets are suppressed along COLUMNS
+is correctly resolved by the diagnostic as column-order (column-major 0.000%,
+row-major 3.837%). So the test does resolve reading direction; row-major winning
+on the real data is a validated negative, not a blind spot. This is consistent
+with §54 (arbitrary transposition is un-searchable on flat bigrams) and closes the
+paper's second new idea. `results/n23_readorder_2026-08-26.txt`.

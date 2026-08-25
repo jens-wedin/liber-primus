@@ -1,0 +1,24 @@
+=== REAL unsolved stream ===
+reading order                doublets/adj    rate     IoC
+  row-major(=transcription)    86/12934    0.665%   1.000
+  reverse-rows                 87/12934    0.673%   1.000
+  boustrophedon                90/12934    0.696%   1.000
+  rot180(Möbius)               86/12934    0.665%   1.000
+  column-major(transpose)     412/12934    3.185%   1.000
+  peel outer→in               116/12934    0.897%   1.000
+  peel in→out                 119/12934    0.920%   1.000
+
+  random expectation 3.448%.  lowest (=cipher order): row-major(=transcription)
+
+=== PLANTED CONTROL (doublets suppressed along COLUMNS) ===
+reading order                doublets/adj    rate     IoC
+  row-major(=transcription)    46/ 1199    3.837%   1.010
+  reverse-rows                 45/ 1199    3.753%   1.010
+  boustrophedon                43/ 1199    3.586%   1.010
+  rot180(Möbius)               46/ 1199    3.837%   1.010
+  column-major(transpose)       0/ 1199    0.000%   1.010
+  peel outer→in                17/ 1199    1.418%   1.010
+  peel in→out                  18/ 1199    1.501%   1.010
+
+  random expectation 3.448%.  lowest (=cipher order): column-major(transpose)
+  -> control detects 'column-major(transpose)' (PASS: test resolves reading direction)

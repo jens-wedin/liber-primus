@@ -1442,3 +1442,15 @@ No code change; suite unaffected.
 - New src/attacks/attack_hill.py + tests/test_hill.py (round-trip, singular
   reject, brute-recovers-planted [slow]). Fast suite 30 passed; validate 9/9.
   REPORT §61; results/n22_hill_2026-08-25.txt. N22 -> DONE.
+
+## 2026-08-26 — Session cont.: N23 — geometric reading-order transposes, negative
+
+- Tested the paper's "shed the circumference" peel + Möbius half-twist without a
+  brute, using the no-repeat deficiency as a reading-order discriminator (the
+  suppressed-doublet order is the cipher order). New analyze_readorder.py lays each
+  page out as a grid (rows = physical lines) and measures the doublet rate per order.
+- Row-major (transcription) is LOWEST at 0.665%; peel raises it to ~0.90%,
+  column-major to 3.185% (~random), rot180/reverse preserve it. No geometric
+  transpose reveals structure. Planted control (column-suppressed) resolves to
+  column-major (PASS -> power). NEGATIVE, consistent with §54. REPORT §62.
+- New src/analysis/analyze_readorder.py + tests/test_readorder.py. N23 -> DONE.
