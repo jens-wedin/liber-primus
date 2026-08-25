@@ -50,19 +50,27 @@ one time in five (p_keep ≈ 0.19), which reproduces the exact 0.66% rate.
 
 Ruled out, all control-validated: substitution/shifts/atbash; repeating-key
 Vigenère; prime/totient keystreams; autokey; running keys (KJV, Crowley's *Liber
-AL*, the *Mabinogion*, Blake, Emerson, the Anglo-Saxon Rune Poem); short and
-coined/mangled word keys; affine (non-additive) ciphers; the difference-space
-cumulative family; seeded-PRNG, derived-seed hash, Gromark and OEIS keystreams;
-magic squares as key/interrupter/message; the code pages as pad/index/table;
-per-page and per-line key resets; the literal-ᚠ interrupter; LP2-as-pad
-inversion; and the pre-2014 hint numerics. The residual doublets are real
-(reproduced by a second transcription), not copy-noise.
+AL*, the *Mabinogion*, Blake, Emerson, the Anglo-Saxon Rune Poem, Hughes'
+*Cypherpunk Manifesto*, Gibson's *Agrippa*); short and coined/mangled word keys;
+affine (non-additive) ciphers; the difference-space cumulative family; seeded-PRNG,
+derived-seed hash, Gromark (global and per-page primer) and OEIS keystreams; magic
+squares as key/interrupter/message; the code pages as pad/index/table; per-page and
+per-line key resets; the literal-ᚠ interrupter; LP2-as-pad inversion; and the
+pre-2014 hint numerics. The residual doublets are real (reproduced by a second
+transcription), not copy-noise.
 
 The likely wall is a **high-entropy or external keyed pad** (`c = p + K`),
 unbreakable without the key — sharpened to *seed entropy*, since a short-seed
 derived pad is finite and beam-recoverable but low-entropy thematic seeds are
-ruled out. The numeric/image content (code pages 66–68) is the way *around* the
-wall, and it sits behind its own keyed pad.
+ruled out. The numeric/image content (code pages 66–68) was the hoped-for way
+*around* the wall, and it is now **fully tested locally**: the 256-code→byte map
+is verified byte-for-byte against an independent 256-byte string ("String 4"),
+its six disputed bytes are all resolved, and those bytes do **not** hash to the
+"AN END" deep-web target under any of the five 512-bit algorithms (SHA-512,
+SHA3-512, BLAKE2b-512, Whirlpool, Streebog-512) or the community's own preimage
+brute. The bytes sit behind their own keyed pad; the only residual is the
+**external** hunt for the unknown page that hashes to the target — an unbounded
+OSINT search, not runnable here.
 
 ## History — Cicada 3301
 
